@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity
         } else if (getSupportFragmentManager().getBackStackEntryCount() > 1) {
             getSupportFragmentManager().popBackStack();
         } else {
-            super.onBackPressed();
+            finish();
         }
     }
 
@@ -72,25 +72,31 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == R.id.nav_settings) {
-            SettingsFragment fragment = new SettingsFragment();
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container, fragment)
-                    .addToBackStack(fragment.getTag())
-                    .commit();
-        } else if (id == R.id.nav_about) {
-            AboutFragment fragment = new AboutFragment();
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container, fragment)
-                    .addToBackStack(fragment.getTag())
-                    .commit();
-        } else if (id == R.id.nav_start) {
-            while (getSupportFragmentManager().getBackStackEntryCount() > 1) {
-                getSupportFragmentManager().popBackStack();
-                getSupportFragmentManager().executePendingTransactions();
-            }
+        switch (item.getItemId()) {
+            case R.id.nav_settings:
+                if (getSupportFragmentManager().findFragmentByTag(SettingsFragment.class.getSimpleName()) == null) {
+                    SettingsFragment fragment = new SettingsFragment();
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.fragment_container, fragment, fragment.getFragmentTag())
+                            .addToBackStack(fragment.getFragmentTag())
+                            .commit();
+                }
+                break;
+            case R.id.nav_about:
+                if (getSupportFragmentManager().findFragmentByTag(AboutFragment.class.getSimpleName()) == null) {
+                    AboutFragment fragment = new AboutFragment();
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.fragment_container, fragment, fragment.getFragmentTag())
+                            .addToBackStack(fragment.getFragmentTag())
+                            .commit();
+                }
+                break;
+            case R.id.nav_start:
+                while (getSupportFragmentManager().getBackStackEntryCount() > 1) {
+                    getSupportFragmentManager().popBackStack();
+                    getSupportFragmentManager().executePendingTransactions();
+                }
+                break;
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

@@ -23,7 +23,7 @@ public class StartFragment extends BaseFragment {
 
     @Override
     public String getFragmentTag() {
-        return StartFragment.class.getCanonicalName();
+        return StartFragment.class.getSimpleName();
     }
 
     @Override

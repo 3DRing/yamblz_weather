@@ -22,7 +22,7 @@ public class SettingsFragment extends BaseFragment {
 
     @Override
     public String getFragmentTag() {
-        return SettingsFragment.class.getCanonicalName();
+        return SettingsFragment.class.getSimpleName();
     }
 
     @Override
