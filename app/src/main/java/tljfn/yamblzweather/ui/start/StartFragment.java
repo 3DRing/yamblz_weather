@@ -25,4 +25,9 @@ public class StartFragment extends BaseFragment {
     public String getFragmentTag() {
         return StartFragment.class.getCanonicalName();
     }
+
+    @Override
+    public String getToolbarTitle() {
+        return "Приложение о погоде";
+    }
 }

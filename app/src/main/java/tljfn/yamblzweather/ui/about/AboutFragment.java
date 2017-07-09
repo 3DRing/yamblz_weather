@@ -25,4 +25,9 @@ public class AboutFragment extends BaseFragment {
     public String getFragmentTag() {
         return AboutFragment.class.getCanonicalName();
     }
+
+    @Override
+    public String getToolbarTitle() {
+        return "О приложении";
+    }
 }

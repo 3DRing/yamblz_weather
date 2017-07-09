@@ -17,12 +17,16 @@ public class SettingsFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_settings, container, false);
     }
 
     @Override
     public String getFragmentTag() {
         return SettingsFragment.class.getCanonicalName();
+    }
+
+    @Override
+    public String getToolbarTitle() {
+        return "Настройки";
     }
 }
