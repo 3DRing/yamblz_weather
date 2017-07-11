@@ -15,15 +15,12 @@ import utils.BaseFragment;
 
 public class StartFragment extends BaseFragment {
 
+    public static String tag = StartFragment.class.toString();
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_start, container, false);
-    }
-
-    @Override
-    public String getFragmentTag() {
-        return StartFragment.class.getSimpleName();
     }
 
     @Override

@@ -14,16 +14,13 @@ import utils.BaseFragment;
 
 public class AboutFragment extends BaseFragment {
 
+    public static String tag = AboutFragment.class.toString();
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_about, container, false);
-    }
-
-    @Override
-    public String getFragmentTag() {
-        return AboutFragment.class.getSimpleName();
     }
 
     @Override

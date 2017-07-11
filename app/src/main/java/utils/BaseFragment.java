@@ -18,7 +18,13 @@ public abstract class BaseFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
     }
 
-    public abstract String getFragmentTag();
-
     public abstract String getToolbarTitle();
+
+    static <T extends BaseFragment> String doIt(T object) {
+        // shake that booty
+        return "";
+    }
+    static <T> String doIt() {
+        return "";
+    }
 }

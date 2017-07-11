@@ -2,6 +2,7 @@ package tljfn.yamblzweather.ui;
 
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -34,11 +35,14 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        StartFragment fragment = new StartFragment();
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, fragment)
-                .addToBackStack(fragment.getTag())
-                .commit();
+        if (savedInstanceState == null) {
+            StartFragment fragment = new StartFragment();
+            getSupportFragmentManager().beginTransaction()
+                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                    .add(R.id.fragment_container, fragment, StartFragment.tag)
+                    .addToBackStack(StartFragment.tag)
+                    .commit();
+        }
     }
 
     @Override
@@ -74,27 +78,38 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.nav_settings:
-                if (getSupportFragmentManager().findFragmentByTag(SettingsFragment.class.getSimpleName()) == null) {
+                if (getSupportFragmentManager().findFragmentByTag(SettingsFragment.tag) == null) {
+                    int backStackEntryCount = getSupportFragmentManager().getBackStackEntryCount();
+                    while (backStackEntryCount != 1) {
+                        getSupportFragmentManager().popBackStack();
+                        backStackEntryCount--;
+                    }
                     SettingsFragment fragment = new SettingsFragment();
                     getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.fragment_container, fragment, fragment.getFragmentTag())
-                            .addToBackStack(fragment.getFragmentTag())
+                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                            .replace(R.id.fragment_container, fragment, SettingsFragment.tag)
+                            .addToBackStack(SettingsFragment.tag)
                             .commit();
                 }
                 break;
             case R.id.nav_about:
-                if (getSupportFragmentManager().findFragmentByTag(AboutFragment.class.getSimpleName()) == null) {
+                if (getSupportFragmentManager().findFragmentByTag(AboutFragment.tag) == null) {
+                    int backStackEntryCount = getSupportFragmentManager().getBackStackEntryCount();
+                    while (backStackEntryCount != 1) {
+                        getSupportFragmentManager().popBackStack();
+                        backStackEntryCount--;
+                    }
                     AboutFragment fragment = new AboutFragment();
                     getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.fragment_container, fragment, fragment.getFragmentTag())
-                            .addToBackStack(fragment.getFragmentTag())
+                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                            .replace(R.id.fragment_container, fragment, AboutFragment.tag)
+                            .addToBackStack(AboutFragment.tag)
                             .commit();
                 }
                 break;
             case R.id.nav_start:
-                while (getSupportFragmentManager().getBackStackEntryCount() > 1) {
-                    getSupportFragmentManager().popBackStack();
-                    getSupportFragmentManager().executePendingTransactions();
+                while (!getSupportFragmentManager().findFragmentByTag(StartFragment.tag).isVisible()) {
+                    getSupportFragmentManager().popBackStackImmediate();
                 }
                 break;
         }
