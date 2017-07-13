@@ -1,10 +1,13 @@
 package tljfn.yamblzweather.ui;
 
+import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -15,29 +18,35 @@ import tljfn.yamblzweather.R;
 import tljfn.yamblzweather.ui.about.AboutFragment;
 import tljfn.yamblzweather.ui.settings.SettingsFragment;
 import tljfn.yamblzweather.ui.start.StartFragment;
+import utils.OnFragmentInteractionListener;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener,
+        OnFragmentInteractionListener {
+
+    DrawerLayout drawer;
+    private FragmentManager fragmentManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
+                this, drawer, toolbar, R.string.open_drawer, R.string.close_drawer);
+        drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         if (savedInstanceState == null) {
             StartFragment fragment = new StartFragment();
-            getSupportFragmentManager().beginTransaction()
+            fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction()
                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                     .add(R.id.fragment_container, fragment, StartFragment.tag)
                     .addToBackStack(StartFragment.tag)
@@ -47,11 +56,11 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } else if (getSupportFragmentManager().getBackStackEntryCount() > 1) {
-            getSupportFragmentManager().popBackStack();
+        } else if (fragmentManager.getBackStackEntryCount() > 1) {
+            fragmentManager.popBackStack();
         } else {
             finish();
         }
@@ -75,17 +84,17 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.nav_settings:
-                if (getSupportFragmentManager().findFragmentByTag(SettingsFragment.tag) == null) {
-                    int backStackEntryCount = getSupportFragmentManager().getBackStackEntryCount();
+                if (fragmentManager.findFragmentByTag(SettingsFragment.tag) == null) {
+                    int backStackEntryCount = fragmentManager.getBackStackEntryCount();
                     while (backStackEntryCount != 1) {
-                        getSupportFragmentManager().popBackStack();
+                        fragmentManager.popBackStack();
                         backStackEntryCount--;
                     }
                     SettingsFragment fragment = new SettingsFragment();
-                    getSupportFragmentManager().beginTransaction()
+                    fragmentManager.beginTransaction()
                             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                             .replace(R.id.fragment_container, fragment, SettingsFragment.tag)
                             .addToBackStack(SettingsFragment.tag)
@@ -93,14 +102,14 @@ public class MainActivity extends AppCompatActivity
                 }
                 break;
             case R.id.nav_about:
-                if (getSupportFragmentManager().findFragmentByTag(AboutFragment.tag) == null) {
-                    int backStackEntryCount = getSupportFragmentManager().getBackStackEntryCount();
+                if (fragmentManager.findFragmentByTag(AboutFragment.tag) == null) {
+                    int backStackEntryCount = fragmentManager.getBackStackEntryCount();
                     while (backStackEntryCount != 1) {
-                        getSupportFragmentManager().popBackStack();
+                        fragmentManager.popBackStack();
                         backStackEntryCount--;
                     }
                     AboutFragment fragment = new AboutFragment();
-                    getSupportFragmentManager().beginTransaction()
+                    fragmentManager.beginTransaction()
                             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                             .replace(R.id.fragment_container, fragment, AboutFragment.tag)
                             .addToBackStack(AboutFragment.tag)
@@ -108,15 +117,21 @@ public class MainActivity extends AppCompatActivity
                 }
                 break;
             case R.id.nav_start:
-                while (!getSupportFragmentManager().findFragmentByTag(StartFragment.tag).isVisible()) {
-                    getSupportFragmentManager().popBackStackImmediate();
+                while (!fragmentManager.findFragmentByTag(StartFragment.tag).isVisible()) {
+                    fragmentManager.popBackStackImmediate();
                 }
                 break;
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
+    @Override
+    public void onFragmentInteraction(String title) {
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar == null) return;
+        actionBar.setTitle(title);
+    }
 }

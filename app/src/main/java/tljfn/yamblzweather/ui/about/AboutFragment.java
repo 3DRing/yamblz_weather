@@ -1,9 +1,6 @@
 package tljfn.yamblzweather.ui.about;
 
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.support.annotation.NonNull;
 
 import tljfn.yamblzweather.R;
 import utils.BaseFragment;
@@ -16,11 +13,10 @@ public class AboutFragment extends BaseFragment {
 
     public static String tag = AboutFragment.class.toString();
 
+    @NonNull
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_about, container, false);
+    public Integer getLayoutRes() {
+        return R.layout.fragment_about;
     }
 
     @Override
