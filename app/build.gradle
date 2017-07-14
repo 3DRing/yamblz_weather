@@ -1,0 +1,53 @@
+import groovy.json.JsonSlurper
+
+def fileName = 'app-credentials.json'
+def appStorePassword = (new JsonSlurper().parseText(file(fileName).text)).storePassword
+def appKeyAlias = (new JsonSlurper().parseText(file(fileName).text)).keyAlias
+def appKeyPassword = (new JsonSlurper().parseText(file(fileName).text)).keyPassword
+
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 26
+    buildToolsVersion '26.0.0'
+    defaultConfig {
+        applicationId 'tljfn.yamblzweather'
+        minSdkVersion 19
+        targetSdkVersion 26
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
+    }
+    buildTypes {
+        release {
+            shrinkResources true
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    signingConfigs {
+        release {
+            storeFile file('yamblz-weather-keystore.jks')
+            keyAlias appKeyAlias
+            keyPassword appKeyPassword
+            storePassword appStorePassword
+        }
+    }
+    buildTypes {
+        release {
+            signingConfig signingConfigs.release
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile 'com.android.support:design:26.0.0-beta2'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+
+    testCompile 'junit:junit:4.12'
+
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+}
