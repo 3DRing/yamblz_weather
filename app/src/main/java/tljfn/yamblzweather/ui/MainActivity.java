@@ -11,13 +11,17 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 import tljfn.yamblzweather.R;
 import tljfn.yamblzweather.ui.about.AboutFragment;
 import tljfn.yamblzweather.ui.settings.SettingsFragment;
 import tljfn.yamblzweather.ui.start.StartFragment;
+import utils.BaseFragment;
 import utils.OnFragmentInteractionListener;
 
 public class MainActivity extends AppCompatActivity
@@ -34,24 +38,23 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        initNavigationDrawer(toolbar);
+
+        fragmentManager = getSupportFragmentManager();
+
+        if (savedInstanceState == null) {
+            pushFragment(StartFragment.class);
+        }
+    }
+
+    private void initNavigationDrawer(Toolbar toolbar) {
         drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.open_drawer, R.string.close_drawer);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
-        if (savedInstanceState == null) {
-            StartFragment fragment = new StartFragment();
-            fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction()
-                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                    .add(R.id.fragment_container, fragment, StartFragment.tag)
-                    .addToBackStack(StartFragment.tag)
-                    .commit();
-        }
     }
 
     @Override
@@ -67,57 +70,16 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.nav_settings:
-                if (fragmentManager.findFragmentByTag(SettingsFragment.tag) == null) {
-                    int backStackEntryCount = fragmentManager.getBackStackEntryCount();
-                    while (backStackEntryCount != 1) {
-                        fragmentManager.popBackStack();
-                        backStackEntryCount--;
-                    }
-                    SettingsFragment fragment = new SettingsFragment();
-                    fragmentManager.beginTransaction()
-                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                            .replace(R.id.fragment_container, fragment, SettingsFragment.tag)
-                            .addToBackStack(SettingsFragment.tag)
-                            .commit();
-                }
+                pushFragment(SettingsFragment.class);
                 break;
             case R.id.nav_about:
-                if (fragmentManager.findFragmentByTag(AboutFragment.tag) == null) {
-                    int backStackEntryCount = fragmentManager.getBackStackEntryCount();
-                    while (backStackEntryCount != 1) {
-                        fragmentManager.popBackStack();
-                        backStackEntryCount--;
-                    }
-                    AboutFragment fragment = new AboutFragment();
-                    fragmentManager.beginTransaction()
-                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                            .replace(R.id.fragment_container, fragment, AboutFragment.tag)
-                            .addToBackStack(AboutFragment.tag)
-                            .commit();
-                }
+                pushFragment(AboutFragment.class);
                 break;
             case R.id.nav_start:
-                while (!fragmentManager.findFragmentByTag(StartFragment.tag).isVisible()) {
+                while (!fragmentManager.findFragmentByTag(StartFragment.getFragmentTag()).isVisible()) {
                     fragmentManager.popBackStackImmediate();
                 }
                 break;
@@ -126,6 +88,36 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    /**
+     * This method uses reflection API to get static field "getFragmentTag()"
+     */
+    private void pushFragment(Class<? extends BaseFragment> fragmentClass) {
+        try {
+            Method method;
+            method = fragmentClass.getDeclaredMethod("getFragmentTag");
+            String tag = method != null ? method.invoke(null).toString() : null;
+            if (fragmentManager.findFragmentByTag(tag) == null) {
+                // FragmentManager doesn`t have necessary object of fragment,
+                // so we have to create new one. We store only 2 fragment in backstack.
+                int backStackEntryCount = fragmentManager.getBackStackEntryCount();
+                while (backStackEntryCount > 1) {
+                    fragmentManager.popBackStack();
+                    backStackEntryCount--;
+                }
+                BaseFragment fragment = fragmentClass.newInstance();
+                fragmentManager.beginTransaction()
+                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                        .replace(R.id.fragment_container, fragment, tag)
+                        .addToBackStack(tag)
+                        .commit();
+            }
+        } catch (InvocationTargetException | IllegalAccessException | NoSuchMethodException
+                | InstantiationException e) {
+            Toast.makeText(this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
     }
 
     @Override

@@ -11,7 +11,9 @@ import utils.BaseFragment;
 
 public class SettingsFragment extends BaseFragment {
 
-    public static String tag = SettingsFragment.class.toString();
+    public static String getFragmentTag() {
+        return SettingsFragment.class.toString();
+    }
 
     @NonNull
     @Override
