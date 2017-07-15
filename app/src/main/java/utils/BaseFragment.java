@@ -22,7 +22,7 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (onFragmentInteractionListener != null) {
-            onFragmentInteractionListener.onFragmentInteraction(getToolbarTitle());
+            onFragmentInteractionListener.onFragmentInteraction(getToolbarTitle(), getDrawerMode());
         }
         return inflater.inflate(getLayoutRes(), container, false);
     }
@@ -49,4 +49,17 @@ public abstract class BaseFragment extends Fragment {
     public abstract Integer getLayoutRes();
 
     public abstract String getToolbarTitle();
+
+    /**
+     * @return {@link Integer} that reflects navigation drawer mode for {@link android.support.v4.widget.DrawerLayout}.
+     */
+    public abstract Integer getDrawerMode();
+
+    public interface OnFragmentInteractionListener {
+
+        /**
+         * Call when fragment attaches to activity
+         */
+        void onFragmentInteraction(String title, Integer drawerMode);
+    }
 }

@@ -1,6 +1,7 @@
 package tljfn.yamblzweather.ui.start;
 
 import android.support.annotation.NonNull;
+import android.support.v4.widget.DrawerLayout;
 
 import tljfn.yamblzweather.R;
 import utils.BaseFragment;
@@ -11,10 +12,6 @@ import utils.BaseFragment;
 
 public class StartFragment extends BaseFragment {
 
-    public static String getFragmentTag() {
-        return StartFragment.class.toString();
-    }
-
     @NonNull
     @Override
     public Integer getLayoutRes() {
@@ -24,5 +21,10 @@ public class StartFragment extends BaseFragment {
     @Override
     public String getToolbarTitle() {
         return "Стартовый экран";
+    }
+
+    @Override
+    public Integer getDrawerMode() {
+        return DrawerLayout.LOCK_MODE_UNLOCKED;
     }
 }

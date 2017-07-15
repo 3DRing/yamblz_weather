@@ -1,9 +1,11 @@
 package tljfn.yamblzweather.ui;
 
-import android.app.FragmentTransaction;
+import android.arch.lifecycle.LifecycleRegistry;
+import android.arch.lifecycle.LifecycleRegistryOwner;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -12,54 +14,57 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.widget.Toast;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
+import javax.inject.Inject;
 
+import dagger.android.DispatchingAndroidInjector;
+import dagger.android.support.HasSupportFragmentInjector;
 import tljfn.yamblzweather.R;
-import tljfn.yamblzweather.ui.about.AboutFragment;
-import tljfn.yamblzweather.ui.settings.SettingsFragment;
-import tljfn.yamblzweather.ui.start.StartFragment;
+import tljfn.yamblzweather.ui.common.NavigationController;
 import utils.BaseFragment;
-import utils.OnFragmentInteractionListener;
 
-public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener,
-        OnFragmentInteractionListener {
 
-    DrawerLayout drawer;
+public class MainActivity extends AppCompatActivity implements LifecycleRegistryOwner, HasSupportFragmentInjector,
+        NavigationView.OnNavigationItemSelectedListener,
+        BaseFragment.OnFragmentInteractionListener {
+
+    private final LifecycleRegistry lifecycleRegistry = new LifecycleRegistry(this);
+    @Inject
+    DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;
+    @Inject
+    NavigationController navigationController;
+    private Toolbar toolbar;
+    private DrawerLayout drawer;
+    private ActionBar actionBar;
     private FragmentManager fragmentManager;
+    private ActionBarDrawerToggle toggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        actionBar = getSupportActionBar();
         initNavigationDrawer(toolbar);
 
         fragmentManager = getSupportFragmentManager();
-
         if (savedInstanceState == null) {
-            pushFragment(StartFragment.class);
+            navigationController.navigateToStart();
         }
     }
 
     private void initNavigationDrawer(Toolbar toolbar) {
         drawer = findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.open_drawer, R.string.close_drawer);
+        toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.open_drawer, R.string.close_drawer);
         drawer.addDrawerListener(toggle);
-        toggle.syncState();
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
     }
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else if (fragmentManager.getBackStackEntryCount() > 1) {
@@ -73,57 +78,40 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.nav_settings:
-                pushFragment(SettingsFragment.class);
+                navigationController.navigateToSettings();
                 break;
             case R.id.nav_about:
-                pushFragment(AboutFragment.class);
+                navigationController.navigateToAbout();
                 break;
             case R.id.nav_start:
-                while (!fragmentManager.findFragmentByTag(StartFragment.getFragmentTag()).isVisible()) {
-                    fragmentManager.popBackStackImmediate();
-                }
                 break;
         }
 
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
-    /**
-     * This method uses reflection API to get static field "getFragmentTag()"
-     */
-    private void pushFragment(Class<? extends BaseFragment> fragmentClass) {
-        try {
-            Method method;
-            method = fragmentClass.getDeclaredMethod("getFragmentTag");
-            String tag = method != null ? method.invoke(null).toString() : null;
-            if (fragmentManager.findFragmentByTag(tag) == null) {
-                // FragmentManager doesn`t have necessary object of fragment,
-                // so we have to create new one. We store only 2 fragment in backstack.
-                int backStackEntryCount = fragmentManager.getBackStackEntryCount();
-                while (backStackEntryCount > 1) {
-                    fragmentManager.popBackStack();
-                    backStackEntryCount--;
-                }
-                BaseFragment fragment = fragmentClass.newInstance();
-                fragmentManager.beginTransaction()
-                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                        .replace(R.id.fragment_container, fragment, tag)
-                        .addToBackStack(tag)
-                        .commit();
-            }
-        } catch (InvocationTargetException | IllegalAccessException | NoSuchMethodException
-                | InstantiationException e) {
-            Toast.makeText(this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-            e.printStackTrace();
+    @Override
+    public void onFragmentInteraction(String title, Integer drawerMode) {
+        actionBar.setTitle(title);
+        drawer.setDrawerLockMode(drawerMode);
+        boolean isDrawerLocked = drawerMode == DrawerLayout.LOCK_MODE_LOCKED_CLOSED;
+        actionBar.setDisplayHomeAsUpEnabled(isDrawerLocked);
+        if (isDrawerLocked) {
+            toolbar.setNavigationOnClickListener(v -> onBackPressed());
+        } else {
+            toggle.syncState();
+            toolbar.setNavigationOnClickListener(v -> drawer.openDrawer(GravityCompat.START));
         }
     }
 
     @Override
-    public void onFragmentInteraction(String title) {
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar == null) return;
-        actionBar.setTitle(title);
+    public LifecycleRegistry getLifecycle() {
+        return lifecycleRegistry;
+    }
+
+    @Override
+    public DispatchingAndroidInjector<Fragment> supportFragmentInjector() {
+        return dispatchingAndroidInjector;
     }
 }

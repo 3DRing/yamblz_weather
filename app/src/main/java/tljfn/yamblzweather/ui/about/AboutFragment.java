@@ -1,6 +1,7 @@
 package tljfn.yamblzweather.ui.about;
 
 import android.support.annotation.NonNull;
+import android.support.v4.widget.DrawerLayout;
 
 import tljfn.yamblzweather.R;
 import utils.BaseFragment;
@@ -11,10 +12,6 @@ import utils.BaseFragment;
 
 public class AboutFragment extends BaseFragment {
 
-    public static String getFragmentTag() {
-        return AboutFragment.class.toString();
-    }
-
     @NonNull
     @Override
     public Integer getLayoutRes() {
@@ -24,5 +21,10 @@ public class AboutFragment extends BaseFragment {
     @Override
     public String getToolbarTitle() {
         return "О приложении";
+    }
+
+    @Override
+    public Integer getDrawerMode() {
+        return DrawerLayout.LOCK_MODE_LOCKED_CLOSED;
     }
 }
