@@ -48,7 +48,7 @@ public class StartFragment extends BaseFragment {
 
     @Override
     public void onBindingBound(AutoClearedValue binding) {
-
+//        binding
     }
 
     @Override

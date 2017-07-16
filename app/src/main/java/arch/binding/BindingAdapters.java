@@ -17,12 +17,37 @@
 package arch.binding;
 
 import android.databinding.BindingAdapter;
+import android.databinding.InverseBindingAdapter;
+import android.support.v7.widget.AppCompatSpinner;
 import android.view.View;
+import android.widget.AdapterView;
+
+import arch.binding.callback.PreferencesCallback;
 
 /**
  * Data Binding adapters specific to the app.
  */
 public class BindingAdapters {
+    @SuppressWarnings("unchecked")
+    @BindingAdapter(value = {"bind:selectedValue"}, requireAll = false)
+    public static void bindSpinnerData(AppCompatSpinner spinner, final PreferencesCallback preferencesCallback) {
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                preferencesCallback.onIntervalChanged((String) spinner.getSelectedItem());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+    }
+
+    @InverseBindingAdapter(attribute = "bind:selectedValue", event = "bind:selectedValueAttrChanged")
+    public static String captureSelectedValue(AppCompatSpinner spinner) {
+        return (String) spinner.getSelectedItem();
+    }
+
     @BindingAdapter("visibleGone")
     public static void showHide(View view, boolean show) {
         view.setVisibility(show ? View.VISIBLE : View.GONE);

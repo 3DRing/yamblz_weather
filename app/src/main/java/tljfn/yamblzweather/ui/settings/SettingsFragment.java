@@ -4,6 +4,7 @@ import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.DrawerLayout;
+import android.widget.Toast;
 
 import javax.inject.Inject;
 
@@ -11,6 +12,7 @@ import arch.ui.BaseFragment;
 import arch.util.AutoClearedValue;
 import io.reactivex.disposables.CompositeDisposable;
 import tljfn.yamblzweather.R;
+import tljfn.yamblzweather.databinding.FragmentSettingsBinding;
 
 /**
  * Created by Maksim Sukhotski on 7/9/2017.
@@ -46,26 +48,8 @@ public class SettingsFragment extends BaseFragment {
 
     @Override
     public void onBindingBound(AutoClearedValue binding) {
-//        Spinner spinner = (Spinner) view.findViewById(R.id.spinner_inrerval);
-//        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
-//                R.array.intervals_array, android.R.layout.simple_spinner_item);
-//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//        spinner.setAdapter(adapter);
+        FragmentSettingsBinding settingsBinding = (FragmentSettingsBinding) binding.get();
 
-//        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-//                disposable.add(settingsViewModel.updateInterval(i)
-//                        .subscribeOn(Schedulers.io())
-//                        .observeOn(AndroidSchedulers.mainThread())
-//                        .subscribe((Consumer<String>) userName -> mUserName.setText(userName),
-//                                (Consumer<Throwable>) throwable -> Log.e(TAG, "Unable to update username", throwable)));
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> adapterView) {
-//
-//            }
-//        });
+        settingsBinding.setOnIntervalChangedListener((v) -> Toast.makeText(getContext(), v, Toast.LENGTH_SHORT).show());
     }
 }

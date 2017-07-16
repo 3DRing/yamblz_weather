@@ -33,7 +33,6 @@ public class SettingsViewModel extends ViewModel {
         this.preferencesRepo = preferencesRepo;
     }
 
-
     /**
      * Update the interval preference.
      *

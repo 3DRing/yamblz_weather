@@ -7,7 +7,7 @@
     <string name="settings">Settings</string>
     <string name="about">About</string>
 
-    <string-array name="intervals_array">
+    <string-array name="intervals">
         <item>30 seconds</item>
         <item>1 minute</item>
         <item>5 minutes</item>
