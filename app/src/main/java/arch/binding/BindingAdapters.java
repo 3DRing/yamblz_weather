@@ -23,6 +23,7 @@ import android.view.View;
 import android.widget.AdapterView;
 
 import arch.binding.callback.PreferencesCallback;
+import tljfn.yamblzweather.R;
 
 /**
  * Data Binding adapters specific to the app.
@@ -34,7 +35,8 @@ public class BindingAdapters {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                preferencesCallback.onIntervalChanged((String) spinner.getSelectedItem());
+                Integer i = parent.getResources().getIntArray(R.array.intervals_seconds)[position];
+                preferencesCallback.onIntervalChanged(i);
             }
 
             @Override

@@ -44,9 +44,10 @@ public class PreferencesRepo {
     }
 
     /**
-     * @param interval the new interval for weather updating
+     * @param seconds the new seconds interval for weather updating
      */
-    public Completable setInterval(Integer interval) {
-        return Completable.fromAction(() -> preferences.edit().putInt(KEY_INTERVAL, interval).commit());
+    public Completable setInterval(Integer seconds) {
+        return Completable.fromAction(() ->
+                preferences.edit().putInt(KEY_INTERVAL, seconds).commit());
     }
 }

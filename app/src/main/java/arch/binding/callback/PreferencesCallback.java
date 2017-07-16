@@ -20,5 +20,5 @@ package arch.binding.callback;
  * Generic interface for onIntervalChanged buttons.
  */
 public interface PreferencesCallback {
-    void onIntervalChanged(String value);
+    void onIntervalChanged(Integer seconds);
 }

@@ -9,6 +9,7 @@
     <string name="about">О приложении</string>
 
     <string-array name="intervals">
+        <item>15 секунд</item>
         <item>30 секунд</item>
         <item>1 минута</item>
         <item>5 минут</item>

@@ -10,7 +10,9 @@ import javax.inject.Inject;
 
 import arch.ui.BaseFragment;
 import arch.util.AutoClearedValue;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.schedulers.Schedulers;
 import tljfn.yamblzweather.R;
 import tljfn.yamblzweather.databinding.FragmentSettingsBinding;
 
@@ -50,6 +52,13 @@ public class SettingsFragment extends BaseFragment {
     public void onBindingBound(AutoClearedValue binding) {
         FragmentSettingsBinding settingsBinding = (FragmentSettingsBinding) binding.get();
 
-        settingsBinding.setOnIntervalChangedListener((v) -> Toast.makeText(getContext(), v, Toast.LENGTH_SHORT).show());
+        settingsBinding.setOnIntervalChangedListener((seconds) -> {
+                    Toast.makeText(getContext(), seconds.toString(), Toast.LENGTH_SHORT).show();
+                    settingsViewModel.updateInterval(seconds)
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe();
+                }
+        );
     }
 }
