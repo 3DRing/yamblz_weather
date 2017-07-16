@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.DrawerLayout;
+import android.view.View;
 
 import javax.inject.Inject;
 
@@ -37,6 +38,11 @@ public class StartFragment extends BaseFragment {
     @Override
     public Integer getDrawerMode() {
         return DrawerLayout.LOCK_MODE_UNLOCKED;
+    }
+
+    @Override
+    public void onViewBound(View view) {
+
     }
 
     @Override

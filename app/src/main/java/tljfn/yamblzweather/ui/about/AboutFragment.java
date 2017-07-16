@@ -2,6 +2,7 @@ package tljfn.yamblzweather.ui.about;
 
 import android.support.annotation.NonNull;
 import android.support.v4.widget.DrawerLayout;
+import android.view.View;
 
 import arch.ui.BaseFragment;
 import tljfn.yamblzweather.R;
@@ -26,5 +27,10 @@ public class AboutFragment extends BaseFragment {
     @Override
     public Integer getDrawerMode() {
         return DrawerLayout.LOCK_MODE_LOCKED_CLOSED;
+    }
+
+    @Override
+    public void onViewBound(View view) {
+
     }
 }

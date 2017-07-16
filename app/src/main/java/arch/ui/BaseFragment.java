@@ -21,11 +21,14 @@ public abstract class BaseFragment extends LifecycleFragment implements Injectab
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         if (onFragmentInteractionListener != null) {
             onFragmentInteractionListener.onFragmentInteraction(getToolbarTitle(), getDrawerMode());
         }
-        return inflater.inflate(getLayoutRes(), container, false);
+        View view = inflater.inflate(getLayoutRes(), container, false);
+        onViewBound(view);
+        return view;
     }
 
     @Override
@@ -45,17 +48,35 @@ public abstract class BaseFragment extends LifecycleFragment implements Injectab
         onFragmentInteractionListener = null;
     }
 
+    /**
+     * @return {@link LayoutRes} for {@link LayoutInflater} in
+     * {@link #onCreateView(LayoutInflater, ViewGroup, Bundle)} method.
+     */
     @LayoutRes
     @NonNull
     public abstract Integer getLayoutRes();
 
+    /**
+     * @return {@link String} on the toolbar that corresponds to the required toolbar title
+     */
     public abstract String getToolbarTitle();
 
     /**
-     * @return {@link Integer} that reflects navigation drawer mode for {@link android.support.v4.widget.DrawerLayout}.
+     * @return {@link Integer} that reflects navigation drawer mode for
+     * {@link android.support.v4.widget.DrawerLayout}.
      */
     public abstract Integer getDrawerMode();
 
+    /**
+     * Method where you should put the code for interacting with fragment`s layout.
+     *
+     * @param view this view was created by it`s fragment layout
+     */
+    public abstract void onViewBound(View view);
+
+    /**
+     * This interface should listen when new fragment appears on the activity
+     */
     public interface OnFragmentInteractionListener {
 
         /**

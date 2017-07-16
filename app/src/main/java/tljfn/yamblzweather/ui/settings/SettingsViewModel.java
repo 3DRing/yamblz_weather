@@ -20,10 +20,27 @@ import android.arch.lifecycle.ViewModel;
 
 import javax.inject.Inject;
 
+import io.reactivex.Completable;
+import io.reactivex.internal.operators.completable.CompletableFromAction;
+import tljfn.yamblzweather.repo.PreferencesRepo;
+
 public class SettingsViewModel extends ViewModel {
 
+    private final PreferencesRepo preferencesRepo;
+
     @Inject
-    public SettingsViewModel() {
+    public SettingsViewModel(PreferencesRepo preferencesRepo) {
+        this.preferencesRepo = preferencesRepo;
     }
 
+
+    /**
+     * Update the interval preference.
+     *
+     * @param interval the new interval for weather updating
+     * @return a {@link Completable} that completes when the user name is updated
+     */
+    public Completable updateInterval(final Integer interval) {
+        return new CompletableFromAction(() -> preferencesRepo.setInterval(interval));
+    }
 }
