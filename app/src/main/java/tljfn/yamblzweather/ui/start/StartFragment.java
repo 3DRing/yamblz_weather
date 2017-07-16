@@ -6,11 +6,12 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.DrawerLayout;
-import android.view.View;
 
 import javax.inject.Inject;
 
 import arch.ui.BaseFragment;
+import arch.util.AutoClearedValue;
+import io.reactivex.disposables.CompositeDisposable;
 import tljfn.yamblzweather.R;
 
 /**
@@ -19,9 +20,9 @@ import tljfn.yamblzweather.R;
 
 public class StartFragment extends BaseFragment {
 
+    private final CompositeDisposable disposable = new CompositeDisposable();
     @Inject
     ViewModelProvider.Factory viewModelFactory;
-
     private StartViewModel startViewModel;
 
     @NonNull
@@ -41,7 +42,12 @@ public class StartFragment extends BaseFragment {
     }
 
     @Override
-    public void onViewBound(View view) {
+    public void onViewModelAttach() {
+        startViewModel = ViewModelProviders.of(this, viewModelFactory).get(StartViewModel.class);
+    }
+
+    @Override
+    public void onBindingBound(AutoClearedValue binding) {
 
     }
 

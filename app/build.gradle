@@ -10,12 +10,12 @@ apply plugin: 'com.android.application'
 apply plugin: 'me.tatarka.retrolambda'
 
 android {
-    compileSdkVersion 26
+    compileSdkVersion 25
     buildToolsVersion '26.0.0'
     defaultConfig {
         applicationId 'tljfn.yamblzweather'
         minSdkVersion 19
-        targetSdkVersion 26
+        targetSdkVersion 25
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
@@ -41,9 +41,9 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-//    dataBinding {
-//        enabled = true
-//    }
+    dataBinding {
+        enabled = true
+    }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8

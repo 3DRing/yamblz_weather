@@ -2,17 +2,14 @@ package tljfn.yamblzweather.ui.settings;
 
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.widget.DrawerLayout;
-import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
 
 import javax.inject.Inject;
 
 import arch.ui.BaseFragment;
+import arch.util.AutoClearedValue;
+import io.reactivex.disposables.CompositeDisposable;
 import tljfn.yamblzweather.R;
 
 /**
@@ -21,9 +18,9 @@ import tljfn.yamblzweather.R;
 
 public class SettingsFragment extends BaseFragment {
 
+    private final CompositeDisposable disposable = new CompositeDisposable();
     @Inject
     ViewModelProvider.Factory viewModelFactory;
-
     private SettingsViewModel settingsViewModel;
 
     @NonNull
@@ -43,17 +40,32 @@ public class SettingsFragment extends BaseFragment {
     }
 
     @Override
-    public void onViewBound(View view) {
-        Spinner spinner = view.findViewById(R.id.spinner_inrerval);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
-                R.array.intervals_array, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
+    public void onViewModelAttach() {
+        settingsViewModel = ViewModelProviders.of(this, viewModelFactory).get(SettingsViewModel.class);
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        settingsViewModel = ViewModelProviders.of(this, viewModelFactory).get(SettingsViewModel.class);
+    public void onBindingBound(AutoClearedValue binding) {
+//        Spinner spinner = (Spinner) view.findViewById(R.id.spinner_inrerval);
+//        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
+//                R.array.intervals_array, android.R.layout.simple_spinner_item);
+//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        spinner.setAdapter(adapter);
+
+//        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+//                disposable.add(settingsViewModel.updateInterval(i)
+//                        .subscribeOn(Schedulers.io())
+//                        .observeOn(AndroidSchedulers.mainThread())
+//                        .subscribe((Consumer<String>) userName -> mUserName.setText(userName),
+//                                (Consumer<Throwable>) throwable -> Log.e(TAG, "Unable to update username", throwable)));
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> adapterView) {
+//
+//            }
+//        });
     }
 }

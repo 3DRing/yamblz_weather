@@ -1,6 +1,9 @@
 package arch.ui;
 
 import android.content.Context;
+import android.databinding.DataBindingComponent;
+import android.databinding.DataBindingUtil;
+import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
@@ -9,6 +12,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import arch.binding.FragmentDataBindingComponent;
+import arch.util.AutoClearedValue;
 import tljfn.yamblzweather.di.Injectable;
 
 /**
@@ -17,18 +22,30 @@ import tljfn.yamblzweather.di.Injectable;
 
 public abstract class BaseFragment extends LifecycleFragment implements Injectable {
 
-    private OnFragmentInteractionListener onFragmentInteractionListener;
+    protected OnFragmentInteractionListener onFragmentInteractionListener;
+    protected DataBindingComponent dataBindingComponent = new FragmentDataBindingComponent(this);
+    private AutoClearedValue<ViewDataBinding> binding;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        if (onFragmentInteractionListener != null) {
-            onFragmentInteractionListener.onFragmentInteraction(getToolbarTitle(), getDrawerMode());
-        }
-        View view = inflater.inflate(getLayoutRes(), container, false);
-        onViewBound(view);
-        return view;
+        onFragmentInteractionListener.onFragmentInteraction(getToolbarTitle(), getDrawerMode());
+        onCreateDataBinding(inflater, container);
+        return binding.get().getRoot();
+    }
+
+    private void onCreateDataBinding(LayoutInflater inflater, @Nullable ViewGroup container) {
+        ViewDataBinding dataBinding = DataBindingUtil
+                .inflate(inflater, getLayoutRes(), container, false, dataBindingComponent);
+        binding = new AutoClearedValue<>(this, dataBinding);
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        onViewModelAttach();
+        onBindingBound(binding);
     }
 
     @Override
@@ -68,11 +85,16 @@ public abstract class BaseFragment extends LifecycleFragment implements Injectab
     public abstract Integer getDrawerMode();
 
     /**
-     * Method where you should put the code for interacting with fragment`s layout.
-     *
-     * @param view this view was created by it`s fragment layout
+     * This method will be called when ViewModel should be instantiated.
      */
-    public abstract void onViewBound(View view);
+    public abstract void onViewModelAttach();
+
+    /**
+     * Method where you should put the code for interacting with binding object.
+     *
+     * @param binding binding that was created with it`s fragment layout
+     */
+    public abstract void onBindingBound(AutoClearedValue binding);
 
     /**
      * This interface should listen when new fragment appears on the activity

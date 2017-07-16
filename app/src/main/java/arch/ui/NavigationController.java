@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package tljfn.yamblzweather.ui.common;
+package arch.ui;
 
 import android.app.FragmentTransaction;
 import android.support.v4.app.FragmentManager;
@@ -24,7 +24,6 @@ import java.lang.reflect.Method;
 
 import javax.inject.Inject;
 
-import arch.ui.BaseFragment;
 import tljfn.yamblzweather.R;
 import tljfn.yamblzweather.ui.MainActivity;
 import tljfn.yamblzweather.ui.about.AboutFragment;

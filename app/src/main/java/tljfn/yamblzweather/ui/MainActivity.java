@@ -18,10 +18,10 @@ import android.view.MenuItem;
 import javax.inject.Inject;
 
 import arch.ui.BaseFragment;
+import arch.ui.NavigationController;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.HasSupportFragmentInjector;
 import tljfn.yamblzweather.R;
-import tljfn.yamblzweather.ui.common.NavigationController;
 
 
 public class MainActivity extends AppCompatActivity implements HasSupportFragmentInjector, LifecycleRegistryOwner,
