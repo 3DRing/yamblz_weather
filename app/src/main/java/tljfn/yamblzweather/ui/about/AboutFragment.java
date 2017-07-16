@@ -3,8 +3,8 @@ package tljfn.yamblzweather.ui.about;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.DrawerLayout;
 
+import arch.ui.BaseFragment;
 import tljfn.yamblzweather.R;
-import utils.BaseFragment;
 
 /**
  * Created by Maksim Sukhotski on 7/9/2017.

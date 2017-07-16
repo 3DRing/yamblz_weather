@@ -17,14 +17,14 @@ import android.view.MenuItem;
 
 import javax.inject.Inject;
 
+import arch.ui.BaseFragment;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.HasSupportFragmentInjector;
 import tljfn.yamblzweather.R;
 import tljfn.yamblzweather.ui.common.NavigationController;
-import utils.BaseFragment;
 
 
-public class MainActivity extends AppCompatActivity implements LifecycleRegistryOwner, HasSupportFragmentInjector,
+public class MainActivity extends AppCompatActivity implements HasSupportFragmentInjector, LifecycleRegistryOwner,
         NavigationView.OnNavigationItemSelectedListener,
         BaseFragment.OnFragmentInteractionListener {
 
@@ -40,6 +40,11 @@ public class MainActivity extends AppCompatActivity implements LifecycleRegistry
     private ActionBarDrawerToggle toggle;
 
     @Override
+    public LifecycleRegistry getLifecycle() {
+        return lifecycleRegistry;
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -47,7 +52,11 @@ public class MainActivity extends AppCompatActivity implements LifecycleRegistry
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         actionBar = getSupportActionBar();
-        initNavigationDrawer(toolbar);
+        drawer = findViewById(R.id.drawer_layout);
+        toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.open_drawer, R.string.close_drawer);
+        drawer.addDrawerListener(toggle);
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
 
         fragmentManager = getSupportFragmentManager();
         if (savedInstanceState == null) {
@@ -55,12 +64,26 @@ public class MainActivity extends AppCompatActivity implements LifecycleRegistry
         }
     }
 
-    private void initNavigationDrawer(Toolbar toolbar) {
-        drawer = findViewById(R.id.drawer_layout);
-        toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.open_drawer, R.string.close_drawer);
-        drawer.addDrawerListener(toggle);
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+    @Override
+    protected void onStart() {
+        super.onStart();
+        // Subscribe to the emissions of the user name from the view model.
+        // Update the user name text view, at every onNext emission.
+        // In case of error, log the exception.
+//        mDisposable.add(mViewModel.getUserName()
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(new Consumer<String>() {
+//                    @Override
+//                    public void accept(String userName) throws Exception {
+//                        mUserName.setText(userName);
+//                    }
+//                }, new Consumer<Throwable>() {
+//                    @Override
+//                    public void accept(Throwable throwable) throws Exception {
+//                        Log.e(TAG, "Unable to update username", throwable);
+//                    }
+//                }));
     }
 
     @Override
@@ -103,11 +126,6 @@ public class MainActivity extends AppCompatActivity implements LifecycleRegistry
             toggle.syncState();
             toolbar.setNavigationOnClickListener(v -> drawer.openDrawer(GravityCompat.START));
         }
-    }
-
-    @Override
-    public LifecycleRegistry getLifecycle() {
-        return lifecycleRegistry;
     }
 
     @Override

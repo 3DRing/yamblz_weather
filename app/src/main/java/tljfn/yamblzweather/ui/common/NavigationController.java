@@ -24,12 +24,12 @@ import java.lang.reflect.Method;
 
 import javax.inject.Inject;
 
+import arch.ui.BaseFragment;
 import tljfn.yamblzweather.R;
 import tljfn.yamblzweather.ui.MainActivity;
 import tljfn.yamblzweather.ui.about.AboutFragment;
 import tljfn.yamblzweather.ui.settings.SettingsFragment;
 import tljfn.yamblzweather.ui.start.StartFragment;
-import utils.BaseFragment;
 
 /**
  * A utility class that handles navigation in {@link MainActivity}.

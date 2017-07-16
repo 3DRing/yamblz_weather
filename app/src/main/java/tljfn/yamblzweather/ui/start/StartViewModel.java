@@ -20,10 +20,42 @@ import android.arch.lifecycle.ViewModel;
 
 import javax.inject.Inject;
 
+import io.reactivex.Completable;
+import io.reactivex.Flowable;
+import io.reactivex.internal.operators.completable.CompletableFromAction;
+import tljfn.yamblzweather.db.Weather;
+import tljfn.yamblzweather.repo.DatabaseRepo;
+import tljfn.yamblzweather.repo.PreferencesRepo;
+
 public class StartViewModel extends ViewModel {
 
+    private final PreferencesRepo preferencesRepo;
+    private final DatabaseRepo databaseRepo;
+
     @Inject
-    public StartViewModel() {
+    public StartViewModel(PreferencesRepo preferencesRepo, DatabaseRepo databaseRepo) {
+        this.preferencesRepo = preferencesRepo;
+        this.databaseRepo = databaseRepo;
     }
 
+    /**
+     * Get the weather at the city.
+     *
+     * @return a {@link Flowable} that will emit every time the user name has been updated.
+     */
+    public Flowable<Integer> getWeather(String city) {
+        return databaseRepo.getWeather()
+                // for every emission of the weather, get the temperature
+                .map(Weather::getValue);
+    }
+
+    /**
+     * Update the interval preference.
+     *
+     * @param interval the new interval for weather updating
+     * @return a {@link Completable} that completes when the user name is updated
+     */
+    public Completable updateInterval(final Integer interval) {
+        return new CompletableFromAction(() -> preferencesRepo.setInterval(interval));
+    }
 }

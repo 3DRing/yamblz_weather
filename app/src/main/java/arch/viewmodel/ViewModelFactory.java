@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package utils;
+package arch.viewmodel;
 
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;

@@ -16,32 +16,58 @@
 
 package tljfn.yamblzweather.di.module;
 
+import android.app.Application;
+import android.arch.persistence.room.Room;
+
+import javax.inject.Singleton;
+
 import dagger.Module;
+import dagger.Provides;
+import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
+import tljfn.yamblzweather.api.WeatherService;
+import tljfn.yamblzweather.db.WeatherDao;
+import tljfn.yamblzweather.db.WeatherDatabase;
+import tljfn.yamblzweather.repo.DatabaseRepo;
+import tljfn.yamblzweather.repo.PreferencesRepo;
+
+import static tljfn.yamblzweather.BaseFields.DATABASE_NAME;
 
 @Module(includes = ViewModelModule.class)
 public class AppModule {
-//    @Singleton @Provides
-//    GithubService provideGithubService() {
-//        return new Retrofit.Builder()
-//                .baseUrl("https://api.github.com/")
-//                .addConverterFactory(GsonConverterFactory.create())
-//                .addCallAdapterFactory(new LiveDataCallAdapterFactory())
-//                .build()
-//                .create(GithubService.class);
-//    }
-//
-//    @Singleton @Provides
-//    GithubDb provideDb(Application app) {
-//        return Room.databaseBuilder(app, GithubDb.class,"github.db").build();
-//    }
-//
-//    @Singleton @Provides
-//    UserDao provideUserDao(GithubDb db) {
-//        return db.userDao();
-//    }
-//
-//    @Singleton @Provides
-//    RepoDao provideRepoDao(GithubDb db) {
-//        return db.repoDao();
-//    }
+    @Singleton
+    @Provides
+    WeatherService provideWeatherService(String url) {
+        return new Retrofit.Builder()
+                .baseUrl(url)
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .build()
+                .create(WeatherService.class);
+    }
+
+    @Singleton
+    @Provides
+    PreferencesRepo providePreferencesRepo(Application app) {
+        return new PreferencesRepo(app.getApplicationContext());
+    }
+
+    @Singleton
+    @Provides
+    DatabaseRepo provideDatabaseRepo(WeatherDao weatherDao) {
+        return new DatabaseRepo(weatherDao);
+    }
+
+    @Singleton
+    @Provides
+    WeatherDatabase provideDatabase(Application app) {
+        return Room.databaseBuilder(app, WeatherDatabase.class, DATABASE_NAME).build();
+    }
+
+    @Singleton
+    @Provides
+    WeatherDao provideWeatherDao(WeatherDatabase database) {
+        return database.weatherDao();
+    }
 }
