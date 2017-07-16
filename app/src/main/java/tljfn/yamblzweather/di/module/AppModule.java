@@ -18,6 +18,7 @@ package tljfn.yamblzweather.di.module;
 
 import android.app.Application;
 import android.arch.persistence.room.Room;
+import android.content.Context;
 
 import javax.inject.Singleton;
 
@@ -51,6 +52,12 @@ public class AppModule {
     @Provides
     PreferencesRepo providePreferencesRepo(Application app) {
         return new PreferencesRepo(app.getApplicationContext());
+    }
+
+    @Singleton
+    @Provides
+    Context provideContext(Application app) {
+        return app.getApplicationContext();
     }
 
     @Singleton

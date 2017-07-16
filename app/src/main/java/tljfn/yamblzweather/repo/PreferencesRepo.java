@@ -48,6 +48,6 @@ public class PreferencesRepo {
      */
     public Completable setInterval(Integer seconds) {
         return Completable.fromAction(() ->
-                preferences.edit().putInt(KEY_INTERVAL, seconds).commit());
+                preferences.edit().putInt(KEY_INTERVAL, seconds).apply());
     }
 }

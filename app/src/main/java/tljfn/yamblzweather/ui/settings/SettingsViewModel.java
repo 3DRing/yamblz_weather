@@ -16,30 +16,51 @@
 
 package tljfn.yamblzweather.ui.settings;
 
+import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
+import android.content.Context;
 
 import javax.inject.Inject;
 
 import io.reactivex.Completable;
-import io.reactivex.internal.operators.completable.CompletableFromAction;
+import io.reactivex.Single;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 import tljfn.yamblzweather.repo.PreferencesRepo;
 
 public class SettingsViewModel extends ViewModel {
 
     private final PreferencesRepo preferencesRepo;
 
+    public MutableLiveData<Integer> interval = new MutableLiveData<>();
+
     @Inject
-    public SettingsViewModel(PreferencesRepo preferencesRepo) {
+    public SettingsViewModel(PreferencesRepo preferencesRepo, Context context) {
         this.preferencesRepo = preferencesRepo;
+
+        loadInterval()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(interval::setValue);
     }
 
     /**
-     * Update the interval preference.
+     * Load the interval preference.
+     *
+     * @return a {@link Single} that contains interval in seconds from Shared Preferences
+     */
+    public Single<Integer> loadInterval() {
+        return preferencesRepo.getInterval();
+    }
+
+    /**
+     * Save the interval preference.
      *
      * @param interval the new interval for weather updating
      * @return a {@link Completable} that completes when the user name is updated
      */
-    public Completable updateInterval(final Integer interval) {
-        return new CompletableFromAction(() -> preferencesRepo.setInterval(interval));
+    public Completable saveInterval(final Integer interval) {
+        this.interval.setValue(interval);
+        return preferencesRepo.setInterval(interval);
     }
 }

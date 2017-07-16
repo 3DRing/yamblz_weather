@@ -16,6 +16,7 @@
 
 package arch.binding;
 
+import android.content.res.Resources;
 import android.databinding.BindingAdapter;
 import android.databinding.InverseBindingAdapter;
 import android.support.v7.widget.AppCompatSpinner;
@@ -29,9 +30,8 @@ import tljfn.yamblzweather.R;
  * Data Binding adapters specific to the app.
  */
 public class BindingAdapters {
-    @SuppressWarnings("unchecked")
-    @BindingAdapter(value = {"bind:selectedValue"}, requireAll = false)
-    public static void bindSpinnerData(AppCompatSpinner spinner, final PreferencesCallback preferencesCallback) {
+    @BindingAdapter(value = {"bind:selectCallback"})
+    public static void bindSpinnerCallback(AppCompatSpinner spinner, final PreferencesCallback preferencesCallback) {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -43,6 +43,20 @@ public class BindingAdapters {
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
+    }
+
+    @BindingAdapter(value = {"bind:selectedValue"})
+    public static void bindSpinnerData(AppCompatSpinner spinner, final String selectedValue) {
+        Resources resources = spinner.getResources();
+        String[] strings = resources.getStringArray(R.array.intervals);
+        int intervalIndex = 0;
+        for (int i = 0; i < strings.length; i++) {
+            if (strings[i].equals(selectedValue)) {
+                intervalIndex = i;
+                break;
+            }
+        }
+        spinner.setSelection(intervalIndex);
     }
 
     @InverseBindingAdapter(attribute = "bind:selectedValue", event = "bind:selectedValueAttrChanged")

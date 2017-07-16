@@ -4,7 +4,6 @@ import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.DrawerLayout;
-import android.widget.Toast;
 
 import javax.inject.Inject;
 
@@ -52,13 +51,21 @@ public class SettingsFragment extends BaseFragment {
     public void onBindingBound(AutoClearedValue binding) {
         FragmentSettingsBinding settingsBinding = (FragmentSettingsBinding) binding.get();
 
-        settingsBinding.setOnIntervalChangedListener((seconds) -> {
-                    Toast.makeText(getContext(), seconds.toString(), Toast.LENGTH_SHORT).show();
-                    settingsViewModel.updateInterval(seconds)
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe();
-                }
+        settingsViewModel.interval.observe(this, interval -> {
+            int[] ints = getResources().getIntArray(R.array.intervals_seconds);
+            String[] strings = getResources().getStringArray(R.array.intervals);
+            for (int i = 0; i < ints.length; i++) {
+                //noinspection ConstantConditions
+                if (ints[i] == interval) settingsBinding.setInterval(strings[i]);
+            }
+            binding.get().executePendingBindings();
+        });
+
+        settingsBinding.setOnIntervalChangedListener((seconds) ->
+                settingsViewModel.saveInterval(seconds)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe()
         );
     }
 }
