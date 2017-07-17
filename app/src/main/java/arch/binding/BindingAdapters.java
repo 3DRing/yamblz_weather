@@ -18,7 +18,6 @@ package arch.binding;
 
 import android.content.res.Resources;
 import android.databinding.BindingAdapter;
-import android.databinding.InverseBindingAdapter;
 import android.support.v7.widget.AppCompatSpinner;
 import android.view.View;
 import android.widget.AdapterView;
@@ -57,15 +56,5 @@ public class BindingAdapters {
             }
         }
         spinner.setSelection(intervalIndex);
-    }
-
-    @InverseBindingAdapter(attribute = "bind:selectedValue", event = "bind:selectedValueAttrChanged")
-    public static String captureSelectedValue(AppCompatSpinner spinner) {
-        return (String) spinner.getSelectedItem();
-    }
-
-    @BindingAdapter("visibleGone")
-    public static void showHide(View view, boolean show) {
-        view.setVisibility(show ? View.VISIBLE : View.GONE);
     }
 }
