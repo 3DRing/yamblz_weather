@@ -92,7 +92,7 @@
                         android:layout_marginRight="24dp"
                         android:layout_marginTop="32dp"
                         android:text="Москва"
-                        android:textSize="32sp"
+                        android:textSize="36sp"
                         card_view:layout_constraintBottom_toTopOf="@+id/guideline3"
                         card_view:layout_constraintHorizontal_bias="0.503"
                         card_view:layout_constraintLeft_toLeftOf="parent"
@@ -135,7 +135,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        app:layout_constraintGuide_percent="0.27" />
+                        app:layout_constraintGuide_percent="0.2" />
 
                     <TextView
                         android:id="@+id/last_update_tv"

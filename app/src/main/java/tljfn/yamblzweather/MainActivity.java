@@ -21,6 +21,7 @@ import arch.ui.BaseFragment;
 import arch.ui.NavigationController;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.HasSupportFragmentInjector;
+import tljfn.yamblzweather.scheduler.AlarmReceiver;
 
 
 public class MainActivity extends AppCompatActivity implements HasSupportFragmentInjector, LifecycleRegistryOwner,
@@ -32,6 +33,8 @@ public class MainActivity extends AppCompatActivity implements HasSupportFragmen
     DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;
     @Inject
     NavigationController navigationController;
+    @Inject
+    AlarmReceiver alarmReceiver;
     private Toolbar toolbar;
     private DrawerLayout drawer;
     private ActionBar actionBar;
@@ -47,6 +50,8 @@ public class MainActivity extends AppCompatActivity implements HasSupportFragmen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+//        alarmReceiver.setAlarm(this, 60);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

@@ -17,6 +17,7 @@
 package tljfn.yamblzweather.di.component;
 
 import android.app.Application;
+import android.app.Service;
 
 import javax.inject.Singleton;
 
@@ -36,10 +37,14 @@ import tljfn.yamblzweather.di.module.MainActivityModule;
 public interface AppComponent {
     void inject(App app);
 
+    void inject(Service service);
+
     @Component.Builder
     interface Builder {
         @BindsInstance
         Builder application(Application application);
+//        @BindsInstance
+//        Builder service(Service service);
 
         AppComponent build();
     }
