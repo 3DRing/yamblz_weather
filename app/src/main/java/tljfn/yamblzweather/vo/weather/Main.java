@@ -19,6 +19,10 @@ public class Main {
         this.temp = temp;
     }
 
+    public String getCelsius() {
+        return String.valueOf(Math.round(Float.parseFloat(temp) - 273.15)) + "°";
+    }
+
     @Override
     public String toString() {
         return humidity + " " + pressure + " " + temp_max + " " + temp_min + " " + temp;

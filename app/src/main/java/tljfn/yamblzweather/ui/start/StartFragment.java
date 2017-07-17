@@ -13,6 +13,7 @@ import arch.ui.BaseFragment;
 import arch.util.AutoClearedValue;
 import io.reactivex.disposables.CompositeDisposable;
 import tljfn.yamblzweather.R;
+import tljfn.yamblzweather.databinding.FragmentStartBinding;
 
 /**
  * Created by Maksim Sukhotski on 7/9/2017.
@@ -48,7 +49,12 @@ public class StartFragment extends BaseFragment {
 
     @Override
     public void onBindingBound(AutoClearedValue binding) {
-//        binding
+        FragmentStartBinding startBinding = (FragmentStartBinding) binding.get();
+
+        startViewModel.weather.observe(this, weather -> {
+            startBinding.setWeather(weather);
+            startBinding.executePendingBindings();
+        });
     }
 
     @Override

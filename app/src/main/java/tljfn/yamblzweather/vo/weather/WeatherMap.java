@@ -1,8 +1,12 @@
 package tljfn.yamblzweather.vo.weather;
 
+import android.annotation.SuppressLint;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 import android.arch.persistence.room.TypeConverters;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import tljfn.yamblzweather.db.WeatherTypeConverters;
 
@@ -26,6 +30,7 @@ public class WeatherMap {
     public final String base;
     public final Weather[] weather;
     public final Main main;
+    public Long time;
 
     public WeatherMap(Long id, Integer dt, Clouds clouds, Coord coord, Wind wind, Integer cod,
                       Integer visibility, Sys sys, String name, String base, Weather[] weather, Main main) {
@@ -41,5 +46,16 @@ public class WeatherMap {
         this.base = base;
         this.weather = weather;
         this.main = main;
+    }
+
+    public WeatherMap initUpdateTime() {
+        this.time = new Date().getTime();
+        return this;
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    public String getUpdateTime() {
+        SimpleDateFormat localDateFormat = new SimpleDateFormat("hh:mm");
+        return localDateFormat.format(new Date(time));
     }
 }

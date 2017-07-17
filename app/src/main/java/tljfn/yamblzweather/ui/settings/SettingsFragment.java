@@ -58,7 +58,7 @@ public class SettingsFragment extends BaseFragment {
                 //noinspection ConstantConditions
                 if (ints[i] == interval) settingsBinding.setInterval(strings[i]);
             }
-            binding.get().executePendingBindings();
+            settingsBinding.executePendingBindings();
         });
 
         settingsBinding.setOnIntervalChangedListener((seconds) ->

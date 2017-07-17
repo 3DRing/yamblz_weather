@@ -7,6 +7,7 @@
 
     <string name="settings">Настройки</string>
     <string name="about">О приложении</string>
+    <string name="last_update">Последнее обновление: </string>
 
     <string-array name="intervals">
         <item>15 секунд</item>

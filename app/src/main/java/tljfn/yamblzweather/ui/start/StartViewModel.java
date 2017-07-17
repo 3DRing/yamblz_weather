@@ -16,12 +16,12 @@
 
 package tljfn.yamblzweather.ui.start;
 
+import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 
 import javax.inject.Inject;
 
 import io.reactivex.Flowable;
-import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import tljfn.yamblzweather.repo.DatabaseRepo;
@@ -32,6 +32,7 @@ public class StartViewModel extends ViewModel {
 
     private final DatabaseRepo databaseRepo;
     private final RemoteRepo remoteRepo;
+    public MutableLiveData<WeatherMap> weather = new MutableLiveData<>();
 
     @Inject
     public StartViewModel(RemoteRepo remoteRepo, DatabaseRepo databaseRepo) {
@@ -41,16 +42,17 @@ public class StartViewModel extends ViewModel {
         remoteRepo.getWeather("Moscow")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe((weatherMap, throwable) -> {
+                .map(WeatherMap::initUpdateTime)
+                .subscribe(weather::setValue, this::onNetworkError);
 
-                });
+    }
+
+    private void onNetworkError(Throwable throwable) {
 
     }
 
     /**
      * Get the weather at the city.
-     *
-     * @return a {@link Single} that will emit every time the user name has been updated.
      */
     public Flowable<WeatherMap> getWeatherFromDb(String city) {
         return databaseRepo.getWeather();

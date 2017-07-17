@@ -22,6 +22,9 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+
 import javax.inject.Inject;
 
 /**
@@ -37,6 +40,13 @@ public class FragmentBindingAdapters {
 
     @BindingAdapter("imageUrl")
     public void bindImage(ImageView imageView, String url) {
-        Glide.with(fragment).load(url).into(imageView);
+        try {
+            new URL(url);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+            url = "http://openweathermap.org/img/w/" + url + ".png";
+        } finally {
+            Glide.with(fragment).load(url).into(imageView);
+        }
     }
 }

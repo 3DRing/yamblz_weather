@@ -29,7 +29,6 @@ import tljfn.yamblzweather.repo.PreferencesRepo;
 public class SettingsViewModel extends ViewModel {
 
     private final PreferencesRepo preferencesRepo;
-
     public MutableLiveData<Integer> interval = new MutableLiveData<>();
 
     @Inject
