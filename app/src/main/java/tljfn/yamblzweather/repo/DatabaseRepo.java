@@ -1,8 +1,8 @@
 package tljfn.yamblzweather.repo;
 
 import io.reactivex.Flowable;
-import tljfn.yamblzweather.db.Weather;
 import tljfn.yamblzweather.db.WeatherDao;
+import tljfn.yamblzweather.vo.weather.WeatherMap;
 
 /**
  * Using the Room database as a data source.
@@ -16,11 +16,11 @@ public class DatabaseRepo {
     }
 
     /**
-     * Gets the weather from the data source.
+     * Gets the weather from the local data source.
      *
-     * @return the weather from the data source.
+     * @return the weather from the local data source.
      */
-    public Flowable<Weather> getWeather() {
+    public Flowable<WeatherMap> getWeather() {
         return weatherDao.getWeather();
     }
 
@@ -29,7 +29,7 @@ public class DatabaseRepo {
      *
      * @param weather the user to be inserted or updated.
      */
-    public void insertOrUpdateWeather(Weather weather) {
+    public void insertOrUpdateWeather(WeatherMap weather) {
         weatherDao.insertWeather(weather);
     }
 

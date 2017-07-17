@@ -27,25 +27,27 @@ import dagger.Provides;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
-import tljfn.yamblzweather.api.WeatherService;
+import tljfn.yamblzweather.api.WeatherApi;
 import tljfn.yamblzweather.db.WeatherDao;
 import tljfn.yamblzweather.db.WeatherDatabase;
 import tljfn.yamblzweather.repo.DatabaseRepo;
 import tljfn.yamblzweather.repo.PreferencesRepo;
+import tljfn.yamblzweather.repo.RemoteRepo;
 
+import static tljfn.yamblzweather.BaseFields.API_URL;
 import static tljfn.yamblzweather.BaseFields.DATABASE_NAME;
 
 @Module(includes = ViewModelModule.class)
 public class AppModule {
     @Singleton
     @Provides
-    WeatherService provideWeatherService(String url) {
+    WeatherApi provideWeatherApi() {
         return new Retrofit.Builder()
-                .baseUrl(url)
+                .baseUrl(API_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build()
-                .create(WeatherService.class);
+                .create(WeatherApi.class);
     }
 
     @Singleton
@@ -64,6 +66,12 @@ public class AppModule {
     @Provides
     DatabaseRepo provideDatabaseRepo(WeatherDao weatherDao) {
         return new DatabaseRepo(weatherDao);
+    }
+
+    @Singleton
+    @Provides
+    RemoteRepo provideRemoteRepo(WeatherApi weatherApi) {
+        return new RemoteRepo(weatherApi);
     }
 
     @Singleton

@@ -24,8 +24,8 @@ import java.lang.reflect.Method;
 
 import javax.inject.Inject;
 
+import tljfn.yamblzweather.MainActivity;
 import tljfn.yamblzweather.R;
-import tljfn.yamblzweather.ui.MainActivity;
 import tljfn.yamblzweather.ui.about.AboutFragment;
 import tljfn.yamblzweather.ui.settings.SettingsFragment;
 import tljfn.yamblzweather.ui.start.StartFragment;

@@ -21,26 +21,28 @@ import android.arch.lifecycle.ViewModel;
 import javax.inject.Inject;
 
 import io.reactivex.Flowable;
-import tljfn.yamblzweather.db.Weather;
+import io.reactivex.Single;
 import tljfn.yamblzweather.repo.DatabaseRepo;
+import tljfn.yamblzweather.repo.RemoteRepo;
+import tljfn.yamblzweather.vo.weather.WeatherMap;
 
 public class StartViewModel extends ViewModel {
 
     private final DatabaseRepo databaseRepo;
+    private final RemoteRepo remoteRepo;
 
     @Inject
-    public StartViewModel(DatabaseRepo databaseRepo) {
+    public StartViewModel(RemoteRepo remoteRepo, DatabaseRepo databaseRepo) {
         this.databaseRepo = databaseRepo;
+        this.remoteRepo = remoteRepo;
     }
 
     /**
      * Get the weather at the city.
      *
-     * @return a {@link Flowable} that will emit every time the user name has been updated.
+     * @return a {@link Single} that will emit every time the user name has been updated.
      */
-    public Flowable<Integer> getWeather(String city) {
-        return databaseRepo.getWeather()
-                // for every emission of the weather, get the temperature
-                .map(Weather::getValue);
+    public Flowable<WeatherMap> getWeather(String city) {
+        return databaseRepo.getWeather();
     }
 }

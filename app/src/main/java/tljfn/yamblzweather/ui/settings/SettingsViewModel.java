@@ -18,7 +18,6 @@ package tljfn.yamblzweather.ui.settings;
 
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
-import android.content.Context;
 
 import javax.inject.Inject;
 
@@ -35,7 +34,7 @@ public class SettingsViewModel extends ViewModel {
     public MutableLiveData<Integer> interval = new MutableLiveData<>();
 
     @Inject
-    public SettingsViewModel(PreferencesRepo preferencesRepo, Context context) {
+    public SettingsViewModel(PreferencesRepo preferencesRepo) {
         this.preferencesRepo = preferencesRepo;
 
         loadInterval()

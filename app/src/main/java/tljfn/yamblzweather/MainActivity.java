@@ -1,4 +1,4 @@
-package tljfn.yamblzweather.ui;
+package tljfn.yamblzweather;
 
 import android.arch.lifecycle.LifecycleRegistry;
 import android.arch.lifecycle.LifecycleRegistryOwner;
@@ -21,7 +21,6 @@ import arch.ui.BaseFragment;
 import arch.ui.NavigationController;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.HasSupportFragmentInjector;
-import tljfn.yamblzweather.R;
 
 
 public class MainActivity extends AppCompatActivity implements HasSupportFragmentInjector, LifecycleRegistryOwner,
@@ -67,23 +66,6 @@ public class MainActivity extends AppCompatActivity implements HasSupportFragmen
     @Override
     protected void onStart() {
         super.onStart();
-        // Subscribe to the emissions of the user name from the view model.
-        // Update the user name text view, at every onNext emission.
-        // In case of error, log the exception.
-//        mDisposable.add(mViewModel.getUserName()
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(new Consumer<String>() {
-//                    @Override
-//                    public void accept(String userName) throws Exception {
-//                        mUserName.setText(userName);
-//                    }
-//                }, new Consumer<Throwable>() {
-//                    @Override
-//                    public void accept(Throwable throwable) throws Exception {
-//                        Log.e(TAG, "Unable to update username", throwable);
-//                    }
-//                }));
     }
 
     @Override

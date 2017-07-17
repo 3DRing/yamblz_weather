@@ -18,7 +18,7 @@ package tljfn.yamblzweather.di.module;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
-import tljfn.yamblzweather.ui.MainActivity;
+import tljfn.yamblzweather.MainActivity;
 
 @Module
 public abstract class MainActivityModule {
