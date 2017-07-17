@@ -22,6 +22,8 @@ import javax.inject.Inject;
 
 import io.reactivex.Flowable;
 import io.reactivex.Single;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 import tljfn.yamblzweather.repo.DatabaseRepo;
 import tljfn.yamblzweather.repo.RemoteRepo;
 import tljfn.yamblzweather.vo.weather.WeatherMap;
@@ -35,6 +37,14 @@ public class StartViewModel extends ViewModel {
     public StartViewModel(RemoteRepo remoteRepo, DatabaseRepo databaseRepo) {
         this.databaseRepo = databaseRepo;
         this.remoteRepo = remoteRepo;
+
+        remoteRepo.getWeather("Moscow")
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe((weatherMap, throwable) -> {
+
+                });
+
     }
 
     /**
@@ -42,7 +52,7 @@ public class StartViewModel extends ViewModel {
      *
      * @return a {@link Single} that will emit every time the user name has been updated.
      */
-    public Flowable<WeatherMap> getWeather(String city) {
+    public Flowable<WeatherMap> getWeatherFromDb(String city) {
         return databaseRepo.getWeather();
     }
 }

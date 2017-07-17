@@ -22,7 +22,6 @@ import android.arch.lifecycle.ViewModel;
 import javax.inject.Inject;
 
 import io.reactivex.Completable;
-import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import tljfn.yamblzweather.repo.PreferencesRepo;
@@ -37,19 +36,10 @@ public class SettingsViewModel extends ViewModel {
     public SettingsViewModel(PreferencesRepo preferencesRepo) {
         this.preferencesRepo = preferencesRepo;
 
-        loadInterval()
+        preferencesRepo.getInterval()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(interval::setValue);
-    }
-
-    /**
-     * Load the interval preference.
-     *
-     * @return a {@link Single} that contains interval in seconds from Shared Preferences
-     */
-    public Single<Integer> loadInterval() {
-        return preferencesRepo.getInterval();
     }
 
     /**
