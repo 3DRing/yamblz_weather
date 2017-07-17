@@ -1,6 +1,9 @@
 package tljfn.yamblzweather.repo;
 
+import io.reactivex.Completable;
 import io.reactivex.Flowable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 import tljfn.yamblzweather.db.WeatherDao;
 import tljfn.yamblzweather.vo.weather.WeatherMap;
 
@@ -30,7 +33,10 @@ public class DatabaseRepo {
      * @param weather the user to be inserted or updated.
      */
     public void insertOrUpdateWeather(WeatherMap weather) {
-        weatherDao.insertWeather(weather);
+        Completable.fromAction(() -> weatherDao.insertWeather(weather))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe();
     }
 
     /**

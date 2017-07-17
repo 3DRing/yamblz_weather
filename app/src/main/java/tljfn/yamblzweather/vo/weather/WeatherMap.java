@@ -1,12 +1,12 @@
 package tljfn.yamblzweather.vo.weather;
 
-import android.annotation.SuppressLint;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 import android.arch.persistence.room.TypeConverters;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 import tljfn.yamblzweather.db.WeatherTypeConverters;
 
@@ -59,9 +59,8 @@ public class WeatherMap {
         return this;
     }
 
-    @SuppressLint("SimpleDateFormat")
     public String getUpdateTime() {
-        SimpleDateFormat localDateFormat = new SimpleDateFormat("hh:mm");
+        SimpleDateFormat localDateFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
         return localDateFormat.format(new Date(time));
     }
 }

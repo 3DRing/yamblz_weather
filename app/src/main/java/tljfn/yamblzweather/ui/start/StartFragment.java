@@ -56,9 +56,7 @@ public class StartFragment extends BaseFragment {
             startBinding.executePendingBindings();
         });
 
-        startBinding.setOnRefreshListener(() -> {
-            startViewModel.updateWeather();
-        });
+        startBinding.setOnRefreshListener(startViewModel::updateWeather);
     }
 
     @Override

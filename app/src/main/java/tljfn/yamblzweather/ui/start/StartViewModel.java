@@ -46,12 +46,13 @@ public class StartViewModel extends ViewModel {
      * Update the weather from remote.
      */
     public void updateWeather() {
-        remoteRepo.getWeather("Moscow")
+        remoteRepo.getWeather("Москва")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(WeatherMap::setUpdateTime)
                 .map(WeatherMap::setRefreshed)
-                .subscribe(weather::setValue, this::onNetworkError);
+                .doOnSuccess(databaseRepo::insertOrUpdateWeather)
+                .subscribe(weather::setValue, this::onError);
     }
 
     /**
@@ -61,7 +62,7 @@ public class StartViewModel extends ViewModel {
         return databaseRepo.getWeather();
     }
 
-    private void onNetworkError(Throwable throwable) {
+    private void onError(Throwable throwable) {
         //// FIXME: 7/17/2017 
         weather.setValue(weather.getValue());
     }

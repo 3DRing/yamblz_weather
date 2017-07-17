@@ -7,14 +7,18 @@ package tljfn.yamblzweather.vo.weather;
 public class Weather {
     public final Long id;
     public final String icon;
-    public final String description;
     public final String main;
+    private final String description;
 
     public Weather(Long id, String icon, String description, String main) {
         this.id = id;
         this.icon = icon;
         this.description = description;
         this.main = main;
+    }
+
+    public String getDescription() {
+        return description.substring(0, 1).toUpperCase() + description.substring(1);
     }
 
     @Override
