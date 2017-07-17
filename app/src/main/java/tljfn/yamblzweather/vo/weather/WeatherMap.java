@@ -31,6 +31,7 @@ public class WeatherMap {
     public final Weather[] weather;
     public final Main main;
     public Long time;
+    public boolean isRefreshing;
 
     public WeatherMap(Long id, Integer dt, Clouds clouds, Coord coord, Wind wind, Integer cod,
                       Integer visibility, Sys sys, String name, String base, Weather[] weather, Main main) {
@@ -48,8 +49,13 @@ public class WeatherMap {
         this.main = main;
     }
 
-    public WeatherMap initUpdateTime() {
+    public WeatherMap setUpdateTime() {
         this.time = new Date().getTime();
+        return this;
+    }
+
+    public WeatherMap setRefreshed() {
+        this.isRefreshing = false;
         return this;
     }
 

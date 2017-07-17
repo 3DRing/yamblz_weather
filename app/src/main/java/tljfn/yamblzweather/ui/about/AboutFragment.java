@@ -35,7 +35,7 @@ public class AboutFragment extends BaseFragment {
     }
 
     @Override
-    public void onBindingBound(AutoClearedValue binding) {
+    public void onBindingCreated(AutoClearedValue binding) {
 
     }
 }

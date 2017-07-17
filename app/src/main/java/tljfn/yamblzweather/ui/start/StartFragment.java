@@ -48,12 +48,16 @@ public class StartFragment extends BaseFragment {
     }
 
     @Override
-    public void onBindingBound(AutoClearedValue binding) {
+    public void onBindingCreated(AutoClearedValue binding) {
         FragmentStartBinding startBinding = (FragmentStartBinding) binding.get();
 
         startViewModel.weather.observe(this, weather -> {
             startBinding.setWeather(weather);
             startBinding.executePendingBindings();
+        });
+
+        startBinding.setOnRefreshListener(() -> {
+            startViewModel.updateWeather();
         });
     }
 

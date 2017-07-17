@@ -39,22 +39,30 @@ public class StartViewModel extends ViewModel {
         this.databaseRepo = databaseRepo;
         this.remoteRepo = remoteRepo;
 
-        remoteRepo.getWeather("Moscow")
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .map(WeatherMap::initUpdateTime)
-                .subscribe(weather::setValue, this::onNetworkError);
-
-    }
-
-    private void onNetworkError(Throwable throwable) {
-
+        updateWeather();
     }
 
     /**
-     * Get the weather at the city.
+     * Update the weather from remote.
+     */
+    public void updateWeather() {
+        remoteRepo.getWeather("Moscow")
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .map(WeatherMap::setUpdateTime)
+                .map(WeatherMap::setRefreshed)
+                .subscribe(weather::setValue, this::onNetworkError);
+    }
+
+    /**
+     * Get the weather at the city from db.
      */
     public Flowable<WeatherMap> getWeatherFromDb(String city) {
         return databaseRepo.getWeather();
+    }
+
+    private void onNetworkError(Throwable throwable) {
+        //// FIXME: 7/17/2017 
+        weather.setValue(weather.getValue());
     }
 }

@@ -28,7 +28,7 @@ import tljfn.yamblzweather.R;
 /**
  * Data Binding adapters specific to the app.
  */
-public class BindingAdapters {
+public class SettingsBindingAdapters {
     @BindingAdapter(value = {"bind:selectCallback"})
     public static void bindSpinnerCallback(AppCompatSpinner spinner, final PreferencesCallback preferencesCallback) {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

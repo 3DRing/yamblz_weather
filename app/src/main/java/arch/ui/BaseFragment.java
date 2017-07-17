@@ -45,7 +45,7 @@ public abstract class BaseFragment extends LifecycleFragment implements Injectab
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         onViewModelAttach();
-        onBindingBound(binding);
+        onBindingCreated(binding);
     }
 
     @Override
@@ -94,7 +94,7 @@ public abstract class BaseFragment extends LifecycleFragment implements Injectab
      *
      * @param binding binding that was created with it`s fragment layout
      */
-    public abstract void onBindingBound(AutoClearedValue binding);
+    public abstract void onBindingCreated(AutoClearedValue binding);
 
     /**
      * This interface should listen when new fragment appears on the activity

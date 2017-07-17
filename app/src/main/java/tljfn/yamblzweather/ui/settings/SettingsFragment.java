@@ -48,7 +48,7 @@ public class SettingsFragment extends BaseFragment {
     }
 
     @Override
-    public void onBindingBound(AutoClearedValue binding) {
+    public void onBindingCreated(AutoClearedValue binding) {
         FragmentSettingsBinding settingsBinding = (FragmentSettingsBinding) binding.get();
 
         settingsViewModel.interval.observe(this, interval -> {
