@@ -33,12 +33,20 @@ import tljfn.yamblzweather.db.WeatherDatabase;
 import tljfn.yamblzweather.repo.DatabaseRepo;
 import tljfn.yamblzweather.repo.PreferencesRepo;
 import tljfn.yamblzweather.repo.RemoteRepo;
+import tljfn.yamblzweather.scheduler.AlarmReceiver;
 
 import static tljfn.yamblzweather.BaseFields.API_URL;
 import static tljfn.yamblzweather.BaseFields.DATABASE_NAME;
 
 @Module(includes = ViewModelModule.class)
 public class AppModule {
+
+    @Singleton
+    @Provides
+    AlarmReceiver provideAlarmReceiver() {
+        return new AlarmReceiver();
+    }
+
     @Singleton
     @Provides
     WeatherApi provideWeatherApi() {

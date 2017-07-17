@@ -18,6 +18,7 @@ package tljfn.yamblzweather.di;
 
 import android.app.Activity;
 import android.app.Application;
+import android.app.Service;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -74,6 +75,10 @@ public class AppInjector {
 
             }
         });
+    }
+
+    public static void init(Service service) {
+//        DaggerAppComponent.builder().service(service).build().inject(service);
     }
 
     private static void handleActivity(Activity activity) {
