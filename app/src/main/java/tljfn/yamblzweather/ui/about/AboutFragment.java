@@ -1,19 +1,17 @@
 package tljfn.yamblzweather.ui.about;
 
 import android.support.annotation.NonNull;
+import android.support.v4.widget.DrawerLayout;
 
+import arch.ui.BaseFragment;
+import arch.util.AutoClearedValue;
 import tljfn.yamblzweather.R;
-import utils.BaseFragment;
 
 /**
  * Created by Maksim Sukhotski on 7/9/2017.
  */
 
 public class AboutFragment extends BaseFragment {
-
-    public static String getFragmentTag() {
-        return AboutFragment.class.toString();
-    }
 
     @NonNull
     @Override
@@ -24,5 +22,20 @@ public class AboutFragment extends BaseFragment {
     @Override
     public String getToolbarTitle() {
         return "О приложении";
+    }
+
+    @Override
+    public Integer getDrawerMode() {
+        return DrawerLayout.LOCK_MODE_LOCKED_CLOSED;
+    }
+
+    @Override
+    public void onViewModelAttach() {
+
+    }
+
+    @Override
+    public void onBindingCreated(AutoClearedValue binding) {
+
     }
 }

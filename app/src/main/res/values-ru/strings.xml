@@ -1,10 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Yamblz Weather</string>
+    <string name="app_name">Погода</string>
 
     <string name="open_drawer">Открыть боковое меню</string>
     <string name="close_drawer">Закрыть боковое меню</string>
 
     <string name="settings">Настройки</string>
     <string name="about">О приложении</string>
+    <string name="last_update">Последнее обновление: </string>
+
+    <string-array name="intervals">
+        <item>15 секунд</item>
+        <item>30 секунд</item>
+        <item>1 минута</item>
+        <item>5 минут</item>
+        <item>10 минут</item>
+        <item>30 минут</item>
+        <item>1 час</item>
+        <item>2 часа</item>
+    </string-array>
 </resources>
