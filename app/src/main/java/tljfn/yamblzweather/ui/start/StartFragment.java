@@ -11,7 +11,9 @@ import javax.inject.Inject;
 
 import arch.ui.BaseFragment;
 import arch.util.AutoClearedValue;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.schedulers.Schedulers;
 import tljfn.yamblzweather.R;
 import tljfn.yamblzweather.databinding.FragmentStartBinding;
 
@@ -20,11 +22,25 @@ import tljfn.yamblzweather.databinding.FragmentStartBinding;
  */
 
 public class StartFragment extends BaseFragment {
-
     private final CompositeDisposable disposable = new CompositeDisposable();
     @Inject
     ViewModelProvider.Factory viewModelFactory;
     private StartViewModel startViewModel;
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        disposable.clear();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        disposable.add(startViewModel.getWeather()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(startViewModel.weather::setValue, startViewModel::onError));
+    }
 
     @NonNull
     @Override

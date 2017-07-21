@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements HasSupportFragmen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        alarmReceiver.setAlarm(this, 300);
+        alarmReceiver.setAlarm(this, 60);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

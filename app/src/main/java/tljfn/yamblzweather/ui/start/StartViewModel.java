@@ -21,6 +21,7 @@ import android.arch.lifecycle.ViewModel;
 
 import javax.inject.Inject;
 
+import io.reactivex.Flowable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import tljfn.yamblzweather.repo.DatabaseRepo;
@@ -39,33 +40,34 @@ public class StartViewModel extends ViewModel {
         this.databaseRepo = databaseRepo;
         this.remoteRepo = remoteRepo;
 
-        getWeather();
+//        getWeather();
     }
 
     /**
      * Get the weather from db.
      */
-    public void getWeather() {
-        databaseRepo.getWeather()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(weather::setValue, this::onError);
+    public Flowable<WeatherMap> getWeather() {
+        return databaseRepo.getWeather();
     }
 
-    /**
-     * Update the weather from remote.
-     */
     public void updateWeather() {
         remoteRepo.getWeather("Moscow")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(WeatherMap::updateTime)
                 .map(WeatherMap::setRefreshed)
-                .doOnSuccess(databaseRepo::insertOrUpdateWeather)
+                .doOnSuccess(this::updateDatabase)
                 .subscribe(weather::setValue, this::onError);
     }
 
-    private void onError(Throwable throwable) {
+    private void updateDatabase(WeatherMap weatherMap) {
+        databaseRepo.insertOrUpdateWeather(weatherMap)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe();
+    }
+
+    public void onError(Throwable throwable) {
         //// FIXME: 7/17/2017 
         weather.setValue(weather.getValue());
     }

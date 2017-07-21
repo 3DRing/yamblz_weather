@@ -46,11 +46,17 @@ public class SchedulingService extends IntentService implements HasServiceInject
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(WeatherMap::updateTime)
                 .map(WeatherMap::setRefreshed)
-                .doOnSuccess(databaseRepo::insertOrUpdateWeather)
+                .doOnSuccess(this::updateDatabase)
                 .subscribe();
 
-        // Release the wake lock provided by the BroadcastReceiver.
         AlarmReceiver.completeWakefulIntent(intent);
+    }
+
+    private void updateDatabase(WeatherMap weatherMap) {
+        databaseRepo.insertOrUpdateWeather(weatherMap)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe();
     }
 
     @Override

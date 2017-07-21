@@ -10,7 +10,6 @@ import javax.inject.Inject;
 import arch.ui.BaseFragment;
 import arch.util.AutoClearedValue;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 import tljfn.yamblzweather.R;
 import tljfn.yamblzweather.databinding.FragmentSettingsBinding;
@@ -21,7 +20,6 @@ import tljfn.yamblzweather.databinding.FragmentSettingsBinding;
 
 public class SettingsFragment extends BaseFragment {
 
-    private final CompositeDisposable disposable = new CompositeDisposable();
     @Inject
     ViewModelProvider.Factory viewModelFactory;
     private SettingsViewModel settingsViewModel;
