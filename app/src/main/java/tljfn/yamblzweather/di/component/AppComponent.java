@@ -17,7 +17,6 @@
 package tljfn.yamblzweather.di.component;
 
 import android.app.Application;
-import android.app.Service;
 
 import javax.inject.Singleton;
 
@@ -27,24 +26,22 @@ import dagger.android.AndroidInjectionModule;
 import tljfn.yamblzweather.App;
 import tljfn.yamblzweather.di.module.AppModule;
 import tljfn.yamblzweather.di.module.MainActivityModule;
+import tljfn.yamblzweather.di.module.SchedulingServiceModule;
 
 @Singleton
 @Component(modules = {
         AndroidInjectionModule.class,
         AppModule.class,
-        MainActivityModule.class
+        MainActivityModule.class,
+        SchedulingServiceModule.class
 })
 public interface AppComponent {
     void inject(App app);
-
-    void inject(Service service);
 
     @Component.Builder
     interface Builder {
         @BindsInstance
         Builder application(Application application);
-//        @BindsInstance
-//        Builder service(Service service);
 
         AppComponent build();
     }

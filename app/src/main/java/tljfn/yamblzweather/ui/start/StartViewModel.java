@@ -46,7 +46,7 @@ public class StartViewModel extends ViewModel {
      * Update the weather from remote.
      */
     public void updateWeather() {
-        remoteRepo.getWeather("Москва")
+        remoteRepo.getWeather("Минск")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(WeatherMap::setUpdateTime)

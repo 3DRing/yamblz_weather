@@ -18,7 +18,6 @@ package tljfn.yamblzweather.di;
 
 import android.app.Activity;
 import android.app.Application;
-import android.app.Service;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -44,41 +43,25 @@ public class AppInjector {
             public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
                 handleActivity(activity);
             }
-
             @Override
             public void onActivityStarted(Activity activity) {
-
             }
-
             @Override
             public void onActivityResumed(Activity activity) {
-
             }
-
             @Override
             public void onActivityPaused(Activity activity) {
-
             }
-
             @Override
             public void onActivityStopped(Activity activity) {
-
             }
-
             @Override
             public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
-
             }
-
             @Override
             public void onActivityDestroyed(Activity activity) {
-
             }
         });
-    }
-
-    public static void init(Service service) {
-//        DaggerAppComponent.builder().service(service).build().inject(service);
     }
 
     private static void handleActivity(Activity activity) {
