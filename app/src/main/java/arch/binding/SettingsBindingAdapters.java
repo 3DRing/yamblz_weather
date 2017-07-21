@@ -29,7 +29,7 @@ import tljfn.yamblzweather.R;
  * Data Binding adapters specific to the app.
  */
 public class SettingsBindingAdapters {
-    @BindingAdapter(value = {"bind:selectCallback"})
+    @BindingAdapter(value = {"selectCallback"})
     public static void bindSpinnerCallback(AppCompatSpinner spinner, final PreferencesCallback preferencesCallback) {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -44,7 +44,7 @@ public class SettingsBindingAdapters {
         });
     }
 
-    @BindingAdapter(value = {"bind:selectedValue"})
+    @BindingAdapter(value = {"selectedValue"})
     public static void bindSpinnerData(AppCompatSpinner spinner, final String selectedValue) {
         Resources resources = spinner.getResources();
         String[] strings = resources.getStringArray(R.array.intervals);

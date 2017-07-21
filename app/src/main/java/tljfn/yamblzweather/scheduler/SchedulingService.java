@@ -44,10 +44,11 @@ public class SchedulingService extends IntentService implements HasServiceInject
         remoteRepo.getWeather("Москва")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .map(WeatherMap::setUpdateTime)
+                .map(WeatherMap::updateTime)
                 .map(WeatherMap::setRefreshed)
                 .doOnSuccess(databaseRepo::insertOrUpdateWeather)
                 .subscribe();
+
         // Release the wake lock provided by the BroadcastReceiver.
         AlarmReceiver.completeWakefulIntent(intent);
     }

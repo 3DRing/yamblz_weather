@@ -5,14 +5,14 @@ package tljfn.yamblzweather.vo.weather;
  */
 
 public class Sys {
-    public final Long id;
+    public final long id;
     public final String message;
     public final String country;
-    public final Integer type;
-    public final Integer sunset;
-    public final Integer sunrise;
+    public final int type;
+    public final int sunset;
+    public final int sunrise;
 
-    public Sys(Long id, String message, String country, Integer type, Integer sunset, Integer sunrise) {
+    public Sys(long id, String message, String country, int type, int sunset, int sunrise) {
         this.message = message;
         this.id = id;
         this.sunset = sunset;
@@ -23,7 +23,6 @@ public class Sys {
 
     @Override
     public String toString() {
-        return id.toString() + " " + message + " " + country + " " + type.toString() + " " +
-                sunset.toString() + " " + sunrise.toString();
+        return id + " " + message + " " + country + " " + type + " " + sunset + " " + sunrise;
     }
 }

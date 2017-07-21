@@ -18,23 +18,23 @@ import tljfn.yamblzweather.db.WeatherTypeConverters;
 public class WeatherMap {
 
     @PrimaryKey
-    public final Long id;
-    public final Integer dt;
+    public final long id;
+    public final int dt;
     public final Clouds clouds;
     public final Coord coord;
     public final Wind wind;
-    public final Integer cod;
-    public final Integer visibility;
+    public final int cod;
+    public final int visibility;
     public final Sys sys;
     public final String name;
     public final String base;
     public final Weather[] weather;
     public final Main main;
-    public Long time;
+    public long time;
     public boolean isRefreshing;
 
-    public WeatherMap(Long id, Integer dt, Clouds clouds, Coord coord, Wind wind, Integer cod,
-                      Integer visibility, Sys sys, String name, String base, Weather[] weather, Main main) {
+    public WeatherMap(long id, int dt, Clouds clouds, Coord coord, Wind wind, int cod,
+                      int visibility, Sys sys, String name, String base, Weather[] weather, Main main) {
         this.id = id;
         this.dt = dt;
         this.clouds = clouds;
@@ -49,7 +49,7 @@ public class WeatherMap {
         this.main = main;
     }
 
-    public WeatherMap setUpdateTime() {
+    public WeatherMap updateTime() {
         this.time = new Date().getTime();
         return this;
     }

@@ -6,8 +6,18 @@ def appKeyAlias = (new JsonSlurper().parseText(file(fileName).text)).keyAlias
 def appKeyPassword = (new JsonSlurper().parseText(file(fileName).text)).keyPassword
 def apiKey = (new JsonSlurper().parseText(file(fileName).text)).apiKey
 
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.getkeepsafe.dexcount:dexcount-gradle-plugin:0.7.3'
+    }
+}
+
 apply plugin: 'com.android.application'
 apply plugin: 'me.tatarka.retrolambda'
+apply plugin: 'com.getkeepsafe.dexcount'
 
 android {
     compileSdkVersion 25
@@ -23,7 +33,7 @@ android {
     buildTypes {
         release {
             shrinkResources true
-            minifyEnabled true
+            minifyEnabled false //todo: if set true databinding not works
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -57,6 +67,13 @@ android {
 }
 
 dependencies {
+    // Debug
+    debugCompile "com.facebook.stetho:stetho:$stetho_version"
+    debugCompile "com.squareup.leakcanary:leakcanary-android:$leakcanary_version"
+    debugCompile "com.facebook.stetho:stetho-okhttp3:$stetho_version"
+    releaseCompile "net.igenius:stetho-no-op:$stetho_noop_version"
+    releaseCompile "com.squareup.leakcanary:leakcanary-android-no-op:$leakcanary_version"
+
     // Architecture components
     compile "android.arch.lifecycle:runtime:$arch_version"
     compile "android.arch.lifecycle:extensions:$arch_version"
@@ -71,8 +88,8 @@ dependencies {
     compile "com.squareup.retrofit2:adapter-rxjava2:$retrofit_version"
 
     // RxJava
-    compile "io.reactivex.rxjava2:rxandroid:$rootProject.rxandroid_version"
-    compile "io.reactivex.rxjava2:rxjava:$rootProject.rxjava_version"
+    compile "io.reactivex.rxjava2:rxandroid:$rxandroid_version"
+    compile "io.reactivex.rxjava2:rxjava:$rxjava_version"
 
     // DI
     compile "com.google.dagger:dagger:$dagger_version"

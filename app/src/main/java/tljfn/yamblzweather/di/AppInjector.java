@@ -38,6 +38,7 @@ public class AppInjector {
 
     public static void init(App app) {
         DaggerAppComponent.builder().application(app).build().inject(app);
+//        app.registerReceiver()
         app.registerActivityLifecycleCallbacks(new Application.ActivityLifecycleCallbacks() {
             @Override
             public void onActivityCreated(Activity activity, Bundle savedInstanceState) {

@@ -21,13 +21,13 @@ import android.arch.lifecycle.ViewModel;
 
 import javax.inject.Inject;
 
-import io.reactivex.Flowable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import tljfn.yamblzweather.repo.DatabaseRepo;
 import tljfn.yamblzweather.repo.RemoteRepo;
 import tljfn.yamblzweather.vo.weather.WeatherMap;
 
+@SuppressWarnings("WeakerAccess") //for dagger
 public class StartViewModel extends ViewModel {
 
     private final DatabaseRepo databaseRepo;
@@ -39,27 +39,30 @@ public class StartViewModel extends ViewModel {
         this.databaseRepo = databaseRepo;
         this.remoteRepo = remoteRepo;
 
-        updateWeather();
+        getWeather();
+    }
+
+    /**
+     * Get the weather from db.
+     */
+    public void getWeather() {
+        databaseRepo.getWeather()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(weather::setValue, this::onError);
     }
 
     /**
      * Update the weather from remote.
      */
     public void updateWeather() {
-        remoteRepo.getWeather("Минск")
+        remoteRepo.getWeather("Moscow")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .map(WeatherMap::setUpdateTime)
+                .map(WeatherMap::updateTime)
                 .map(WeatherMap::setRefreshed)
                 .doOnSuccess(databaseRepo::insertOrUpdateWeather)
                 .subscribe(weather::setValue, this::onError);
-    }
-
-    /**
-     * Get the weather at the city from db.
-     */
-    public Flowable<WeatherMap> getWeatherFromDb(String city) {
-        return databaseRepo.getWeather();
     }
 
     private void onError(Throwable throwable) {

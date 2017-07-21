@@ -5,10 +5,10 @@ package tljfn.yamblzweather.vo.weather;
  */
 
 public class Coord {
-    public final Float lon;
-    public final Float lat;
+    public final float lon;
+    public final float lat;
 
-    public Coord(Float lon, Float lat) {
+    public Coord(float lon, float lat) {
         this.lon = lon;
         this.lat = lat;
     }

@@ -20,13 +20,17 @@ import android.app.Application;
 import android.arch.persistence.room.Room;
 import android.content.Context;
 
+import com.facebook.stetho.okhttp3.StethoInterceptor;
+
 import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
+import tljfn.yamblzweather.BuildConfig;
 import tljfn.yamblzweather.api.WeatherApi;
 import tljfn.yamblzweather.db.WeatherDao;
 import tljfn.yamblzweather.db.WeatherDatabase;
@@ -50,10 +54,13 @@ public class AppModule {
     @Singleton
     @Provides
     WeatherApi provideWeatherApi() {
+        OkHttpClient.Builder builder = new OkHttpClient.Builder();
+        if (BuildConfig.DEBUG) builder.addNetworkInterceptor(new StethoInterceptor());
         return new Retrofit.Builder()
                 .baseUrl(API_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .client(builder.build())
                 .build()
                 .create(WeatherApi.class);
     }

@@ -25,12 +25,12 @@ import arch.binding.callback.WeatherCallback;
  * Data Binding adapters specific to the app.
  */
 public class StartBindingAdapters {
-    @BindingAdapter(value = {"bind:refreshCallback"})
+    @BindingAdapter(value = {"refreshCallback"})
     public static void bindRefreshCallback(SwipeRefreshLayout layout, final WeatherCallback callback) {
         layout.setOnRefreshListener(callback::onRefresh);
     }
 
-    @BindingAdapter(value = {"bind:refreshing"})
+    @BindingAdapter(value = {"refreshing"})
     public static void bindRefreshCallback(SwipeRefreshLayout layout, final Boolean refreshing) {
         layout.setRefreshing(refreshing);
     }

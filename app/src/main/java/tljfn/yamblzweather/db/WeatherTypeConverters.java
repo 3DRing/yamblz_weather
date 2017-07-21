@@ -25,46 +25,55 @@ import tljfn.yamblzweather.vo.weather.Sys;
 import tljfn.yamblzweather.vo.weather.Weather;
 import tljfn.yamblzweather.vo.weather.Wind;
 
+@SuppressWarnings("WeakerAccess") // for Room
 public class WeatherTypeConverters {
     @TypeConverter
     public static Integer cloudsToInt(Clouds clouds) {
+        if (clouds == null) return null;
         return Integer.parseInt(clouds.all);
     }
 
     @TypeConverter
     public static Clouds intToClouds(Integer integer) {
+        if (integer == null) return null;
         return new Clouds(integer.toString());
     }
 
     @TypeConverter
     public static String coordToString(Coord coord) {
-        return coord.lon.toString() + " " + coord.lat.toString();
+        if (coord == null) return null;
+        return coord.lon + " " + coord.lat;
     }
 
     @TypeConverter
     public static Coord stringToCoord(String s) {
+        if (s == null) return null;
         String[] strings = s.split(" ");
         return new Coord(Float.parseFloat(strings[0]), Float.parseFloat(strings[1]));
     }
 
     @TypeConverter
     public static String windToString(Wind wind) {
-        return wind.speed.toString() + " " + wind.deg.toString();
+        if (wind == null) return null;
+        return wind.speed + " " + wind.deg;
     }
 
     @TypeConverter
     public static Wind stringToWind(String s) {
+        if (s == null) return null;
         String[] strings = s.split(" ");
         return new Wind(Integer.parseInt(strings[0]), Integer.parseInt(strings[1]));
     }
 
     @TypeConverter
     public static String sysToString(Sys sys) {
+        if (sys == null) return null;
         return sys.toString();
     }
 
     @TypeConverter
     public static Sys stringToSys(String s) {
+        if (s == null) return null;
         String[] ss = s.split(" ");
         return new Sys(Long.parseLong(ss[0]), ss[1], ss[2], Integer.parseInt(ss[3]),
                 Integer.parseInt(ss[4]), Integer.parseInt(ss[5]));
@@ -72,6 +81,7 @@ public class WeatherTypeConverters {
 
     @TypeConverter
     public static String weathersToString(Weather[] weathers) {
+        if (weathers == null) return null;
         String answer = "";
         int length = weathers.length;
         for (int i = 0; i < length; i++) {
@@ -82,7 +92,8 @@ public class WeatherTypeConverters {
 
     @TypeConverter
     public static Weather[] stringToWeathers(String s) {
-        String[] weathersS = s.split("|");
+        if (s == null) return null;
+        String[] weathersS = s.split("\\|");
         Weather[] weathers = new Weather[weathersS.length];
         for (int i = 0; i < weathersS.length; i++) {
             String[] ss = weathersS[i].split(" ");
@@ -93,11 +104,13 @@ public class WeatherTypeConverters {
 
     @TypeConverter
     public static String mainToString(Main main) {
+        if (main == null) return null;
         return main.toString();
     }
 
     @TypeConverter
     public static Main stringToMain(String s) {
+        if (s == null) return null;
         String[] ss = s.split(" ");
         return new Main(ss[0], ss[1], ss[2], ss[3], ss[4]);
     }

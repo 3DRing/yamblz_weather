@@ -5,12 +5,12 @@ package tljfn.yamblzweather.vo.weather;
  */
 
 public class Weather {
-    public final Long id;
+    public final long id;
     public final String icon;
     public final String main;
     private final String description;
 
-    public Weather(Long id, String icon, String description, String main) {
+    public Weather(long id, String icon, String description, String main) {
         this.id = id;
         this.icon = icon;
         this.description = description;
@@ -23,6 +23,6 @@ public class Weather {
 
     @Override
     public String toString() {
-        return id.toString() + " " + icon + " " + description + " " + main;
+        return id + " " + icon + " " + description + " " + main;
     }
 }

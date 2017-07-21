@@ -16,15 +16,12 @@ import static android.content.Context.ALARM_SERVICE;
  * and then starts the IntentService {@code SchedulingService} to do some work.
  */
 public class AlarmReceiver extends WakefulBroadcastReceiver {
-    // The app's AlarmManager, which provides access to the system alarm services.
     private AlarmManager alarmManager;
-    // The pending intent that is triggered when the alarm fires.
     private PendingIntent alarmIntent;
 
     @Override
     public void onReceive(Context context, Intent intent) {
         Intent service = new Intent(context, SchedulingService.class);
-
         startWakefulService(context, service);
     }
 

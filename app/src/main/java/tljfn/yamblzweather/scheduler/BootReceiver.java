@@ -17,7 +17,6 @@ import tljfn.yamblzweather.repo.PreferencesRepo;
  * When the user cancels the alarm, the receiver is disabled, so that rebooting the
  * device will not trigger this receiver.
  */
-// BEGIN_INCLUDE(autostart)
 public class BootReceiver extends BroadcastReceiver {
     AlarmReceiver alarm = new AlarmReceiver();
 
@@ -34,4 +33,3 @@ public class BootReceiver extends BroadcastReceiver {
         }
     }
 }
-//END_INCLUDE(autostart)
