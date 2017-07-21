@@ -14,6 +14,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import javax.inject.Inject;
 
@@ -21,6 +22,9 @@ import arch.ui.BaseFragment;
 import arch.ui.NavigationController;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.HasSupportFragmentInjector;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
+import tljfn.yamblzweather.repo.PreferencesRepo;
 import tljfn.yamblzweather.scheduler.AlarmReceiver;
 
 
@@ -33,6 +37,8 @@ public class MainActivity extends AppCompatActivity implements HasSupportFragmen
     DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;
     @Inject
     NavigationController navigationController;
+    @Inject
+    PreferencesRepo preferencesRepo;
     @Inject
     AlarmReceiver alarmReceiver;
     private Toolbar toolbar;
@@ -50,8 +56,8 @@ public class MainActivity extends AppCompatActivity implements HasSupportFragmen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        setScheduler();
 
-        alarmReceiver.setAlarm(this, 60);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -66,6 +72,17 @@ public class MainActivity extends AppCompatActivity implements HasSupportFragmen
         if (savedInstanceState == null) {
             navigationController.navigateToStart();
         }
+    }
+
+    private void setScheduler() {
+        preferencesRepo.getInterval()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSuccess(integer -> {
+                    //just for test
+                    Toast.makeText(this, integer.toString(), Toast.LENGTH_SHORT).show();
+                })
+                .subscribe(interval -> alarmReceiver.setAlarm(this, interval));
     }
 
     @Override

@@ -40,7 +40,7 @@ public class PreferencesRepo {
      * @return value that represents time interval in seconds for updating weather
      */
     public Single<Integer> getInterval() {
-        return Single.fromCallable(() -> preferences.getInt(KEY_INTERVAL, 0));
+        return Single.fromCallable(() -> preferences.getInt(KEY_INTERVAL, 60));
     }
 
     /**

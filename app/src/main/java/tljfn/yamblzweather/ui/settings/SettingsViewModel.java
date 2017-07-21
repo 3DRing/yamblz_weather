@@ -38,6 +38,7 @@ public class SettingsViewModel extends ViewModel {
         preferencesRepo.getInterval()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+//                .doOnSuccess()
                 .subscribe(interval::setValue);
     }
 
