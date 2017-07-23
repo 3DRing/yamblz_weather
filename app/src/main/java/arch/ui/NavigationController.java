@@ -27,6 +27,7 @@ import javax.inject.Inject;
 import tljfn.yamblzweather.MainActivity;
 import tljfn.yamblzweather.R;
 import tljfn.yamblzweather.ui.about.AboutFragment;
+import tljfn.yamblzweather.ui.city_search.ChooseCityFragment;
 import tljfn.yamblzweather.ui.settings.SettingsFragment;
 import tljfn.yamblzweather.ui.start.StartFragment;
 
@@ -61,6 +62,14 @@ public class NavigationController {
 
     public void navigateToStart() {
         StartFragment fragment = new StartFragment();
+        fragmentManager.beginTransaction()
+                .replace(containerId, fragment)
+                .addToBackStack(null)
+                .commitAllowingStateLoss();
+    }
+
+    public void navigateToChooseCity() {
+        ChooseCityFragment fragment = new ChooseCityFragment();
         fragmentManager.beginTransaction()
                 .replace(containerId, fragment)
                 .addToBackStack(null)

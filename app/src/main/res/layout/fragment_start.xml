@@ -16,6 +16,10 @@
         <variable
             name="onRefreshListener"
             type="arch.binding.callback.WeatherCallback" />
+
+        <variable
+            name="onChooseCityCallback"
+            type="arch.binding.callback.ChooseCityCallback" />
     </data>
 
 
@@ -92,6 +96,7 @@
                         android:layout_marginLeft="24dp"
                         android:layout_marginRight="24dp"
                         android:layout_marginTop="32dp"
+                        android:onClick="@{() -> onChooseCityCallback.onCityClick()}"
                         android:text="Москва"
                         android:textSize="36sp"
                         card_view:layout_constraintBottom_toTopOf="@+id/guideline3"

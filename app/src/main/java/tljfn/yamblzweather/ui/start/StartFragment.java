@@ -6,10 +6,12 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.DrawerLayout;
+import android.widget.Toast;
 
 import javax.inject.Inject;
 
 import arch.ui.BaseFragment;
+import arch.ui.NavigationController;
 import arch.util.AutoClearedValue;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
@@ -23,6 +25,10 @@ import tljfn.yamblzweather.databinding.FragmentStartBinding;
 
 public class StartFragment extends BaseFragment {
     private final CompositeDisposable disposable = new CompositeDisposable();
+
+    @Inject
+    NavigationController navigationController;
+
     @Inject
     ViewModelProvider.Factory viewModelFactory;
     private StartViewModel startViewModel;
@@ -73,11 +79,6 @@ public class StartFragment extends BaseFragment {
         });
 
         startBinding.setOnRefreshListener(startViewModel::updateWeather);
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        startViewModel = ViewModelProviders.of(this, viewModelFactory).get(StartViewModel.class);
+        startBinding.setOnChooseCityCallback(navigationController::navigateToChooseCity);
     }
 }

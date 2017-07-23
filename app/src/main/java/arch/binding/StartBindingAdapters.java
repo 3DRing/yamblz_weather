@@ -18,7 +18,9 @@ package arch.binding;
 
 import android.databinding.BindingAdapter;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.view.View;
 
+import arch.binding.callback.ChooseCityCallback;
 import arch.binding.callback.WeatherCallback;
 
 /**
@@ -33,5 +35,10 @@ public class StartBindingAdapters {
     @BindingAdapter(value = {"refreshing"})
     public static void bindRefreshCallback(SwipeRefreshLayout layout, final Boolean refreshing) {
         layout.setRefreshing(refreshing);
+    }
+
+    @BindingAdapter(value = {"cityClickCallback"})
+    public static void bindCityClickCallback(View view, final ChooseCityCallback callback) {
+        view.setOnClickListener(v -> callback.onCityClick());
     }
 }
