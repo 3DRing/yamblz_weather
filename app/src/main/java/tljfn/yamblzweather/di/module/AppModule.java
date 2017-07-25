@@ -33,7 +33,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import tljfn.yamblzweather.BaseFields;
 import tljfn.yamblzweather.BuildConfig;
 import tljfn.yamblzweather.api.ApiInterceptor;
-import tljfn.yamblzweather.api.PlacesApi;
 import tljfn.yamblzweather.api.WeatherApi;
 import tljfn.yamblzweather.db.WeatherDao;
 import tljfn.yamblzweather.db.WeatherDatabase;
@@ -68,21 +67,6 @@ public class AppModule {
 
     @Singleton
     @Provides
-    PlacesApi provideGoogleApi() {
-        OkHttpClient.Builder builder = new OkHttpClient.Builder();
-        builder.addInterceptor(new ApiInterceptor("key", BaseFields.PLACES_API_KEY));
-        if (BuildConfig.DEBUG) builder.addNetworkInterceptor(new StethoInterceptor());
-        return new Retrofit.Builder()
-                .baseUrl(BaseFields.PLACES_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .client(builder.build())
-                .build()
-                .create(PlacesApi.class);
-    }
-
-    @Singleton
-    @Provides
     PreferencesRepo providePreferencesRepo(Application app) {
         return new PreferencesRepo(app.getApplicationContext());
     }
@@ -101,8 +85,8 @@ public class AppModule {
 
     @Singleton
     @Provides
-    RemoteRepo provideRemoteRepo(WeatherApi weatherApi, PlacesApi placesApi) {
-        return new RemoteRepo(weatherApi, placesApi);
+    RemoteRepo provideRemoteRepo(WeatherApi weatherApi) {
+        return new RemoteRepo(weatherApi);
     }
 
     @Singleton

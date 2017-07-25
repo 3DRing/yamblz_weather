@@ -19,20 +19,14 @@ package tljfn.yamblzweather.ui.start;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 
-import java.util.List;
-
 import javax.inject.Inject;
 
 import io.reactivex.Flowable;
-import io.reactivex.Observable;
-import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import tljfn.yamblzweather.repo.DatabaseRepo;
 import tljfn.yamblzweather.repo.PreferencesRepo;
 import tljfn.yamblzweather.repo.RemoteRepo;
-import tljfn.yamblzweather.vo.detailed_place_info.AddressComponent;
-import tljfn.yamblzweather.vo.detailed_place_info.PlaceDetailedInfo;
 import tljfn.yamblzweather.vo.weather.WeatherMap;
 
 @SuppressWarnings("WeakerAccess") //for dagger
@@ -96,29 +90,6 @@ public class StartViewModel extends ViewModel {
 
     public void onError(Throwable throwable) {
         //// FIXME: 7/17/2017 
-        weather.setValue(weather.getValue());
-    }
-
-    public void changeCity(String id) {
-        remoteRepo.getPlaceInfo(id)
-                .flatMap(this::getWeatherFromDetailedPlaceInfo)
-                .map(WeatherMap::updateTime)
-                .map(WeatherMap::setRefreshed)
-                .doOnSuccess(this::updateCurrentCity)
-                .doOnSuccess(this::updateDatabase)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(weather::setValue, this::onError);
-    }
-
-    private Single<WeatherMap> getWeatherFromDetailedPlaceInfo(PlaceDetailedInfo info) {
-        List<AddressComponent> components = info.getResult().getAddressComponents();
-        String zipCode = components.get(components.size() - 1).getLongName();
-        String countryCode = components.get(components.size() - 2).getShortName().toLowerCase();
-        return getWeather(zipCode, countryCode);
-    }
-
-    private Single<WeatherMap> getWeather(String zipCode, String countryCode) {
-        return remoteRepo.getWeather(zipCode, countryCode);
+        throw new RuntimeException(throwable.getLocalizedMessage());
     }
 }

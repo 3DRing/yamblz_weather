@@ -5,10 +5,10 @@ package tljfn.yamblzweather.vo.weather;
  */
 
 public class Wind {
-    public final int speed;
-    public final int deg;
+    public final double speed;
+    public final double deg;
 
-    public Wind(int speed, int deg) {
+    public Wind(double speed, double deg) {
         this.speed = speed;
         this.deg = deg;
     }

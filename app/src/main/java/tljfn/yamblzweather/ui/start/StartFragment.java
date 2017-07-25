@@ -70,7 +70,7 @@ public class StartFragment extends BaseFragment {
     @Override
     public void onViewModelAttach() {
         startViewModel = ViewModelProviders.of(this, viewModelFactory).get(StartViewModel.class);
-        startViewModel.updateWeather();
+        //startViewModel.updateWeather();
     }
 
     @Override
@@ -92,8 +92,8 @@ public class StartFragment extends BaseFragment {
             if (resultCode == Activity.RESULT_OK) {
                 Place place = PlaceAutocomplete.getPlace(getContext(), data);
                 LatLng latLon = place.getLatLng();
-                //startViewModel.changeCity(latLon.latitude, latLon.longitude);
-                startViewModel.changeCity(place.getId());
+                startViewModel.changeCity(latLon.latitude, latLon.longitude);
+                //startViewModel.changeCity(place.getId());
             } else if (resultCode == PlaceAutocomplete.RESULT_ERROR) {
                 Status status = PlaceAutocomplete.getStatus(getContext(), data);
 
