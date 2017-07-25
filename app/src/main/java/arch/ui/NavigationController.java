@@ -17,7 +17,18 @@
 package arch.ui;
 
 import android.app.FragmentTransaction;
+import android.content.Intent;
+import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
+
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.location.places.ui.PlaceAutocomplete;
+import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
+import com.google.android.gms.location.places.ui.SupportPlaceAutocompleteFragment;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -68,12 +79,22 @@ public class NavigationController {
                 .commitAllowingStateLoss();
     }
 
-    public void navigateToChooseCity() {
-        ChooseCityFragment fragment = new ChooseCityFragment();
-        fragmentManager.beginTransaction()
-                .replace(containerId, fragment)
-                .addToBackStack(null)
-                .commitAllowingStateLoss();
+    public void navigateToChooseCity(FragmentActivity activity, @Nullable GooglePlacesExceptionCallback callback) {
+        int PLACE_AUTOCOMPLETE_REQUEST_CODE = 1;
+        try {
+            Intent intent =
+                    new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_OVERLAY)
+                            .build(activity);
+            activity.startActivityForResult(intent, PLACE_AUTOCOMPLETE_REQUEST_CODE);
+        } catch (GooglePlayServicesRepairableException e) {
+            if (callback != null) {
+                callback.onGooglePlacesRepairs(e.getLocalizedMessage());
+            }
+        } catch (GooglePlayServicesNotAvailableException e) {
+            if (callback != null) {
+                callback.onGooglePlacesNotAvailable(e.getLocalizedMessage());
+            }
+        }
     }
 
     /**
@@ -108,5 +129,11 @@ public class NavigationController {
                 | java.lang.InstantiationException e) {
             e.printStackTrace();
         }
+    }
+
+    public interface GooglePlacesExceptionCallback {
+        void onGooglePlacesRepairs(String message);
+
+        void onGooglePlacesNotAvailable(String message);
     }
 }

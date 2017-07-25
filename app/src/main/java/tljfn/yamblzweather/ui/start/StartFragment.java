@@ -76,6 +76,17 @@ public class StartFragment extends BaseFragment {
         });
 
         startBinding.setOnRefreshListener(startViewModel::updateWeather);
-        startBinding.setOnChooseCityCallback(navigationController::navigateToChooseCity);
+        startBinding.setOnChooseCityCallback(() -> navigationController.navigateToChooseCity(getActivity(),
+                new NavigationController.GooglePlacesExceptionCallback() {
+                    @Override
+                    public void onGooglePlacesRepairs(String message) {
+                        // todo handle error
+                    }
+
+                    @Override
+                    public void onGooglePlacesNotAvailable(String message) {
+                        // todo handle error
+                    }
+                }));
     }
 }

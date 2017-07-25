@@ -2,8 +2,15 @@ package tljfn.yamblzweather.ui.city_search;
 
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.widget.DrawerLayout;
+
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.Places;
 
 import javax.inject.Inject;
 
@@ -15,11 +22,23 @@ import tljfn.yamblzweather.R;
  * Created by ringov on 24.07.17.
  */
 
-public class ChooseCityFragment extends BaseFragment {
+public class ChooseCityFragment extends BaseFragment implements GoogleApiClient.OnConnectionFailedListener {
 
     @Inject
     ViewModelProvider.Factory viewModelFactory;
     private ChooseCityViewModel viewModel;
+
+    GoogleApiClient apiClient;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        apiClient = new GoogleApiClient.Builder(getContext())
+                .addApi(Places.GEO_DATA_API)
+                .addApi(Places.PLACE_DETECTION_API)
+                .enableAutoManage(getActivity(), this)
+                .build();
+    }
 
     @NonNull
     @Override
@@ -44,6 +63,11 @@ public class ChooseCityFragment extends BaseFragment {
 
     @Override
     public void onBindingCreated(AutoClearedValue binding) {
+
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
     }
 }
