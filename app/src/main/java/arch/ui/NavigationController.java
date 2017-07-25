@@ -26,6 +26,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.location.places.AutocompleteFilter;
 import com.google.android.gms.location.places.ui.PlaceAutocomplete;
 import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
 import com.google.android.gms.location.places.ui.SupportPlaceAutocompleteFragment;
@@ -48,6 +49,8 @@ import tljfn.yamblzweather.ui.start.StartFragment;
 public class NavigationController {
     private final int containerId;
     private final FragmentManager fragmentManager;
+
+    public static final int PLACE_AUTOCOMPLETE_REQUEST_CODE = 1;
 
     @Inject
     public NavigationController(MainActivity mainActivity) {
@@ -80,10 +83,13 @@ public class NavigationController {
     }
 
     public void navigateToChooseCity(MainActivity activity) {
-        int PLACE_AUTOCOMPLETE_REQUEST_CODE = 1;
         try {
             Intent intent =
                     new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_OVERLAY)
+                            .setFilter(new AutocompleteFilter.Builder()
+                                    .setTypeFilter(AutocompleteFilter.TYPE_FILTER_CITIES)
+                                    //.setCountry("ru")
+                                    .build())
                             .build(activity);
             activity.startActivityForResult(intent, PLACE_AUTOCOMPLETE_REQUEST_CODE);
         } catch (GooglePlayServicesRepairableException e) {

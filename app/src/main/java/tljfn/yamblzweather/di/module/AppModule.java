@@ -24,7 +24,6 @@ import com.facebook.stetho.okhttp3.StethoInterceptor;
 
 import javax.inject.Singleton;
 
-import arch.ui.NavigationController;
 import dagger.Module;
 import dagger.Provides;
 import okhttp3.OkHttpClient;
@@ -32,6 +31,7 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import tljfn.yamblzweather.BuildConfig;
+import tljfn.yamblzweather.api.APIInterceptor;
 import tljfn.yamblzweather.api.WeatherApi;
 import tljfn.yamblzweather.db.WeatherDao;
 import tljfn.yamblzweather.db.WeatherDatabase;
@@ -56,6 +56,7 @@ public class AppModule {
     @Provides
     WeatherApi provideWeatherApi() {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
+        builder.addInterceptor(new APIInterceptor());
         if (BuildConfig.DEBUG) builder.addNetworkInterceptor(new StethoInterceptor());
         return new Retrofit.Builder()
                 .baseUrl(API_URL)

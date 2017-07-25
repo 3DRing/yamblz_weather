@@ -18,6 +18,6 @@ public class RemoteRepo {
      * @return the weather from the remote data source.
      */
     public Single<WeatherMap> getWeather(String city) {
-        return weatherApi.getWeather(city, "f66b70ebb071127760c387562b9308c8", "ru");
+        return weatherApi.getWeather(city, "ru");
     }
 }
