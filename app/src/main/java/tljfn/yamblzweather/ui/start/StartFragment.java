@@ -2,11 +2,8 @@ package tljfn.yamblzweather.ui.start;
 
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.widget.DrawerLayout;
-import android.widget.Toast;
 
 import javax.inject.Inject;
 
@@ -27,11 +24,11 @@ public class StartFragment extends BaseFragment {
     private final CompositeDisposable disposable = new CompositeDisposable();
 
     @Inject
-    NavigationController navigationController;
-
-    @Inject
     ViewModelProvider.Factory viewModelFactory;
     private StartViewModel startViewModel;
+
+    @Inject
+    NavigationController navigationController;
 
     @Override
     public void onPause() {

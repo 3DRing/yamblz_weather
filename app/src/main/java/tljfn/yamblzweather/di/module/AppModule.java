@@ -24,6 +24,7 @@ import com.facebook.stetho.okhttp3.StethoInterceptor;
 
 import javax.inject.Singleton;
 
+import arch.ui.NavigationController;
 import dagger.Module;
 import dagger.Provides;
 import okhttp3.OkHttpClient;
@@ -101,3 +102,4 @@ public class AppModule {
         return database.weatherDao();
     }
 }
+
