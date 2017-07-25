@@ -13,6 +13,7 @@ import arch.util.AutoClearedValue;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
+import tljfn.yamblzweather.MainActivity;
 import tljfn.yamblzweather.R;
 import tljfn.yamblzweather.databinding.FragmentStartBinding;
 
@@ -76,17 +77,6 @@ public class StartFragment extends BaseFragment {
         });
 
         startBinding.setOnRefreshListener(startViewModel::updateWeather);
-        startBinding.setOnChooseCityCallback(() -> navigationController.navigateToChooseCity(getActivity(),
-                new NavigationController.GooglePlacesExceptionCallback() {
-                    @Override
-                    public void onGooglePlacesRepairs(String message) {
-                        // todo handle error
-                    }
-
-                    @Override
-                    public void onGooglePlacesNotAvailable(String message) {
-                        // todo handle error
-                    }
-                }));
+        startBinding.setOnChooseCityCallback(() -> navigationController.navigateToChooseCity((MainActivity) getActivity()));
     }
 }

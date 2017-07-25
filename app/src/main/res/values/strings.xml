@@ -10,6 +10,8 @@
     <string name="search_hint">London</string>
     <string name="choose_city">Choose city</string>
 
+    <string name="search">Search</string>
+
     <string-array name="intervals">
         <item>15 seconds</item>
         <item>30 seconds</item>

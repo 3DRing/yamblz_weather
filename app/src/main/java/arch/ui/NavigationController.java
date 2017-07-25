@@ -79,7 +79,7 @@ public class NavigationController {
                 .commitAllowingStateLoss();
     }
 
-    public void navigateToChooseCity(FragmentActivity activity, @Nullable GooglePlacesExceptionCallback callback) {
+    public void navigateToChooseCity(MainActivity activity) {
         int PLACE_AUTOCOMPLETE_REQUEST_CODE = 1;
         try {
             Intent intent =
@@ -87,13 +87,9 @@ public class NavigationController {
                             .build(activity);
             activity.startActivityForResult(intent, PLACE_AUTOCOMPLETE_REQUEST_CODE);
         } catch (GooglePlayServicesRepairableException e) {
-            if (callback != null) {
-                callback.onGooglePlacesRepairs(e.getLocalizedMessage());
-            }
+            activity.onGooglePlacesRepairs(e.getLocalizedMessage());
         } catch (GooglePlayServicesNotAvailableException e) {
-            if (callback != null) {
-                callback.onGooglePlacesNotAvailable(e.getLocalizedMessage());
-            }
+            activity.onGooglePlacesNotAvailable(e.getLocalizedMessage());
         }
     }
 
