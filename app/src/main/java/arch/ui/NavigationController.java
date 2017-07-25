@@ -20,6 +20,7 @@ import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
@@ -77,12 +78,13 @@ public class NavigationController {
     public void navigateToStart() {
         StartFragment fragment = new StartFragment();
         fragmentManager.beginTransaction()
-                .replace(containerId, fragment)
+                .replace(containerId, fragment, StartFragment.TAG)
                 .addToBackStack(null)
                 .commitAllowingStateLoss();
     }
 
-    public void navigateToChooseCity(MainActivity activity) {
+    public void navigateToChooseCity() {
+        Fragment fragment = fragmentManager.findFragmentByTag(StartFragment.TAG);
         try {
             Intent intent =
                     new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_OVERLAY)
@@ -90,12 +92,12 @@ public class NavigationController {
                                     .setTypeFilter(AutocompleteFilter.TYPE_FILTER_CITIES)
                                     //.setCountry("ru")
                                     .build())
-                            .build(activity);
-            activity.startActivityForResult(intent, PLACE_AUTOCOMPLETE_REQUEST_CODE);
+                            .build(fragment.getActivity());
+            fragment.startActivityForResult(intent, PLACE_AUTOCOMPLETE_REQUEST_CODE);
         } catch (GooglePlayServicesRepairableException e) {
-            activity.onGooglePlacesRepairs(e.getLocalizedMessage());
+            //fragment.onGooglePlacesRepairs(e.getLocalizedMessage());
         } catch (GooglePlayServicesNotAvailableException e) {
-            activity.onGooglePlacesNotAvailable(e.getLocalizedMessage());
+            //fragment.onGooglePlacesNotAvailable(e.getLocalizedMessage());
         }
     }
 

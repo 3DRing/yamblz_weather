@@ -97,7 +97,7 @@
                         android:layout_marginRight="24dp"
                         android:layout_marginTop="32dp"
                         android:onClick="@{() -> onChooseCityCallback.onCityClick()}"
-                        android:text="Москва"
+                        android:text="@{weather.name}"
                         android:textSize="36sp"
                         card_view:layout_constraintBottom_toTopOf="@+id/guideline3"
                         card_view:layout_constraintHorizontal_bias="0.503"

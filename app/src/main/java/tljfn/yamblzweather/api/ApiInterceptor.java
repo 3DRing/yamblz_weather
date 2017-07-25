@@ -12,15 +12,21 @@ import tljfn.yamblzweather.BaseFields;
  * Created by ringov on 25.07.17.
  */
 
-public class APIInterceptor implements Interceptor {
+public class ApiInterceptor implements Interceptor {
 
-    private static final String APPID_KEY = "appid";
+    private String keyName;
+    private String keyValue;
+
+    public ApiInterceptor(String keyName, String keyValue) {
+        this.keyName = keyName;
+        this.keyValue = keyValue;
+    }
 
     @Override
     public Response intercept(Chain chain) throws IOException {
         Request request = chain.request();
         HttpUrl url = request.url().newBuilder()
-                .addQueryParameter(APPID_KEY, BaseFields.API_KEY)
+                .addQueryParameter(keyName, keyValue)
                 .build();
 
         Request newRequest = request.newBuilder()

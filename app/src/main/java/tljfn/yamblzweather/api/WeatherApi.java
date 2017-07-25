@@ -13,7 +13,13 @@ public interface WeatherApi {
     Single<WeatherMap> getWeather(@Query("q") String city,
                                   @Query("lang") String lang);
 
+    Single<WeatherMap> getWeather(@Query("zip") String zipCode);
+
     @GET("weather")
     Single<WeatherMap> getWeather(@Query("lat") long lat,
                                   @Query("lon") long lon);
+
+    @GET("weather")
+    Single<WeatherMap> getWeather(@Query("id") long id,
+                                  @Query("lang") String lang);
 }
