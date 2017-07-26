@@ -61,6 +61,7 @@ public class WeatherMap {
 
     public String getUpdateTime() {
         SimpleDateFormat localDateFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
-        return localDateFormat.format(new Date(time));
+        String str = localDateFormat.format(new Date(time));
+        return str;
     }
 }
