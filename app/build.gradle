@@ -109,4 +109,5 @@ dependencies {
 
     // tests: mockito
     testCompile "org.mockito:mockito-core:$mockito_version"
+    testCompile 'junit:junit:4.12'
 }
