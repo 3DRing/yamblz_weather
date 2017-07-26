@@ -36,4 +36,5 @@ ext {
     stetho_noop_version = "1.1"
     leakcanary_version = "1.5"
     google_places_version = "11.0.2"
+    mockito_version = "2.1.0"
 }
