@@ -12,6 +12,7 @@
     <string name="choose_city">Выберите город</string>
 
     <string name="search">Поиск</string>
+    <string name="no_internet_connection">Нет соединения с интернетом</string>
 
     <string-array name="intervals">
         <item>15 секунд</item>

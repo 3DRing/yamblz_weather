@@ -23,7 +23,9 @@ import javax.inject.Inject;
 
 import io.reactivex.Flowable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
+import tljfn.yamblzweather.api.NoInternetConnectionException;
 import tljfn.yamblzweather.repo.DatabaseRepo;
 import tljfn.yamblzweather.repo.PreferencesRepo;
 import tljfn.yamblzweather.repo.RemoteRepo;
@@ -37,12 +39,18 @@ public class StartViewModel extends ViewModel {
     private final PreferencesRepo preferencesRepo;
     public MutableLiveData<WeatherMap> weather = new MutableLiveData<>();
 
+    private final CompositeDisposable disposable = new CompositeDisposable();
+
     @Inject
     public StartViewModel(RemoteRepo remoteRepo, DatabaseRepo databaseRepo, PreferencesRepo preferencesRepo) {
         this.databaseRepo = databaseRepo;
         this.remoteRepo = remoteRepo;
         this.preferencesRepo = preferencesRepo;
-//        getWeather();
+
+        disposable.add(getWeather()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(weather::setValue));
     }
 
     /**
@@ -89,7 +97,13 @@ public class StartViewModel extends ViewModel {
     }
 
     public void onError(Throwable throwable) {
-        //// FIXME: 7/17/2017 
-        throw new RuntimeException(throwable.getLocalizedMessage());
+        if (throwable instanceof NoInternetConnectionException) {
+            WeatherMap wm = weather.getValue();
+            if (wm != null) wm.setRefreshed();
+            weather.setValue(wm);
+        } else {
+            //todo handle other exceptions
+            throw new RuntimeException(throwable.getLocalizedMessage());
+        }
     }
 }

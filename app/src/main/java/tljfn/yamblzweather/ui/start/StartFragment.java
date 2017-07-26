@@ -27,7 +27,7 @@ import tljfn.yamblzweather.databinding.FragmentStartBinding;
 
 public class StartFragment extends BaseFragment {
     public static final String TAG = StartFragment.class.getName();
-    private final CompositeDisposable disposable = new CompositeDisposable();
+
 
     @Inject
     ViewModelProvider.Factory viewModelFactory;
@@ -35,21 +35,6 @@ public class StartFragment extends BaseFragment {
 
     @Inject
     NavigationController navigationController;
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        disposable.clear();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        /*disposable.add(startViewModel.getWeather()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(startViewModel.weather::setValue, startViewModel::onError));*/
-    }
 
     @NonNull
     @Override
@@ -70,7 +55,6 @@ public class StartFragment extends BaseFragment {
     @Override
     public void onViewModelAttach() {
         startViewModel = ViewModelProviders.of(this, viewModelFactory).get(StartViewModel.class);
-        //startViewModel.updateWeather();
     }
 
     @Override

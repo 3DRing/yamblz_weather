@@ -33,6 +33,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import tljfn.yamblzweather.BaseFields;
 import tljfn.yamblzweather.BuildConfig;
 import tljfn.yamblzweather.api.ApiInterceptor;
+import tljfn.yamblzweather.api.ConnectivityInterceptor;
 import tljfn.yamblzweather.api.WeatherApi;
 import tljfn.yamblzweather.db.WeatherDao;
 import tljfn.yamblzweather.db.WeatherDatabase;
@@ -52,9 +53,11 @@ public class AppModule {
 
     @Singleton
     @Provides
-    WeatherApi provideWeatherApi() {
+    WeatherApi provideWeatherApi(Application application) {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         builder.addInterceptor(new ApiInterceptor("appid", BaseFields.WEATHER_API_KEY));
+        builder.addInterceptor(new ConnectivityInterceptor(application.getApplicationContext()));
+
         if (BuildConfig.DEBUG) builder.addNetworkInterceptor(new StethoInterceptor());
         return new Retrofit.Builder()
                 .baseUrl(BaseFields.WEATHER_API_URL)
