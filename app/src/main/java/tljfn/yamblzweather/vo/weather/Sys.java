@@ -25,4 +25,31 @@ public class Sys {
     public String toString() {
         return id + " " + message + " " + country + " " + type + " " + sunset + " " + sunrise;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Sys sys = (Sys) o;
+
+        if (id != sys.id) return false;
+        if (type != sys.type) return false;
+        if (sunset != sys.sunset) return false;
+        if (sunrise != sys.sunrise) return false;
+        if (!message.equals(sys.message)) return false;
+        return country.equals(sys.country);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = (int) (id ^ (id >>> 32));
+        result = 31 * result + message.hashCode();
+        result = 31 * result + country.hashCode();
+        result = 31 * result + type;
+        result = 31 * result + sunset;
+        result = 31 * result + sunrise;
+        return result;
+    }
 }

@@ -25,4 +25,27 @@ public class Weather {
     public String toString() {
         return id + " " + icon + " " + description + " " + main;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Weather weather = (Weather) o;
+
+        if (id != weather.id) return false;
+        if (!icon.equals(weather.icon)) return false;
+        if (!main.equals(weather.main)) return false;
+        return getDescription().equals(weather.getDescription());
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = (int) (id ^ (id >>> 32));
+        result = 31 * result + icon.hashCode();
+        result = 31 * result + main.hashCode();
+        result = 31 * result + getDescription().hashCode();
+        return result;
+    }
 }
