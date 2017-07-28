@@ -1,5 +1,8 @@
 package tljfn.yamblzweather;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import tljfn.yamblzweather.vo.weather.Clouds;
 import tljfn.yamblzweather.vo.weather.Coord;
 import tljfn.yamblzweather.vo.weather.Main;
@@ -31,14 +34,37 @@ public class Data {
     public String name = "test name";
     public String base = "test base";
 
+    public String humidity;
+    public String pressure;
+    public String temp_max;
+    public String temp_min;
+    public String temp;
+
+    public Weather[] weathers;
+
+    public Data() {
+        Weather weather1 = new Weather(0, "icon1", "description1", "main1");
+        Weather weather2 = new Weather(1, "icon2", "description2", "main2");
+        weathers = new Weather[2];
+        weathers[0] = weather1;
+        weathers[1] = weather2;
+        humidity = "300";
+        pressure = "200";
+        temp_max = "400";
+        temp_min = "0";
+        temp = "200";
+    }
+
     public WeatherMap wm;
 
     public static class Builder {
 
         Data data;
+        public List<Weather> weathers;
 
         public Builder() {
             data = new Data();
+            weathers = new ArrayList<>();
         }
 
         public Builder setWeathermapId(long weathermapId) {
@@ -126,6 +152,37 @@ public class Data {
             return this;
         }
 
+        public Builder addWeather(Weather weather) {
+            weathers.add(weather);
+            return this;
+        }
+
+        public Builder setHumidity(String humidity) {
+            data.humidity = humidity;
+            return this;
+        }
+
+        public Builder setPressure(String pressure) {
+            data.pressure = pressure;
+            return this;
+        }
+
+        public Builder setTemp_max(String temp_max) {
+            data.temp_max = temp_max;
+            return this;
+        }
+
+        public Builder setTemp_min(String temp_min) {
+            data.temp_min = temp_min;
+            return this;
+        }
+
+        public Builder setTemp(String temp) {
+            data.temp = temp;
+            return this;
+        }
+
+
         public Data build() {
             Clouds clouds = new Clouds(data.clouds_all);
             Coord coord = new Coord(data.lon, data.lat);
@@ -133,18 +190,42 @@ public class Data {
             Sys sys = new Sys(data.sysId, data.sysMessage, data.sysCountry,
                     data.sysType, data.sysSunset, data.sysSunrise);
 
-            Weather weather1 = new Weather(0, "icon1", "description1", "main1");
-            Weather weather2 = new Weather(1, "icon2", "description2", "main2");
-            Weather[] weathers = new Weather[2];
-            weathers[0] = weather1;
-            weathers[1] = weather2;
-
-            Main main = new Main("300", "200", "400", "0", "200");
+            Main main = new Main(data.humidity, data.pressure, data.temp_max, data.temp_min, data.temp);
 
             data.wm = new WeatherMap(data.weathermapId, data.dt, clouds,
                     coord, wind, data.cod, data.visibility,
-                    sys, data.name, data.base, weathers, main);
+                    sys, data.name, data.base, weathers.toArray(new Weather[weathers.size()]), main);
             return data;
         }
+    }
+
+    public WeatherMap getNewYorkWeatherMap() {
+        return new Builder()
+                .setLon(-74.01f)
+                .setLat(40.71f)
+                .addWeather(new Weather(721, "Haze", "haze", "50d"))
+                .addWeather(new Weather(701, "Mist", "mist", "50d"))
+                .addWeather(new Weather(741, "Fog", "fog", "50d"))
+                .setBase("stations")
+                .setTemp("295.37")
+                .setPressure("1012")
+                .setHumidity("83")
+                .setTemp_min("292.15")
+                .setTemp_max("298.15")
+                .setVisibility(12874)
+                .setWindSpeed(4.1)
+                .setWindDeg(30)
+                .setClouds_all("75")
+                .setDt(1501244760)
+                .setSysType(1)
+                .setSysId(2119)
+                .setSysMessage("0.0028")
+                .setSysCountry("US")
+                .setSysSunrise(1501235381)
+                .setSysSunset(1501287287)
+                .setWeathermapId(5128581)
+                .setName("New York")
+                .setCod(200)
+                .build().wm;
     }
 }

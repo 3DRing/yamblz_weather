@@ -85,6 +85,9 @@ dependencies {
     annotationProcessor "android.arch.lifecycle:compiler:$arch_version"
     annotationProcessor "android.arch.persistence.room:compiler:$arch_version"
 
+    //network
+    compile "com.squareup.okhttp3:okhttp:$okhttp_version"
+
     // Retrofit
     compile "com.squareup.retrofit2:retrofit:$retrofit_version"
     compile "com.squareup.retrofit2:converter-gson:$retrofit_version"
@@ -110,9 +113,9 @@ dependencies {
     // google places
     compile "com.google.android.gms:play-services-places:$google_places_version"
 
-    // tests: mockito
+    // tests
     testCompile "org.mockito:mockito-core:$mockito_version"
-    testCompile 'junit:junit:4.12'
-    // tests: assertJ
-    testCompile 'org.assertj:assertj-core:3.8.0'
+    testCompile "junit:junit:$junit_version"
+    testCompile "org.assertj:assertj-core:$assertj_version"
+    testCompile "com.squareup.okhttp3:mockwebserver:$okhttp_version"
 }
