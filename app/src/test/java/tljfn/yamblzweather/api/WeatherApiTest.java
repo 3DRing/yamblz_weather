@@ -48,12 +48,55 @@ public class WeatherApiTest {
     }
 
     @Test
-    public void getWeather() throws IOException {
+    public void getWeatherById() throws IOException {
         enqueueResponse("weather.json");
 
         api.getWeather(0, "ru").test()
                 .assertNoErrors()
                 .assertValue(weather);
+    }
+
+    @Test
+    public void getWeatherByIdBadResponse() throws IOException {
+        enqueueResponse("weather_bad.json");
+
+        // todo specify this error in the actual code
+        api.getWeather(0, "ru").test()
+                .assertError(Throwable.class);
+    }
+
+    @Test
+    public void getWeatherByCoords() throws IOException {
+        enqueueResponse("weather.json");
+
+        api.getWeather(-74.01f, 40.71f).test()
+                .assertNoErrors()
+                .assertValue(weather);
+    }
+
+    @Test
+    public void getWeatherByCoordsBadResponse() throws IOException {
+        enqueueResponse("weather_bad.json");
+
+        api.getWeather(-74.01f, 40.71f).test()
+                .assertError(Throwable.class);
+    }
+
+    @Test
+    public void getWeatherByCityName() throws IOException {
+        enqueueResponse("weather.json");
+
+        api.getWeather("New York", "ru").test()
+                .assertNoErrors()
+                .assertValue(weather);
+    }
+
+    @Test
+    public void getWeatherByCityNameBadResponse() throws IOException {
+        enqueueResponse("weather_bad.json");
+
+        api.getWeather("New York", "ru").test()
+                .assertError(Throwable.class);
     }
 
     @After
