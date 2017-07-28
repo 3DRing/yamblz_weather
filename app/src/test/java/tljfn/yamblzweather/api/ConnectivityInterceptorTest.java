@@ -48,7 +48,12 @@ public class ConnectivityInterceptorTest {
     public void setup() {
         interceptor = new ConnectivityInterceptor(context);
         request = new Request.Builder().url("http://test.com").build();
-        response = new Response.Builder().request(request).protocol(Protocol.HTTP_1_0).code(200).build();
+        response = new Response.Builder()
+                .request(request)
+                .protocol(Protocol.HTTP_1_0)
+                .message("")
+                .code(200)
+                .build();
     }
 
     @Test

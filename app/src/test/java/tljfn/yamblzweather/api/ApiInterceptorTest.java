@@ -38,13 +38,22 @@ public class ApiInterceptorTest {
     public void setup() {
         request = new Request.Builder().url("http://test.com/weather").build();
         newRequest = new Request.Builder().url("http://test.com/weather?appid=1234").build();
-        response = new Response.Builder().request(newRequest).protocol(Protocol.HTTP_1_0).code(200).build();
+        response = new Response.Builder().request(newRequest)
+                .protocol(Protocol.HTTP_1_0)
+                .message("")
+                .code(200)
+                .build();
     }
 
     @Test
     public void addingAppId() throws IOException {
         when(chain.request()).thenReturn(request);
-        when(chain.proceed(any())).thenReturn(new Response.Builder().request(newRequest).protocol(Protocol.HTTP_1_0).code(200).build());
+        when(chain.proceed(any())).thenReturn(new Response.Builder()
+                .request(newRequest)
+                .protocol(Protocol.HTTP_1_0)
+                .message("")
+                .code(200)
+                .build());
 
         ApiInterceptor interceptor = new ApiInterceptor("appid", "1234");
         Response localResponse = interceptor.intercept(chain);
