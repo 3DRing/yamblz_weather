@@ -64,6 +64,9 @@ android {
                     "\"" + (new JsonSlurper().parseText(file('app-credentials.json').text)).apiKey + "\"")
         }
     }
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
 }
 
 dependencies {
