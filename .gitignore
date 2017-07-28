@@ -8,5 +8,3 @@
 /app/build/
 .idea/
 android/
-app/src/androidTest/
-app/src/test/
