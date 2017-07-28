@@ -5,8 +5,12 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
+import org.mockito.junit.MockitoJUnit;
+import org.mockito.junit.MockitoRule;
 import org.mockito.stubbing.Answer;
 
 import tljfn.yamblzweather.BaseFields;
@@ -20,16 +24,20 @@ import static org.mockito.Mockito.when;
  */
 public class PreferencesRepoTest {
 
+    @Rule
+    public MockitoRule rule = MockitoJUnit.rule();
+
+    @Mock
     SharedPreferences sp;
-    Context context;
-    PreferencesRepo repo;
+    @Mock
     SharedPreferences.Editor editor;
+    @Mock
+    Context context;
+
+    PreferencesRepo repo;
 
     @Before
     public void setup() {
-        sp = mock(SharedPreferences.class);
-        context = mock(Context.class);
-        editor = mock(SharedPreferences.Editor.class);
         when(context.getSharedPreferences(BaseFields.PREFERENCES_NAME, 0)).thenReturn(sp);
         when(sp.edit()).thenReturn(editor);
 

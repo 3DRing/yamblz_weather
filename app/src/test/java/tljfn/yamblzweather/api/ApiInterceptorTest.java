@@ -1,7 +1,11 @@
 package tljfn.yamblzweather.api;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnit;
+import org.mockito.junit.MockitoRule;
 
 import java.io.IOException;
 
@@ -21,6 +25,10 @@ import static org.mockito.Mockito.when;
  */
 public class ApiInterceptorTest {
 
+    @Rule
+    public MockitoRule rule = MockitoJUnit.rule();
+
+    @Mock
     Interceptor.Chain chain;
     Request request;
     Request newRequest;
@@ -28,7 +36,6 @@ public class ApiInterceptorTest {
 
     @Before
     public void setup() {
-        chain = mock(Interceptor.Chain.class);
         request = new Request.Builder().url("http://test.com/weather").build();
         newRequest = new Request.Builder().url("http://test.com/weather?appid=1234").build();
         response = new Response.Builder().request(newRequest).protocol(Protocol.HTTP_1_0).code(200).build();

@@ -1,7 +1,11 @@
 package tljfn.yamblzweather.repo;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnit;
+import org.mockito.junit.MockitoRule;
 
 import io.reactivex.Flowable;
 import tljfn.yamblzweather.Data;
@@ -23,16 +27,19 @@ import static org.mockito.Mockito.when;
  */
 public class DatabaseRepoTest {
 
+    @Rule
+    public MockitoRule rule = MockitoJUnit.rule();
+
     Data data;
+    @Mock
     WeatherDao dao;
+
     DatabaseRepo repo;
 
     @Before
     public void setup() {
         data = new Data.Builder()
                 .build();
-
-        dao = mock(WeatherDao.class);
         repo = new DatabaseRepo(dao);
     }
 

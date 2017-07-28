@@ -1,7 +1,11 @@
 package tljfn.yamblzweather.repo;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnit;
+import org.mockito.junit.MockitoRule;
 
 import io.reactivex.Single;
 import tljfn.yamblzweather.Data;
@@ -18,8 +22,13 @@ import static org.mockito.Mockito.when;
  */
 public class RemoteRepoTest {
 
+    @Rule
+    public MockitoRule rule = MockitoJUnit.rule();
+
     Data data;
+    @Mock
     WeatherApi api;
+
     RemoteRepo repo;
 
     @Before
@@ -27,7 +36,6 @@ public class RemoteRepoTest {
         data = new Data.Builder()
                 .setName("Moscow")
                 .build();
-        api = mock(WeatherApi.class);
         repo = new RemoteRepo(api);
     }
 

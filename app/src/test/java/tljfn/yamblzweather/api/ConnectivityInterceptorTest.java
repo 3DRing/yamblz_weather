@@ -5,7 +5,11 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnit;
+import org.mockito.junit.MockitoRule;
 
 import java.io.IOException;
 
@@ -24,21 +28,25 @@ import static org.mockito.Mockito.when;
  */
 public class ConnectivityInterceptorTest {
 
+    @Rule
+    public MockitoRule rule = MockitoJUnit.rule();
+
+    @Mock
     Context context;
+    @Mock
     ConnectivityManager manager;
+    @Mock
     NetworkInfo networkInfo;
+    @Mock
     ConnectivityInterceptor interceptor;
+    @Mock
     Interceptor.Chain chain;
     Request request;
     Response response;
 
     @Before
     public void setup() {
-        context = mock(Context.class);
-        manager = mock(ConnectivityManager.class);
-        networkInfo = mock(NetworkInfo.class);
         interceptor = new ConnectivityInterceptor(context);
-        chain = mock(Interceptor.Chain.class);
         request = new Request.Builder().url("http://test.com").build();
         response = new Response.Builder().request(request).protocol(Protocol.HTTP_1_0).code(200).build();
     }

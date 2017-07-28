@@ -1,34 +1,23 @@
 package arch.ui;
 
-import android.content.Context;
-import android.content.Intent;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
-import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
-import com.google.android.gms.common.GooglePlayServicesRepairableException;
-import com.google.android.gms.location.places.ui.PlaceAutocomplete;
-
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.Mock;
-import org.mockito.verification.VerificationMode;
+import org.mockito.junit.MockitoJUnit;
+import org.mockito.junit.MockitoRule;
 
 import tljfn.yamblzweather.MainActivity;
 import tljfn.yamblzweather.R;
 import tljfn.yamblzweather.ui.about.AboutFragment;
-import tljfn.yamblzweather.ui.city_search.ChooseCityFragment;
 import tljfn.yamblzweather.ui.settings.SettingsFragment;
 import tljfn.yamblzweather.ui.start.StartFragment;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.Assert.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -37,19 +26,22 @@ import static org.mockito.Mockito.when;
  */
 public class NavigationControllerTest {
 
+    @Rule
+    public MockitoRule rule = MockitoJUnit.rule();
+
+    @Mock
     MainActivity activity;
+    @Mock
     FragmentManager manager;
+    @Mock
     FragmentTransaction transaction;
+    @Mock
     StartFragment fragment;
 
     NavigationController controller;
 
     @Before
     public void setup() {
-        activity = mock(MainActivity.class);
-        manager = mock(FragmentManager.class);
-        transaction = mock(FragmentTransaction.class);
-
         when(activity.getSupportFragmentManager()).thenReturn(manager);
         when(manager.beginTransaction()).thenReturn(transaction);
 
