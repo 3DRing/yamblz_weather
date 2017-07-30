@@ -33,6 +33,7 @@ public class WeatherMap {
     public final Main main;
     public long time;
     public boolean isRefreshing;
+    public String message = "";
 
     public WeatherMap(long id, int dt, Clouds clouds, Coord coord, Wind wind, int cod,
                       int visibility, Sys sys, String name, String base, Weather[] weather, Main main) {
@@ -108,5 +109,17 @@ public class WeatherMap {
         result = 31 * result + (int) (time ^ (time >>> 32));
         result = 31 * result + (isRefreshing ? 1 : 0);
         return result;
+    }
+
+    public void setError(String message) {
+        this.message = message;
+    }
+
+    public String getError() {
+        return message;
+    }
+
+    public boolean hasError() {
+        return message != null && !message.isEmpty();
     }
 }
