@@ -67,6 +67,10 @@ android {
     testOptions {
         unitTests.returnDefaultValues = true
     }
+    configurations.all {
+        // for using espresso library
+        resolutionStrategy.force "com.google.code.findbugs:jsr305:$findbugs_version"
+    }
 }
 
 dependencies {
@@ -122,5 +126,8 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-compat'
         exclude group: 'com.android.support', module: 'support-annotations'
         exclude group: 'com.android.support', module: 'support-core-utils'
+    })
+    androidTestCompile("com.android.support.test.espresso:espresso-core:$espresso_version", {
+        exclude group: 'com.android.support', module: 'support-annotations'
     })
 }

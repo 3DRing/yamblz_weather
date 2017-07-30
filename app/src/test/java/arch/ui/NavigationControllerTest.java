@@ -85,42 +85,5 @@ public class NavigationControllerTest {
         verify(transaction).addToBackStack(null);
         verify(transaction).commitAllowingStateLoss();
     }
-/*
-    @Test
-    public void navigateToChooseCity() throws GooglePlayServicesNotAvailableException, GooglePlayServicesRepairableException {
-        fragment = mock(StartFragment.class);
-        Context context = mock(Context.class);
-        when(fragment.getContext()).thenReturn(context);
-        Intent intent = mock(Intent.class);
-        when(intent.getPackage()).thenReturn("com.test.yamblzweather");
-        when(manager.findFragmentByTag(StartFragment.TAG)).thenReturn(fragment);
-        when(transaction.replace(R.id.fragment_container, fragment, StartFragment.TAG))
-                .thenReturn(transaction);
-        when(fragment.getActivity()).thenReturn(activity);
-        //doReturn(activity).when(fragment).getActivity();
-        PlaceAutocomplete.IntentBuilder ib = mock(PlaceAutocomplete.IntentBuilder.class);
-        when(ib.build(activity)).thenReturn(intent);
-        //doReturn(intent).when(ib).build(activity);
-        //when(ib.build(activity)).thenReturn(intent);
-
-        controller.navigateToChooseCity();
-
-        verify(fragment).startActivityForResult(any(Intent.class), NavigationController.PLACE_AUTOCOMPLETE_REQUEST_CODE);
-    }
-
-    @Test
-    public void navigateToChooseCityException() throws GooglePlayServicesNotAvailableException, GooglePlayServicesRepairableException {
-        fragment = mock(StartFragment.class);
-        when(manager.findFragmentByTag(StartFragment.TAG)).thenReturn(fragment);
-        when(transaction.replace(eq(R.id.fragment_container), any(StartFragment.class), eq(StartFragment.TAG)))
-                .thenReturn(transaction);
-        when(fragment.getActivity()).thenReturn(activity);
-        PlaceAutocomplete.IntentBuilder ib = mock(PlaceAutocomplete.IntentBuilder.class);
-        when(ib.build(activity)).thenThrow(new GooglePlayServicesNotAvailableException(0));
-
-        controller.navigateToChooseCity();
-
-        verify(fragment, never()).startActivityForResult(any(Intent.class), NavigationController.PLACE_AUTOCOMPLETE_REQUEST_CODE);
-    }*/
 
 }
