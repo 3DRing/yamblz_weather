@@ -66,8 +66,7 @@ public class MainActivity extends AppCompatActivity implements HasSupportFragmen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        // todo enable scheduler back
-        //setScheduler();
+        setScheduler();
 
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);

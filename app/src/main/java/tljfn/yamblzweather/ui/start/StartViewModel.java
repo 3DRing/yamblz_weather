@@ -47,10 +47,14 @@ public class StartViewModel extends ViewModel {
         this.remoteRepo = remoteRepo;
         this.preferencesRepo = preferencesRepo;
 
-        disposable.add(getWeather()
+        updateWeather();
+
+        // caching is disabled because of some bug that was not caught so far
+        // and caused bad ux experience
+/*        disposable.add(getWeather()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(weather::setValue, this::onError));
+                .subscribe(weather::setValue, this::onError));*/
     }
 
     /**
@@ -90,10 +94,12 @@ public class StartViewModel extends ViewModel {
     }
 
     void updateDatabase(WeatherMap weatherMap) {
-        databaseRepo.insertOrUpdateWeather(weatherMap)
+        // caching is disabled because of some bug that was not caught so far
+        // and caused bad ux experience
+/*        databaseRepo.insertOrUpdateWeather(weatherMap)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe();
+                .subscribe();*/
     }
 
     public void onError(Throwable throwable) {
