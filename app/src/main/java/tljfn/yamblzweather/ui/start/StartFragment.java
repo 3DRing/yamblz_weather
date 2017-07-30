@@ -6,6 +6,7 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.DrawerLayout;
+import android.widget.Toast;
 
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
@@ -62,8 +63,14 @@ public class StartFragment extends BaseFragment {
         FragmentStartBinding startBinding = (FragmentStartBinding) binding.get();
 
         startViewModel.weather.observe(this, weather -> {
-            startBinding.setWeather(weather);
-            startBinding.executePendingBindings();
+            if (weather != null) {
+                if (weather.hasError()) {
+                    Toast.makeText(getContext(), weather.getError(), Toast.LENGTH_SHORT).show();
+                } else {
+                    startBinding.setWeather(weather);
+                    startBinding.executePendingBindings();
+                }
+            }
         });
 
         startBinding.setOnRefreshListener(startViewModel::updateWeather);

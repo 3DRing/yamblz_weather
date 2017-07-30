@@ -50,7 +50,7 @@ public class StartViewModel extends ViewModel {
         disposable.add(getWeather()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(weather::setValue));
+                .subscribe(weather::setValue, this::onError));
     }
 
     /**
@@ -89,7 +89,7 @@ public class StartViewModel extends ViewModel {
                 .subscribe();
     }
 
-    private void updateDatabase(WeatherMap weatherMap) {
+    void updateDatabase(WeatherMap weatherMap) {
         databaseRepo.insertOrUpdateWeather(weatherMap)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -97,13 +97,13 @@ public class StartViewModel extends ViewModel {
     }
 
     public void onError(Throwable throwable) {
+        WeatherMap wm = weather.getValue();
+        if (wm != null) wm.setRefreshed();
         if (throwable instanceof NoInternetConnectionException) {
-            WeatherMap wm = weather.getValue();
-            if (wm != null) wm.setRefreshed();
             weather.setValue(wm);
         } else {
-            //todo handle other exceptions
-            throw new RuntimeException(throwable.getLocalizedMessage());
+            wm.setError(throwable.getMessage());
+            weather.setValue(wm);
         }
     }
 }
