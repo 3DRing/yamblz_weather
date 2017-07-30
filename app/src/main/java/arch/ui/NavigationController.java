@@ -17,7 +17,20 @@
 package arch.ui;
 
 import android.app.FragmentTransaction;
+import android.content.Intent;
+import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
+
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.location.places.AutocompleteFilter;
+import com.google.android.gms.location.places.ui.PlaceAutocomplete;
+import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
+import com.google.android.gms.location.places.ui.SupportPlaceAutocompleteFragment;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -27,6 +40,7 @@ import javax.inject.Inject;
 import tljfn.yamblzweather.MainActivity;
 import tljfn.yamblzweather.R;
 import tljfn.yamblzweather.ui.about.AboutFragment;
+import tljfn.yamblzweather.ui.city_search.ChooseCityFragment;
 import tljfn.yamblzweather.ui.settings.SettingsFragment;
 import tljfn.yamblzweather.ui.start.StartFragment;
 
@@ -36,6 +50,8 @@ import tljfn.yamblzweather.ui.start.StartFragment;
 public class NavigationController {
     private final int containerId;
     private final FragmentManager fragmentManager;
+
+    public static final int PLACE_AUTOCOMPLETE_REQUEST_CODE = 1;
 
     @Inject
     public NavigationController(MainActivity mainActivity) {
@@ -62,9 +78,27 @@ public class NavigationController {
     public void navigateToStart() {
         StartFragment fragment = new StartFragment();
         fragmentManager.beginTransaction()
-                .replace(containerId, fragment)
+                .replace(containerId, fragment, StartFragment.TAG)
                 .addToBackStack(null)
                 .commitAllowingStateLoss();
+    }
+
+    public void navigateToChooseCity() {
+        Fragment fragment = fragmentManager.findFragmentByTag(StartFragment.TAG);
+        try {
+            Intent intent =
+                    new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_OVERLAY)
+                            .setFilter(new AutocompleteFilter.Builder()
+                                    .setTypeFilter(AutocompleteFilter.TYPE_FILTER_CITIES)
+                                    //.setCountry("ru")
+                                    .build())
+                            .build(fragment.getActivity());
+            fragment.startActivityForResult(intent, PLACE_AUTOCOMPLETE_REQUEST_CODE);
+        } catch (GooglePlayServicesRepairableException e) {
+            //fragment.onGooglePlacesRepairs(e.getLocalizedMessage());
+        } catch (GooglePlayServicesNotAvailableException e) {
+            //fragment.onGooglePlacesNotAvailable(e.getLocalizedMessage());
+        }
     }
 
     /**
@@ -99,5 +133,11 @@ public class NavigationController {
                 | java.lang.InstantiationException e) {
             e.printStackTrace();
         }
+    }
+
+    public interface GooglePlacesExceptionCallback {
+        void onGooglePlacesRepairs(String message);
+
+        void onGooglePlacesNotAvailable(String message);
     }
 }

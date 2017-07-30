@@ -29,7 +29,10 @@ import static tljfn.yamblzweather.BaseFields.PREFERENCES_NAME;
  */
 public class PreferencesRepo {
 
+    private static final long DEFAULT_CITY = 524901; // moscow, russia
+
     private static final String KEY_INTERVAL = "keyInterval";
+    private static final String KEY_CURRENT_CITY_INTERVAL = "keyCurrentCity";
     private final SharedPreferences preferences;
 
     public PreferencesRepo(Context context) {
@@ -49,5 +52,14 @@ public class PreferencesRepo {
     public Completable setInterval(Integer seconds) {
         return Completable.fromAction(() ->
                 preferences.edit().putInt(KEY_INTERVAL, seconds).apply());
+    }
+
+    public Completable updateCurrentCity(long id) {
+        return Completable.fromAction(() ->
+                preferences.edit().putLong(KEY_CURRENT_CITY_INTERVAL, id).apply());
+    }
+
+    public Single<Long> getCurrentCity() {
+        return Single.fromCallable(() -> preferences.getLong(KEY_CURRENT_CITY_INTERVAL, DEFAULT_CITY));
     }
 }

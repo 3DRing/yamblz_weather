@@ -9,9 +9,15 @@ import tljfn.yamblzweather.vo.weather.WeatherMap;
  * REST API access points
  */
 public interface WeatherApi {
-    //todo change to interceptor
     @GET("weather")
     Single<WeatherMap> getWeather(@Query("q") String city,
-                                  @Query("appid") String appid,
+                                  @Query("lang") String lang);
+
+    @GET("weather")
+    Single<WeatherMap> getWeather(@Query("lat") double lat,
+                                  @Query("lon") double lon);
+
+    @GET("weather")
+    Single<WeatherMap> getWeather(@Query("id") long id,
                                   @Query("lang") String lang);
 }

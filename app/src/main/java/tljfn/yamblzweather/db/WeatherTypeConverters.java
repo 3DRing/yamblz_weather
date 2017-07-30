@@ -62,7 +62,7 @@ public class WeatherTypeConverters {
     public static Wind stringToWind(String s) {
         if (s == null) return null;
         String[] strings = s.split(" ");
-        return new Wind(Integer.parseInt(strings[0]), Integer.parseInt(strings[1]));
+        return new Wind(Double.parseDouble(strings[0]), Double.parseDouble(strings[1]));
     }
 
     @TypeConverter

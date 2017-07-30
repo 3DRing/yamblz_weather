@@ -1,19 +1,24 @@
 package tljfn.yamblzweather.ui.start;
 
+import android.app.Activity;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
-import android.os.Bundle;
+import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.widget.DrawerLayout;
+import android.widget.Toast;
+
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlaceAutocomplete;
+import com.google.android.gms.maps.model.LatLng;
 
 import javax.inject.Inject;
 
 import arch.ui.BaseFragment;
+import arch.ui.NavigationController;
 import arch.util.AutoClearedValue;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.schedulers.Schedulers;
 import tljfn.yamblzweather.R;
 import tljfn.yamblzweather.databinding.FragmentStartBinding;
 
@@ -22,25 +27,15 @@ import tljfn.yamblzweather.databinding.FragmentStartBinding;
  */
 
 public class StartFragment extends BaseFragment {
-    private final CompositeDisposable disposable = new CompositeDisposable();
+    public static final String TAG = StartFragment.class.getName();
+
+
     @Inject
     ViewModelProvider.Factory viewModelFactory;
     private StartViewModel startViewModel;
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        disposable.clear();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        disposable.add(startViewModel.getWeather()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(startViewModel.weather::setValue, startViewModel::onError));
-    }
+    @Inject
+    NavigationController navigationController;
 
     @NonNull
     @Override
@@ -68,16 +63,35 @@ public class StartFragment extends BaseFragment {
         FragmentStartBinding startBinding = (FragmentStartBinding) binding.get();
 
         startViewModel.weather.observe(this, weather -> {
-            startBinding.setWeather(weather);
-            startBinding.executePendingBindings();
+            if (weather != null) {
+                if (weather.hasError()) {
+                    Toast.makeText(getContext(), weather.getError(), Toast.LENGTH_SHORT).show();
+                } else {
+                    startBinding.setWeather(weather);
+                    startBinding.executePendingBindings();
+                }
+            }
         });
 
         startBinding.setOnRefreshListener(startViewModel::updateWeather);
+        startBinding.setOnChooseCityCallback(() -> navigationController.navigateToChooseCity());
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        startViewModel = ViewModelProviders.of(this, viewModelFactory).get(StartViewModel.class);
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == NavigationController.PLACE_AUTOCOMPLETE_REQUEST_CODE) {
+            if (resultCode == Activity.RESULT_OK) {
+                Place place = PlaceAutocomplete.getPlace(getContext(), data);
+                LatLng latLon = place.getLatLng();
+                startViewModel.changeCity(latLon.latitude, latLon.longitude);
+                //startViewModel.changeCity(place.getId());
+            } else if (resultCode == PlaceAutocomplete.RESULT_ERROR) {
+                Status status = PlaceAutocomplete.getStatus(getContext(), data);
+
+                // todo handle error
+            } else if (resultCode == Activity.RESULT_CANCELED) {
+                // The user canceled the operation.
+            }
+        }
     }
 }

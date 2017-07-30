@@ -27,4 +27,29 @@ public class Main {
     public String toString() {
         return humidity + " " + pressure + " " + temp_max + " " + temp_min + " " + temp;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Main main = (Main) o;
+
+        if (!humidity.equals(main.humidity)) return false;
+        if (!pressure.equals(main.pressure)) return false;
+        if (!temp_max.equals(main.temp_max)) return false;
+        if (!temp_min.equals(main.temp_min)) return false;
+        return temp.equals(main.temp);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = humidity.hashCode();
+        result = 31 * result + pressure.hashCode();
+        result = 31 * result + temp_max.hashCode();
+        result = 31 * result + temp_min.hashCode();
+        result = 31 * result + temp.hashCode();
+        return result;
+    }
 }

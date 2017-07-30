@@ -30,7 +30,10 @@ import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
+import tljfn.yamblzweather.BaseFields;
 import tljfn.yamblzweather.BuildConfig;
+import tljfn.yamblzweather.api.ApiInterceptor;
+import tljfn.yamblzweather.api.ConnectivityInterceptor;
 import tljfn.yamblzweather.api.WeatherApi;
 import tljfn.yamblzweather.db.WeatherDao;
 import tljfn.yamblzweather.db.WeatherDatabase;
@@ -38,9 +41,6 @@ import tljfn.yamblzweather.repo.DatabaseRepo;
 import tljfn.yamblzweather.repo.PreferencesRepo;
 import tljfn.yamblzweather.repo.RemoteRepo;
 import tljfn.yamblzweather.scheduler.AlarmReceiver;
-
-import static tljfn.yamblzweather.BaseFields.API_URL;
-import static tljfn.yamblzweather.BaseFields.DATABASE_NAME;
 
 @Module(includes = ViewModelModule.class)
 public class AppModule {
@@ -53,11 +53,14 @@ public class AppModule {
 
     @Singleton
     @Provides
-    WeatherApi provideWeatherApi() {
+    WeatherApi provideWeatherApi(Application application) {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
+        builder.addInterceptor(new ApiInterceptor("appid", BaseFields.WEATHER_API_KEY));
+        builder.addInterceptor(new ConnectivityInterceptor(application.getApplicationContext()));
+
         if (BuildConfig.DEBUG) builder.addNetworkInterceptor(new StethoInterceptor());
         return new Retrofit.Builder()
-                .baseUrl(API_URL)
+                .baseUrl(BaseFields.WEATHER_API_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(builder.build())
@@ -92,7 +95,7 @@ public class AppModule {
     @Singleton
     @Provides
     WeatherDatabase provideDatabase(Application app) {
-        return Room.databaseBuilder(app, WeatherDatabase.class, DATABASE_NAME).build();
+        return Room.databaseBuilder(app, WeatherDatabase.class, BaseFields.DATABASE_NAME).build();
     }
 
     @Singleton
@@ -101,3 +104,4 @@ public class AppModule {
         return database.weatherDao();
     }
 }
+

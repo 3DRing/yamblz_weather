@@ -23,8 +23,11 @@ import javax.inject.Inject;
 
 import io.reactivex.Flowable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
+import tljfn.yamblzweather.api.NoInternetConnectionException;
 import tljfn.yamblzweather.repo.DatabaseRepo;
+import tljfn.yamblzweather.repo.PreferencesRepo;
 import tljfn.yamblzweather.repo.RemoteRepo;
 import tljfn.yamblzweather.vo.weather.WeatherMap;
 
@@ -33,14 +36,25 @@ public class StartViewModel extends ViewModel {
 
     private final DatabaseRepo databaseRepo;
     private final RemoteRepo remoteRepo;
+    private final PreferencesRepo preferencesRepo;
     public MutableLiveData<WeatherMap> weather = new MutableLiveData<>();
 
+    private final CompositeDisposable disposable = new CompositeDisposable();
+
     @Inject
-    public StartViewModel(RemoteRepo remoteRepo, DatabaseRepo databaseRepo) {
+    public StartViewModel(RemoteRepo remoteRepo, DatabaseRepo databaseRepo, PreferencesRepo preferencesRepo) {
         this.databaseRepo = databaseRepo;
         this.remoteRepo = remoteRepo;
+        this.preferencesRepo = preferencesRepo;
 
-//        getWeather();
+        updateWeather();
+
+        // caching is disabled because of some bug that was not caught so far
+        // and caused bad ux experience
+/*        disposable.add(getWeather()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(weather::setValue, this::onError));*/
     }
 
     /**
@@ -51,7 +65,8 @@ public class StartViewModel extends ViewModel {
     }
 
     public void updateWeather() {
-        remoteRepo.getWeather("Moscow")
+        preferencesRepo.getCurrentCity()
+                .flatMap(remoteRepo::getWeather)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(WeatherMap::updateTime)
@@ -60,15 +75,41 @@ public class StartViewModel extends ViewModel {
                 .subscribe(weather::setValue, this::onError);
     }
 
-    private void updateDatabase(WeatherMap weatherMap) {
-        databaseRepo.insertOrUpdateWeather(weatherMap)
+    public void changeCity(double lat, double lon) {
+        remoteRepo.getWeather(lat, lon)
+                .map(WeatherMap::updateTime)
+                .map(WeatherMap::setRefreshed)
+                .doOnSuccess(this::updateCurrentCity)
+                .doOnSuccess(this::updateDatabase)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(weather::setValue, this::onError);
+    }
+
+    private void updateCurrentCity(WeatherMap weatherMap) {
+        preferencesRepo.updateCurrentCity(weatherMap.id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe();
     }
 
+    void updateDatabase(WeatherMap weatherMap) {
+        // caching is disabled because of some bug that was not caught so far
+        // and caused bad ux experience
+/*        databaseRepo.insertOrUpdateWeather(weatherMap)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe();*/
+    }
+
     public void onError(Throwable throwable) {
-        //// FIXME: 7/17/2017 
-        weather.setValue(weather.getValue());
+        WeatherMap wm = weather.getValue();
+        if (wm != null) wm.setRefreshed();
+        if (throwable instanceof NoInternetConnectionException) {
+            weather.setValue(wm);
+        } else {
+            wm.setError(throwable.getMessage());
+            weather.setValue(wm);
+        }
     }
 }

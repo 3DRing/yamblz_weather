@@ -6,6 +6,7 @@ import tljfn.yamblzweather.vo.weather.WeatherMap;
 
 public class RemoteRepo {
 
+    private final String DEFAULT_LOCALE = "ru";
     private final WeatherApi weatherApi;
 
     public RemoteRepo(WeatherApi weatherApi) {
@@ -17,7 +18,16 @@ public class RemoteRepo {
      *
      * @return the weather from the remote data source.
      */
+    @Deprecated
     public Single<WeatherMap> getWeather(String city) {
-        return weatherApi.getWeather(city, "f66b70ebb071127760c387562b9308c8", "ru");
+        return weatherApi.getWeather(city, DEFAULT_LOCALE);
+    }
+
+    public Single<WeatherMap> getWeather(double lat, double lon) {
+        return weatherApi.getWeather(lat, lon);
+    }
+
+    public Single<WeatherMap> getWeather(long id) {
+        return weatherApi.getWeather(id, DEFAULT_LOCALE);
     }
 }

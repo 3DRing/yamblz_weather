@@ -1,7 +1,9 @@
 package tljfn.yamblzweather;
 
+import android.app.Activity;
 import android.arch.lifecycle.LifecycleRegistry;
 import android.arch.lifecycle.LifecycleRegistryOwner;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -13,8 +15,15 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
+
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlaceAutocomplete;
+import com.google.android.gms.maps.model.LatLng;
 
 import javax.inject.Inject;
 
@@ -30,7 +39,8 @@ import tljfn.yamblzweather.scheduler.AlarmReceiver;
 
 public class MainActivity extends AppCompatActivity implements HasSupportFragmentInjector, LifecycleRegistryOwner,
         NavigationView.OnNavigationItemSelectedListener,
-        BaseFragment.OnFragmentInteractionListener {
+        BaseFragment.OnFragmentInteractionListener,
+        NavigationController.GooglePlacesExceptionCallback {
 
     private final LifecycleRegistry lifecycleRegistry = new LifecycleRegistry(this);
     @Inject
@@ -135,5 +145,30 @@ public class MainActivity extends AppCompatActivity implements HasSupportFragmen
     @Override
     public DispatchingAndroidInjector<Fragment> supportFragmentInjector() {
         return dispatchingAndroidInjector;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.activity_main_options_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.app_bar_search) {
+            navigationController.navigateToChooseCity();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onGooglePlacesRepairs(String message) {
+        // todo handle error
+    }
+
+    @Override
+    public void onGooglePlacesNotAvailable(String message) {
+        // todo handle error
     }
 }
