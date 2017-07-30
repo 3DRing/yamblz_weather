@@ -10,6 +10,7 @@ import tljfn.yamblzweather.vo.weather.WeatherMap;
  */
 public interface WeatherApi {
     @GET("weather")
+    @Deprecated
     Single<WeatherMap> getWeather(@Query("q") String city,
                                   @Query("lang") String lang);
 

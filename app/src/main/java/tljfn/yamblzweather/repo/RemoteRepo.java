@@ -6,7 +6,8 @@ import tljfn.yamblzweather.vo.weather.WeatherMap;
 
 public class RemoteRepo {
 
-    private final String DEFAULT_LOCALE = "ru";
+    static final String DEFAULT_LOCALE = "ru";
+
     private final WeatherApi weatherApi;
 
     public RemoteRepo(WeatherApi weatherApi) {

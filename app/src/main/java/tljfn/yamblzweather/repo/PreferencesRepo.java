@@ -21,22 +21,21 @@ import android.content.SharedPreferences;
 
 import io.reactivex.Completable;
 import io.reactivex.Single;
-
-import static tljfn.yamblzweather.BaseFields.PREFERENCES_NAME;
+import tljfn.yamblzweather.BaseFields;
 
 /**
  * Repository that handles User objects.
  */
 public class PreferencesRepo {
 
-    private static final long DEFAULT_CITY = 524901; // moscow, russia
+    static final long DEFAULT_CITY = 524901; // moscow, russia
 
-    private static final String KEY_INTERVAL = "keyInterval";
-    private static final String KEY_CURRENT_CITY_INTERVAL = "keyCurrentCity";
+    static final String KEY_INTERVAL = "keyInterval";
+    static final String KEY_CURRENT_CITY = "keyCurrentCity";
     private final SharedPreferences preferences;
 
     public PreferencesRepo(Context context) {
-        this.preferences = context.getSharedPreferences(PREFERENCES_NAME, 0);
+        this.preferences = context.getSharedPreferences(BaseFields.PREFERENCES_NAME, 0);
     }
 
     /**
@@ -56,10 +55,10 @@ public class PreferencesRepo {
 
     public Completable updateCurrentCity(long id) {
         return Completable.fromAction(() ->
-                preferences.edit().putLong(KEY_CURRENT_CITY_INTERVAL, id).apply());
+                preferences.edit().putLong(KEY_CURRENT_CITY, id).apply());
     }
 
     public Single<Long> getCurrentCity() {
-        return Single.fromCallable(() -> preferences.getLong(KEY_CURRENT_CITY_INTERVAL, DEFAULT_CITY));
+        return Single.fromCallable(() -> preferences.getLong(KEY_CURRENT_CITY, DEFAULT_CITY));
     }
 }

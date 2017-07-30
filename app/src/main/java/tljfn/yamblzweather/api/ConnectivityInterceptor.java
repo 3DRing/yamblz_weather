@@ -35,7 +35,7 @@ public class ConnectivityInterceptor implements Interceptor {
         return chain.proceed(request);
     }
 
-    public boolean isOnline() {
+    private boolean isOnline() {
         ConnectivityManager connectivityManager = (ConnectivityManager) context
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = connectivityManager.getActiveNetworkInfo();

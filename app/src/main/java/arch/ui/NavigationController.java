@@ -48,7 +48,7 @@ import tljfn.yamblzweather.ui.start.StartFragment;
  * A utility class that handles navigation in {@link MainActivity}.
  */
 public class NavigationController {
-    private final int containerId;
+    final int containerId;
     private final FragmentManager fragmentManager;
 
     public static final int PLACE_AUTOCOMPLETE_REQUEST_CODE = 1;
