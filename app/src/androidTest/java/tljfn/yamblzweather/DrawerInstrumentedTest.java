@@ -1,4 +1,4 @@
-package com.tljfn.yamblzweather;
+package tljfn.yamblzweather;
 
 import android.support.annotation.IdRes;
 import android.support.test.espresso.Espresso;

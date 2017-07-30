@@ -1,4 +1,4 @@
-package com.tljfn.yamblzweather;
+package tljfn.yamblzweather;
 
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;

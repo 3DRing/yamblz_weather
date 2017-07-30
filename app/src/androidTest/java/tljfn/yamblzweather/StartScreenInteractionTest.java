@@ -1,7 +1,5 @@
-package com.tljfn.yamblzweather;
+package tljfn.yamblzweather;
 
-import android.support.test.espresso.ViewAction;
-import android.support.test.espresso.ViewInteraction;
 import android.support.test.espresso.action.ViewActions;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
@@ -9,9 +7,6 @@ import android.support.test.runner.AndroidJUnit4;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import tljfn.yamblzweather.MainActivity;
-import tljfn.yamblzweather.R;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -35,13 +30,6 @@ public class StartScreenInteractionTest {
     public void chooseCityClickOnTv() {
         onView(allOf(withId(R.id.fragment_container), isDisplayed()));
         onView(withId(R.id.city_tv)).perform(ViewActions.click());
-        onView(anyOf(withId(R.id.fragment_container), not(isDisplayed())));
-    }
-
-    @Test
-    public void chooseCityClickOnAppBar() {
-        onView(allOf(withId(R.id.fragment_container), isDisplayed()));
-        onView(withId(R.id.app_bar_search)).perform(ViewActions.click());
         onView(anyOf(withId(R.id.fragment_container), not(isDisplayed())));
     }
 }
