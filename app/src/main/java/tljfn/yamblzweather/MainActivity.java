@@ -4,6 +4,7 @@ import android.arch.lifecycle.LifecycleRegistry;
 import android.arch.lifecycle.LifecycleRegistryOwner;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.StringRes;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -122,8 +123,8 @@ public class MainActivity extends AppCompatActivity implements HasSupportFragmen
     }
 
     @Override
-    public void onFragmentInteraction(String title, Integer drawerMode) {
-        actionBar.setTitle(title);
+    public void onFragmentInteraction(@StringRes int titleRes, Integer drawerMode) {
+        actionBar.setTitle(titleRes);
         drawer.setDrawerLockMode(drawerMode);
         boolean isDrawerLocked = drawerMode == DrawerLayout.LOCK_MODE_LOCKED_CLOSED;
         actionBar.setDisplayHomeAsUpEnabled(isDrawerLocked);
@@ -138,21 +139,6 @@ public class MainActivity extends AppCompatActivity implements HasSupportFragmen
     @Override
     public DispatchingAndroidInjector<Fragment> supportFragmentInjector() {
         return dispatchingAndroidInjector;
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.activity_main_options_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.app_bar_search) {
-            navigationController.navigateToChooseCity();
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     @Override

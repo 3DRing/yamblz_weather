@@ -15,6 +15,9 @@
     <string name="no_internet_connection">Нет соединения с интернетом</string>
     <string name="swipe_to_update">Потяните, чтобы обновить</string>
     <string name="default_city">Москва</string>
+    <string name="weather_screen_title">Погода</string>
+    <string name="settings_screen_title">Настройки</string>
+    <string name="about_screen_title">О приложении</string>
 
     <string-array name="intervals">
         <item>15 секунд</item>

@@ -27,8 +27,8 @@ public class SettingsFragment extends BaseFragment {
     }
 
     @Override
-    public String getToolbarTitle() {
-        return "Настройки";
+    public int getToolbarTitle() {
+        return R.string.settings_screen_title;
     }
 
     @Override

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +31,7 @@ public abstract class BaseFragment extends LifecycleFragment implements Injectab
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        onFragmentInteractionListener.onFragmentInteraction(getToolbarTitle(), getDrawerMode());
         ButterKnife.bind(this, view);
         onViewModelAttach();
     }
@@ -62,7 +64,8 @@ public abstract class BaseFragment extends LifecycleFragment implements Injectab
     /**
      * @return {@link String} on the toolbar that corresponds to the required toolbar title
      */
-    public abstract String getToolbarTitle();
+    @StringRes
+    public abstract int getToolbarTitle();
 
     /**
      * @return {@link Integer} that reflects navigation drawer mode for
@@ -83,6 +86,6 @@ public abstract class BaseFragment extends LifecycleFragment implements Injectab
         /**
          * Call when fragment attaches to activity
          */
-        void onFragmentInteraction(String title, Integer drawerMode);
+        void onFragmentInteraction(@StringRes int titleRes, Integer drawerMode);
     }
 }

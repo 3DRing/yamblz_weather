@@ -47,8 +47,8 @@ public class StartFragment extends BaseFragment {
     }
 
     @Override
-    public String getToolbarTitle() {
-        return "Стартовый экран";
+    public int getToolbarTitle() {
+        return R.string.weather_screen_title;
     }
 
     @Override

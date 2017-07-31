@@ -19,8 +19,8 @@ public class AboutFragment extends BaseFragment {
     }
 
     @Override
-    public String getToolbarTitle() {
-        return "О приложении";
+    public int getToolbarTitle() {
+        return R.string.about_screen_title;
     }
 
     @Override
