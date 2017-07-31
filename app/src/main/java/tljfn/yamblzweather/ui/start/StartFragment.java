@@ -19,6 +19,7 @@ import javax.inject.Inject;
 import arch.ui.BaseFragment;
 import arch.ui.NavigationController;
 import butterknife.BindView;
+import butterknife.OnClick;
 import tljfn.yamblzweather.R;
 
 /**
@@ -27,7 +28,6 @@ import tljfn.yamblzweather.R;
 
 public class StartFragment extends BaseFragment {
     public static final String TAG = StartFragment.class.getName();
-
 
     @Inject
     ViewModelProvider.Factory viewModelFactory;
@@ -42,6 +42,11 @@ public class StartFragment extends BaseFragment {
     TextView tvTemperature;
     @BindView(R.id.tv_city)
     TextView tvCity;
+
+    @OnClick(R.id.tv_city)
+    public void onCityClick() {
+        navigationController.navigateToChooseCity();
+    }
 
     @Override
     protected void initializeViews() {
