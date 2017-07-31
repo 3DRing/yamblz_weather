@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import butterknife.ButterKnife;
 import tljfn.yamblzweather.di.Injectable;
 
 /**
@@ -23,8 +24,14 @@ public abstract class BaseFragment extends LifecycleFragment implements Injectab
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(getLayoutRes(), container, false);
-        return v;
+        return inflater.inflate(getLayoutRes(), container, false);
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        ButterKnife.bind(this, view);
+        onViewModelAttach();
     }
 
     @Override

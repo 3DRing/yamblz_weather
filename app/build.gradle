@@ -88,6 +88,10 @@ dependencies {
     annotationProcessor "android.arch.lifecycle:compiler:$arch_version"
     annotationProcessor "android.arch.persistence.room:compiler:$arch_version"
 
+    // butterknife
+    compile 'com.jakewharton:butterknife:8.7.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.7.0'
+
     //network
     compile "com.squareup.okhttp3:okhttp:$okhttp_version"
 

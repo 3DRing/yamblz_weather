@@ -6,6 +6,7 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.DrawerLayout;
+import android.widget.TextView;
 
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
@@ -16,6 +17,7 @@ import javax.inject.Inject;
 
 import arch.ui.BaseFragment;
 import arch.ui.NavigationController;
+import butterknife.BindView;
 import tljfn.yamblzweather.R;
 
 /**
@@ -32,6 +34,11 @@ public class StartFragment extends BaseFragment {
 
     @Inject
     NavigationController navigationController;
+
+    @BindView(R.id.tv_temperature)
+    TextView tvTemperature;
+    @BindView(R.id.tv_city)
+    TextView tvCity;
 
     @NonNull
     @Override
@@ -53,7 +60,10 @@ public class StartFragment extends BaseFragment {
     public void onViewModelAttach() {
         startViewModel = ViewModelProviders.of(this, viewModelFactory).get(StartViewModel.class);
         startViewModel.observe(this, weather -> {
-
+            if (weather != null) {
+                tvTemperature.setText(getString(R.string.temperature, weather.getTemperature()));
+                tvCity.setText(weather.getCity());
+            }
         });
     }
 
