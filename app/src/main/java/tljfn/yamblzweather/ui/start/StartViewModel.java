@@ -105,6 +105,8 @@ public class StartViewModel extends BaseViewModel<UIWeatherData> {
     }
 
     public void onError(Throwable throwable) {
+        // todo handle exceptions
+        throw new RuntimeException(throwable.getMessage());
 /*        WeatherMap wm = liveData.getValue();
         if (wm != null) wm.setRefreshed();
         if (throwable instanceof NoInternetConnectionException) {

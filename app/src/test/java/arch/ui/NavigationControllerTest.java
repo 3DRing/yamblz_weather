@@ -12,6 +12,7 @@ import org.mockito.junit.MockitoRule;
 
 import tljfn.yamblzweather.MainActivity;
 import tljfn.yamblzweather.R;
+import tljfn.yamblzweather.navigation.NavigationController;
 import tljfn.yamblzweather.ui.about.AboutFragment;
 import tljfn.yamblzweather.ui.settings.SettingsFragment;
 import tljfn.yamblzweather.ui.start.StartFragment;

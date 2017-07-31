@@ -7,7 +7,7 @@ import android.support.v4.widget.DrawerLayout;
 
 import javax.inject.Inject;
 
-import arch.ui.BaseFragment;
+import tljfn.yamblzweather.ui.base.BaseFragment;
 import tljfn.yamblzweather.R;
 
 /**

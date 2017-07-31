@@ -14,15 +14,13 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import javax.inject.Inject;
 
-import arch.ui.BaseFragment;
-import arch.ui.NavigationController;
+import tljfn.yamblzweather.ui.base.BaseFragment;
+import tljfn.yamblzweather.navigation.NavigationController;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.HasSupportFragmentInjector;
 import io.reactivex.android.schedulers.AndroidSchedulers;

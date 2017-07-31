@@ -1,4 +1,4 @@
-package arch.ui;
+package tljfn.yamblzweather.ui.base;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -17,7 +17,7 @@ import tljfn.yamblzweather.di.Injectable;
  * Created by Maksim Sukhotski on 7/9/2017.
  */
 
-public abstract class BaseFragment extends LifecycleFragment implements Injectable {
+public abstract class BaseFragment extends ViewModelFragment implements Injectable {
 
     protected OnFragmentInteractionListener onFragmentInteractionListener;
 

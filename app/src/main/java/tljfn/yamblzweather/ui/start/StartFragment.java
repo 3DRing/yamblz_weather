@@ -16,8 +16,8 @@ import com.google.android.gms.maps.model.LatLng;
 
 import javax.inject.Inject;
 
-import arch.ui.BaseFragment;
-import arch.ui.NavigationController;
+import tljfn.yamblzweather.ui.base.BaseFragment;
+import tljfn.yamblzweather.navigation.NavigationController;
 import butterknife.BindView;
 import butterknife.OnClick;
 import tljfn.yamblzweather.R;

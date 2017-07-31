@@ -1,4 +1,4 @@
-package arch.viewmodel;
+package tljfn.yamblzweather.ui.base.viewmodel;
 
 import android.arch.lifecycle.ViewModel;
 

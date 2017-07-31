@@ -3,8 +3,8 @@ package tljfn.yamblzweather.di.module;
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 
-import arch.viewmodel.ViewModelFactory;
-import arch.viewmodel.ViewModelKey;
+import tljfn.yamblzweather.ui.base.viewmodel.ViewModelFactory;
+import tljfn.yamblzweather.ui.base.viewmodel.ViewModelKey;
 import dagger.Binds;
 import dagger.Module;
 import dagger.multibindings.IntoMap;
