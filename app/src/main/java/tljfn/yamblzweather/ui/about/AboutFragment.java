@@ -5,12 +5,14 @@ import android.support.v4.widget.DrawerLayout;
 
 import tljfn.yamblzweather.ui.base.BaseFragment;
 import tljfn.yamblzweather.R;
+import tljfn.yamblzweather.ui.base.UIBaseData;
+import tljfn.yamblzweather.ui.base.ViewModelFragment;
 
 /**
  * Created by Maksim Sukhotski on 7/9/2017.
  */
 
-public class AboutFragment extends BaseFragment {
+public class AboutFragment extends ViewModelFragment<UIBaseData> {
 
     @NonNull
     @Override

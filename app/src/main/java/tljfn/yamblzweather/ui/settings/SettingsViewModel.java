@@ -28,21 +28,21 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import tljfn.yamblzweather.repo.PreferencesRepo;
 import tljfn.yamblzweather.ui.base.BaseViewModel;
+import tljfn.yamblzweather.ui.base.UIBaseData;
 
-public class SettingsViewModel extends BaseViewModel {
+public class SettingsViewModel extends BaseViewModel<UIBaseData> {
 
     private final PreferencesRepo preferencesRepo;
-    public MutableLiveData<Integer> interval = new MutableLiveData<>();
 
     @Inject
     public SettingsViewModel(PreferencesRepo preferencesRepo) {
         this.preferencesRepo = preferencesRepo;
 
-        preferencesRepo.getInterval()
+/*        preferencesRepo.getInterval()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-//                .doOnSuccess()
-                .subscribe(interval::setValue);
+                .doOnSuccess()
+                .subscribe(interval::setValue);*/
     }
 
     /**
@@ -52,7 +52,7 @@ public class SettingsViewModel extends BaseViewModel {
      * @return a {@link Completable} that completes when the user name is updated
      */
     public Completable saveInterval(final Integer interval) {
-        this.interval.setValue(interval);
+        //this.interval.setValue(interval);
         return preferencesRepo.setInterval(interval);
     }
 

@@ -10,14 +10,14 @@ import dagger.Module;
 import dagger.multibindings.IntoMap;
 import tljfn.yamblzweather.ui.about.AboutViewModel;
 import tljfn.yamblzweather.ui.settings.SettingsViewModel;
-import tljfn.yamblzweather.ui.start.StartViewModel;
+import tljfn.yamblzweather.ui.start.WeatherViewModel;
 
 @Module
 public abstract class ViewModelModule {
     @Binds
     @IntoMap
-    @ViewModelKey(StartViewModel.class)
-    abstract ViewModel bindStartViewModel(StartViewModel startViewModel);
+    @ViewModelKey(WeatherViewModel.class)
+    abstract ViewModel bindStartViewModel(WeatherViewModel weatherViewModel);
 
     @Binds
     @IntoMap

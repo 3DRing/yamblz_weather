@@ -36,7 +36,7 @@ import tljfn.yamblzweather.R;
 import tljfn.yamblzweather.ui.about.AboutFragment;
 import tljfn.yamblzweather.ui.base.BaseFragment;
 import tljfn.yamblzweather.ui.settings.SettingsFragment;
-import tljfn.yamblzweather.ui.start.StartFragment;
+import tljfn.yamblzweather.ui.start.WeatherFragment;
 
 /**
  * A utility class that handles navigation in {@link MainActivity}.
@@ -70,15 +70,15 @@ public class NavigationController {
     }
 
     public void navigateToStart() {
-        StartFragment fragment = new StartFragment();
+        WeatherFragment fragment = new WeatherFragment();
         fragmentManager.beginTransaction()
-                .replace(containerId, fragment, StartFragment.TAG)
+                .replace(containerId, fragment, WeatherFragment.TAG)
                 .addToBackStack(null)
                 .commitAllowingStateLoss();
     }
 
     public void navigateToChooseCity() {
-        Fragment fragment = fragmentManager.findFragmentByTag(StartFragment.TAG);
+        Fragment fragment = fragmentManager.findFragmentByTag(WeatherFragment.TAG);
         try {
             Intent intent =
                     new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_OVERLAY)

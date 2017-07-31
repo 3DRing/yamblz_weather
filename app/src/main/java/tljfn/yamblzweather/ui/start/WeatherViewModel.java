@@ -16,17 +16,11 @@
 
 package tljfn.yamblzweather.ui.start;
 
-import android.arch.lifecycle.LifecycleOwner;
-import android.arch.lifecycle.MutableLiveData;
-import android.arch.lifecycle.Observer;
-
 import javax.inject.Inject;
 
 import io.reactivex.Flowable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
-import tljfn.yamblzweather.api.NoInternetConnectionException;
 import tljfn.yamblzweather.repo.DatabaseRepo;
 import tljfn.yamblzweather.repo.PreferencesRepo;
 import tljfn.yamblzweather.repo.RemoteRepo;
@@ -34,15 +28,14 @@ import tljfn.yamblzweather.ui.base.BaseViewModel;
 import tljfn.yamblzweather.vo.weather.WeatherMap;
 
 @SuppressWarnings("WeakerAccess") //for dagger
-public class StartViewModel extends BaseViewModel<UIWeatherData> {
+public class WeatherViewModel extends BaseViewModel<UIWeatherData> {
 
     private final DatabaseRepo databaseRepo;
     private final RemoteRepo remoteRepo;
     private final PreferencesRepo preferencesRepo;
-    public MutableLiveData<UIWeatherData> liveData = new MutableLiveData<>();
 
     @Inject
-    public StartViewModel(RemoteRepo remoteRepo, DatabaseRepo databaseRepo, PreferencesRepo preferencesRepo) {
+    public WeatherViewModel(RemoteRepo remoteRepo, DatabaseRepo databaseRepo, PreferencesRepo preferencesRepo) {
         this.databaseRepo = databaseRepo;
         this.remoteRepo = remoteRepo;
         this.preferencesRepo = preferencesRepo;
@@ -102,23 +95,5 @@ public class StartViewModel extends BaseViewModel<UIWeatherData> {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe();*/
-    }
-
-    public void onError(Throwable throwable) {
-        // todo handle exceptions
-        throw new RuntimeException(throwable.getMessage());
-/*        WeatherMap wm = liveData.getValue();
-        if (wm != null) wm.setRefreshed();
-        if (throwable instanceof NoInternetConnectionException) {
-            liveData.setValue(wm);
-        } else {
-            wm.setError(throwable.getMessage());
-            liveData.setValue(wm);
-        }*/
-    }
-
-    @Override
-    public void observe(LifecycleOwner owner, Observer<UIWeatherData> observer) {
-        liveData.observe(owner, observer);
     }
 }

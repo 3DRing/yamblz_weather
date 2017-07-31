@@ -1,8 +1,5 @@
 package tljfn.yamblzweather.ui.start;
 
-import android.arch.core.executor.testing.InstantTaskExecutorRule;
-import android.arch.lifecycle.Observer;
-
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -19,7 +16,6 @@ import tljfn.yamblzweather.repo.PreferencesRepo;
 import tljfn.yamblzweather.repo.RemoteRepo;
 import tljfn.yamblzweather.vo.weather.WeatherMap;
 
-import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -28,7 +24,7 @@ import static org.mockito.Mockito.when;
 /**
  * Created by ringov on 30.07.17.
  */
-public class StartViewModelTest {
+public class WeatherViewModelTest {
 
     @Rule
     public MockitoRule rule = MockitoJUnit.rule();
@@ -40,7 +36,7 @@ public class StartViewModelTest {
     @Mock
     DatabaseRepo db;
 
-    StartViewModel vm;
+    WeatherViewModel vm;
 
     WeatherMap cachedData;
     WeatherMap remoteData;
@@ -59,7 +55,7 @@ public class StartViewModelTest {
         when(prefs.getCurrentCity()).thenReturn(Single.just(crtCity));
         when(remote.getWeather(40.71, -74.01)).thenReturn(Single.just(remoteData));
 
-        vm = new StartViewModel(remote, db, prefs);
+        vm = new WeatherViewModel(remote, db, prefs);
     }
 
     @Test

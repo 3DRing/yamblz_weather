@@ -1,22 +1,17 @@
 package tljfn.yamblzweather;
 
 import android.support.annotation.IdRes;
-import android.support.test.espresso.Espresso;
 import android.support.test.espresso.contrib.DrawerActions;
 import android.support.test.espresso.contrib.NavigationViewActions;
-import android.support.test.espresso.core.deps.guava.base.Preconditions;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.support.v4.app.Fragment;
-import android.widget.ListView;
 
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import tljfn.yamblzweather.MainActivity;
-import tljfn.yamblzweather.R;
-import tljfn.yamblzweather.ui.start.StartFragment;
+import tljfn.yamblzweather.ui.start.WeatherFragment;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
@@ -55,7 +50,7 @@ public class DrawerInstrumentedTest {
     @Test
     public void openStart() {
         openDrawerMenu(R.id.nav_start);
-        Fragment f = mActivityRule.getActivity().getSupportFragmentManager().findFragmentByTag(StartFragment.TAG);
+        Fragment f = mActivityRule.getActivity().getSupportFragmentManager().findFragmentByTag(WeatherFragment.TAG);
         assertTrue(f != null);
     }
 }

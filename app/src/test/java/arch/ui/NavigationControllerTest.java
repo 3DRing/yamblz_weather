@@ -15,7 +15,7 @@ import tljfn.yamblzweather.R;
 import tljfn.yamblzweather.navigation.NavigationController;
 import tljfn.yamblzweather.ui.about.AboutFragment;
 import tljfn.yamblzweather.ui.settings.SettingsFragment;
-import tljfn.yamblzweather.ui.start.StartFragment;
+import tljfn.yamblzweather.ui.start.WeatherFragment;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
@@ -37,7 +37,7 @@ public class NavigationControllerTest {
     @Mock
     FragmentTransaction transaction;
     @Mock
-    StartFragment fragment;
+    WeatherFragment fragment;
 
     NavigationController controller;
 
@@ -77,12 +77,12 @@ public class NavigationControllerTest {
 
     @Test
     public void navigateToStart() {
-        when(transaction.replace(eq(R.id.fragment_container), any(StartFragment.class), eq(StartFragment.TAG)))
+        when(transaction.replace(eq(R.id.fragment_container), any(WeatherFragment.class), eq(WeatherFragment.TAG)))
                 .thenReturn(transaction);
 
         controller.navigateToStart();
         verify(manager).beginTransaction();
-        verify(transaction).replace(eq(R.id.fragment_container), any(StartFragment.class), eq(StartFragment.TAG));
+        verify(transaction).replace(eq(R.id.fragment_container), any(WeatherFragment.class), eq(WeatherFragment.TAG));
         verify(transaction).addToBackStack(null);
         verify(transaction).commitAllowingStateLoss();
     }

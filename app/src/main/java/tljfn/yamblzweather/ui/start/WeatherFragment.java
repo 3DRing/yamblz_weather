@@ -16,22 +16,22 @@ import com.google.android.gms.maps.model.LatLng;
 
 import javax.inject.Inject;
 
-import tljfn.yamblzweather.ui.base.BaseFragment;
 import tljfn.yamblzweather.navigation.NavigationController;
 import butterknife.BindView;
 import butterknife.OnClick;
 import tljfn.yamblzweather.R;
+import tljfn.yamblzweather.ui.base.ViewModelFragment;
 
 /**
  * Created by Maksim Sukhotski on 7/9/2017.
  */
 
-public class StartFragment extends BaseFragment {
-    public static final String TAG = StartFragment.class.getName();
+public class WeatherFragment extends ViewModelFragment<UIWeatherData> {
+    public static final String TAG = WeatherFragment.class.getName();
 
     @Inject
     ViewModelProvider.Factory viewModelFactory;
-    private StartViewModel startViewModel;
+    private WeatherViewModel weatherViewModel;
 
     @Inject
     NavigationController navigationController;
@@ -52,7 +52,7 @@ public class StartFragment extends BaseFragment {
     protected void initializeViews() {
         super.initializeViews();
         swipeLayout.setOnRefreshListener(() -> {
-            startViewModel.updateWeather();
+            weatherViewModel.updateWeather();
         });
     }
 
@@ -74,8 +74,8 @@ public class StartFragment extends BaseFragment {
 
     @Override
     public void onViewModelAttach() {
-        startViewModel = ViewModelProviders.of(this, viewModelFactory).get(StartViewModel.class);
-        startViewModel.observe(this, weather -> {
+        weatherViewModel = ViewModelProviders.of(this, viewModelFactory).get(WeatherViewModel.class);
+        weatherViewModel.observe(this, weather -> {
             if (weather != null) {
                 tvTemperature.setText(getString(R.string.temperature, weather.getTemperature()));
                 tvCity.setText(weather.getCity());
@@ -90,8 +90,8 @@ public class StartFragment extends BaseFragment {
             if (resultCode == Activity.RESULT_OK) {
                 Place place = PlaceAutocomplete.getPlace(getContext(), data);
                 LatLng latLon = place.getLatLng();
-                startViewModel.changeCity(latLon.latitude, latLon.longitude);
-                //startViewModel.changeCity(place.getId());
+                weatherViewModel.changeCity(latLon.latitude, latLon.longitude);
+                //weatherViewModel.changeCity(place.getId());
             } else if (resultCode == PlaceAutocomplete.RESULT_ERROR) {
                 Status status = PlaceAutocomplete.getStatus(getContext(), data);
 
