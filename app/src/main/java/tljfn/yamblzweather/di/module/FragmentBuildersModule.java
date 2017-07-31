@@ -19,7 +19,6 @@ package tljfn.yamblzweather.di.module;
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
 import tljfn.yamblzweather.ui.about.AboutFragment;
-import tljfn.yamblzweather.ui.city_search.ChooseCityFragment;
 import tljfn.yamblzweather.ui.settings.SettingsFragment;
 import tljfn.yamblzweather.ui.start.StartFragment;
 
@@ -33,7 +32,4 @@ public abstract class FragmentBuildersModule {
 
     @ContributesAndroidInjector
     abstract StartFragment contributeStartFragment();
-
-    @ContributesAndroidInjector
-    abstract ChooseCityFragment contributeChooseCityFragment();
 }

@@ -13,6 +13,8 @@
 
     <string name="search">Поиск</string>
     <string name="no_internet_connection">Нет соединения с интернетом</string>
+    <string name="swipe_to_update">Потяните, чтобы обновить</string>
+    <string name="default_city">Москва</string>
 
     <string-array name="intervals">
         <item>15 секунд</item>

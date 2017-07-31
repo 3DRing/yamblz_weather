@@ -18,19 +18,13 @@ package arch.ui;
 
 import android.app.FragmentTransaction;
 import android.content.Intent;
-import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
 
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.places.AutocompleteFilter;
 import com.google.android.gms.location.places.ui.PlaceAutocomplete;
-import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
-import com.google.android.gms.location.places.ui.SupportPlaceAutocompleteFragment;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -40,7 +34,6 @@ import javax.inject.Inject;
 import tljfn.yamblzweather.MainActivity;
 import tljfn.yamblzweather.R;
 import tljfn.yamblzweather.ui.about.AboutFragment;
-import tljfn.yamblzweather.ui.city_search.ChooseCityFragment;
 import tljfn.yamblzweather.ui.settings.SettingsFragment;
 import tljfn.yamblzweather.ui.start.StartFragment;
 
@@ -129,9 +122,14 @@ public class NavigationController {
                         .addToBackStack(tag)
                         .commit();
             }
-        } catch (InvocationTargetException | IllegalAccessException | NoSuchMethodException
-                | java.lang.InstantiationException e) {
-            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+
+        } catch (IllegalAccessException e) {
+
+        } catch (NoSuchMethodException e) {
+
+        } catch (InstantiationException e) {
+
         }
     }
 

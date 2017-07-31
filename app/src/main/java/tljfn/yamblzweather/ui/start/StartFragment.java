@@ -6,7 +6,6 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.DrawerLayout;
-import android.widget.Toast;
 
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
@@ -17,10 +16,7 @@ import javax.inject.Inject;
 
 import arch.ui.BaseFragment;
 import arch.ui.NavigationController;
-import arch.util.AutoClearedValue;
-import io.reactivex.disposables.CompositeDisposable;
 import tljfn.yamblzweather.R;
-import tljfn.yamblzweather.databinding.FragmentStartBinding;
 
 /**
  * Created by Maksim Sukhotski on 7/9/2017.
@@ -56,25 +52,6 @@ public class StartFragment extends BaseFragment {
     @Override
     public void onViewModelAttach() {
         startViewModel = ViewModelProviders.of(this, viewModelFactory).get(StartViewModel.class);
-    }
-
-    @Override
-    public void onBindingCreated(AutoClearedValue binding) {
-        FragmentStartBinding startBinding = (FragmentStartBinding) binding.get();
-
-        startViewModel.weather.observe(this, weather -> {
-            if (weather != null) {
-                if (weather.hasError()) {
-                    Toast.makeText(getContext(), weather.getError(), Toast.LENGTH_SHORT).show();
-                } else {
-                    startBinding.setWeather(weather);
-                    startBinding.executePendingBindings();
-                }
-            }
-        });
-
-        startBinding.setOnRefreshListener(startViewModel::updateWeather);
-        startBinding.setOnChooseCityCallback(() -> navigationController.navigateToChooseCity());
     }
 
     @Override

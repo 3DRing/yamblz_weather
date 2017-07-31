@@ -4,7 +4,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.widget.DrawerLayout;
 
 import arch.ui.BaseFragment;
-import arch.util.AutoClearedValue;
 import tljfn.yamblzweather.R;
 
 /**
@@ -31,11 +30,6 @@ public class AboutFragment extends BaseFragment {
 
     @Override
     public void onViewModelAttach() {
-
-    }
-
-    @Override
-    public void onBindingCreated(AutoClearedValue binding) {
 
     }
 }

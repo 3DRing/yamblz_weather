@@ -8,11 +8,7 @@ import android.support.v4.widget.DrawerLayout;
 import javax.inject.Inject;
 
 import arch.ui.BaseFragment;
-import arch.util.AutoClearedValue;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
 import tljfn.yamblzweather.R;
-import tljfn.yamblzweather.databinding.FragmentSettingsBinding;
 
 /**
  * Created by Maksim Sukhotski on 7/9/2017.
@@ -43,27 +39,5 @@ public class SettingsFragment extends BaseFragment {
     @Override
     public void onViewModelAttach() {
         settingsViewModel = ViewModelProviders.of(this, viewModelFactory).get(SettingsViewModel.class);
-    }
-
-    @Override
-    public void onBindingCreated(AutoClearedValue binding) {
-        FragmentSettingsBinding settingsBinding = (FragmentSettingsBinding) binding.get();
-
-        settingsViewModel.interval.observe(this, interval -> {
-            int[] ints = getResources().getIntArray(R.array.intervals_seconds);
-            String[] strings = getResources().getStringArray(R.array.intervals);
-            for (int i = 0; i < ints.length; i++) {
-                //noinspection ConstantConditions
-                if (ints[i] == interval) settingsBinding.setInterval(strings[i]);
-            }
-            settingsBinding.executePendingBindings();
-        });
-
-        settingsBinding.setOnIntervalChangedListener((seconds) ->
-                settingsViewModel.saveInterval(seconds)
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe()
-        );
     }
 }
