@@ -25,7 +25,7 @@ task clean(type: Delete) {
 
 ext {
     arch_version = "1.0.0-alpha3"
-    support_version = "25.3.1"
+    support_version = "26.0.0"
     dagger_version = "2.11"
     retrofit_version = "2.2.0"
     constraint_layout_version = "1.0.2"
