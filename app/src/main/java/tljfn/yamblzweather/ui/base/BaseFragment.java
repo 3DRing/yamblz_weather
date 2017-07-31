@@ -35,7 +35,6 @@ public abstract class BaseFragment extends Fragment implements Injectable {
         onFragmentInteractionListener.onFragmentInteraction(getToolbarTitle(), getDrawerMode());
         ButterKnife.bind(this, view);
         initializeViews();
-        onViewModelAttach();
     }
 
     @Override
@@ -81,11 +80,6 @@ public abstract class BaseFragment extends Fragment implements Injectable {
      * {@link android.support.v4.widget.DrawerLayout}.
      */
     public abstract Integer getDrawerMode();
-
-    /**
-     * This method will be called when ViewModel should be instantiated.
-     */
-    public abstract void onViewModelAttach();
 
     /**
      * This interface should listen when new fragment appears on the activity

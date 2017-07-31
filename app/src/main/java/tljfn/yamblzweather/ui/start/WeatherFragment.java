@@ -1,10 +1,12 @@
 package tljfn.yamblzweather.ui.start;
 
 import android.app.Activity;
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.widget.TextView;
@@ -26,12 +28,8 @@ import tljfn.yamblzweather.ui.base.ViewModelFragment;
  * Created by Maksim Sukhotski on 7/9/2017.
  */
 
-public class WeatherFragment extends ViewModelFragment<UIWeatherData> {
+public class WeatherFragment extends ViewModelFragment<WeatherViewModel, UIWeatherData> {
     public static final String TAG = WeatherFragment.class.getName();
-
-    @Inject
-    ViewModelProvider.Factory viewModelFactory;
-    private WeatherViewModel weatherViewModel;
 
     @Inject
     NavigationController navigationController;
@@ -52,7 +50,7 @@ public class WeatherFragment extends ViewModelFragment<UIWeatherData> {
     protected void initializeViews() {
         super.initializeViews();
         swipeLayout.setOnRefreshListener(() -> {
-            weatherViewModel.updateWeather();
+            viewModel.updateWeather();
         });
     }
 
@@ -73,24 +71,12 @@ public class WeatherFragment extends ViewModelFragment<UIWeatherData> {
     }
 
     @Override
-    public void onViewModelAttach() {
-        weatherViewModel = ViewModelProviders.of(this, viewModelFactory).get(WeatherViewModel.class);
-        weatherViewModel.observe(this, weather -> {
-            if (weather != null) {
-                tvTemperature.setText(getString(R.string.temperature, weather.getTemperature()));
-                tvCity.setText(weather.getCity());
-            }
-            swipeLayout.setRefreshing(false);
-        });
-    }
-
-    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == NavigationController.PLACE_AUTOCOMPLETE_REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
                 Place place = PlaceAutocomplete.getPlace(getContext(), data);
                 LatLng latLon = place.getLatLng();
-                weatherViewModel.changeCity(latLon.latitude, latLon.longitude);
+                viewModel.changeCity(latLon.latitude, latLon.longitude);
                 //weatherViewModel.changeCity(place.getId());
             } else if (resultCode == PlaceAutocomplete.RESULT_ERROR) {
                 Status status = PlaceAutocomplete.getStatus(getContext(), data);
@@ -100,5 +86,19 @@ public class WeatherFragment extends ViewModelFragment<UIWeatherData> {
                 // The user canceled the operation.
             }
         }
+    }
+
+    @Override
+    public void onChanged(@Nullable UIWeatherData uiWeatherData) {
+        if (uiWeatherData != null) {
+            tvTemperature.setText(getString(R.string.temperature, uiWeatherData.getTemperature()));
+            tvCity.setText(uiWeatherData.getCity());
+        }
+        swipeLayout.setRefreshing(false);
+    }
+
+    @Override
+    protected Class<WeatherViewModel> getViewModelClass() {
+        return WeatherViewModel.class;
     }
 }

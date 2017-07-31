@@ -1,6 +1,7 @@
 package tljfn.yamblzweather.ui.about;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.widget.DrawerLayout;
 
 import tljfn.yamblzweather.ui.base.BaseFragment;
@@ -12,7 +13,7 @@ import tljfn.yamblzweather.ui.base.ViewModelFragment;
  * Created by Maksim Sukhotski on 7/9/2017.
  */
 
-public class AboutFragment extends ViewModelFragment<UIBaseData> {
+public class AboutFragment extends ViewModelFragment<AboutViewModel, UIBaseData> {
 
     @NonNull
     @Override
@@ -31,7 +32,12 @@ public class AboutFragment extends ViewModelFragment<UIBaseData> {
     }
 
     @Override
-    public void onViewModelAttach() {
+    public void onChanged(@Nullable UIBaseData uiBaseData) {
+        // nothing so far
+    }
 
+    @Override
+    protected Class<AboutViewModel> getViewModelClass() {
+        return AboutViewModel.class;
     }
 }
