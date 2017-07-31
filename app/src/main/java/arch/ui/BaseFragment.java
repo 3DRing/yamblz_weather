@@ -33,6 +33,7 @@ public abstract class BaseFragment extends LifecycleFragment implements Injectab
         super.onViewCreated(view, savedInstanceState);
         onFragmentInteractionListener.onFragmentInteraction(getToolbarTitle(), getDrawerMode());
         ButterKnife.bind(this, view);
+        initializeViews();
         onViewModelAttach();
     }
 
@@ -45,6 +46,13 @@ public abstract class BaseFragment extends LifecycleFragment implements Injectab
             throw new ClassCastException(getActivity().toString()
                     + " must implement OnFragmentInteractionListener");
         }
+    }
+
+    /**
+     * use in case of custom initialization of some views
+     */
+    protected void initializeViews() {
+        // to override
     }
 
     @Override

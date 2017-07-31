@@ -6,6 +6,7 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.common.api.Status;
@@ -35,10 +36,20 @@ public class StartFragment extends BaseFragment {
     @Inject
     NavigationController navigationController;
 
+    @BindView(R.id.swipe_layout)
+    SwipeRefreshLayout swipeLayout;
     @BindView(R.id.tv_temperature)
     TextView tvTemperature;
     @BindView(R.id.tv_city)
     TextView tvCity;
+
+    @Override
+    protected void initializeViews() {
+        super.initializeViews();
+        swipeLayout.setOnRefreshListener(() -> {
+            startViewModel.updateWeather();
+        });
+    }
 
     @NonNull
     @Override
@@ -64,6 +75,7 @@ public class StartFragment extends BaseFragment {
                 tvTemperature.setText(getString(R.string.temperature, weather.getTemperature()));
                 tvCity.setText(weather.getCity());
             }
+            swipeLayout.setRefreshing(false);
         });
     }
 
