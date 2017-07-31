@@ -16,8 +16,9 @@
 
 package tljfn.yamblzweather.ui.start;
 
+import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.MutableLiveData;
-import android.arch.lifecycle.ViewModel;
+import android.arch.lifecycle.Observer;
 
 import javax.inject.Inject;
 
@@ -29,17 +30,16 @@ import tljfn.yamblzweather.api.NoInternetConnectionException;
 import tljfn.yamblzweather.repo.DatabaseRepo;
 import tljfn.yamblzweather.repo.PreferencesRepo;
 import tljfn.yamblzweather.repo.RemoteRepo;
+import tljfn.yamblzweather.ui.base.BaseViewModel;
 import tljfn.yamblzweather.vo.weather.WeatherMap;
 
 @SuppressWarnings("WeakerAccess") //for dagger
-public class StartViewModel extends ViewModel {
+public class StartViewModel extends BaseViewModel<UIWeatherData> {
 
     private final DatabaseRepo databaseRepo;
     private final RemoteRepo remoteRepo;
     private final PreferencesRepo preferencesRepo;
-    public MutableLiveData<WeatherMap> weather = new MutableLiveData<>();
-
-    private final CompositeDisposable disposable = new CompositeDisposable();
+    public MutableLiveData<UIWeatherData> liveData = new MutableLiveData<>();
 
     @Inject
     public StartViewModel(RemoteRepo remoteRepo, DatabaseRepo databaseRepo, PreferencesRepo preferencesRepo) {
@@ -51,16 +51,16 @@ public class StartViewModel extends ViewModel {
 
         // caching is disabled because of some bug that was not caught so far
         // and caused bad ux experience
-/*        disposable.add(getWeather()
+/*        disposable.add(getLiveData()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(weather::setValue, this::onError));*/
+                .subscribe(liveData::setValue, this::onError));*/
     }
 
     /**
-     * Get the weather from db.
+     * Get the liveData from db.
      */
-    public Flowable<WeatherMap> getWeather() {
+    public Flowable<WeatherMap> getLiveData() {
         return databaseRepo.getWeather();
     }
 
@@ -72,7 +72,8 @@ public class StartViewModel extends ViewModel {
                 .map(WeatherMap::updateTime)
                 .map(WeatherMap::setRefreshed)
                 .doOnSuccess(this::updateDatabase)
-                .subscribe(weather::setValue, this::onError);
+                .map(WeatherConverter::toUIData)
+                .subscribe(liveData::setValue, this::onError);
     }
 
     public void changeCity(double lat, double lon) {
@@ -83,7 +84,8 @@ public class StartViewModel extends ViewModel {
                 .doOnSuccess(this::updateDatabase)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(weather::setValue, this::onError);
+                .map(WeatherConverter::toUIData)
+                .subscribe(liveData::setValue, this::onError);
     }
 
     private void updateCurrentCity(WeatherMap weatherMap) {
@@ -103,13 +105,18 @@ public class StartViewModel extends ViewModel {
     }
 
     public void onError(Throwable throwable) {
-        WeatherMap wm = weather.getValue();
+/*        WeatherMap wm = liveData.getValue();
         if (wm != null) wm.setRefreshed();
         if (throwable instanceof NoInternetConnectionException) {
-            weather.setValue(wm);
+            liveData.setValue(wm);
         } else {
             wm.setError(throwable.getMessage());
-            weather.setValue(wm);
-        }
+            liveData.setValue(wm);
+        }*/
+    }
+
+    @Override
+    public void observe(LifecycleOwner owner, Observer<UIWeatherData> observer) {
+        liveData.observe(owner, observer);
     }
 }

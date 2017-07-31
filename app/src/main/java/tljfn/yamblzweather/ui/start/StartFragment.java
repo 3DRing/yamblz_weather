@@ -52,6 +52,9 @@ public class StartFragment extends BaseFragment {
     @Override
     public void onViewModelAttach() {
         startViewModel = ViewModelProviders.of(this, viewModelFactory).get(StartViewModel.class);
+        startViewModel.observe(this, weather -> {
+
+        });
     }
 
     @Override

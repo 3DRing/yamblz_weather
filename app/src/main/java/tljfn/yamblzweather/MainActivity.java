@@ -1,9 +1,7 @@
 package tljfn.yamblzweather;
 
-import android.app.Activity;
 import android.arch.lifecycle.LifecycleRegistry;
 import android.arch.lifecycle.LifecycleRegistryOwner;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -19,11 +17,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
-
-import com.google.android.gms.common.api.Status;
-import com.google.android.gms.location.places.Place;
-import com.google.android.gms.location.places.ui.PlaceAutocomplete;
-import com.google.android.gms.maps.model.LatLng;
 
 import javax.inject.Inject;
 
@@ -66,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements HasSupportFragmen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        setScheduler();
+        //setScheduler();
 
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);

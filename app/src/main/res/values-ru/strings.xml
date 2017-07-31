@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Погода</string>
+    <string name="app_name">ЯПогода</string>
 
     <string name="open_drawer">Открыть боковое меню</string>
     <string name="close_drawer">Закрыть боковое меню</string>

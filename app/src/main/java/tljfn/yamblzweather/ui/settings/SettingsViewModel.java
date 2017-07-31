@@ -16,7 +16,9 @@
 
 package tljfn.yamblzweather.ui.settings;
 
+import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.MutableLiveData;
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModel;
 
 import javax.inject.Inject;
@@ -25,8 +27,9 @@ import io.reactivex.Completable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import tljfn.yamblzweather.repo.PreferencesRepo;
+import tljfn.yamblzweather.ui.base.BaseViewModel;
 
-public class SettingsViewModel extends ViewModel {
+public class SettingsViewModel extends BaseViewModel {
 
     private final PreferencesRepo preferencesRepo;
     public MutableLiveData<Integer> interval = new MutableLiveData<>();
@@ -45,11 +48,16 @@ public class SettingsViewModel extends ViewModel {
     /**
      * Save the interval preference.
      *
-     * @param interval the new interval for weather updating
+     * @param interval the new interval for liveData updating
      * @return a {@link Completable} that completes when the user name is updated
      */
     public Completable saveInterval(final Integer interval) {
         this.interval.setValue(interval);
         return preferencesRepo.setInterval(interval);
+    }
+
+    @Override
+    public void observe(LifecycleOwner owner, Observer observer) {
+
     }
 }
