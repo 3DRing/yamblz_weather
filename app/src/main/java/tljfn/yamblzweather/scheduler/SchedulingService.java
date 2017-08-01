@@ -13,10 +13,10 @@ import dagger.android.HasServiceInjector;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import tljfn.yamblzweather.App;
+import tljfn.yamblzweather.api.data.RawWeather;
 import tljfn.yamblzweather.di.AppInjector;
 import tljfn.yamblzweather.repo.DatabaseRepo;
 import tljfn.yamblzweather.repo.RemoteRepo;
-import tljfn.yamblzweather.vo.weather.WeatherMap;
 
 public class SchedulingService extends IntentService implements HasServiceInjector {
     @Inject
@@ -44,15 +44,15 @@ public class SchedulingService extends IntentService implements HasServiceInject
         remoteRepo.getWeather("Москва")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .map(WeatherMap::updateTime)
-                .map(WeatherMap::setRefreshed)
+                .map(RawWeather::updateTime)
+                .map(RawWeather::setRefreshed)
                 .doOnSuccess(this::updateDatabase)
                 .subscribe();
 
         AlarmReceiver.completeWakefulIntent(intent);
     }
 
-    private void updateDatabase(WeatherMap weatherMap) {
+    private void updateDatabase(RawWeather weatherMap) {
         databaseRepo.insertOrUpdateWeather(weatherMap)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

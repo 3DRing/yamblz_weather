@@ -1,4 +1,4 @@
-package tljfn.yamblzweather.vo.weather;
+package tljfn.yamblzweather.api.data;
 
 /**
  * Created by Maksim Sukhotski on 7/17/2017.

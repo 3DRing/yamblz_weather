@@ -6,7 +6,7 @@ import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 
 import io.reactivex.Flowable;
-import tljfn.yamblzweather.vo.weather.WeatherMap;
+import tljfn.yamblzweather.api.data.RawWeather;
 
 /**
  * Data Access Object for the weather table.
@@ -20,7 +20,7 @@ public interface WeatherDao {
      * @return the weather from the table
      */
     @Query("SELECT * FROM weather")
-    Flowable<WeatherMap> getWeather();
+    Flowable<RawWeather> getWeather();
 
     /**
      * Insert a weather in the database. If the weather already exists, replace it.
@@ -28,7 +28,7 @@ public interface WeatherDao {
      * @param weatherMap the weather to be inserted.
      */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertWeather(WeatherMap weatherMap);
+    void insertWeather(RawWeather weatherMap);
 
     /**
      * Delete all.

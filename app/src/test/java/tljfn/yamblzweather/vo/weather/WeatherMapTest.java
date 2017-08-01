@@ -4,6 +4,13 @@ import org.junit.Before;
 import org.junit.Test;
 
 import tljfn.yamblzweather.Data;
+import tljfn.yamblzweather.api.data.RawWeather;
+import tljfn.yamblzweather.api.data.Clouds;
+import tljfn.yamblzweather.api.data.Coord;
+import tljfn.yamblzweather.api.data.Main;
+import tljfn.yamblzweather.api.data.Sys;
+import tljfn.yamblzweather.api.data.Weather;
+import tljfn.yamblzweather.api.data.Wind;
 
 import static org.junit.Assert.*;
 
@@ -32,7 +39,7 @@ public class WeatherMapTest {
 
         Main main = new Main("300", "200", "400", "0", "200");
 
-        data.wm = new WeatherMap(data.weathermapId, data.dt, clouds,
+        data.wm = new RawWeather(data.weathermapId, data.dt, clouds,
                 coord, wind, data.cod, data.visibility,
                 sys, data.name, data.base, weathers, main);
     }

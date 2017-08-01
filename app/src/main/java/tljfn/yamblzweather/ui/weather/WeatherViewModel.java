@@ -21,13 +21,13 @@ import javax.inject.Inject;
 import io.reactivex.Flowable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import tljfn.yamblzweather.api.data.RawWeather;
 import tljfn.yamblzweather.repo.DatabaseRepo;
 import tljfn.yamblzweather.repo.PreferencesRepo;
 import tljfn.yamblzweather.repo.RemoteRepo;
 import tljfn.yamblzweather.ui.base.BaseViewModel;
 import tljfn.yamblzweather.ui.weather.data.UIWeatherData;
 import tljfn.yamblzweather.ui.weather.data.WeatherConverter;
-import tljfn.yamblzweather.vo.weather.WeatherMap;
 
 @SuppressWarnings("WeakerAccess") //for dagger
 public class WeatherViewModel extends BaseViewModel<UIWeatherData> {
@@ -55,7 +55,7 @@ public class WeatherViewModel extends BaseViewModel<UIWeatherData> {
     /**
      * Get the liveData from db.
      */
-    public Flowable<WeatherMap> getLiveData() {
+    public Flowable<RawWeather> getLiveData() {
         return databaseRepo.getWeather();
     }
 
@@ -64,8 +64,8 @@ public class WeatherViewModel extends BaseViewModel<UIWeatherData> {
                 .flatMap(remoteRepo::getWeather)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .map(WeatherMap::updateTime)
-                .map(WeatherMap::setRefreshed)
+                .map(RawWeather::updateTime)
+                .map(RawWeather::setRefreshed)
                 .doOnSuccess(this::updateDatabase)
                 .map(WeatherConverter::toUIData)
                 .subscribe(liveData::setValue, this::onError);
@@ -73,8 +73,8 @@ public class WeatherViewModel extends BaseViewModel<UIWeatherData> {
 
     public void changeCity(double lat, double lon) {
         remoteRepo.getWeather(lat, lon)
-                .map(WeatherMap::updateTime)
-                .map(WeatherMap::setRefreshed)
+                .map(RawWeather::updateTime)
+                .map(RawWeather::setRefreshed)
                 .doOnSuccess(this::updateCurrentCity)
                 .doOnSuccess(this::updateDatabase)
                 .subscribeOn(Schedulers.io())
@@ -83,14 +83,14 @@ public class WeatherViewModel extends BaseViewModel<UIWeatherData> {
                 .subscribe(liveData::setValue, this::onError);
     }
 
-    private void updateCurrentCity(WeatherMap weatherMap) {
+    private void updateCurrentCity(RawWeather weatherMap) {
         preferencesRepo.updateCurrentCity(weatherMap.id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe();
     }
 
-    void updateDatabase(WeatherMap weatherMap) {
+    void updateDatabase(RawWeather weatherMap) {
         // caching is disabled because of some bug that was not caught so far
         // and caused bad ux experience
 /*        databaseRepo.insertOrUpdateWeather(weatherMap)

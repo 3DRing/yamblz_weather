@@ -10,15 +10,7 @@ import org.mockito.junit.MockitoRule;
 import io.reactivex.Flowable;
 import tljfn.yamblzweather.Data;
 import tljfn.yamblzweather.db.WeatherDao;
-import tljfn.yamblzweather.vo.weather.Clouds;
-import tljfn.yamblzweather.vo.weather.Coord;
-import tljfn.yamblzweather.vo.weather.Main;
-import tljfn.yamblzweather.vo.weather.Sys;
-import tljfn.yamblzweather.vo.weather.Weather;
-import tljfn.yamblzweather.vo.weather.WeatherMap;
-import tljfn.yamblzweather.vo.weather.Wind;
 
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 

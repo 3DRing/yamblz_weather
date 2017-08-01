@@ -2,12 +2,12 @@ package tljfn.yamblzweather.db;
 
 import org.junit.Test;
 
-import tljfn.yamblzweather.vo.weather.Clouds;
-import tljfn.yamblzweather.vo.weather.Coord;
-import tljfn.yamblzweather.vo.weather.Main;
-import tljfn.yamblzweather.vo.weather.Sys;
-import tljfn.yamblzweather.vo.weather.Weather;
-import tljfn.yamblzweather.vo.weather.Wind;
+import tljfn.yamblzweather.api.data.Clouds;
+import tljfn.yamblzweather.api.data.Coord;
+import tljfn.yamblzweather.api.data.Main;
+import tljfn.yamblzweather.api.data.Sys;
+import tljfn.yamblzweather.api.data.Weather;
+import tljfn.yamblzweather.api.data.Wind;
 
 import static org.junit.Assert.*;
 

@@ -2,12 +2,11 @@ package tljfn.yamblzweather.api;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
+import java.nio.charset.Charset;
 import java.util.Collections;
 import java.util.Map;
 
@@ -19,11 +18,7 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import tljfn.yamblzweather.Data;
-import tljfn.yamblzweather.repo.RemoteRepo;
-import tljfn.yamblzweather.vo.weather.Weather;
-import tljfn.yamblzweather.vo.weather.WeatherMap;
-
-import static org.junit.Assert.*;
+import tljfn.yamblzweather.api.data.RawWeather;
 
 /**
  * Created by ringov on 28.07.17.
@@ -33,7 +28,7 @@ public class WeatherApiTest {
     private WeatherApi api;
 
     private MockWebServer mockWebServer;
-    private WeatherMap weather;
+    private RawWeather weather;
 
     @Before
     public void setup() throws IOException {
@@ -117,6 +112,6 @@ public class WeatherApiTest {
             mockResponse.addHeader(header.getKey(), header.getValue());
         }
         mockWebServer.enqueue(mockResponse
-                .setBody(source.readString(StandardCharsets.UTF_8)));
+                .setBody(source.readString(Charset.forName("UTF-8"))));
     }
 }

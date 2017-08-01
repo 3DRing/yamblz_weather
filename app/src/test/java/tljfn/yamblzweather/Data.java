@@ -3,13 +3,13 @@ package tljfn.yamblzweather;
 import java.util.ArrayList;
 import java.util.List;
 
-import tljfn.yamblzweather.vo.weather.Clouds;
-import tljfn.yamblzweather.vo.weather.Coord;
-import tljfn.yamblzweather.vo.weather.Main;
-import tljfn.yamblzweather.vo.weather.Sys;
-import tljfn.yamblzweather.vo.weather.Weather;
-import tljfn.yamblzweather.vo.weather.WeatherMap;
-import tljfn.yamblzweather.vo.weather.Wind;
+import tljfn.yamblzweather.api.data.RawWeather;
+import tljfn.yamblzweather.api.data.Clouds;
+import tljfn.yamblzweather.api.data.Coord;
+import tljfn.yamblzweather.api.data.Main;
+import tljfn.yamblzweather.api.data.Sys;
+import tljfn.yamblzweather.api.data.Weather;
+import tljfn.yamblzweather.api.data.Wind;
 
 /**
  * Created by ringov on 28.07.17.
@@ -55,7 +55,7 @@ public class Data {
         temp = "200";
     }
 
-    public WeatherMap wm;
+    public RawWeather wm;
 
     public static class Builder {
 
@@ -192,14 +192,14 @@ public class Data {
 
             Main main = new Main(data.humidity, data.pressure, data.temp_max, data.temp_min, data.temp);
 
-            data.wm = new WeatherMap(data.weathermapId, data.dt, clouds,
+            data.wm = new RawWeather(data.weathermapId, data.dt, clouds,
                     coord, wind, data.cod, data.visibility,
                     sys, data.name, data.base, weathers.toArray(new Weather[weathers.size()]), main);
             return data;
         }
     }
 
-    public WeatherMap getNewYorkWeatherMap() {
+    public RawWeather getNewYorkWeatherMap() {
         return new Builder()
                 .setLon(-74.01f)
                 .setLat(40.71f)

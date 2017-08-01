@@ -1,4 +1,4 @@
-package tljfn.yamblzweather.vo.weather;
+package tljfn.yamblzweather.api.data;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
@@ -12,11 +12,11 @@ import java.util.Locale;
 import tljfn.yamblzweather.db.WeatherTypeConverters;
 
 /**
- * Immutable model class for WeatherMap
+ * Immutable model class for RawWeather
  */
 @Entity(tableName = "weather")
 @TypeConverters(WeatherTypeConverters.class)
-public class WeatherMap {
+public class RawWeather {
 
     @PrimaryKey
     public final long id;
@@ -35,7 +35,7 @@ public class WeatherMap {
     public boolean isRefreshing;
     public String message = "";
 
-    public WeatherMap(long id, int dt, Clouds clouds, Coord coord, Wind wind, int cod,
+    public RawWeather(long id, int dt, Clouds clouds, Coord coord, Wind wind, int cod,
                       int visibility, Sys sys, String name, String base, Weather[] weather, Main main) {
         this.id = id;
         this.dt = dt;
@@ -51,12 +51,12 @@ public class WeatherMap {
         this.main = main;
     }
 
-    public WeatherMap updateTime() {
+    public RawWeather updateTime() {
         this.time = new Date().getTime();
         return this;
     }
 
-    public WeatherMap setRefreshed() {
+    public RawWeather setRefreshed() {
         this.isRefreshing = false;
         return this;
     }
@@ -72,7 +72,7 @@ public class WeatherMap {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        WeatherMap that = (WeatherMap) o;
+        RawWeather that = (RawWeather) o;
 
         if (id != that.id) return false;
         if (dt != that.dt) return false;
