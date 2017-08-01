@@ -15,7 +15,7 @@ import tljfn.yamblzweather.R;
 import tljfn.yamblzweather.navigation.NavigationController;
 import tljfn.yamblzweather.ui.about.AboutFragment;
 import tljfn.yamblzweather.ui.settings.SettingsFragment;
-import tljfn.yamblzweather.ui.start.WeatherFragment;
+import tljfn.yamblzweather.ui.weather.WeatherFragment;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;

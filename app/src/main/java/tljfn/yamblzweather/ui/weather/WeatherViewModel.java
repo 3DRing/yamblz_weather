@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package tljfn.yamblzweather.ui.start;
+package tljfn.yamblzweather.ui.weather;
 
 import javax.inject.Inject;
 
@@ -25,6 +25,8 @@ import tljfn.yamblzweather.repo.DatabaseRepo;
 import tljfn.yamblzweather.repo.PreferencesRepo;
 import tljfn.yamblzweather.repo.RemoteRepo;
 import tljfn.yamblzweather.ui.base.BaseViewModel;
+import tljfn.yamblzweather.ui.weather.data.UIWeatherData;
+import tljfn.yamblzweather.ui.weather.data.WeatherConverter;
 import tljfn.yamblzweather.vo.weather.WeatherMap;
 
 @SuppressWarnings("WeakerAccess") //for dagger
@@ -95,5 +97,10 @@ public class WeatherViewModel extends BaseViewModel<UIWeatherData> {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe();*/
+    }
+
+    @Override
+    protected UIWeatherData buildUIError(String message) {
+        return new UIWeatherData.Builder().error(message).build();
     }
 }

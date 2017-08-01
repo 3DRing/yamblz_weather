@@ -18,6 +18,7 @@
     <string name="weather_screen_title">Погода</string>
     <string name="settings_screen_title">Настройки</string>
     <string name="about_screen_title">О приложении</string>
+    <string name="no_data_loaded_error">Не удалось загрузить данные</string>
 
     <string-array name="intervals">
         <item>15 секунд</item>

@@ -36,7 +36,7 @@ import tljfn.yamblzweather.R;
 import tljfn.yamblzweather.ui.about.AboutFragment;
 import tljfn.yamblzweather.ui.base.BaseFragment;
 import tljfn.yamblzweather.ui.settings.SettingsFragment;
-import tljfn.yamblzweather.ui.start.WeatherFragment;
+import tljfn.yamblzweather.ui.weather.WeatherFragment;
 
 /**
  * A utility class that handles navigation in {@link MainActivity}.

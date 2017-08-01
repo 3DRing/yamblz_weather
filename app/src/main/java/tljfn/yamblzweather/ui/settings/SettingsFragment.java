@@ -1,11 +1,10 @@
 package tljfn.yamblzweather.ui.settings;
 
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.widget.DrawerLayout;
 
 import tljfn.yamblzweather.R;
-import tljfn.yamblzweather.ui.base.UIBaseData;
+import tljfn.yamblzweather.ui.base.data.UIBaseData;
 import tljfn.yamblzweather.ui.base.ViewModelFragment;
 
 /**
@@ -31,12 +30,27 @@ public class SettingsFragment extends ViewModelFragment<SettingsViewModel, UIBas
     }
 
     @Override
-    public void onChanged(@Nullable UIBaseData uiBaseData) {
-        // nothing so far
+    protected Class<SettingsViewModel> getViewModelClass() {
+        return SettingsViewModel.class;
     }
 
     @Override
-    protected Class<SettingsViewModel> getViewModelClass() {
-        return SettingsViewModel.class;
+    protected void showLoading() {
+
+    }
+
+    @Override
+    protected void hideLoading() {
+
+    }
+
+    @Override
+    protected void onSuccess(UIBaseData data) {
+
+    }
+
+    @Override
+    protected void onError(String errorMessage) {
+
     }
 }

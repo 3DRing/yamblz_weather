@@ -1,4 +1,4 @@
-package tljfn.yamblzweather.ui.start;
+package tljfn.yamblzweather.ui.weather.data;
 
 import tljfn.yamblzweather.vo.weather.WeatherMap;
 

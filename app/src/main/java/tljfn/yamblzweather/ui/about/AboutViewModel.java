@@ -19,7 +19,7 @@ package tljfn.yamblzweather.ui.about;
 import javax.inject.Inject;
 
 import tljfn.yamblzweather.ui.base.BaseViewModel;
-import tljfn.yamblzweather.ui.base.UIBaseData;
+import tljfn.yamblzweather.ui.base.data.UIBaseData;
 
 public class AboutViewModel extends BaseViewModel<UIBaseData> {
 
@@ -27,4 +27,8 @@ public class AboutViewModel extends BaseViewModel<UIBaseData> {
     public AboutViewModel() {
     }
 
+    @Override
+    protected UIBaseData buildUIError(String messageError) {
+        return new UIBaseData.ErrorBuilder().error(messageError).build();
+    }
 }

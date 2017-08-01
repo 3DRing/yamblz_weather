@@ -17,18 +17,14 @@
 package tljfn.yamblzweather.ui.settings;
 
 import android.arch.lifecycle.LifecycleOwner;
-import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModel;
 
 import javax.inject.Inject;
 
 import io.reactivex.Completable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
 import tljfn.yamblzweather.repo.PreferencesRepo;
 import tljfn.yamblzweather.ui.base.BaseViewModel;
-import tljfn.yamblzweather.ui.base.UIBaseData;
+import tljfn.yamblzweather.ui.base.data.UIBaseData;
 
 public class SettingsViewModel extends BaseViewModel<UIBaseData> {
 
@@ -59,5 +55,10 @@ public class SettingsViewModel extends BaseViewModel<UIBaseData> {
     @Override
     public void observe(LifecycleOwner owner, Observer observer) {
 
+    }
+
+    @Override
+    protected UIBaseData buildUIError(String messageError) {
+        return new UIBaseData.ErrorBuilder().error(messageError).build();
     }
 }

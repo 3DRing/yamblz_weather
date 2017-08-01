@@ -1,4 +1,4 @@
-package tljfn.yamblzweather.ui.start;
+package tljfn.yamblzweather.ui.weather;
 
 import org.junit.Before;
 import org.junit.Rule;

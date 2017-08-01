@@ -1,15 +1,12 @@
-package tljfn.yamblzweather.ui.start;
+package tljfn.yamblzweather.ui.weather;
 
 import android.app.Activity;
-import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModelProvider;
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
@@ -23,6 +20,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import tljfn.yamblzweather.R;
 import tljfn.yamblzweather.ui.base.ViewModelFragment;
+import tljfn.yamblzweather.ui.weather.data.UIWeatherData;
 
 /**
  * Created by Maksim Sukhotski on 7/9/2017.
@@ -89,16 +87,31 @@ public class WeatherFragment extends ViewModelFragment<WeatherViewModel, UIWeath
     }
 
     @Override
-    public void onChanged(@Nullable UIWeatherData uiWeatherData) {
-        if (uiWeatherData != null) {
-            tvTemperature.setText(getString(R.string.temperature, uiWeatherData.getTemperature()));
-            tvCity.setText(uiWeatherData.getCity());
-        }
+    protected Class<WeatherViewModel> getViewModelClass() {
+        return WeatherViewModel.class;
+    }
+
+    @Override
+    protected void showLoading() {
+        swipeLayout.setRefreshing(true);
+    }
+
+    @Override
+    protected void hideLoading() {
         swipeLayout.setRefreshing(false);
     }
 
     @Override
-    protected Class<WeatherViewModel> getViewModelClass() {
-        return WeatherViewModel.class;
+    protected void onSuccess(UIWeatherData data) {
+        if (data != null) {
+            tvTemperature.setText(getString(R.string.temperature, data.getTemperature()));
+            tvCity.setText(data.getCity());
+        }
+
+    }
+
+    @Override
+    protected void onError(String errorMessage) {
+        Toast.makeText(getContext(), errorMessage, Toast.LENGTH_SHORT).show();
     }
 }

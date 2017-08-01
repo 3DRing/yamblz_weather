@@ -5,7 +5,7 @@ import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModel;
 
-import tljfn.yamblzweather.ui.start.UIWeatherData;
+import tljfn.yamblzweather.ui.base.data.UIBaseData;
 
 /**
  * Created by ringov on 31.07.17.
@@ -20,6 +20,8 @@ public abstract class BaseViewModel<D extends UIBaseData> extends ViewModel {
     }
 
     protected void onError(Throwable throwable) {
-        throw new RuntimeException(throwable.getMessage());
+        liveData.postValue(buildUIError(throwable.getMessage()));
     }
+
+    protected abstract D buildUIError(String messageError);
 }
