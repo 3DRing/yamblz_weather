@@ -3,6 +3,7 @@ package tljfn.yamblzweather.repo;
 import io.reactivex.Completable;
 import io.reactivex.Flowable;
 import tljfn.yamblzweather.api.data.RawWeather;
+import tljfn.yamblzweather.db.DBWeather;
 import tljfn.yamblzweather.db.WeatherDao;
 
 /**
@@ -21,8 +22,8 @@ public class DatabaseRepo {
      *
      * @return the weather from the local data source.
      */
-    public Flowable<RawWeather> getWeather() {
-        return weatherDao.getWeather();
+    public Flowable<DBWeather> getWeather() {
+        return Flowable.just(new DBWeather()); //weatherDao.getWeather();
     }
 
     /**
@@ -30,14 +31,14 @@ public class DatabaseRepo {
      *
      * @param weather the user to be inserted or updated.
      */
-    public Completable insertOrUpdateWeather(RawWeather weather) {
-        return Completable.fromAction(() -> weatherDao.insertWeather(weather));
+    public Completable insertOrUpdateWeather(DBWeather weather) {
+        return Completable.fromAction(() -> {/*weatherDao.insertWeather(weather)*/});
     }
 
     /**
      * Deletes all from the database.
      */
     public void deleteAll() {
-        weatherDao.deleteAll();
+        //weatherDao.deleteAll();
     }
 }

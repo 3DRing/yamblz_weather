@@ -1,55 +1,40 @@
+
 package tljfn.yamblzweather.api.data;
 
-/**
- * Created by Maksim Sukhotski on 7/17/2017.
- */
+import com.google.gson.annotations.SerializedName;
 
 public class Main {
-    public final String humidity;
-    public final String pressure;
-    public final String temp_max;
-    public final String temp_min;
-    public final String temp;
 
-    public Main(String humidity, String pressure, String temp_max, String temp_min, String temp) {
-        this.humidity = humidity;
-        this.pressure = pressure;
-        this.temp_max = temp_max;
-        this.temp_min = temp_min;
-        this.temp = temp;
+    @SerializedName("temp")
+    double temp;
+    @SerializedName("pressure")
+    double pressure;
+    @SerializedName("humidity")
+    double humidity;
+    @SerializedName("temp_min")
+    double tempMin;
+    @SerializedName("temp_max")
+    double tempMax;
+
+    public double getTemp() {
+        return temp;
     }
 
-    public String getCelsius() {
-        return String.valueOf(Math.round(Float.parseFloat(temp) - 273.15)) + "°";
+
+    public double getPressure() {
+        return pressure;
     }
 
-    @Override
-    public String toString() {
-        return humidity + " " + pressure + " " + temp_max + " " + temp_min + " " + temp;
+    public double getHumidity() {
+        return humidity;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Main main = (Main) o;
-
-        if (!humidity.equals(main.humidity)) return false;
-        if (!pressure.equals(main.pressure)) return false;
-        if (!temp_max.equals(main.temp_max)) return false;
-        if (!temp_min.equals(main.temp_min)) return false;
-        return temp.equals(main.temp);
-
+    public double getTempMin() {
+        return tempMin;
     }
 
-    @Override
-    public int hashCode() {
-        int result = humidity.hashCode();
-        result = 31 * result + pressure.hashCode();
-        result = 31 * result + temp_max.hashCode();
-        result = 31 * result + temp_min.hashCode();
-        result = 31 * result + temp.hashCode();
-        return result;
+    public double getTempMax() {
+        return tempMax;
     }
+
 }

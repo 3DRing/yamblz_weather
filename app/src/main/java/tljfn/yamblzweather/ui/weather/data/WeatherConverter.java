@@ -11,8 +11,8 @@ public class WeatherConverter {
 
     public static UIWeatherData toUIData(RawWeather weather) {
         UIWeatherData uiWeather = new UIWeatherData.Builder()
-                .setCity(weather.name)
-                .setTemperature(toCelsius(Double.parseDouble(weather.main.temp)))
+                .setCity(weather.getName())
+                .setTemperature(toCelsius(weather.getMain().getTemp()))
                 .build();
         return uiWeather;
     }

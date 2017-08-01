@@ -55,17 +55,14 @@ public class WeatherViewModel extends BaseViewModel<UIWeatherData> {
     /**
      * Get the liveData from db.
      */
-    public Flowable<RawWeather> getLiveData() {
+/*    public Flowable<RawWeather> getLiveData() {
         return databaseRepo.getWeather();
-    }
-
+    }*/
     public void updateWeather() {
         preferencesRepo.getCurrentCity()
                 .flatMap(remoteRepo::getWeather)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .map(RawWeather::updateTime)
-                .map(RawWeather::setRefreshed)
                 .doOnSuccess(this::updateDatabase)
                 .map(WeatherConverter::toUIData)
                 .subscribe(liveData::setValue, this::onError);
@@ -73,8 +70,6 @@ public class WeatherViewModel extends BaseViewModel<UIWeatherData> {
 
     public void changeCity(double lat, double lon) {
         remoteRepo.getWeather(lat, lon)
-                .map(RawWeather::updateTime)
-                .map(RawWeather::setRefreshed)
                 .doOnSuccess(this::updateCurrentCity)
                 .doOnSuccess(this::updateDatabase)
                 .subscribeOn(Schedulers.io())
@@ -84,7 +79,7 @@ public class WeatherViewModel extends BaseViewModel<UIWeatherData> {
     }
 
     private void updateCurrentCity(RawWeather weatherMap) {
-        preferencesRepo.updateCurrentCity(weatherMap.id)
+        preferencesRepo.updateCurrentCity(weatherMap.getId())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe();

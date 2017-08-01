@@ -20,15 +20,15 @@ public interface WeatherDao {
      * @return the weather from the table
      */
     @Query("SELECT * FROM weather")
-    Flowable<RawWeather> getWeather();
+    Flowable<DBWeather> getWeather();
 
     /**
      * Insert a weather in the database. If the weather already exists, replace it.
      *
-     * @param weatherMap the weather to be inserted.
+     * @param weather the weather to be inserted.
      */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertWeather(RawWeather weatherMap);
+    void insertWeather(DBWeather weather);
 
     /**
      * Delete all.

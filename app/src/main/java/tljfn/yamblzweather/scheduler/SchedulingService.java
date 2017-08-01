@@ -41,7 +41,7 @@ public class SchedulingService extends IntentService implements HasServiceInject
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        remoteRepo.getWeather("Москва")
+/*        remoteRepo.getWeather("Москва")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(RawWeather::updateTime)
@@ -49,14 +49,14 @@ public class SchedulingService extends IntentService implements HasServiceInject
                 .doOnSuccess(this::updateDatabase)
                 .subscribe();
 
-        AlarmReceiver.completeWakefulIntent(intent);
+        AlarmReceiver.completeWakefulIntent(intent);*/
     }
 
     private void updateDatabase(RawWeather weatherMap) {
-        databaseRepo.insertOrUpdateWeather(weatherMap)
+/*        databaseRepo.insertOrUpdateWeather(weatherMap)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe();
+                .subscribe();*/
     }
 
     @Override
