@@ -4,9 +4,15 @@ package tljfn.yamblzweather.ui.base.data;
  * Created by ringov on 31.07.17.
  */
 
-public class UIBaseData implements UIError {
+public class UIBaseData implements UIState {
 
     String error;
+    boolean loading;
+
+    protected UIBaseData() {
+        error = "";
+        loading = false;
+    }
 
     @Override
     public boolean hasError() {
@@ -16,6 +22,16 @@ public class UIBaseData implements UIError {
     @Override
     public String getErrorMessage() {
         return error;
+    }
+
+    @Override
+    public void setLoading(boolean loading) {
+        this.loading = loading;
+    }
+
+    @Override
+    public boolean isLoading() {
+        return loading;
     }
 
     protected static abstract class Builder<D extends UIBaseData, B extends Builder> {
@@ -39,7 +55,6 @@ public class UIBaseData implements UIError {
             return data;
         }
     }
-
 
 
     public static class ErrorBuilder extends Builder<UIBaseData, ErrorBuilder> {

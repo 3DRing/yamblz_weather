@@ -47,6 +47,11 @@ public abstract class ViewModelFragment<VM extends BaseViewModel<D>, D extends U
     @Override
     public void onChanged(@Nullable D data) {
         if (data != null) {
+            if (data.isLoading()) {
+                showLoading();
+            } else {
+                hideLoading();
+            }
             if (data.hasError()) {
                 onError(data.getErrorMessage());
             } else {
@@ -55,7 +60,6 @@ public abstract class ViewModelFragment<VM extends BaseViewModel<D>, D extends U
         } else {
             onError(getString(R.string.no_data_loaded_error));
         }
-        hideLoading();
     }
 
     protected abstract void showLoading();

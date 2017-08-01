@@ -18,16 +18,12 @@ package tljfn.yamblzweather.ui.weather;
 
 import javax.inject.Inject;
 
-import io.reactivex.Flowable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
 import tljfn.yamblzweather.api.data.RawWeather;
 import tljfn.yamblzweather.repo.DatabaseRepo;
 import tljfn.yamblzweather.repo.PreferencesRepo;
 import tljfn.yamblzweather.repo.RemoteRepo;
 import tljfn.yamblzweather.ui.base.BaseViewModel;
 import tljfn.yamblzweather.ui.weather.data.UIWeatherData;
-import tljfn.yamblzweather.ui.weather.data.WeatherConverter;
 
 @SuppressWarnings("WeakerAccess") //for dagger
 public class WeatherViewModel extends BaseViewModel<UIWeatherData> {
@@ -42,56 +38,32 @@ public class WeatherViewModel extends BaseViewModel<UIWeatherData> {
         this.remoteRepo = remoteRepo;
         this.preferencesRepo = preferencesRepo;
 
-        updateWeather();
-
-        // caching is disabled because of some bug that was not caught so far
-        // and caused bad ux experience
-/*        disposable.add(getLiveData()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(liveData::setValue, this::onError));*/
+        loadCachedWeather();
     }
 
-    /**
-     * Get the liveData from db.
-     */
-/*    public Flowable<RawWeather> getLiveData() {
-        return databaseRepo.getWeather();
-    }*/
+    public void loadCachedWeather() {
+        sub(databaseRepo.loadCachedWeather()
+                .subscribe(this::onChange, this::onError));
+    }
+
     public void updateWeather() {
         preferencesRepo.getCurrentCity()
                 .flatMap(remoteRepo::getWeather)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnSuccess(this::updateDatabase)
-                .map(WeatherConverter::toUIData)
+                .flatMap(databaseRepo::insertOrUpdateWeather)
                 .subscribe(this::onChange, this::onError);
     }
 
     public void changeCity(double lat, double lon) {
         remoteRepo.getWeather(lat, lon)
+                .doOnSubscribe(sub -> showLoading())
                 .doOnSuccess(this::updateCurrentCity)
-                .doOnSuccess(this::updateDatabase)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .map(WeatherConverter::toUIData)
+                .flatMap(databaseRepo::insertOrUpdateWeather)
                 .subscribe(this::onChange, this::onError);
     }
 
     private void updateCurrentCity(RawWeather weatherMap) {
         preferencesRepo.updateCurrentCity(weatherMap.getId())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe();
-    }
-
-    void updateDatabase(RawWeather weatherMap) {
-        // caching is disabled because of some bug that was not caught so far
-        // and caused bad ux experience
-/*        databaseRepo.insertOrUpdateWeather(weatherMap)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe();*/
     }
 
     @Override

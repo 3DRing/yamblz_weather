@@ -1,10 +1,13 @@
 package tljfn.yamblzweather.repo;
 
-import io.reactivex.Completable;
 import io.reactivex.Flowable;
+import io.reactivex.Single;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 import tljfn.yamblzweather.api.data.RawWeather;
-import tljfn.yamblzweather.db.DBWeather;
+import tljfn.yamblzweather.db.DBWeatherData;
 import tljfn.yamblzweather.db.WeatherDao;
+import tljfn.yamblzweather.ui.weather.data.UIWeatherData;
 
 /**
  * Using the Room database as a data source.
@@ -17,22 +20,14 @@ public class DatabaseRepo {
         this.weatherDao = weatherDao;
     }
 
-    /**
-     * Gets the weather from the local data source.
-     *
-     * @return the weather from the local data source.
-     */
-    public Flowable<DBWeather> getWeather() {
-        return Flowable.just(new DBWeather()); //weatherDao.getWeather();
-    }
-
-    /**
-     * Inserts the weather in the database, or, if this is an existing weather, it updates it.
-     *
-     * @param weather the user to be inserted or updated.
-     */
-    public Completable insertOrUpdateWeather(DBWeather weather) {
-        return Completable.fromAction(() -> {/*weatherDao.insertWeather(weather)*/});
+    public Single<UIWeatherData> insertOrUpdateWeather(RawWeather weather) {
+        return Single.fromCallable(() -> {
+            DBWeatherData data = DBWeatherData.fromRawWeatherData(weather);
+            weatherDao.insertWeather(data);
+            return DBWeatherData.toUIWeatherData(data);
+        })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     /**
@@ -40,5 +35,12 @@ public class DatabaseRepo {
      */
     public void deleteAll() {
         //weatherDao.deleteAll();
+    }
+
+    public Flowable<UIWeatherData> loadCachedWeather() {
+        return weatherDao.loadWeather()
+                .map(DBWeatherData::toUIWeatherData)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 }

@@ -21,6 +21,8 @@ import android.content.SharedPreferences;
 
 import io.reactivex.Completable;
 import io.reactivex.Single;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 import tljfn.yamblzweather.BaseFields;
 
 /**
@@ -55,7 +57,9 @@ public class PreferencesRepo {
 
     public Completable updateCurrentCity(long id) {
         return Completable.fromAction(() ->
-                preferences.edit().putLong(KEY_CURRENT_CITY, id).apply());
+                preferences.edit().putLong(KEY_CURRENT_CITY, id).apply())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     public Single<Long> getCurrentCity() {

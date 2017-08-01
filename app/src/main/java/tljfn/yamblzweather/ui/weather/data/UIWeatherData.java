@@ -12,6 +12,7 @@ public class UIWeatherData extends UIBaseData {
     private double temperature;
 
     private UIWeatherData() {
+        super();
         city = "";
         temperature = 0;
     }

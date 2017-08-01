@@ -5,6 +5,9 @@ import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModel;
 
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+import tljfn.yamblzweather.api.data.RawWeather;
 import tljfn.yamblzweather.ui.base.data.UIBaseData;
 
 /**
@@ -13,7 +16,16 @@ import tljfn.yamblzweather.ui.base.data.UIBaseData;
 
 public abstract class BaseViewModel<D extends UIBaseData> extends ViewModel {
 
-    protected BaseLiveData<D> liveData = new BaseLiveData<>();
+    private BaseLiveData<D> liveData = new BaseLiveData<>();
+    private CompositeDisposable disposables;
+
+    protected BaseViewModel() {
+        disposables = new CompositeDisposable();
+    }
+
+    protected void sub(Disposable disposable) {
+        disposables.add(disposable);
+    }
 
     public void observe(LifecycleOwner owner, Observer<D> observer) {
         liveData.observe(owner, observer);
@@ -28,4 +40,12 @@ public abstract class BaseViewModel<D extends UIBaseData> extends ViewModel {
     }
 
     protected abstract D buildUIError(String messageError);
+
+    public void showLoading() {
+        D crtData = liveData.getValue();
+        if (crtData != null) {
+            crtData.setLoading(true);
+        }
+        liveData.changeData(crtData);
+    }
 }

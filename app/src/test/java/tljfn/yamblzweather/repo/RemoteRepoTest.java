@@ -40,15 +40,6 @@ public class RemoteRepoTest {
     }
 
     @Test
-    public void getWeatherByCity() {
-        when(api.getWeather("Moscow", RemoteRepo.DEFAULT_LOCALE)).thenReturn(Single.just(data.wm));
-
-        repo.getWeather("Moscow").test()
-                .assertNoErrors()
-                .assertValue(data.wm);
-    }
-
-    @Test
     public void getWeatherByCoords() {
         Data data = new Data.Builder()
                 .setName("Somecity")
