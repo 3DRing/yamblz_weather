@@ -6,7 +6,9 @@ import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 
 import javax.inject.Inject;
@@ -60,7 +62,7 @@ public abstract class ViewModelFragment<VM extends BaseViewModel<D>, D extends U
 
     protected abstract void hideLoading();
 
-    protected abstract void onSuccess(D data);
+    protected abstract void onSuccess(@NonNull D data);
 
     protected abstract void onError(String errorMessage);
 }

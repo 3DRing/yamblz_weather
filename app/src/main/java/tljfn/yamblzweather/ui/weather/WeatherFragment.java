@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -102,12 +103,9 @@ public class WeatherFragment extends ViewModelFragment<WeatherViewModel, UIWeath
     }
 
     @Override
-    protected void onSuccess(UIWeatherData data) {
-        if (data != null) {
-            tvTemperature.setText(getString(R.string.temperature, data.getTemperature()));
-            tvCity.setText(data.getCity());
-        }
-
+    protected void onSuccess(@NonNull UIWeatherData data) {
+        tvTemperature.setText(getString(R.string.temperature, data.getTemperature()));
+        tvCity.setText(data.getCity());
     }
 
     @Override

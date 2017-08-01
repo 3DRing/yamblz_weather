@@ -13,14 +13,18 @@ import tljfn.yamblzweather.ui.base.data.UIBaseData;
 
 public abstract class BaseViewModel<D extends UIBaseData> extends ViewModel {
 
-    protected MutableLiveData<D> liveData = new MutableLiveData<>();
+    protected BaseLiveData<D> liveData = new BaseLiveData<>();
 
     public void observe(LifecycleOwner owner, Observer<D> observer) {
         liveData.observe(owner, observer);
     }
 
     protected void onError(Throwable throwable) {
-        liveData.postValue(buildUIError(throwable.getMessage()));
+        liveData.changeData(buildUIError(throwable.getMessage()));
+    }
+
+    protected void onChange(D data) {
+        liveData.changeData(data);
     }
 
     protected abstract D buildUIError(String messageError);

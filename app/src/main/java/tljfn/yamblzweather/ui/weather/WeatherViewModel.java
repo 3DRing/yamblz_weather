@@ -65,7 +65,7 @@ public class WeatherViewModel extends BaseViewModel<UIWeatherData> {
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSuccess(this::updateDatabase)
                 .map(WeatherConverter::toUIData)
-                .subscribe(liveData::setValue, this::onError);
+                .subscribe(this::onChange, this::onError);
     }
 
     public void changeCity(double lat, double lon) {
@@ -75,7 +75,7 @@ public class WeatherViewModel extends BaseViewModel<UIWeatherData> {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(WeatherConverter::toUIData)
-                .subscribe(liveData::setValue, this::onError);
+                .subscribe(this::onChange, this::onError);
     }
 
     private void updateCurrentCity(RawWeather weatherMap) {
