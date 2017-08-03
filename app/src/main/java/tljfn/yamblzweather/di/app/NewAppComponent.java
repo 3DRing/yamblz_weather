@@ -1,17 +1,17 @@
-package tljfn.yamblzweather.new_di.app;
+package tljfn.yamblzweather.di.app;
 
 import javax.inject.Singleton;
 
 import dagger.Component;
 import tljfn.yamblzweather.MainActivity;
-import tljfn.yamblzweather.new_di.repos.AppModule;
-import tljfn.yamblzweather.new_di.repos.DatabaseModule;
-import tljfn.yamblzweather.new_di.repos.DatabaseRepoModule;
-import tljfn.yamblzweather.new_di.repos.PreferencesRepoModule;
-import tljfn.yamblzweather.new_di.repos.RemoteRepoModule;
-import tljfn.yamblzweather.new_di.repos.WeatherApiModule;
-import tljfn.yamblzweather.new_di.repos.WeatherDaoModule;
-import tljfn.yamblzweather.ui.brand_new_settings.BrandNewSettingsFragment;
+import tljfn.yamblzweather.di.repos.AppModule;
+import tljfn.yamblzweather.di.repos.DatabaseModule;
+import tljfn.yamblzweather.di.repos.DatabaseRepoModule;
+import tljfn.yamblzweather.di.repos.PreferencesRepoModule;
+import tljfn.yamblzweather.di.repos.RemoteRepoModule;
+import tljfn.yamblzweather.di.repos.WeatherApiModule;
+import tljfn.yamblzweather.di.repos.WeatherDaoModule;
+import tljfn.yamblzweather.ui.settings.SettingsFragment;
 import tljfn.yamblzweather.ui.weather.WeatherViewModel;
 
 /**
@@ -31,5 +31,5 @@ public interface NewAppComponent {
 
     void inject(MainActivity mainActivity);
 
-    void inject(BrandNewSettingsFragment settingsFragment);
+    void inject(SettingsFragment settingsFragment);
 }

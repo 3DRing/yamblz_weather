@@ -28,7 +28,7 @@ import com.google.android.gms.location.places.ui.PlaceAutocomplete;
 
 import tljfn.yamblzweather.MainActivity;
 import tljfn.yamblzweather.ui.about.AboutFragment;
-import tljfn.yamblzweather.ui.brand_new_settings.BrandNewSettingsFragment;
+import tljfn.yamblzweather.ui.settings.SettingsFragment;
 import tljfn.yamblzweather.ui.weather.WeatherFragment;
 
 /**
@@ -46,9 +46,9 @@ public class NavigationController {
     }
 
     public static void navigateToSettings(@IdRes int layout, FragmentManager fragmentManager) {
-        BrandNewSettingsFragment fragment = new BrandNewSettingsFragment();
+        SettingsFragment fragment = new SettingsFragment();
         fragmentManager.beginTransaction()
-                .replace(layout, fragment, BrandNewSettingsFragment.TAG)
+                .replace(layout, fragment, SettingsFragment.TAG)
                 .commit();
     }
 

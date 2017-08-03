@@ -4,15 +4,15 @@ import android.app.Application;
 
 import com.evernote.android.job.JobManager;
 
-import tljfn.yamblzweather.new_di.app.DaggerNewAppComponent;
-import tljfn.yamblzweather.new_di.app.NewAppComponent;
-import tljfn.yamblzweather.new_di.repos.AppModule;
-import tljfn.yamblzweather.new_di.repos.DatabaseModule;
-import tljfn.yamblzweather.new_di.repos.DatabaseRepoModule;
-import tljfn.yamblzweather.new_di.repos.PreferencesRepoModule;
-import tljfn.yamblzweather.new_di.repos.RemoteRepoModule;
-import tljfn.yamblzweather.new_di.repos.WeatherApiModule;
-import tljfn.yamblzweather.new_di.repos.WeatherDaoModule;
+import tljfn.yamblzweather.di.app.DaggerNewAppComponent;
+import tljfn.yamblzweather.di.app.NewAppComponent;
+import tljfn.yamblzweather.di.repos.AppModule;
+import tljfn.yamblzweather.di.repos.DatabaseModule;
+import tljfn.yamblzweather.di.repos.DatabaseRepoModule;
+import tljfn.yamblzweather.di.repos.PreferencesRepoModule;
+import tljfn.yamblzweather.di.repos.RemoteRepoModule;
+import tljfn.yamblzweather.di.repos.WeatherApiModule;
+import tljfn.yamblzweather.di.repos.WeatherDaoModule;
 import tljfn.yamblzweather.scheduler.WeatherUpdateJobCreator;
 
 /**

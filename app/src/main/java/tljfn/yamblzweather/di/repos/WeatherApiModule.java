@@ -1,4 +1,4 @@
-package tljfn.yamblzweather.new_di.repos;
+package tljfn.yamblzweather.di.repos;
 
 import android.content.Context;
 import android.support.annotation.NonNull;

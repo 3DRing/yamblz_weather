@@ -1,4 +1,4 @@
-package tljfn.yamblzweather.new_di.repos;
+package tljfn.yamblzweather.di.repos;
 
 import android.arch.persistence.room.Room;
 import android.content.Context;
@@ -9,9 +9,7 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 import tljfn.yamblzweather.BaseFields;
-import tljfn.yamblzweather.db.WeatherDao;
 import tljfn.yamblzweather.db.WeatherDatabase;
-import tljfn.yamblzweather.repo.DatabaseRepo;
 
 /**
  * Created by ringov on 03.08.17.
