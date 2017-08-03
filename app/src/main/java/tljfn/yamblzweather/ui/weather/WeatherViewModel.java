@@ -18,6 +18,7 @@ package tljfn.yamblzweather.ui.weather;
 
 import javax.inject.Inject;
 
+import tljfn.yamblzweather.App;
 import tljfn.yamblzweather.api.data.RawWeather;
 import tljfn.yamblzweather.repo.DatabaseRepo;
 import tljfn.yamblzweather.repo.PreferencesRepo;
@@ -25,18 +26,17 @@ import tljfn.yamblzweather.repo.RemoteRepo;
 import tljfn.yamblzweather.ui.base.BaseViewModel;
 import tljfn.yamblzweather.ui.weather.data.UIWeatherData;
 
-@SuppressWarnings("WeakerAccess") //for dagger
 public class WeatherViewModel extends BaseViewModel<UIWeatherData> {
 
-    private final DatabaseRepo databaseRepo;
-    private final RemoteRepo remoteRepo;
-    private final PreferencesRepo preferencesRepo;
-
     @Inject
-    public WeatherViewModel(RemoteRepo remoteRepo, DatabaseRepo databaseRepo, PreferencesRepo preferencesRepo) {
-        this.databaseRepo = databaseRepo;
-        this.remoteRepo = remoteRepo;
-        this.preferencesRepo = preferencesRepo;
+    RemoteRepo remoteRepo;
+    @Inject
+    DatabaseRepo databaseRepo;
+    @Inject
+    PreferencesRepo preferencesRepo;
+
+    public WeatherViewModel() {
+        App.getComponent().inject(this);
 
         loadCachedWeather();
     }

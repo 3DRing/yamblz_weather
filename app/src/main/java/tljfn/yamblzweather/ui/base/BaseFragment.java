@@ -12,13 +12,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import butterknife.ButterKnife;
-import tljfn.yamblzweather.di.Injectable;
 
 /**
  * Created by Maksim Sukhotski on 7/9/2017.
  */
 
-public abstract class BaseFragment extends Fragment implements Injectable {
+public abstract class BaseFragment extends Fragment {
 
     protected OnFragmentInteractionListener onFragmentInteractionListener;
 

@@ -21,10 +21,7 @@ import tljfn.yamblzweather.ui.base.data.UIBaseData;
  */
 
 public abstract class ViewModelFragment<VM extends BaseViewModel<D>, D extends UIBaseData> extends BaseFragment
-        implements LifecycleRegistryOwner, Observer<D> {
-
-    @Inject
-    ViewModelProvider.Factory viewModelFactory;
+        implements LifecycleRegistryOwner {
 
     protected VM viewModel;
 
@@ -40,11 +37,10 @@ public abstract class ViewModelFragment<VM extends BaseViewModel<D>, D extends U
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(getViewModelClass());
-        viewModel.observe(this, this);
+        viewModel = ViewModelProviders.of(this).get(getViewModelClass());
+        viewModel.observe(this, this::onChanged);
     }
 
-    @Override
     public void onChanged(@Nullable D data) {
         if (data != null) {
             if (data.isLoading()) {

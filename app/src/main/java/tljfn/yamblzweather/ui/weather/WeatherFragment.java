@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,9 +29,6 @@ import tljfn.yamblzweather.ui.weather.data.UIWeatherData;
 public class WeatherFragment extends ViewModelFragment<WeatherViewModel, UIWeatherData> {
     public static final String TAG = WeatherFragment.class.getName();
 
-    @Inject
-    NavigationController navigationController;
-
     @BindView(R.id.swipe_layout)
     SwipeRefreshLayout swipeLayout;
     @BindView(R.id.tv_temperature)
@@ -42,7 +38,7 @@ public class WeatherFragment extends ViewModelFragment<WeatherViewModel, UIWeath
 
     @OnClick(R.id.tv_city)
     public void onCityClick() {
-        navigationController.navigateToChooseCity();
+        NavigationController.navigateToChooseCity(R.id.fragment_container, getActivity().getSupportFragmentManager());
     }
 
     @Override
@@ -54,7 +50,7 @@ public class WeatherFragment extends ViewModelFragment<WeatherViewModel, UIWeath
     @NonNull
     @Override
     public Integer getLayoutRes() {
-        return R.layout.fragment_start;
+        return R.layout.fragment_weather;
     }
 
     @Override

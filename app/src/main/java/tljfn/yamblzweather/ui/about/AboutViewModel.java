@@ -16,14 +16,11 @@
 
 package tljfn.yamblzweather.ui.about;
 
-import javax.inject.Inject;
-
 import tljfn.yamblzweather.ui.base.BaseViewModel;
 import tljfn.yamblzweather.ui.base.data.UIBaseData;
 
 public class AboutViewModel extends BaseViewModel<UIBaseData> {
 
-    @Inject
     public AboutViewModel() {
     }
 

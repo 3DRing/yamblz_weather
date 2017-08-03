@@ -29,24 +29,19 @@ import tljfn.yamblzweather.repo.PreferencesRepo;
 import tljfn.yamblzweather.scheduler.AlarmReceiver;
 
 
-public class MainActivity extends AppCompatActivity implements HasSupportFragmentInjector, LifecycleRegistryOwner,
+public class MainActivity extends AppCompatActivity implements LifecycleRegistryOwner,
         NavigationView.OnNavigationItemSelectedListener,
         BaseFragment.OnFragmentInteractionListener,
         NavigationController.GooglePlacesExceptionCallback {
 
     private final LifecycleRegistry lifecycleRegistry = new LifecycleRegistry(this);
-    @Inject
-    DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;
-    @Inject
-    NavigationController navigationController;
+
     @Inject
     PreferencesRepo preferencesRepo;
-    @Inject
-    AlarmReceiver alarmReceiver;
+
     private Toolbar toolbar;
     private DrawerLayout drawer;
     private ActionBar actionBar;
-    private FragmentManager fragmentManager;
     private ActionBarDrawerToggle toggle;
 
     @Override
@@ -58,6 +53,7 @@ public class MainActivity extends AppCompatActivity implements HasSupportFragmen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        App.getComponent().inject(this);
         //setScheduler();
 
 
@@ -70,21 +66,20 @@ public class MainActivity extends AppCompatActivity implements HasSupportFragmen
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        fragmentManager = getSupportFragmentManager();
         if (savedInstanceState == null) {
-            navigationController.navigateToWeather();
+            NavigationController.navigateToWeather(R.id.fragment_container, getSupportFragmentManager());
         }
     }
 
     private void setScheduler() {
-        preferencesRepo.getInterval()
+/*        preferencesRepo.getInterval()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSuccess(integer -> {
                     //just for test
                     Toast.makeText(this, integer.toString(), Toast.LENGTH_SHORT).show();
                 })
-                .subscribe(interval -> alarmReceiver.setAlarm(this, interval));
+                .subscribe(interval -> alarmReceiver.setAlarm(this, interval));*/
     }
 
     @Override
@@ -105,13 +100,13 @@ public class MainActivity extends AppCompatActivity implements HasSupportFragmen
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.nav_settings:
-                navigationController.navigateToSettings();
+                NavigationController.navigateToSettings(R.id.fragment_container, getSupportFragmentManager());
                 break;
             case R.id.nav_about:
-                navigationController.navigateToAbout();
+                NavigationController.navigateToAbout(R.id.fragment_container, getSupportFragmentManager());
                 break;
             case R.id.nav_weather:
-                navigationController.navigateToWeather();
+                NavigationController.navigateToWeather(R.id.fragment_container, getSupportFragmentManager());
                 break;
         }
 
@@ -133,10 +128,10 @@ public class MainActivity extends AppCompatActivity implements HasSupportFragmen
         }
     }
 
-    @Override
+/*    @Override
     public DispatchingAndroidInjector<Fragment> supportFragmentInjector() {
         return dispatchingAndroidInjector;
-    }
+    }*/
 
     @Override
     public void onGooglePlacesRepairs(String message) {

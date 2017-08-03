@@ -16,8 +16,8 @@
 
 package tljfn.yamblzweather.navigation;
 
-import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
@@ -26,15 +26,8 @@ import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.places.AutocompleteFilter;
 import com.google.android.gms.location.places.ui.PlaceAutocomplete;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-
-import javax.inject.Inject;
-
 import tljfn.yamblzweather.MainActivity;
-import tljfn.yamblzweather.R;
 import tljfn.yamblzweather.ui.about.AboutFragment;
-import tljfn.yamblzweather.ui.base.BaseFragment;
 import tljfn.yamblzweather.ui.brand_new_settings.BrandNewSettingsFragment;
 import tljfn.yamblzweather.ui.weather.WeatherFragment;
 
@@ -42,39 +35,31 @@ import tljfn.yamblzweather.ui.weather.WeatherFragment;
  * A utility class that handles navigation in {@link MainActivity}.
  */
 public class NavigationController {
-    final int containerId;
-    private final FragmentManager fragmentManager;
 
     public static final int PLACE_AUTOCOMPLETE_REQUEST_CODE = 1;
 
-    @Inject
-    public NavigationController(MainActivity mainActivity) {
-        this.containerId = R.id.fragment_container;
-        this.fragmentManager = mainActivity.getSupportFragmentManager();
-    }
-
-    public void navigateToAbout() {
+    public static void navigateToAbout(@IdRes int layout, FragmentManager fragmentManager) {
         AboutFragment fragment = new AboutFragment();
         fragmentManager.beginTransaction()
-                .replace(containerId, fragment, AboutFragment.TAG)
+                .replace(layout, fragment, AboutFragment.TAG)
                 .commit();
     }
 
-    public void navigateToSettings() {
+    public static void navigateToSettings(@IdRes int layout, FragmentManager fragmentManager) {
         BrandNewSettingsFragment fragment = new BrandNewSettingsFragment();
         fragmentManager.beginTransaction()
-                .replace(containerId, fragment, BrandNewSettingsFragment.TAG)
+                .replace(layout, fragment, BrandNewSettingsFragment.TAG)
                 .commit();
     }
 
-    public void navigateToWeather() {
+    public static void navigateToWeather(@IdRes int layout, FragmentManager fragmentManager) {
         WeatherFragment fragment = new WeatherFragment();
         fragmentManager.beginTransaction()
-                .replace(containerId, fragment, WeatherFragment.TAG)
+                .replace(layout, fragment, WeatherFragment.TAG)
                 .commit();
     }
 
-    public void navigateToChooseCity() {
+    public static void navigateToChooseCity(@IdRes int layout, FragmentManager fragmentManager) {
         Fragment fragment = fragmentManager.findFragmentByTag(WeatherFragment.TAG);
         try {
             Intent intent =
@@ -89,45 +74,6 @@ public class NavigationController {
             //fragment.onGooglePlacesRepairs(e.getLocalizedMessage());
         } catch (GooglePlayServicesNotAvailableException e) {
             //fragment.onGooglePlacesNotAvailable(e.getLocalizedMessage());
-        }
-    }
-
-    /**
-     * This method pushes fragment to screen.
-     * Your fragment must have static method "getFragmentTag()"
-     *
-     * @param fragmentClass Class of the fragment you wanna to push
-     * @deprecated Use {@link #navigateToWeather()} or similar
-     */
-    @Deprecated
-    public void pushFragment(Class<? extends BaseFragment> fragmentClass) {
-        try {
-            Method method;
-            method = fragmentClass.getDeclaredMethod("getFragmentTag");
-            String tag = method != null ? method.invoke(null).toString() : null;
-            if (fragmentManager.findFragmentByTag(tag) == null) {
-                // Wow, fragmentManager doesn`t have necessary object of fragment, so we have to
-                // create new one. On this stage we store maximum 2 fragment in backstack.
-                int backStackEntryCount = fragmentManager.getBackStackEntryCount();
-                while (backStackEntryCount > 1) {
-                    fragmentManager.popBackStack();
-                    backStackEntryCount--;
-                }
-                BaseFragment fragment = fragmentClass.newInstance();
-                fragmentManager.beginTransaction()
-                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                        .replace(R.id.fragment_container, fragment, tag)
-                        .addToBackStack(tag)
-                        .commit();
-            }
-        } catch (InvocationTargetException e) {
-
-        } catch (IllegalAccessException e) {
-
-        } catch (NoSuchMethodException e) {
-
-        } catch (InstantiationException e) {
-
         }
     }
 

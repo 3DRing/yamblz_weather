@@ -11,26 +11,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.evernote.android.job.JobManager;
-import com.evernote.android.job.JobRequest;
-
-import java.util.Iterator;
-import java.util.Set;
-
 import javax.inject.Inject;
 
+import tljfn.yamblzweather.App;
 import tljfn.yamblzweather.R;
-import tljfn.yamblzweather.di.Injectable;
 import tljfn.yamblzweather.repo.PreferencesRepo;
 import tljfn.yamblzweather.ui.base.BaseFragment;
+import tljfn.yamblzweather.ui.weather.WeatherFragment;
 
 /**
  * Created by ringov on 07.07.17.
  */
 
-public class BrandNewSettingsFragment extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener, Injectable {
+public class BrandNewSettingsFragment extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
 
-    public static final String TAG = "settings";
+    public static final String TAG = WeatherFragment.class.getName();
+
     @Inject
     PreferencesRepo settings;
     SharedPreferences prefs;
@@ -45,6 +41,7 @@ public class BrandNewSettingsFragment extends PreferenceFragmentCompat implement
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        App.getComponent().inject(this);
         prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
         prefs.registerOnSharedPreferenceChangeListener(this);
 

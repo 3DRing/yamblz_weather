@@ -95,7 +95,6 @@ public class PreferencesRepo {
                 preferences.edit().putInt(intervalKey, seconds).apply());
     }
 
-    @Deprecated
     public Completable updateCurrentCity(long id) {
         return Completable.fromAction(() ->
                 preferences.edit().putLong(currentCityKey, id).apply())
@@ -103,7 +102,6 @@ public class PreferencesRepo {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    @Deprecated
     public Single<Long> getCurrentCity() {
         return Single.fromCallable(() -> preferences.getLong(currentCityKey, DEFAULT_CITY));
     }
