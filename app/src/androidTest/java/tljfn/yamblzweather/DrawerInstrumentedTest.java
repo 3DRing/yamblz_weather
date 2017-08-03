@@ -49,7 +49,7 @@ public class DrawerInstrumentedTest {
 
     @Test
     public void openStart() {
-        openDrawerMenu(R.id.nav_start);
+        openDrawerMenu(R.id.nav_weather);
         Fragment f = mActivityRule.getActivity().getSupportFragmentManager().findFragmentByTag(WeatherFragment.TAG);
         assertTrue(f != null);
     }

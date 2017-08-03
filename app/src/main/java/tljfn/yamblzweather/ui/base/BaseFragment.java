@@ -26,6 +26,7 @@ public abstract class BaseFragment extends Fragment implements Injectable {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        setRetainInstance(true);
         return inflater.inflate(getLayoutRes(), container, false);
     }
 

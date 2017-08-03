@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity implements HasSupportFragmen
 
         fragmentManager = getSupportFragmentManager();
         if (savedInstanceState == null) {
-            navigationController.navigateToStart();
+            navigationController.navigateToWeather();
         }
     }
 
@@ -96,10 +96,8 @@ public class MainActivity extends AppCompatActivity implements HasSupportFragmen
     public void onBackPressed() {
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } else if (fragmentManager.getBackStackEntryCount() > 1) {
-            fragmentManager.popBackStack();
         } else {
-            finish();
+            super.onBackPressed();
         }
     }
 
@@ -112,7 +110,8 @@ public class MainActivity extends AppCompatActivity implements HasSupportFragmen
             case R.id.nav_about:
                 navigationController.navigateToAbout();
                 break;
-            case R.id.nav_start:
+            case R.id.nav_weather:
+                navigationController.navigateToWeather();
                 break;
         }
 

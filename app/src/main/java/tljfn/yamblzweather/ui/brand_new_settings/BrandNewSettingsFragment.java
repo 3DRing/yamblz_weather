@@ -11,6 +11,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.evernote.android.job.JobManager;
+import com.evernote.android.job.JobRequest;
+
+import java.util.Iterator;
+import java.util.Set;
+
 import javax.inject.Inject;
 
 import tljfn.yamblzweather.R;
@@ -61,7 +67,7 @@ public class BrandNewSettingsFragment extends PreferenceFragmentCompat implement
     }
 
     public Integer getDrawerMode() {
-        return DrawerLayout.LOCK_MODE_LOCKED_CLOSED;
+        return DrawerLayout.LOCK_MODE_UNLOCKED;
     }
 
     @Override
@@ -77,23 +83,6 @@ public class BrandNewSettingsFragment extends PreferenceFragmentCompat implement
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
-        // todo move this logic to another layer
-        // update interval if update
-/*        Set<JobRequest> requests = JobManager.instance().getAllJobRequestsForTag(WeatherUpdateJob.TAG);
-        if (!requests.isEmpty()) {
-            Iterator<JobRequest> iterator = requests.iterator();
-            if (iterator.hasNext()) {
-                settings.getInterval()
-                        .subscribe(interval -> {
-                            while (iterator.hasNext()) {
-                                JobRequest jr = iterator.next();
-                                long lastInterval = jr.getIntervalMs();
-                                if (lastInterval != interval) {
-                                    jr.cancelAndEdit().setPeriodic(interval).build();
-                                }
-                            }
-                        });
-            }
-        }*/
+        settings.onPreferencesChanged(sharedPreferences, s);
     }
 }

@@ -18,12 +18,21 @@ package tljfn.yamblzweather.repo;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+
+import com.evernote.android.job.JobManager;
+import com.evernote.android.job.JobRequest;
+
+import java.util.Iterator;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Completable;
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
-import tljfn.yamblzweather.BaseFields;
+import tljfn.yamblzweather.R;
+import tljfn.yamblzweather.scheduler.WeatherUpdateJob;
 
 /**
  * Repository that handles User objects.
@@ -32,37 +41,105 @@ public class PreferencesRepo {
 
     static final long DEFAULT_CITY = 524901; // moscow, russia
 
-    static final String KEY_INTERVAL = "keyInterval";
-    static final String KEY_CURRENT_CITY = "keyCurrentCity";
+    private String intervalKey;
+    private String intervalDefaultValue;
+
+    private String notificationsKey;
+    private String notificationsDefaultValue;
+
+    private String currentCityKey;
+    private String currentCityDefaultValue;
+
     private final SharedPreferences preferences;
 
     public PreferencesRepo(Context context) {
-        this.preferences = context.getSharedPreferences(BaseFields.PREFERENCES_NAME, 0);
+        this.preferences = PreferenceManager.getDefaultSharedPreferences(context);
+
+        intervalKey = context.getString(R.string.update_intervals_key);
+        intervalDefaultValue = context.getString(R.string.default_update_intervals_value);
+
+        notificationsKey = context.getString(R.string.update_notifications_key);
+        notificationsDefaultValue = context.getString(R.string.update_notifications_default);
+    }
+
+    @Deprecated
+    private Single<Long> getUpdateInterval() {
+        return Single.fromCallable(() -> {
+            String value = preferences.getString(intervalKey, intervalDefaultValue);
+            int minutes = Integer.parseInt(value);
+            return TimeUnit.MINUTES.toMillis(minutes);
+        });
+    }
+
+    public Single<Boolean> isNotificationEnabled() {
+        return Single.fromCallable(() -> {
+            final boolean DEFAULT_VALUE = Boolean.parseBoolean(notificationsDefaultValue);
+            return preferences.getBoolean(notificationsKey, DEFAULT_VALUE);
+        });
     }
 
     /**
      * @return value that represents time interval in seconds for updating weather
      */
+    @Deprecated
     public Single<Integer> getInterval() {
-        return Single.fromCallable(() -> preferences.getInt(KEY_INTERVAL, 60));
+        return Single.fromCallable(() -> preferences.getInt(intervalKey, 60));
     }
 
     /**
      * @param seconds the new seconds interval for weather updating
      */
+    @Deprecated
     public Completable setInterval(Integer seconds) {
         return Completable.fromAction(() ->
-                preferences.edit().putInt(KEY_INTERVAL, seconds).apply());
+                preferences.edit().putInt(intervalKey, seconds).apply());
     }
 
+    @Deprecated
     public Completable updateCurrentCity(long id) {
         return Completable.fromAction(() ->
-                preferences.edit().putLong(KEY_CURRENT_CITY, id).apply())
+                preferences.edit().putLong(currentCityKey, id).apply())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
+    @Deprecated
     public Single<Long> getCurrentCity() {
-        return Single.fromCallable(() -> preferences.getLong(KEY_CURRENT_CITY, DEFAULT_CITY));
+        return Single.fromCallable(() -> preferences.getLong(currentCityKey, DEFAULT_CITY));
+    }
+
+    public void onPreferencesChanged(SharedPreferences sharedPreferences, String s) {
+        if (s.equals(intervalKey)) {
+            onChangingUpdateInterval(sharedPreferences);
+        } else {
+            // for other preferences
+        }
+    }
+
+    private void onChangingUpdateInterval(SharedPreferences sp) {
+        Set<JobRequest> requests = JobManager.instance().getAllJobRequestsForTag(WeatherUpdateJob.TAG);
+        if (!requests.isEmpty()) {
+            Iterator<JobRequest> iterator = requests.iterator();
+            if (iterator.hasNext()) {
+                getUpdateInterval(sp)
+                        .subscribe(interval -> {
+                            while (iterator.hasNext()) {
+                                JobRequest jr = iterator.next();
+                                long lastInterval = jr.getIntervalMs();
+                                if (lastInterval != interval) {
+                                    jr.cancelAndEdit().setPeriodic(interval).build();
+                                }
+                            }
+                        });
+            }
+        }
+    }
+
+    private Single<Long> getUpdateInterval(SharedPreferences sharedPreferences) {
+        return Single.fromCallable(() -> {
+            String value = sharedPreferences.getString(intervalKey, intervalDefaultValue);
+            int minutes = Integer.parseInt(value);
+            return TimeUnit.MINUTES.toMillis(minutes);
+        });
     }
 }

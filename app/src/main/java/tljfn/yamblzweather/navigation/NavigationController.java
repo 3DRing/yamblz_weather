@@ -36,7 +36,6 @@ import tljfn.yamblzweather.R;
 import tljfn.yamblzweather.ui.about.AboutFragment;
 import tljfn.yamblzweather.ui.base.BaseFragment;
 import tljfn.yamblzweather.ui.brand_new_settings.BrandNewSettingsFragment;
-import tljfn.yamblzweather.ui.settings.SettingsFragment;
 import tljfn.yamblzweather.ui.weather.WeatherFragment;
 
 /**
@@ -57,24 +56,21 @@ public class NavigationController {
     public void navigateToAbout() {
         AboutFragment fragment = new AboutFragment();
         fragmentManager.beginTransaction()
-                .replace(containerId, fragment)
-                .addToBackStack(null)
+                .replace(containerId, fragment, AboutFragment.TAG)
                 .commit();
     }
 
     public void navigateToSettings() {
         BrandNewSettingsFragment fragment = new BrandNewSettingsFragment();
         fragmentManager.beginTransaction()
-                .replace(containerId, fragment)
-                .addToBackStack(null)
+                .replace(containerId, fragment, BrandNewSettingsFragment.TAG)
                 .commit();
     }
 
-    public void navigateToStart() {
+    public void navigateToWeather() {
         WeatherFragment fragment = new WeatherFragment();
         fragmentManager.beginTransaction()
                 .replace(containerId, fragment, WeatherFragment.TAG)
-                .addToBackStack(null)
                 .commit();
     }
 
@@ -101,7 +97,7 @@ public class NavigationController {
      * Your fragment must have static method "getFragmentTag()"
      *
      * @param fragmentClass Class of the fragment you wanna to push
-     * @deprecated Use {@link #navigateToStart()} or similar
+     * @deprecated Use {@link #navigateToWeather()} or similar
      */
     @Deprecated
     public void pushFragment(Class<? extends BaseFragment> fragmentClass) {

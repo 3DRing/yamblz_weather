@@ -80,7 +80,7 @@ public class NavigationControllerTest {
         when(transaction.replace(eq(R.id.fragment_container), any(WeatherFragment.class), eq(WeatherFragment.TAG)))
                 .thenReturn(transaction);
 
-        controller.navigateToStart();
+        controller.navigateToWeather();
         verify(manager).beginTransaction();
         verify(transaction).replace(eq(R.id.fragment_container), any(WeatherFragment.class), eq(WeatherFragment.TAG));
         verify(transaction).addToBackStack(null);

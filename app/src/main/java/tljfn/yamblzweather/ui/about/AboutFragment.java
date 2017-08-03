@@ -13,6 +13,8 @@ import tljfn.yamblzweather.ui.base.ViewModelFragment;
 
 public class AboutFragment extends ViewModelFragment<AboutViewModel, UIBaseData> {
 
+    public static final String TAG = "about";
+
     @NonNull
     @Override
     public Integer getLayoutRes() {
@@ -26,7 +28,7 @@ public class AboutFragment extends ViewModelFragment<AboutViewModel, UIBaseData>
 
     @Override
     public Integer getDrawerMode() {
-        return DrawerLayout.LOCK_MODE_LOCKED_CLOSED;
+        return DrawerLayout.LOCK_MODE_UNLOCKED;
     }
 
     @Override
