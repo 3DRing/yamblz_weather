@@ -19,6 +19,7 @@ package tljfn.yamblzweather.di.module;
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
 import tljfn.yamblzweather.ui.about.AboutFragment;
+import tljfn.yamblzweather.ui.brand_new_settings.BrandNewSettingsFragment;
 import tljfn.yamblzweather.ui.settings.SettingsFragment;
 import tljfn.yamblzweather.ui.weather.WeatherFragment;
 
@@ -32,4 +33,7 @@ public abstract class FragmentBuildersModule {
 
     @ContributesAndroidInjector
     abstract WeatherFragment contributeStartFragment();
+
+    @ContributesAndroidInjector
+    abstract BrandNewSettingsFragment contributeBrandNewSettingsFragment();
 }

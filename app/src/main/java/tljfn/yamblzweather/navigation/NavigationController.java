@@ -35,6 +35,7 @@ import tljfn.yamblzweather.MainActivity;
 import tljfn.yamblzweather.R;
 import tljfn.yamblzweather.ui.about.AboutFragment;
 import tljfn.yamblzweather.ui.base.BaseFragment;
+import tljfn.yamblzweather.ui.brand_new_settings.BrandNewSettingsFragment;
 import tljfn.yamblzweather.ui.settings.SettingsFragment;
 import tljfn.yamblzweather.ui.weather.WeatherFragment;
 
@@ -58,15 +59,15 @@ public class NavigationController {
         fragmentManager.beginTransaction()
                 .replace(containerId, fragment)
                 .addToBackStack(null)
-                .commitAllowingStateLoss();
+                .commit();
     }
 
     public void navigateToSettings() {
-        SettingsFragment fragment = new SettingsFragment();
+        BrandNewSettingsFragment fragment = new BrandNewSettingsFragment();
         fragmentManager.beginTransaction()
                 .replace(containerId, fragment)
                 .addToBackStack(null)
-                .commitAllowingStateLoss();
+                .commit();
     }
 
     public void navigateToStart() {
@@ -74,7 +75,7 @@ public class NavigationController {
         fragmentManager.beginTransaction()
                 .replace(containerId, fragment, WeatherFragment.TAG)
                 .addToBackStack(null)
-                .commitAllowingStateLoss();
+                .commit();
     }
 
     public void navigateToChooseCity() {
