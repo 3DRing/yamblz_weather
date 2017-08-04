@@ -18,11 +18,19 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyCcx_eygsGkuqoeNYD_hUH5-5qmmSAQbDg"/>
+            android:value="AIzaSyCcx_eygsGkuqoeNYD_hUH5-5qmmSAQbDg" />
 
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".ui.choose_city.ChooseCityActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

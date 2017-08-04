@@ -21,6 +21,8 @@
     <string name="about_screen_title">О приложении</string>
     <string name="no_data_loaded_error">Не удалось загрузить данные</string>
 
+    <string name="choose_city_hint">Введите название города</string>
+
     <string-array name="intervals">
         <item>15 секунд</item>
         <item>30 секунд</item>

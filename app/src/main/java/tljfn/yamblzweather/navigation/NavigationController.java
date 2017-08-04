@@ -16,6 +16,7 @@
 
 package tljfn.yamblzweather.navigation;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
@@ -28,6 +29,7 @@ import com.google.android.gms.location.places.ui.PlaceAutocomplete;
 
 import tljfn.yamblzweather.MainActivity;
 import tljfn.yamblzweather.ui.about.AboutFragment;
+import tljfn.yamblzweather.ui.choose_city.ChooseCityActivity;
 import tljfn.yamblzweather.ui.settings.SettingsFragment;
 import tljfn.yamblzweather.ui.weather.WeatherFragment;
 
@@ -57,6 +59,11 @@ public class NavigationController {
         fragmentManager.beginTransaction()
                 .replace(layout, fragment, WeatherFragment.TAG)
                 .commit();
+    }
+
+    public static void navigateToChooseCity(Context context) {
+        Intent intent = new Intent(context, ChooseCityActivity.class);
+        context.startActivity(intent);
     }
 
     public static void navigateToChooseCity(@IdRes int layout, FragmentManager fragmentManager) {

@@ -38,7 +38,7 @@ public class WeatherFragment extends ViewModelFragment<WeatherViewModel, UIWeath
 
     @OnClick(R.id.tv_city)
     public void onCityClick() {
-        NavigationController.navigateToChooseCity(R.id.fragment_container, getActivity().getSupportFragmentManager());
+        NavigationController.navigateToChooseCity(getContext());
     }
 
     @Override

@@ -21,6 +21,8 @@
     <string name="about_screen_title">About</string>
     <string name="no_data_loaded_error">Cannot download data</string>
 
+    <string name="choose_city_hint">Enter the name of a city</string>
+
     <string-array name="intervals">
         <item>15 seconds</item>
         <item>30 seconds</item>
