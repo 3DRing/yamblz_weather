@@ -41,6 +41,8 @@ public class PreferencesRepo {
 
     static final long DEFAULT_CITY = 524901; // moscow, russia
 
+    private static final String FIRST_LAUNCH_KEY = "first_launch";
+
     private String intervalKey;
     private String intervalDefaultValue;
 
@@ -139,5 +141,17 @@ public class PreferencesRepo {
             int minutes = Integer.parseInt(value);
             return TimeUnit.MINUTES.toMillis(minutes);
         });
+    }
+
+    public Completable setFirstLaunch(boolean isFirst) {
+        return Completable.fromAction(() -> {
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putBoolean(FIRST_LAUNCH_KEY, isFirst).apply();
+        });
+    }
+
+    public boolean isFirstLaunch() {
+        boolean isFirst = preferences.getBoolean(FIRST_LAUNCH_KEY, true);
+        return isFirst;
     }
 }

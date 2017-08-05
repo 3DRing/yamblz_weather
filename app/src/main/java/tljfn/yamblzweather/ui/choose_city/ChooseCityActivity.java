@@ -2,58 +2,45 @@ package tljfn.yamblzweather.ui.choose_city;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 
+import java.util.concurrent.TimeUnit;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import tljfn.yamblzweather.R;
+import tljfn.yamblzweather.ui.base.BaseFragment;
 
 /**
  * Created by ringov on 04.08.17.
  */
 
-public class ChooseCityActivity extends AppCompatActivity {
-
-    @BindView(R.id.backpress)
-    View backPress;
-    @BindView(R.id.et_search_city)
-    EditText search;
-
-    @OnClick(R.id.backpress)
-    void onTopBackPress() {
-        finish();
-    }
+public class ChooseCityActivity extends AppCompatActivity implements BaseFragment.OnFragmentInteractionListener{
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_city);
         ButterKnife.bind(this);
+        startFragment();
+    }
 
-        search.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+    private void startFragment() {
+        FragmentManager fm = getSupportFragmentManager();
+        if (fm.findFragmentByTag(ChooseCityFragment.TAG) == null) {
+            fm.beginTransaction().replace(R.id.choose_city_container, new ChooseCityFragment()).commit();
+        }
+    }
 
-            }
+    @Override
+    public void onFragmentInteraction(@StringRes int titleRes, Integer drawerMode) {
 
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (charSequence.length() > 0) {
-                    backPress.setVisibility(View.GONE);
-                } else {
-                    backPress.setVisibility(View.VISIBLE);
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
-        });
     }
 }

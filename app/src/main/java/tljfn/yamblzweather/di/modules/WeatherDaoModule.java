@@ -1,10 +1,10 @@
-package tljfn.yamblzweather.di.repos;
+package tljfn.yamblzweather.di.modules;
 
 import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-import tljfn.yamblzweather.db.WeatherDao;
+import tljfn.yamblzweather.db.weather.WeatherDao;
 import tljfn.yamblzweather.db.WeatherDatabase;
 
 /**

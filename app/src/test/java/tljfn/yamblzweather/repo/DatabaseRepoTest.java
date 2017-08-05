@@ -7,12 +7,10 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 
-import io.reactivex.Flowable;
 import tljfn.yamblzweather.Data;
-import tljfn.yamblzweather.db.WeatherDao;
+import tljfn.yamblzweather.db.weather.WeatherDao;
 
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 /**
  * Created by ringov on 26.07.17.

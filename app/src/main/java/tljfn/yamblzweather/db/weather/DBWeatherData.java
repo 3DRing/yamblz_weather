@@ -1,9 +1,9 @@
-package tljfn.yamblzweather.db;
+package tljfn.yamblzweather.db.weather;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 
-import tljfn.yamblzweather.api.data.RawWeather;
+import tljfn.yamblzweather.api.data.weather.RawWeather;
 import tljfn.yamblzweather.ui.weather.data.UIWeatherData;
 
 /**

@@ -1,13 +1,11 @@
 package tljfn.yamblzweather.ui.base;
 
 import android.arch.lifecycle.LifecycleOwner;
-import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModel;
 
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
-import tljfn.yamblzweather.api.data.RawWeather;
 import tljfn.yamblzweather.ui.base.data.UIBaseData;
 
 /**

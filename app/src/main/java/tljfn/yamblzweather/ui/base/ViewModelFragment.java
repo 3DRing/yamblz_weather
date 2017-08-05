@@ -58,6 +58,10 @@ public abstract class ViewModelFragment<VM extends BaseViewModel<D>, D extends U
         }
     }
 
+    public VM getViewModel() {
+        return viewModel;
+    }
+
     protected abstract void showLoading();
 
     protected abstract void hideLoading();

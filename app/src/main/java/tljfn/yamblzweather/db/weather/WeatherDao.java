@@ -1,4 +1,4 @@
-package tljfn.yamblzweather.db;
+package tljfn.yamblzweather.db.weather;
 
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Insert;
@@ -6,7 +6,8 @@ import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 
 import io.reactivex.Flowable;
-import io.reactivex.Single;
+import tljfn.yamblzweather.db.cities.DBCity;
+import tljfn.yamblzweather.db.weather.DBWeatherData;
 
 /**
  * Data Access Object for the weather table.
@@ -30,4 +31,5 @@ public interface WeatherDao {
 
     @Query("SELECT * FROM weather")
     Flowable<DBWeatherData> loadWeather();
+
 }

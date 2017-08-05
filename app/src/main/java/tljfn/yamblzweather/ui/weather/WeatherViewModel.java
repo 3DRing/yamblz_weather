@@ -19,7 +19,7 @@ package tljfn.yamblzweather.ui.weather;
 import javax.inject.Inject;
 
 import tljfn.yamblzweather.App;
-import tljfn.yamblzweather.api.data.RawWeather;
+import tljfn.yamblzweather.api.data.weather.RawWeather;
 import tljfn.yamblzweather.repo.DatabaseRepo;
 import tljfn.yamblzweather.repo.PreferencesRepo;
 import tljfn.yamblzweather.repo.RemoteRepo;

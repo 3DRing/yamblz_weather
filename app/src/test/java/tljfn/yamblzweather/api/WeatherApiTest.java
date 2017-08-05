@@ -18,7 +18,7 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import tljfn.yamblzweather.Data;
-import tljfn.yamblzweather.api.data.RawWeather;
+import tljfn.yamblzweather.api.data.weather.RawWeather;
 
 /**
  * Created by ringov on 28.07.17.

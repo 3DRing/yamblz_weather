@@ -1,15 +1,11 @@
 package tljfn.yamblzweather.scheduler;
 
 import android.app.IntentService;
-import android.app.Service;
 import android.content.Intent;
 
 import javax.inject.Inject;
 
-import dagger.android.AndroidInjector;
-import dagger.android.DispatchingAndroidInjector;
-import dagger.android.HasServiceInjector;
-import tljfn.yamblzweather.api.data.RawWeather;
+import tljfn.yamblzweather.api.data.weather.RawWeather;
 import tljfn.yamblzweather.repo.DatabaseRepo;
 import tljfn.yamblzweather.repo.RemoteRepo;
 

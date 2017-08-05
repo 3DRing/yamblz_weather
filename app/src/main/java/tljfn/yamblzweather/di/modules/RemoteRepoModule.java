@@ -1,4 +1,4 @@
-package tljfn.yamblzweather.di.repos;
+package tljfn.yamblzweather.di.modules;
 
 import android.support.annotation.NonNull;
 
@@ -6,6 +6,7 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import tljfn.yamblzweather.api.CityApi;
 import tljfn.yamblzweather.api.WeatherApi;
 import tljfn.yamblzweather.repo.RemoteRepo;
 
@@ -17,7 +18,7 @@ public class RemoteRepoModule {
     @Provides
     @NonNull
     @Singleton
-    public RemoteRepo provideRemoteRepo(WeatherApi weatherApi) {
-        return new RemoteRepo(weatherApi);
+    public RemoteRepo provideRemoteRepo(WeatherApi weatherApi, CityApi cityApi) {
+        return new RemoteRepo(weatherApi, cityApi);
     }
 }

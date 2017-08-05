@@ -1,5 +1,5 @@
 
-package tljfn.yamblzweather.api.data;
+package tljfn.yamblzweather.api.data.weather;
 
 import com.google.gson.annotations.SerializedName;
 

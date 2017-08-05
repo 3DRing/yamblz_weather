@@ -4,13 +4,13 @@ import org.junit.Before;
 import org.junit.Test;
 
 import tljfn.yamblzweather.Data;
-import tljfn.yamblzweather.api.data.RawWeather;
-import tljfn.yamblzweather.api.data.Clouds;
-import tljfn.yamblzweather.api.data.Coord;
-import tljfn.yamblzweather.api.data.Main;
-import tljfn.yamblzweather.api.data.Sys;
-import tljfn.yamblzweather.api.data.Weather;
-import tljfn.yamblzweather.api.data.Wind;
+import tljfn.yamblzweather.api.data.weather.RawWeather;
+import tljfn.yamblzweather.api.data.weather.Clouds;
+import tljfn.yamblzweather.api.data.weather.Coord;
+import tljfn.yamblzweather.api.data.weather.Main;
+import tljfn.yamblzweather.api.data.weather.Sys;
+import tljfn.yamblzweather.api.data.weather.Weather;
+import tljfn.yamblzweather.api.data.weather.Wind;
 
 import static org.junit.Assert.*;
 

@@ -6,8 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -17,16 +15,24 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
 import javax.inject.Inject;
 
+import io.reactivex.Completable;
+import io.reactivex.Flowable;
+import io.reactivex.Observable;
+import io.reactivex.Single;
+import tljfn.yamblzweather.db.cities.DBCity;
+import tljfn.yamblzweather.repo.DatabaseRepo;
+import tljfn.yamblzweather.repo.RemoteRepo;
 import tljfn.yamblzweather.ui.base.BaseFragment;
 import tljfn.yamblzweather.navigation.NavigationController;
-import dagger.android.DispatchingAndroidInjector;
-import dagger.android.support.HasSupportFragmentInjector;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import tljfn.yamblzweather.repo.PreferencesRepo;
-import tljfn.yamblzweather.scheduler.AlarmReceiver;
+import tljfn.yamblzweather.ui.choose_city.data.UICitySuggestion;
 
 
 public class MainActivity extends AppCompatActivity implements LifecycleRegistryOwner,
@@ -38,6 +44,10 @@ public class MainActivity extends AppCompatActivity implements LifecycleRegistry
 
     @Inject
     PreferencesRepo preferencesRepo;
+    @Inject
+    DatabaseRepo dbRepo;
+    @Inject
+    RemoteRepo remoteRepo;
 
     private Toolbar toolbar;
     private DrawerLayout drawer;
@@ -54,6 +64,9 @@ public class MainActivity extends AppCompatActivity implements LifecycleRegistry
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         App.getComponent().inject(this);
+
+        initDBIfNot();
+
         //setScheduler();
 
 
@@ -69,6 +82,25 @@ public class MainActivity extends AppCompatActivity implements LifecycleRegistry
         if (savedInstanceState == null) {
             NavigationController.navigateToWeather(R.id.fragment_container, getSupportFragmentManager());
         }
+    }
+
+    private void initDBIfNot() {
+        if (preferencesRepo.isFirstLaunch()) {
+            remoteRepo.getAllCities()
+                    .flatMapObservable(Observable::fromIterable)
+                    .map(DBCity::fromRawCity)
+                    .toList()
+                    .flatMap(cities -> dbRepo.initCities(cities.toArray(new DBCity[cities.size()])))
+                    .flatMapCompletable(success -> preferencesRepo.setFirstLaunch(false))
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(() -> {
+                    }, this::onError);
+        }
+    }
+
+    private void onError(Throwable throwable) {
+        Toast.makeText(this, throwable.getMessage(), Toast.LENGTH_SHORT).show();
     }
 
     private void setScheduler() {

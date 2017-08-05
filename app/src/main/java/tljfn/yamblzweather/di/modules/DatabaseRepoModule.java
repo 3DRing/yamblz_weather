@@ -1,4 +1,4 @@
-package tljfn.yamblzweather.di.repos;
+package tljfn.yamblzweather.di.modules;
 
 import android.support.annotation.NonNull;
 
@@ -6,7 +6,8 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-import tljfn.yamblzweather.db.WeatherDao;
+import tljfn.yamblzweather.db.cities.CityDao;
+import tljfn.yamblzweather.db.weather.WeatherDao;
 import tljfn.yamblzweather.repo.DatabaseRepo;
 
 /**
@@ -17,7 +18,7 @@ public class DatabaseRepoModule {
     @Provides
     @NonNull
     @Singleton
-    public DatabaseRepo provideDatabaseRepo(WeatherDao weatherDao){
-        return new DatabaseRepo(weatherDao);
+    public DatabaseRepo provideDatabaseRepo(WeatherDao weatherDao, CityDao cityDao) {
+        return new DatabaseRepo(weatherDao, cityDao);
     }
 }
