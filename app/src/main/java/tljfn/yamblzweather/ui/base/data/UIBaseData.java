@@ -1,5 +1,7 @@
 package tljfn.yamblzweather.ui.base.data;
 
+import android.support.annotation.CallSuper;
+
 /**
  * Created by ringov on 31.07.17.
  */

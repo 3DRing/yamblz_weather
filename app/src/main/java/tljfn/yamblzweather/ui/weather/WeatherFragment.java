@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,6 +16,7 @@ import com.google.android.gms.maps.model.LatLng;
 
 import javax.inject.Inject;
 
+import tljfn.yamblzweather.Utils;
 import tljfn.yamblzweather.navigation.NavigationController;
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -35,6 +37,12 @@ public class WeatherFragment extends ViewModelFragment<WeatherViewModel, UIWeath
     TextView tvTemperature;
     @BindView(R.id.tv_city)
     TextView tvCity;
+    @BindView(R.id.tv_time)
+    TextView tvTime;
+    @BindView(R.id.tv_conditions)
+    TextView tvCondition;
+    @BindView(R.id.weather_image)
+    ImageView weatherImage;
 
     @OnClick(R.id.tv_city)
     public void onCityClick() {
@@ -100,6 +108,9 @@ public class WeatherFragment extends ViewModelFragment<WeatherViewModel, UIWeath
     protected void onSuccess(@NonNull UIWeatherData data) {
         tvTemperature.setText(getString(R.string.temperature, data.getTemperature()));
         tvCity.setText(data.getCity());
+        tvTime.setText(Utils.getRelativeTime(getContext(), data.getTime()));
+        tvCondition.setText(data.getConditionName());
+        weatherImage.setImageResource(data.getConditionImage());
     }
 
     @Override

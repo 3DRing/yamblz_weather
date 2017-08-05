@@ -8,7 +8,7 @@ import tljfn.yamblzweather.db.cities.DBCity;
 import tljfn.yamblzweather.db.weather.DBWeatherData;
 import tljfn.yamblzweather.db.weather.WeatherDao;
 
-@Database(entities = {DBWeatherData.class, DBCity.class}, version = 2)
+@Database(entities = {DBWeatherData.class, DBCity.class}, version = 3)
 public abstract class WeatherDatabase extends RoomDatabase {
 
     public abstract CityDao cityDao();

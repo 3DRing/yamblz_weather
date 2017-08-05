@@ -3,8 +3,13 @@ package tljfn.yamblzweather.db.weather;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 
+import java.util.List;
+
+import tljfn.yamblzweather.Utils;
 import tljfn.yamblzweather.api.data.weather.RawWeather;
+import tljfn.yamblzweather.api.data.weather.Weather;
 import tljfn.yamblzweather.ui.weather.data.UIWeatherData;
+import tljfn.yamblzweather.ui.weather.data.WeatherCondition;
 
 /**
  * Created by ringov on 01.08.17.
@@ -19,18 +24,53 @@ public class DBWeatherData {
         return kelvins - KELVIN_OFFSET;
     }
 
+    private static WeatherCondition weatherIdToCondition(int id) {
+        // todo rewrite it in a more clear way
+        if (id >= 200 && id < 300) {
+            return WeatherCondition.Thunderstorm;
+        } else if (id >= 300 && id < 600) {
+            return WeatherCondition.Rainy;
+        } else if (id >= 600 && id < 700) {
+            return WeatherCondition.Snow;
+        } else if (id >= 700 && id < 800) {
+            return WeatherCondition.Atmospherically;
+        } else if (id == 800) {
+            return WeatherCondition.Clear;
+        } else if (id > 800 && id < 900) {
+            return WeatherCondition.Cloudy;
+        } else if (id >= 900 && id < 950) {
+            return WeatherCondition.Extreme;
+        } else if (id >= 957 && id <= 962) {
+            return WeatherCondition.Windy;
+        } else if (id >= 951 && id <= 956) {
+            return WeatherCondition.Calm;
+        } else {
+            return WeatherCondition.Other;
+        }
+    }
+
     public static DBWeatherData fromRawWeatherData(RawWeather weather) {
+        List<Weather> weathers = weather.getWeather();
+        int condition = 0;
+        if (weathers != null) {
+            condition = weathers.get(0).getId();
+        }
+
         DBWeatherData data = new DBWeatherData.Builder()
                 .city(weather.getName())
                 .temperature(toCelsius(weather.getMain().getTemp()))
+                .time(System.currentTimeMillis())
+                .condition(condition)
                 .build();
         return data;
     }
 
     public static UIWeatherData toUIWeatherData(DBWeatherData weather) {
         UIWeatherData data = new UIWeatherData.Builder()
-                .setCity(weather.getCity())
-                .setTemperature(weather.getTemperature())
+                .city(weather.getCity())
+                .temperature(weather.getTemperature())
+                .time(weather.getTime())
+                .condition(weatherIdToCondition(weather.getCondition()))
                 .build();
         return data;
     }
@@ -39,11 +79,14 @@ public class DBWeatherData {
     private int id;
     private String city;
     private double temperature;
+    private long time;
+    private int condition;
 
     public DBWeatherData() {
         id = -1;
         city = "";
         temperature = 0;
+        time = 0;
     }
 
     public int getId() {
@@ -70,6 +113,22 @@ public class DBWeatherData {
         this.temperature = temperature;
     }
 
+    public long getTime() {
+        return time;
+    }
+
+    public void setTime(long time) {
+        this.time = time;
+    }
+
+    public int getCondition() {
+        return condition;
+    }
+
+    public void setCondition(int condition) {
+        this.condition = condition;
+    }
+
     static class Builder {
 
         DBWeatherData data;
@@ -85,6 +144,16 @@ public class DBWeatherData {
 
         public Builder temperature(double temperature) {
             data.temperature = temperature;
+            return this;
+        }
+
+        public Builder time(long time) {
+            data.time = time;
+            return this;
+        }
+
+        public Builder condition(int condition) {
+            data.condition = condition;
             return this;
         }
 

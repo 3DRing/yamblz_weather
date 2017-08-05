@@ -73,17 +73,17 @@ public class WeatherUpdateJob extends Job {
 
     private void sendWeatherNotification(UIWeatherData weather) {
         String formattedTemperature = Utils.getFormattedTemperature(getContext(), weather.getTemperature());
-        String condition = getContext().getString(0);//weather.getConditionName());
+        String condition = getContext().getString(weather.getConditionName());
         String content = getContext().getString(R.string.notification_message, formattedTemperature, condition);
 
         PendingIntent pi = PendingIntent.getActivity(getContext(), 0,
                 new Intent(getContext(), MainActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
-        Notification notification = new NotificationCompat.Builder(getContext())
+        Notification notification = new NotificationCompat.Builder(getContext(),"") // todo figure out what the second arg for
                 .setContentTitle(getContext().getString(R.string.app_name))
                 .setContentIntent(pi)
                 .setContentText(content)
                 .setAutoCancel(true)
-                .setSmallIcon(R.mipmap.ic_launcher)//weather.getConditionImage())
+                .setSmallIcon(weather.getConditionImage())
                 .setShowWhen(true)
                 .setLocalOnly(true)
                 .build();
@@ -92,6 +92,6 @@ public class WeatherUpdateJob extends Job {
     }
 
     private void handleError(Throwable throwable) {
-
+        // todo handle error
     }
 }
