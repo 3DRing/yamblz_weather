@@ -64,20 +64,18 @@ public class PreferencesRepo {
         notificationsDefaultValue = context.getString(R.string.update_notifications_default);
     }
 
-    @Deprecated
+/*    @Deprecated
     private Single<Long> getUpdateInterval() {
         return Single.fromCallable(() -> {
             String value = preferences.getString(intervalKey, intervalDefaultValue);
             int minutes = Integer.parseInt(value);
             return TimeUnit.MINUTES.toMillis(minutes);
         });
-    }
+    }*/
 
-    public Single<Boolean> isNotificationEnabled() {
-        return Single.fromCallable(() -> {
-            final boolean DEFAULT_VALUE = Boolean.parseBoolean(notificationsDefaultValue);
-            return preferences.getBoolean(notificationsKey, DEFAULT_VALUE);
-        });
+    public boolean isNotificationEnabled() {
+        final boolean DEFAULT_VALUE = Boolean.parseBoolean(notificationsDefaultValue);
+        return preferences.getBoolean(notificationsKey, DEFAULT_VALUE);
     }
 
     /**
@@ -135,9 +133,17 @@ public class PreferencesRepo {
         }
     }
 
-    private Single<Long> getUpdateInterval(SharedPreferences sharedPreferences) {
+    public Single<Long> getUpdateInterval(SharedPreferences sharedPreferences) {
         return Single.fromCallable(() -> {
             String value = sharedPreferences.getString(intervalKey, intervalDefaultValue);
+            int minutes = Integer.parseInt(value);
+            return TimeUnit.MINUTES.toMillis(minutes);
+        });
+    }
+
+    public Single<Long> getUpdateInterval() {
+        return Single.fromCallable(() -> {
+            String value = preferences.getString(intervalKey, intervalDefaultValue);
             int minutes = Integer.parseInt(value);
             return TimeUnit.MINUTES.toMillis(minutes);
         });

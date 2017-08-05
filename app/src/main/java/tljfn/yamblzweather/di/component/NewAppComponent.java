@@ -4,7 +4,6 @@ import javax.inject.Singleton;
 
 import dagger.Component;
 import tljfn.yamblzweather.MainActivity;
-import tljfn.yamblzweather.api.CityApi;
 import tljfn.yamblzweather.di.modules.AppModule;
 import tljfn.yamblzweather.di.modules.CityApiModule;
 import tljfn.yamblzweather.di.modules.CityDaoModule;
@@ -14,6 +13,7 @@ import tljfn.yamblzweather.di.modules.PreferencesRepoModule;
 import tljfn.yamblzweather.di.modules.RemoteRepoModule;
 import tljfn.yamblzweather.di.modules.WeatherApiModule;
 import tljfn.yamblzweather.di.modules.WeatherDaoModule;
+import tljfn.yamblzweather.scheduler.WeatherUpdateJob;
 import tljfn.yamblzweather.ui.choose_city.ChooseCityViewModel;
 import tljfn.yamblzweather.ui.settings.SettingsFragment;
 import tljfn.yamblzweather.ui.weather.WeatherViewModel;
@@ -41,4 +41,6 @@ public interface NewAppComponent {
     void inject(SettingsFragment settingsFragment);
 
     void inject(ChooseCityViewModel chooseCityViewModel);
+
+    void inject(WeatherUpdateJob weatherUpdateJob);
 }

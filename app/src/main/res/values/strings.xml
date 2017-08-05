@@ -22,6 +22,9 @@
     <string name="no_data_loaded_error">Cannot download data</string>
 
     <string name="choose_city_hint">Enter the name of a city</string>
+    <string name="right_now">Right now</string>
+
+    <string name="notification_message" translatable="false">%1$s, %2$s</string>
 
     <string-array name="intervals">
         <item>15 seconds</item>

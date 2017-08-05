@@ -22,6 +22,7 @@
     <string name="no_data_loaded_error">Не удалось загрузить данные</string>
 
     <string name="choose_city_hint">Введите название города</string>
+    <string name="right_now">Только что</string>
 
     <string-array name="intervals">
         <item>15 секунд</item>
