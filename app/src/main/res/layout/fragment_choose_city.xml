@@ -8,32 +8,48 @@
     android:focusableInTouchMode="true"
     android:orientation="vertical">
 
-    <RelativeLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:animateLayoutChanges="true"
-        android:padding="12dp">
-
-        <ImageView
-            android:id="@+id/backpress"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            custom:srcCompat="@drawable/ic_arrow_back" />
+        android:animateLayoutChanges="true">
 
         <EditText
             android:id="@+id/et_search_city"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_toEndOf="@+id/backpress"
+            android:layout_marginEnd="48dp"
+            android:layout_marginLeft="48dp"
+            android:layout_marginRight="48dp"
+            android:layout_marginStart="48dp"
             android:background="@null"
-            android:ems="10"
             android:hint="@string/choose_city_hint"
-            android:inputType="textAutoComplete" />
-    </RelativeLayout>
+            android:inputType="text"
+            android:lines="1"
+            android:maxLength="40"
+            android:paddingBottom="12dp"
+            android:paddingTop="12dp" />
+
+        <ImageView
+            android:id="@+id/close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="right|center_vertical|end"
+            android:padding="12dp"
+            custom:srcCompat="@drawable/ic_close" />
+
+        <ImageView
+            android:id="@+id/backpress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="false"
+            android:layout_gravity="left|center_vertical|start"
+            android:padding="12dp"
+            custom:srcCompat="@drawable/ic_arrow_back" />
+
+    </FrameLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_suggestions"

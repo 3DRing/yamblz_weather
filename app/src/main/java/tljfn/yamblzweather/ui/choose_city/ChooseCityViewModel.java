@@ -5,6 +5,7 @@ import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
+import io.reactivex.disposables.Disposable;
 import tljfn.yamblzweather.App;
 import tljfn.yamblzweather.repo.DatabaseRepo;
 import tljfn.yamblzweather.ui.base.BaseViewModel;
@@ -20,6 +21,8 @@ public class ChooseCityViewModel extends BaseViewModel<CitySuggestions> {
     @Inject
     DatabaseRepo dbRepo;
 
+    Disposable suggestions;
+
     ChooseCityViewModel() {
         App.getComponent().inject(this);
     }
@@ -30,8 +33,7 @@ public class ChooseCityViewModel extends BaseViewModel<CitySuggestions> {
     }
 
     public void searchCity(String requestedString) {
-        dbRepo.getSuggestions(requestedString.toLowerCase())
-                .debounce(1, TimeUnit.SECONDS)
+        suggestions = dbRepo.getSuggestions(requestedString.toLowerCase())
                 .map(list -> {
                     CitySuggestions.Builder builder = new CitySuggestions.Builder();
                     for (UICitySuggestion s :
@@ -40,6 +42,14 @@ public class ChooseCityViewModel extends BaseViewModel<CitySuggestions> {
                     }
                     return builder.build();
                 })
+                .debounce(500, TimeUnit.MILLISECONDS)
                 .subscribe(this::onChange, this::onError);
+    }
+
+    public void hideSearching() {
+        if (suggestions != null && !suggestions.isDisposed()) {
+            suggestions.dispose();
+        }
+        this.onChange(new CitySuggestions.Builder().build());
     }
 }
