@@ -38,8 +38,7 @@ import tljfn.yamblzweather.ui.choose_city.data.UICitySuggestion;
 // todo refactoring of this god activity
 public class MainActivity extends AppCompatActivity implements LifecycleRegistryOwner,
         NavigationView.OnNavigationItemSelectedListener,
-        BaseFragment.OnFragmentInteractionListener,
-        NavigationController.GooglePlacesExceptionCallback {
+        BaseFragment.OnFragmentInteractionListener {
 
     private final LifecycleRegistry lifecycleRegistry = new LifecycleRegistry(this);
 
@@ -150,15 +149,5 @@ public class MainActivity extends AppCompatActivity implements LifecycleRegistry
             toggle.syncState();
             toolbar.setNavigationOnClickListener(v -> drawer.openDrawer(GravityCompat.START));
         }
-    }
-
-    @Override
-    public void onGooglePlacesRepairs(String message) {
-        // todo handle error
-    }
-
-    @Override
-    public void onGooglePlacesNotAvailable(String message) {
-        // todo handle error
     }
 }

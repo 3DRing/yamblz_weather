@@ -1,20 +1,11 @@
 package tljfn.yamblzweather.ui.weather;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.google.android.gms.common.api.Status;
-import com.google.android.gms.location.places.Place;
-import com.google.android.gms.location.places.ui.PlaceAutocomplete;
-import com.google.android.gms.maps.model.LatLng;
-
-import javax.inject.Inject;
 
 import tljfn.yamblzweather.Utils;
 import tljfn.yamblzweather.navigation.NavigationController;
@@ -69,24 +60,6 @@ public class WeatherFragment extends ViewModelFragment<WeatherViewModel, UIWeath
     @Override
     public Integer getDrawerMode() {
         return DrawerLayout.LOCK_MODE_UNLOCKED;
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == NavigationController.PLACE_AUTOCOMPLETE_REQUEST_CODE) {
-            if (resultCode == Activity.RESULT_OK) {
-                Place place = PlaceAutocomplete.getPlace(getContext(), data);
-                LatLng latLon = place.getLatLng();
-                viewModel.changeCity(latLon.latitude, latLon.longitude);
-                //weatherViewModel.changeCity(place.getId());
-            } else if (resultCode == PlaceAutocomplete.RESULT_ERROR) {
-                Status status = PlaceAutocomplete.getStatus(getContext(), data);
-
-                // todo handle error
-            } else if (resultCode == Activity.RESULT_CANCELED) {
-                // The user canceled the operation.
-            }
-        }
     }
 
     @Override
