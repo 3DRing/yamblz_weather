@@ -27,6 +27,7 @@ import io.reactivex.Single;
 import tljfn.yamblzweather.db.cities.DBCity;
 import tljfn.yamblzweather.repo.DatabaseRepo;
 import tljfn.yamblzweather.repo.RemoteRepo;
+import tljfn.yamblzweather.scheduler.WeatherUpdateJob;
 import tljfn.yamblzweather.ui.base.BaseFragment;
 import tljfn.yamblzweather.navigation.NavigationController;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -34,7 +35,7 @@ import io.reactivex.schedulers.Schedulers;
 import tljfn.yamblzweather.repo.PreferencesRepo;
 import tljfn.yamblzweather.ui.choose_city.data.UICitySuggestion;
 
-
+// todo refactoring of this god activity
 public class MainActivity extends AppCompatActivity implements LifecycleRegistryOwner,
         NavigationView.OnNavigationItemSelectedListener,
         BaseFragment.OnFragmentInteractionListener,
@@ -64,19 +65,17 @@ public class MainActivity extends AppCompatActivity implements LifecycleRegistry
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         App.getComponent().inject(this);
-
         initDBIfNot();
+        setScheduler();
 
-        //setScheduler();
 
-
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         actionBar = getSupportActionBar();
-        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer = findViewById(R.id.drawer_layout);
         toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.open_drawer, R.string.close_drawer);
         drawer.addDrawerListener(toggle);
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         if (savedInstanceState == null) {
@@ -104,14 +103,7 @@ public class MainActivity extends AppCompatActivity implements LifecycleRegistry
     }
 
     private void setScheduler() {
-/*        preferencesRepo.getInterval()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnSuccess(integer -> {
-                    //just for test
-                    Toast.makeText(this, integer.toString(), Toast.LENGTH_SHORT).show();
-                })
-                .subscribe(interval -> alarmReceiver.setAlarm(this, interval));*/
+        WeatherUpdateJob.schedule(preferencesRepo);
     }
 
     @Override
@@ -159,11 +151,6 @@ public class MainActivity extends AppCompatActivity implements LifecycleRegistry
             toolbar.setNavigationOnClickListener(v -> drawer.openDrawer(GravityCompat.START));
         }
     }
-
-/*    @Override
-    public DispatchingAndroidInjector<Fragment> supportFragmentInjector() {
-        return dispatchingAndroidInjector;
-    }*/
 
     @Override
     public void onGooglePlacesRepairs(String message) {

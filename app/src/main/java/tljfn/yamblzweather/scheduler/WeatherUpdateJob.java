@@ -8,7 +8,10 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 
 import com.evernote.android.job.Job;
+import com.evernote.android.job.JobManager;
 import com.evernote.android.job.JobRequest;
+
+import java.util.Set;
 
 import javax.inject.Inject;
 
@@ -42,20 +45,22 @@ public class WeatherUpdateJob extends Job {
     DatabaseRepo dbRepo;
 
     public static void schedule(@NonNull PreferencesRepo preferencesRepo) {
+        Set<JobRequest> requests = JobManager.instance().getAllJobRequestsForTag(WeatherUpdateJob.TAG);
 
-        preferencesRepo.getUpdateInterval()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(interval -> {
-                    JobRequest job = new JobRequest.Builder(WeatherUpdateJob.TAG)
-                            .setPeriodic(interval, FLEX)
-                            .setRequiredNetworkType(JobRequest.NetworkType.CONNECTED)
-                            .setPersisted(true)
-                            .setUpdateCurrent(true)
-                            .build();
-                    job.schedule();
-                }); // error is ignored
-
+        if (requests.isEmpty()) {
+            preferencesRepo.getUpdateInterval()
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(interval -> {
+                        JobRequest job = new JobRequest.Builder(WeatherUpdateJob.TAG)
+                                .setPeriodic(interval, FLEX)
+                                .setRequiredNetworkType(JobRequest.NetworkType.CONNECTED)
+                                .setPersisted(true)
+                                .setUpdateCurrent(true)
+                                .build();
+                        job.schedule();
+                    }); // error is ignored
+        }
     }
 
     @NonNull
@@ -78,7 +83,7 @@ public class WeatherUpdateJob extends Job {
 
         PendingIntent pi = PendingIntent.getActivity(getContext(), 0,
                 new Intent(getContext(), MainActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
-        Notification notification = new NotificationCompat.Builder(getContext(),"") // todo figure out what the second arg for
+        Notification notification = new NotificationCompat.Builder(getContext(), "") // todo figure out what the second arg for
                 .setContentTitle(getContext().getString(R.string.app_name))
                 .setContentIntent(pi)
                 .setContentText(content)
