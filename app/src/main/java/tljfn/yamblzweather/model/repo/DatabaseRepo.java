@@ -13,6 +13,7 @@ import tljfn.yamblzweather.model.db.weather.DBWeatherConverter;
 import tljfn.yamblzweather.model.db.weather.DBWeatherData;
 import tljfn.yamblzweather.model.db.weather.WeatherDao;
 import tljfn.yamblzweather.modules.city.choose_city.data.UICitySuggestion;
+import tljfn.yamblzweather.modules.weather.data.UIWeatherConverter;
 import tljfn.yamblzweather.modules.weather.data.UIWeatherData;
 
 /**
@@ -32,22 +33,15 @@ public class DatabaseRepo {
         return Single.fromCallable(() -> {
             DBWeatherData data = DBWeatherConverter.fromRawWeatherData(weather);
             weatherDao.insertWeather(data);
-            return DBWeatherConverter.toUIWeatherData(data);
+            return UIWeatherConverter.toUIWeatherData(data);
         })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    /**
-     * Deletes all from the database.
-     */
-    public void deleteAll() {
-        //weatherDao.deleteAll();
-    }
-
     public Flowable<UIWeatherData> loadCachedWeather() {
         return weatherDao.loadWeather()
-                .map(DBWeatherConverter::toUIWeatherData)
+                .map(UIWeatherConverter::toUIWeatherData)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
