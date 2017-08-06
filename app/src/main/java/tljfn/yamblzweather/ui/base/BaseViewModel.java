@@ -25,7 +25,7 @@ public abstract class BaseViewModel<D extends UIBaseData> extends ViewModel {
         disposables.add(disposable);
     }
 
-    public void observe(LifecycleOwner owner, Observer<D> observer) {
+    void observe(LifecycleOwner owner, Observer<D> observer) {
         liveData.observe(owner, observer);
     }
 
@@ -39,7 +39,7 @@ public abstract class BaseViewModel<D extends UIBaseData> extends ViewModel {
 
     protected abstract D buildUIError(String messageError);
 
-    public void showLoading() {
+    protected void showLoading() {
         D crtData = liveData.getValue();
         if (crtData != null) {
             crtData.setLoading(true);

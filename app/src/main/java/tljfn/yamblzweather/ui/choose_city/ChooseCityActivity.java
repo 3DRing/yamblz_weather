@@ -5,16 +5,8 @@ import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.view.View;
-import android.widget.EditText;
 
-import java.util.concurrent.TimeUnit;
-
-import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import tljfn.yamblzweather.R;
 import tljfn.yamblzweather.ui.base.BaseFragment;
 

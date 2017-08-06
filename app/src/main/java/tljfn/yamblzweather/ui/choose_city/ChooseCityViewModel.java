@@ -21,9 +21,9 @@ public class ChooseCityViewModel extends BaseViewModel<CitySuggestions> {
     @Inject
     DatabaseRepo dbRepo;
 
-    Disposable suggestions;
+    private Disposable suggestions;
 
-    ChooseCityViewModel() {
+    public ChooseCityViewModel() {
         App.getComponent().inject(this);
     }
 
