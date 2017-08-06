@@ -9,7 +9,7 @@ import io.reactivex.schedulers.Schedulers;
 import tljfn.yamblzweather.model.api.data.weather.RawWeather;
 import tljfn.yamblzweather.model.db.cities.CityDao;
 import tljfn.yamblzweather.model.db.cities.DBCity;
-import tljfn.yamblzweather.model.db.weather.DBConverter;
+import tljfn.yamblzweather.model.db.DBConverter;
 import tljfn.yamblzweather.model.db.weather.DBWeatherData;
 import tljfn.yamblzweather.model.db.weather.WeatherDao;
 import tljfn.yamblzweather.modules.city.choose_city.data.UICitySuggestion;

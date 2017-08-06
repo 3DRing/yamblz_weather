@@ -72,11 +72,11 @@ public class DBWeatherData {
         this.condition = condition;
     }
 
-    static class Builder {
+    public static class Builder {
 
         DBWeatherData data;
 
-        Builder() {
+        public Builder() {
             data = new DBWeatherData();
         }
 

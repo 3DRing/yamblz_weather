@@ -1,10 +1,11 @@
-package tljfn.yamblzweather.model.db.weather;
+package tljfn.yamblzweather.model.db;
 
 import java.util.List;
 
 import tljfn.yamblzweather.model.api.data.weather.Main;
 import tljfn.yamblzweather.model.api.data.weather.RawWeather;
 import tljfn.yamblzweather.model.api.data.weather.Weather;
+import tljfn.yamblzweather.model.db.weather.DBWeatherData;
 import tljfn.yamblzweather.model.errors.RawToDBConvertingException;
 import tljfn.yamblzweather.modules.weather.data.UIWeatherData;
 import tljfn.yamblzweather.modules.weather.data.WeatherCondition;
