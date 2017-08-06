@@ -19,26 +19,18 @@ package tljfn.yamblzweather.navigation;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.IdRes;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
-import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
-import com.google.android.gms.common.GooglePlayServicesRepairableException;
-import com.google.android.gms.location.places.AutocompleteFilter;
-import com.google.android.gms.location.places.ui.PlaceAutocomplete;
-
-import tljfn.yamblzweather.MainActivity;
-import tljfn.yamblzweather.ui.about.AboutFragment;
-import tljfn.yamblzweather.ui.choose_city.ChooseCityActivity;
-import tljfn.yamblzweather.ui.settings.SettingsFragment;
-import tljfn.yamblzweather.ui.weather.WeatherFragment;
+import tljfn.yamblzweather.modules.main.MainActivity;
+import tljfn.yamblzweather.modules.about.AboutFragment;
+import tljfn.yamblzweather.modules.city.choose_city.ChooseCityActivity;
+import tljfn.yamblzweather.modules.settings.SettingsFragment;
+import tljfn.yamblzweather.modules.weather.WeatherFragment;
 
 /**
  * A utility class that handles navigation in {@link MainActivity}.
  */
 public class NavigationController {
-
-    public static final int PLACE_AUTOCOMPLETE_REQUEST_CODE = 1;
 
     public static void navigateToAbout(@IdRes int layout, FragmentManager fragmentManager) {
         AboutFragment fragment = new AboutFragment();
@@ -64,29 +56,5 @@ public class NavigationController {
     public static void navigateToChooseCity(Context context) {
         Intent intent = new Intent(context, ChooseCityActivity.class);
         context.startActivity(intent);
-    }
-
-    public static void navigateToChooseCity(@IdRes int layout, FragmentManager fragmentManager) {
-        Fragment fragment = fragmentManager.findFragmentByTag(WeatherFragment.TAG);
-        try {
-            Intent intent =
-                    new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_OVERLAY)
-                            .setFilter(new AutocompleteFilter.Builder()
-                                    .setTypeFilter(AutocompleteFilter.TYPE_FILTER_CITIES)
-                                    //.setCountry("ru")
-                                    .build())
-                            .build(fragment.getActivity());
-            fragment.startActivityForResult(intent, PLACE_AUTOCOMPLETE_REQUEST_CODE);
-        } catch (GooglePlayServicesRepairableException e) {
-            //fragment.onGooglePlacesRepairs(e.getLocalizedMessage());
-        } catch (GooglePlayServicesNotAvailableException e) {
-            //fragment.onGooglePlacesNotAvailable(e.getLocalizedMessage());
-        }
-    }
-
-    public interface GooglePlacesExceptionCallback {
-        void onGooglePlacesRepairs(String message);
-
-        void onGooglePlacesNotAvailable(String message);
     }
 }

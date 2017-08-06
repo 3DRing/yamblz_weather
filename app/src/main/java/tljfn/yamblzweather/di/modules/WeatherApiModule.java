@@ -13,11 +13,11 @@ import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
-import tljfn.yamblzweather.BaseFields;
+import tljfn.yamblzweather.utils.BaseFields;
 import tljfn.yamblzweather.BuildConfig;
-import tljfn.yamblzweather.api.ApiInterceptor;
-import tljfn.yamblzweather.api.ConnectivityInterceptor;
-import tljfn.yamblzweather.api.WeatherApi;
+import tljfn.yamblzweather.model.api.ApiInterceptor;
+import tljfn.yamblzweather.model.api.ConnectivityInterceptor;
+import tljfn.yamblzweather.model.api.WeatherApi;
 
 /**
  * Created by ringov on 03.08.17.

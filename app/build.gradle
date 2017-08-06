@@ -26,8 +26,8 @@ android {
         applicationId 'tljfn.yamblzweather'
         minSdkVersion 17
         targetSdkVersion 26
-        versionCode 1
-        versionName "0.3"
+        versionCode 2
+        versionName "0.4"
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
         vectorDrawables.useSupportLibrary = true
     }
@@ -106,9 +106,6 @@ dependencies {
 
     // Dagger
     compile "com.google.dagger:dagger:$dagger_version"
-    compile "com.google.dagger:dagger-android:$dagger_version"
-    compile "com.google.dagger:dagger-android-support:$dagger_version"
-    annotationProcessor "com.google.dagger:dagger-android-processor:$dagger_version"
     annotationProcessor "com.google.dagger:dagger-compiler:$dagger_version"
 
     // UI
@@ -120,9 +117,6 @@ dependencies {
     //android-job
     compile "com.evernote:android-job:$android_job_version"
     compile "com.google.android.gms:play-services-gcm:$google_version"
-
-    // google places
-    compile "com.google.android.gms:play-services-places:$google_version"
 
     // preferences
     compile "com.android.support:preference-v14:$support_version"

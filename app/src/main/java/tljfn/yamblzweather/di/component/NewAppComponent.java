@@ -3,8 +3,6 @@ package tljfn.yamblzweather.di.component;
 import javax.inject.Singleton;
 
 import dagger.Component;
-import tljfn.yamblzweather.MainActivity;
-import tljfn.yamblzweather.api.CityApi;
 import tljfn.yamblzweather.di.modules.AppModule;
 import tljfn.yamblzweather.di.modules.CityApiModule;
 import tljfn.yamblzweather.di.modules.CityDaoModule;
@@ -14,9 +12,11 @@ import tljfn.yamblzweather.di.modules.PreferencesRepoModule;
 import tljfn.yamblzweather.di.modules.RemoteRepoModule;
 import tljfn.yamblzweather.di.modules.WeatherApiModule;
 import tljfn.yamblzweather.di.modules.WeatherDaoModule;
-import tljfn.yamblzweather.ui.choose_city.ChooseCityViewModel;
-import tljfn.yamblzweather.ui.settings.SettingsFragment;
-import tljfn.yamblzweather.ui.weather.WeatherViewModel;
+import tljfn.yamblzweather.model.scheduler.WeatherUpdateJob;
+import tljfn.yamblzweather.modules.city.choose_city.ChooseCityViewModel;
+import tljfn.yamblzweather.modules.main.MainViewModel;
+import tljfn.yamblzweather.modules.settings.SettingsFragment;
+import tljfn.yamblzweather.modules.weather.WeatherViewModel;
 
 /**
  * Created by ringov on 12.07.17.
@@ -36,9 +36,11 @@ import tljfn.yamblzweather.ui.weather.WeatherViewModel;
 public interface NewAppComponent {
     void inject(WeatherViewModel weatherViewModel);
 
-    void inject(MainActivity mainActivity);
-
     void inject(SettingsFragment settingsFragment);
 
     void inject(ChooseCityViewModel chooseCityViewModel);
+
+    void inject(WeatherUpdateJob weatherUpdateJob);
+
+    void inject(MainViewModel mainViewModel);
 }

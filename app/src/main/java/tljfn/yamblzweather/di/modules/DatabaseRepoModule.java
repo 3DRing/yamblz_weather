@@ -6,9 +6,9 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-import tljfn.yamblzweather.db.cities.CityDao;
-import tljfn.yamblzweather.db.weather.WeatherDao;
-import tljfn.yamblzweather.repo.DatabaseRepo;
+import tljfn.yamblzweather.model.db.cities.CityDao;
+import tljfn.yamblzweather.model.db.weather.WeatherDao;
+import tljfn.yamblzweather.model.repo.DatabaseRepo;
 
 /**
  * Created by ringov on 03.08.17.

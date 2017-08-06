@@ -7,7 +7,7 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-import tljfn.yamblzweather.api.CityApi;
+import tljfn.yamblzweather.model.api.CityApi;
 
 /**
  * Created by ringov on 04.08.17.

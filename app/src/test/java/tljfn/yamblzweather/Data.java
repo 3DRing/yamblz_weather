@@ -3,13 +3,13 @@ package tljfn.yamblzweather;
 import java.util.ArrayList;
 import java.util.List;
 
-import tljfn.yamblzweather.api.data.weather.RawWeather;
-import tljfn.yamblzweather.api.data.weather.Clouds;
-import tljfn.yamblzweather.api.data.weather.Coord;
-import tljfn.yamblzweather.api.data.weather.Main;
-import tljfn.yamblzweather.api.data.weather.Sys;
-import tljfn.yamblzweather.api.data.weather.Weather;
-import tljfn.yamblzweather.api.data.weather.Wind;
+import tljfn.yamblzweather.model.api.data.weather.RawWeather;
+import tljfn.yamblzweather.model.api.data.weather.Clouds;
+import tljfn.yamblzweather.model.api.data.weather.Coord;
+import tljfn.yamblzweather.model.api.data.weather.Main;
+import tljfn.yamblzweather.model.api.data.weather.Sys;
+import tljfn.yamblzweather.model.api.data.weather.Weather;
+import tljfn.yamblzweather.model.api.data.weather.Wind;
 
 /**
  * Created by ringov on 28.07.17.
