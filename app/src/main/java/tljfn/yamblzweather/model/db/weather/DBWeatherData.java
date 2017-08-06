@@ -19,6 +19,7 @@ public class DBWeatherData {
 
     @PrimaryKey
     private int id;
+    // todo use city id
     private String city;
     private double temperature;
     private long time;
