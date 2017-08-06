@@ -13,19 +13,9 @@ import io.reactivex.Flowable;
 @Dao
 public interface WeatherDao {
 
-    /**
-     * Insert a weather in the database. If the weather already exists, replace it.
-     *
-     * @param weather the weather to be inserted.
-     */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertWeather(DBWeatherData weather);
 
-    /**
-     * Delete all.
-     */
-    @Query("DELETE FROM weather")
-    void deleteAll();
 
     @Query("SELECT * FROM weather")
     Flowable<DBWeatherData> loadWeather();

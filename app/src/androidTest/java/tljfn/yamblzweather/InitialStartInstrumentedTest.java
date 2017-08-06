@@ -27,10 +27,10 @@ public class InitialStartInstrumentedTest {
 
     @Test
     public void allElementsVisible() {
-        onView(withId(R.id.temp_tv)).check(matches(isDisplayed()));
-        onView(withId(R.id.city_tv)).check(matches(isDisplayed()));
-        onView(withId(R.id.weather_iv)).check(matches(isDisplayed()));
-        onView(withId(R.id.last_update_tv)).check(matches(isDisplayed()));
-        onView(withId(R.id.description_tv)).check(matches(isDisplayed()));
+        onView(withId(R.id.tv_temperature)).check(matches(isDisplayed()));
+        onView(withId(R.id.tv_city)).check(matches(isDisplayed()));
+        onView(withId(R.id.tv_conditions)).check(matches(isDisplayed()));
+        onView(withId(R.id.tv_time)).check(matches(isDisplayed()));
+        onView(withId(R.id.weather_image)).check(matches(isDisplayed()));
     }
 }

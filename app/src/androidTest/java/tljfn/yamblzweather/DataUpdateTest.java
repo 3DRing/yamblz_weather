@@ -19,9 +19,7 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.swipeDown;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayingAtLeast;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 /**
  * Created by ringov on 30.07.17.
@@ -55,9 +53,10 @@ public class DataUpdateTest {
 
     @Test
     public void dataUpdates() {
-        onView(withId(R.id.swipe_container))
+        onView(withId(R.id.swipe_layout))
                 .perform(withCustomConstraints(swipeDown(), isDisplayingAtLeast(85)));
         SystemClock.sleep(2000);
-        assertFalse(((SwipeRefreshLayout)mActivityRule.getActivity().findViewById(R.id.swipe_container)).isRefreshing());
+        assertFalse(((SwipeRefreshLayout) mActivityRule.getActivity()
+                .findViewById(R.id.swipe_layout)).isRefreshing());
     }
 }
