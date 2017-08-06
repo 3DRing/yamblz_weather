@@ -4,7 +4,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import tljfn.yamblzweather.data.DataProvider;
+import tljfn.yamblzweather.model.api.data.city.RawCity;
 import tljfn.yamblzweather.model.api.data.weather.RawWeather;
+import tljfn.yamblzweather.model.db.cities.DBCity;
 import tljfn.yamblzweather.model.db.weather.DBWeatherConverter;
 import tljfn.yamblzweather.model.db.weather.DBWeatherData;
 import tljfn.yamblzweather.model.errors.RawToDBConvertingException;
@@ -26,9 +28,9 @@ public class DBConverterTest {
     }
 
     @Test
-    public void converting_to_db_data_correctly() {
+    public void converting_to_db_weather_data_correctly() {
         RawWeather rawData = dataProvider.getNewYorkWeather();
-        DBWeatherData dbData = DBWeatherConverter.fromRawWeatherData(rawData);
+        DBWeatherData dbData = DBConverter.fromRawWeatherData(rawData);
         long crtTime = System.currentTimeMillis();
 
         // not used so far
@@ -41,9 +43,29 @@ public class DBConverterTest {
     }
 
     @Test(expected = RawToDBConvertingException.class)
-    public void converting_to_db_data_error() {
+    public void converting_to_db_weather_data_error() {
         RawWeather data = dataProvider.getBadWeather();
-        DBWeatherData dbWeatherData = DBWeatherConverter.fromRawWeatherData(data);
+        DBWeatherData dbWeatherData = DBConverter.fromRawWeatherData(data);
+        fail();
+    }
+
+    @Test
+    public void converting_to_db_city_correctly() {
+        RawCity data = dataProvider.getSaintPetersburgCity();
+        DBCity dbData = DBConverter.fromRawCity(data);
+
+        assertTrue(dbData != null);
+        assertTrue(dbData.getId() == 2);
+        assertTrue(dbData.getOpenWeatherId() == 498817);
+        assertTrue(dbData.getCountryCode().equals("ru"));
+        assertTrue(dbData.getEnName().equals("Saint Petersburg"));
+        assertTrue(dbData.getRuName().equals("Санкт-Петербург"));
+    }
+
+    @Test(expected = RawToDBConvertingException.class)
+    public void converting_to_db_city_error() {
+        RawCity data = dataProvider.getBadRawCity();
+        DBCity dbData = DBConverter.fromRawCity(data);
         fail();
     }
 

@@ -6,6 +6,7 @@ import com.google.gson.GsonBuilder;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+import tljfn.yamblzweather.model.api.data.city.RawCity;
 import tljfn.yamblzweather.model.api.data.weather.RawWeather;
 
 /**
@@ -14,14 +15,22 @@ import tljfn.yamblzweather.model.api.data.weather.RawWeather;
 
 public class DataProvider {
 
-    private RawWeather loadTestRawWeather(String fileName) {
+    private <T> T loadTestData(String fileName, Class<T> cls) {
         InputStream inputStream = getClass().getClassLoader()
                 .getResourceAsStream("api-response/" + fileName);
         InputStreamReader isr = new InputStreamReader(inputStream);
 
         Gson gson = new GsonBuilder().create();
 
-        return gson.fromJson(isr, RawWeather.class);
+        return gson.fromJson(isr, cls);
+    }
+
+    private RawWeather loadTestRawWeather(String fileName) {
+        return loadTestData(fileName, RawWeather.class);
+    }
+
+    private RawCity loadTestRawCity(String fileName) {
+        return loadTestData(fileName, RawCity.class);
     }
 
     public RawWeather getNewYorkWeather() {
@@ -35,5 +44,13 @@ public class DataProvider {
     public InputStream getCitiesInputStream() {
         return getClass().getClassLoader()
                 .getResourceAsStream("api-response/" + "cities.json");
+    }
+
+    public RawCity getSaintPetersburgCity() {
+        return loadTestRawCity("saint_petersburg_city.json");
+    }
+
+    public RawCity getBadRawCity() {
+        return loadTestRawCity("bad_city_response.json");
     }
 }

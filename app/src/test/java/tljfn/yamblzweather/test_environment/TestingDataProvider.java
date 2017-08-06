@@ -102,4 +102,28 @@ public class TestingDataProvider {
         assertTrue(raw.enName.equals("Saint Petersburg"));
         assertTrue(raw.ruName.equals("Санкт-Петербург"));
     }
+
+    @Test
+    public void loading_raw_city_correctly() {
+        RawCity city = dataProvider.getSaintPetersburgCity();
+
+        assertTrue(city != null);
+        assertTrue(city.yaId == 2);
+        assertTrue(city.openWeatherId == 498817);
+        assertTrue(city.country.equals("ru"));
+        assertTrue(city.enName.equals("Saint Petersburg"));
+        assertTrue(city.ruName.equals("Санкт-Петербург"));
+    }
+
+    @Test
+    public void loading_raw_city_with_nulls() {
+        RawCity city = dataProvider.getBadRawCity();
+
+        assertTrue(city != null);
+        assertTrue(city.yaId == -1);
+        assertTrue(city.openWeatherId == 0);
+        assertTrue(city.country == null);
+        assertTrue(city.enName == null);
+        assertTrue(city.ruName == null);
+    }
 }
