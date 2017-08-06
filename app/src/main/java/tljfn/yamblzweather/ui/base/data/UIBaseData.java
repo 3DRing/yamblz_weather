@@ -34,6 +34,10 @@ public class UIBaseData implements UIState {
         return loading;
     }
 
+    public void resetErrorState() {
+        error = "";
+    }
+
     protected static abstract class Builder<D extends UIBaseData, B extends Builder> {
 
         protected D data;

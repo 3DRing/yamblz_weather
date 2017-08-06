@@ -37,7 +37,6 @@ public class WeatherViewModel extends BaseViewModel<UIWeatherData> {
 
     public WeatherViewModel() {
         App.getComponent().inject(this);
-
         loadCachedWeather();
     }
 
@@ -50,6 +49,7 @@ public class WeatherViewModel extends BaseViewModel<UIWeatherData> {
         preferencesRepo.getCurrentCity()
                 .flatMap(remoteRepo::getWeather)
                 .flatMap(databaseRepo::insertOrUpdateWeather)
+                .doOnError(error -> loadCachedWeather())
                 .subscribe(this::onChange, this::onError);
     }
 

@@ -20,6 +20,7 @@ public class UIErrorShower<D extends UIBaseData> {
             }
             if (data.hasError()) {
                 screen.onError(data.getErrorMessage());
+                data.resetErrorState();
             } else {
                 screen.onSuccess(data);
             }

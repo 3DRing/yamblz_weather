@@ -11,7 +11,6 @@ import tljfn.yamblzweather.ui.base.UIErrorShower;
 import tljfn.yamblzweather.ui.base.data.UIBaseData;
 import tljfn.yamblzweather.ui.base.viewmodel.BaseViewModel;
 import tljfn.yamblzweather.ui.base.viewmodel.ViewModelScreen;
-import tljfn.yamblzweather.ui.main.MainViewModel;
 
 /**
  * Created by ringov on 06.08.17.
