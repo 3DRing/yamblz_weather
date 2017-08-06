@@ -23,7 +23,7 @@ import tljfn.yamblzweather.api.data.weather.RawWeather;
 import tljfn.yamblzweather.repo.DatabaseRepo;
 import tljfn.yamblzweather.repo.PreferencesRepo;
 import tljfn.yamblzweather.repo.RemoteRepo;
-import tljfn.yamblzweather.ui.base.BaseViewModel;
+import tljfn.yamblzweather.ui.base.viewmodel.BaseViewModel;
 import tljfn.yamblzweather.ui.weather.data.UIWeatherData;
 
 public class WeatherViewModel extends BaseViewModel<UIWeatherData> {

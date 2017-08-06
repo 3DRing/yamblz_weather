@@ -1,4 +1,4 @@
-package tljfn.yamblzweather.ui.base;
+package tljfn.yamblzweather.ui.base.viewmodel;
 
 import android.arch.lifecycle.LiveData;
 

@@ -1,4 +1,4 @@
-package tljfn.yamblzweather.ui.base;
+package tljfn.yamblzweather.ui.base.viewmodel;
 
 import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.Observer;
@@ -25,7 +25,7 @@ public abstract class BaseViewModel<D extends UIBaseData> extends ViewModel {
         disposables.add(disposable);
     }
 
-    void observe(LifecycleOwner owner, Observer<D> observer) {
+    public void observe(LifecycleOwner owner, Observer<D> observer) {
         liveData.observe(owner, observer);
     }
 

@@ -16,7 +16,7 @@
 
 package tljfn.yamblzweather.ui.about;
 
-import tljfn.yamblzweather.ui.base.BaseViewModel;
+import tljfn.yamblzweather.ui.base.viewmodel.BaseViewModel;
 import tljfn.yamblzweather.ui.base.data.UIBaseData;
 
 public class AboutViewModel extends BaseViewModel<UIBaseData> {

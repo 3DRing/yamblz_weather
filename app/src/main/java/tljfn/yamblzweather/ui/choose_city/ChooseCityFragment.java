@@ -1,9 +1,7 @@
 package tljfn.yamblzweather.ui.choose_city;
 
 import android.content.Context;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,7 +14,7 @@ import android.widget.EditText;
 import butterknife.BindView;
 import butterknife.OnClick;
 import tljfn.yamblzweather.R;
-import tljfn.yamblzweather.ui.base.ViewModelFragment;
+import tljfn.yamblzweather.ui.base.fragment.ViewModelFragment;
 import tljfn.yamblzweather.ui.choose_city.data.CitySuggestions;
 
 /**
@@ -84,27 +82,27 @@ public class ChooseCityFragment extends ViewModelFragment<ChooseCityViewModel, C
     }
 
     @Override
-    protected Class<ChooseCityViewModel> getViewModelClass() {
+    public Class<ChooseCityViewModel> getViewModelClass() {
         return ChooseCityViewModel.class;
     }
 
     @Override
-    protected void showLoading() {
+    public void showLoading() {
 
     }
 
     @Override
-    protected void hideLoading() {
+    public void hideLoading() {
 
     }
 
     @Override
-    protected void onSuccess(@NonNull CitySuggestions data) {
+    public void onSuccess(@NonNull CitySuggestions data) {
         adapter.setSuggestions(data.getSuggestions());
     }
 
     @Override
-    protected void onError(String errorMessage) {
+    public void onError(String errorMessage) {
 
     }
 

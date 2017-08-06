@@ -16,7 +16,7 @@ import javax.inject.Inject;
 import tljfn.yamblzweather.App;
 import tljfn.yamblzweather.R;
 import tljfn.yamblzweather.repo.PreferencesRepo;
-import tljfn.yamblzweather.ui.base.BaseFragment;
+import tljfn.yamblzweather.ui.base.fragment.BaseFragment;
 import tljfn.yamblzweather.ui.weather.WeatherFragment;
 
 /**

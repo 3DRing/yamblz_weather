@@ -1,42 +1,39 @@
-package tljfn.yamblzweather;
+package tljfn.yamblzweather.ui.main;
 
 import android.arch.lifecycle.LifecycleRegistry;
 import android.arch.lifecycle.LifecycleRegistryOwner;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-
 import javax.inject.Inject;
 
-import io.reactivex.Completable;
-import io.reactivex.Flowable;
+import butterknife.BindView;
 import io.reactivex.Observable;
-import io.reactivex.Single;
+import tljfn.yamblzweather.App;
+import tljfn.yamblzweather.R;
 import tljfn.yamblzweather.db.cities.DBCity;
 import tljfn.yamblzweather.repo.DatabaseRepo;
 import tljfn.yamblzweather.repo.RemoteRepo;
 import tljfn.yamblzweather.scheduler.WeatherUpdateJob;
-import tljfn.yamblzweather.ui.base.BaseFragment;
+import tljfn.yamblzweather.ui.base.activity.ViewModelActivity;
+import tljfn.yamblzweather.ui.base.fragment.BaseFragment;
 import tljfn.yamblzweather.navigation.NavigationController;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import tljfn.yamblzweather.repo.PreferencesRepo;
-import tljfn.yamblzweather.ui.choose_city.data.UICitySuggestion;
 
 // todo refactoring of this god activity
-public class MainActivity extends AppCompatActivity implements LifecycleRegistryOwner,
+public class MainActivity extends ViewModelActivity<MainViewModel, UIMainData> implements LifecycleRegistryOwner,
         NavigationView.OnNavigationItemSelectedListener,
         BaseFragment.OnFragmentInteractionListener {
 
@@ -49,8 +46,11 @@ public class MainActivity extends AppCompatActivity implements LifecycleRegistry
     @Inject
     RemoteRepo remoteRepo;
 
-    private Toolbar toolbar;
-    private DrawerLayout drawer;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.drawer_layout)
+    DrawerLayout drawer;
+
     private ActionBar actionBar;
     private ActionBarDrawerToggle toggle;
 
@@ -62,16 +62,12 @@ public class MainActivity extends AppCompatActivity implements LifecycleRegistry
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
         App.getComponent().inject(this);
         initDBIfNot();
         setScheduler();
 
-
-        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         actionBar = getSupportActionBar();
-        drawer = findViewById(R.id.drawer_layout);
         toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.open_drawer, R.string.close_drawer);
         drawer.addDrawerListener(toggle);
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -80,6 +76,11 @@ public class MainActivity extends AppCompatActivity implements LifecycleRegistry
         if (savedInstanceState == null) {
             NavigationController.navigateToWeather(R.id.fragment_container, getSupportFragmentManager());
         }
+    }
+
+    @Override
+    protected int getLayoutRes() {
+        return R.layout.activity_main;
     }
 
     private void initDBIfNot() {
@@ -149,5 +150,30 @@ public class MainActivity extends AppCompatActivity implements LifecycleRegistry
             toggle.syncState();
             toolbar.setNavigationOnClickListener(v -> drawer.openDrawer(GravityCompat.START));
         }
+    }
+
+    @Override
+    public Class<MainViewModel> getViewModelClass() {
+        return MainViewModel.class;
+    }
+
+    @Override
+    public void showLoading() {
+
+    }
+
+    @Override
+    public void hideLoading() {
+
+    }
+
+    @Override
+    public void onSuccess(@NonNull UIMainData data) {
+
+    }
+
+    @Override
+    public void onError(String errorMessage) {
+
     }
 }

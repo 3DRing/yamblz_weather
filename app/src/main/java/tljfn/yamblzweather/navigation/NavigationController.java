@@ -21,7 +21,7 @@ import android.content.Intent;
 import android.support.annotation.IdRes;
 import android.support.v4.app.FragmentManager;
 
-import tljfn.yamblzweather.MainActivity;
+import tljfn.yamblzweather.ui.main.MainActivity;
 import tljfn.yamblzweather.ui.about.AboutFragment;
 import tljfn.yamblzweather.ui.choose_city.ChooseCityActivity;
 import tljfn.yamblzweather.ui.settings.SettingsFragment;

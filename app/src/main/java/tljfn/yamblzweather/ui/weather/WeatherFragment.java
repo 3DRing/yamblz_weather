@@ -8,11 +8,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import tljfn.yamblzweather.Utils;
-import tljfn.yamblzweather.navigation.NavigationController;
 import butterknife.BindView;
 import butterknife.OnClick;
 import tljfn.yamblzweather.R;
-import tljfn.yamblzweather.ui.base.ViewModelFragment;
+import tljfn.yamblzweather.ui.base.fragment.ViewModelFragment;
 import tljfn.yamblzweather.ui.weather.data.UIWeatherData;
 
 /**
@@ -63,22 +62,22 @@ public class WeatherFragment extends ViewModelFragment<WeatherViewModel, UIWeath
     }
 
     @Override
-    protected Class<WeatherViewModel> getViewModelClass() {
+    public Class<WeatherViewModel> getViewModelClass() {
         return WeatherViewModel.class;
     }
 
     @Override
-    protected void showLoading() {
+    public void showLoading() {
         swipeLayout.setRefreshing(true);
     }
 
     @Override
-    protected void hideLoading() {
+    public void hideLoading() {
         swipeLayout.setRefreshing(false);
     }
 
     @Override
-    protected void onSuccess(@NonNull UIWeatherData data) {
+    public void onSuccess(@NonNull UIWeatherData data) {
         tvTemperature.setText(getString(R.string.temperature, data.getTemperature()));
         tvCity.setText(data.getCity());
         tvTime.setText(Utils.getRelativeTime(getContext(), data.getTime()));
@@ -87,7 +86,7 @@ public class WeatherFragment extends ViewModelFragment<WeatherViewModel, UIWeath
     }
 
     @Override
-    protected void onError(String errorMessage) {
+    public void onError(String errorMessage) {
         Toast.makeText(getContext(), errorMessage, Toast.LENGTH_SHORT).show();
     }
 }

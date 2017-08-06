@@ -1,6 +1,5 @@
 package tljfn.yamblzweather.ui.choose_city;
 
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
@@ -8,7 +7,7 @@ import javax.inject.Inject;
 import io.reactivex.disposables.Disposable;
 import tljfn.yamblzweather.App;
 import tljfn.yamblzweather.repo.DatabaseRepo;
-import tljfn.yamblzweather.ui.base.BaseViewModel;
+import tljfn.yamblzweather.ui.base.viewmodel.BaseViewModel;
 import tljfn.yamblzweather.ui.choose_city.data.CitySuggestions;
 import tljfn.yamblzweather.ui.choose_city.data.UICitySuggestion;
 

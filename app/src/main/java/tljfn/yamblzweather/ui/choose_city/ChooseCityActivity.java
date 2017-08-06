@@ -8,7 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import butterknife.ButterKnife;
 import tljfn.yamblzweather.R;
-import tljfn.yamblzweather.ui.base.BaseFragment;
+import tljfn.yamblzweather.ui.base.fragment.BaseFragment;
 
 /**
  * Created by ringov on 04.08.17.

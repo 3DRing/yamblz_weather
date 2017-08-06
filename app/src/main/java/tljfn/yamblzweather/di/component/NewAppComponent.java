@@ -3,7 +3,7 @@ package tljfn.yamblzweather.di.component;
 import javax.inject.Singleton;
 
 import dagger.Component;
-import tljfn.yamblzweather.MainActivity;
+import tljfn.yamblzweather.ui.main.MainActivity;
 import tljfn.yamblzweather.di.modules.AppModule;
 import tljfn.yamblzweather.di.modules.CityApiModule;
 import tljfn.yamblzweather.di.modules.CityDaoModule;

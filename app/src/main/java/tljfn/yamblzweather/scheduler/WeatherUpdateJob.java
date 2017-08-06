@@ -18,7 +18,7 @@ import javax.inject.Inject;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import tljfn.yamblzweather.App;
-import tljfn.yamblzweather.MainActivity;
+import tljfn.yamblzweather.ui.main.MainActivity;
 import tljfn.yamblzweather.R;
 import tljfn.yamblzweather.Utils;
 import tljfn.yamblzweather.repo.DatabaseRepo;

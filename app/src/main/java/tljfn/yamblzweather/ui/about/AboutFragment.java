@@ -8,7 +8,7 @@ import butterknife.BindView;
 import tljfn.yamblzweather.BuildConfig;
 import tljfn.yamblzweather.R;
 import tljfn.yamblzweather.ui.base.data.UIBaseData;
-import tljfn.yamblzweather.ui.base.ViewModelFragment;
+import tljfn.yamblzweather.ui.base.fragment.ViewModelFragment;
 
 /**
  * Created by Maksim Sukhotski on 7/9/2017.
@@ -44,27 +44,27 @@ public class AboutFragment extends ViewModelFragment<AboutViewModel, UIBaseData>
     }
 
     @Override
-    protected Class<AboutViewModel> getViewModelClass() {
+    public Class<AboutViewModel> getViewModelClass() {
         return AboutViewModel.class;
     }
 
     @Override
-    protected void showLoading() {
+    public void showLoading() {
 
     }
 
     @Override
-    protected void hideLoading() {
+    public void hideLoading() {
 
     }
 
     @Override
-    protected void onSuccess(UIBaseData data) {
+    public void onSuccess(UIBaseData data) {
 
     }
 
     @Override
-    protected void onError(String errorMessage) {
+    public void onError(String errorMessage) {
 
     }
 }
