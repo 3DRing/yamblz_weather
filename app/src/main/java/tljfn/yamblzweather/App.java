@@ -13,7 +13,7 @@ import tljfn.yamblzweather.di.modules.PreferencesRepoModule;
 import tljfn.yamblzweather.di.modules.RemoteRepoModule;
 import tljfn.yamblzweather.di.modules.WeatherApiModule;
 import tljfn.yamblzweather.di.modules.WeatherDaoModule;
-import tljfn.yamblzweather.scheduler.WeatherUpdateJobCreator;
+import tljfn.yamblzweather.model.scheduler.WeatherUpdateJobCreator;
 
 /**
  * Created by Maksim Sukhotski on 7/9/2017.

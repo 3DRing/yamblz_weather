@@ -7,7 +7,7 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-import tljfn.yamblzweather.repo.PreferencesRepo;
+import tljfn.yamblzweather.model.repo.PreferencesRepo;
 
 /**
  * Created by ringov on 03.08.17.

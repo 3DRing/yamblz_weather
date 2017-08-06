@@ -4,8 +4,8 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-import tljfn.yamblzweather.db.weather.WeatherDao;
-import tljfn.yamblzweather.db.WeatherDatabase;
+import tljfn.yamblzweather.model.db.weather.WeatherDao;
+import tljfn.yamblzweather.model.db.WeatherDatabase;
 
 /**
  * Created by ringov on 03.08.17.

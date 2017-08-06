@@ -21,11 +21,11 @@ import android.content.Intent;
 import android.support.annotation.IdRes;
 import android.support.v4.app.FragmentManager;
 
-import tljfn.yamblzweather.ui.main.MainActivity;
-import tljfn.yamblzweather.ui.about.AboutFragment;
-import tljfn.yamblzweather.ui.choose_city.ChooseCityActivity;
-import tljfn.yamblzweather.ui.settings.SettingsFragment;
-import tljfn.yamblzweather.ui.weather.WeatherFragment;
+import tljfn.yamblzweather.modules.main.MainActivity;
+import tljfn.yamblzweather.modules.about.AboutFragment;
+import tljfn.yamblzweather.modules.city.choose_city.ChooseCityActivity;
+import tljfn.yamblzweather.modules.settings.SettingsFragment;
+import tljfn.yamblzweather.modules.weather.WeatherFragment;
 
 /**
  * A utility class that handles navigation in {@link MainActivity}.

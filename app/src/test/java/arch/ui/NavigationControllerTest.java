@@ -10,12 +10,12 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 
-import tljfn.yamblzweather.ui.main.MainActivity;
+import tljfn.yamblzweather.modules.main.MainActivity;
 import tljfn.yamblzweather.R;
 import tljfn.yamblzweather.navigation.NavigationController;
-import tljfn.yamblzweather.ui.about.AboutFragment;
-import tljfn.yamblzweather.ui.settings.SettingsFragment;
-import tljfn.yamblzweather.ui.weather.WeatherFragment;
+import tljfn.yamblzweather.modules.about.AboutFragment;
+import tljfn.yamblzweather.modules.settings.SettingsFragment;
+import tljfn.yamblzweather.modules.weather.WeatherFragment;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
