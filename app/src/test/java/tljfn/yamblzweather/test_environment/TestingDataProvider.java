@@ -1,9 +1,19 @@
 package tljfn.yamblzweather.test_environment;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
+
 import org.junit.Before;
 import org.junit.Test;
 
-import tljfn.yamblzweather.data.TestDataProvider;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.lang.reflect.Type;
+import java.util.List;
+
+import tljfn.yamblzweather.data.DataProvider;
+import tljfn.yamblzweather.model.api.data.city.RawCity;
 import tljfn.yamblzweather.model.api.data.weather.RawWeather;
 
 import static junit.framework.Assert.assertTrue;
@@ -15,11 +25,11 @@ import static junit.framework.Assert.fail;
 
 public class TestingDataProvider {
 
-    TestDataProvider dataProvider;
+    DataProvider dataProvider;
 
     @Before
     public void setup() {
-        dataProvider = new TestDataProvider();
+        dataProvider = new DataProvider();
     }
 
     @Test
@@ -69,5 +79,27 @@ public class TestingDataProvider {
         assertTrue(badWeather.getSys() == null);
         assertTrue(badWeather.getWeather() == null);
         assertTrue(badWeather.getWind() == null);
+    }
+
+    @Test
+    public void loading_cities_input_stream_is_correct() {
+        InputStream is = dataProvider.getCitiesInputStream();
+        InputStreamReader isr = new InputStreamReader(is);
+
+        Gson gson = new GsonBuilder().create();
+        Type itemsListType = new TypeToken<List<RawCity>>() {
+        }.getType();
+        List<RawCity> cities = gson.fromJson(isr, itemsListType);
+
+        assertTrue(cities != null);
+        assertTrue(cities.size() != 0);
+
+        RawCity raw = cities.get(0);
+
+        assertTrue(raw.yaId == 2);
+        assertTrue(raw.openWeatherId == 498817);
+        assertTrue(raw.country.equals("ru"));
+        assertTrue(raw.enName.equals("Saint Petersburg"));
+        assertTrue(raw.ruName.equals("Санкт-Петербург"));
     }
 }

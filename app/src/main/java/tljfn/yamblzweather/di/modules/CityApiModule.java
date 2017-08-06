@@ -8,6 +8,7 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 import tljfn.yamblzweather.model.api.CityApi;
+import tljfn.yamblzweather.model.api.CityApiImpl;
 
 /**
  * Created by ringov on 04.08.17.
@@ -20,6 +21,6 @@ public class CityApiModule {
     @Provides
     @Singleton
     public CityApi provideCityApi(Context context) {
-        return new CityApi(context);
+        return new CityApiImpl(context);
     }
 }

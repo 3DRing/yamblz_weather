@@ -10,8 +10,6 @@ import java.nio.charset.Charset;
 import java.util.Collections;
 import java.util.Map;
 
-import io.reactivex.annotations.NonNull;
-import io.reactivex.functions.Predicate;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import okio.BufferedSource;
@@ -19,7 +17,7 @@ import okio.Okio;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
-import tljfn.yamblzweather.data.TestDataProvider;
+import tljfn.yamblzweather.data.DataProvider;
 import tljfn.yamblzweather.model.api.data.weather.RawWeather;
 
 /**
@@ -41,7 +39,7 @@ public class WeatherApiTest {
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build()
                 .create(WeatherApi.class);
-        weather = new TestDataProvider().getNewYorkWeather();
+        weather = new DataProvider().getNewYorkWeather();
     }
 
     @Test
@@ -50,9 +48,7 @@ public class WeatherApiTest {
 
         api.getWeather(0, "ru").test()
                 .assertNoErrors()
-                .assertValue(rawWeather -> {
-                    return rawWeather.equals(weather);
-                });
+                .assertValue(rawWeather -> rawWeather.equals(weather));
     }
 
     @Test

@@ -12,7 +12,7 @@ import tljfn.yamblzweather.model.api.data.weather.RawWeather;
  * Created by ringov on 06.08.17.
  */
 
-public class TestDataProvider {
+public class DataProvider {
 
     private RawWeather loadTestRawWeather(String fileName) {
         InputStream inputStream = getClass().getClassLoader()
@@ -30,5 +30,10 @@ public class TestDataProvider {
 
     public RawWeather getBadWeather() {
         return loadTestRawWeather("bad_weather_object.json");
+    }
+
+    public InputStream getCitiesInputStream() {
+        return getClass().getClassLoader()
+                .getResourceAsStream("api-response/" + "cities.json");
     }
 }
