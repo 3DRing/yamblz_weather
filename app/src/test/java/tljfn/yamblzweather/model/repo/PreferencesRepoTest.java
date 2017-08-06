@@ -1,27 +1,11 @@
 package tljfn.yamblzweather.model.repo;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnit;
-import org.mockito.junit.MockitoRule;
-
-import tljfn.yamblzweather.utils.BaseFields;
-
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
 /**
  * Created by ringov on 27.07.17.
  */
 public class PreferencesRepoTest {
 
-    @Rule
+/*    @Rule
     public MockitoRule rule = MockitoJUnit.rule();
 
     @Mock
@@ -92,6 +76,6 @@ public class PreferencesRepoTest {
         repo.getCurrentCity().test()
                 .assertNoErrors()
                 .assertValue(PreferencesRepo.DEFAULT_CITY);
-    }
+    }*/
 
 }

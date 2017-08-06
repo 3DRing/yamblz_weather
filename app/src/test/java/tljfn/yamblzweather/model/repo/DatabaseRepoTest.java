@@ -1,23 +1,11 @@
 package tljfn.yamblzweather.model.repo;
 
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnit;
-import org.mockito.junit.MockitoRule;
-
-import tljfn.yamblzweather.Data;
-import tljfn.yamblzweather.model.db.weather.WeatherDao;
-
-import static org.mockito.Mockito.mock;
-
 /**
  * Created by ringov on 26.07.17.
  */
 public class DatabaseRepoTest {
 
-    @Rule
+/*    @Rule
     public MockitoRule rule = MockitoJUnit.rule();
 
     Data data;
@@ -35,18 +23,18 @@ public class DatabaseRepoTest {
 
     @Test
     public void correctGetWeather() throws Exception {
-/*        when(dao.getWeather()).thenReturn(Flowable.just(data.wm));
+*//*        when(dao.getWeather()).thenReturn(Flowable.just(data.wm));
 
         repo.getWeather().test()
                 .assertNoErrors()
-                .assertResult(data.wm);*/
+                .assertResult(data.wm);*//*
     }
 
     @Test
     public void errorGetWeather() throws Exception {
-/*        when(dao.getWeather()).thenReturn(Flowable.error(new Throwable("test")));
+*//*        when(dao.getWeather()).thenReturn(Flowable.error(new Throwable("test")));
 
         repo.getWeather().test()
-                .assertErrorMessage("test");*/
-    }
+                .assertErrorMessage("test");*//*
+    }*/
 }

@@ -30,4 +30,26 @@ public class Weather {
         return icon;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Weather weather = (Weather) o;
+
+        if (getId() != weather.getId()) return false;
+        if (!getMain().equals(weather.getMain())) return false;
+        if (!getDescription().equals(weather.getDescription())) return false;
+        return getIcon().equals(weather.getIcon());
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getId();
+        result = 31 * result + getMain().hashCode();
+        result = 31 * result + getDescription().hashCode();
+        result = 31 * result + getIcon().hashCode();
+        return result;
+    }
 }

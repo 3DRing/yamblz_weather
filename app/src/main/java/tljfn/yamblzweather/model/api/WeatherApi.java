@@ -15,6 +15,7 @@ public interface WeatherApi {
                                   @Query("lang") String lang);
 
     @GET("weather")
+    @Deprecated
     Single<RawWeather> getWeather(@Query("lat") double lat,
                                   @Query("lon") double lon);
 

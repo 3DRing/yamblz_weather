@@ -1,26 +1,11 @@
 package tljfn.yamblzweather.model.repo;
 
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnit;
-import org.mockito.junit.MockitoRule;
-
-import io.reactivex.Single;
-import tljfn.yamblzweather.Data;
-import tljfn.yamblzweather.model.api.WeatherApi;
-
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
 /**
  * Created by ringov on 28.07.17.
  */
 public class RemoteRepoTest {
 
-    @Rule
+/*    @Rule
     public MockitoRule rule = MockitoJUnit.rule();
 
     Data data;
@@ -61,6 +46,6 @@ public class RemoteRepoTest {
         repo.getWeather(8).test()
                 .assertNoErrors()
                 .assertValue(data.wm);
-    }
+    }*/
 
 }
