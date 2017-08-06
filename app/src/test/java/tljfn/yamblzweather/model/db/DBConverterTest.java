@@ -7,7 +7,6 @@ import tljfn.yamblzweather.data.DataProvider;
 import tljfn.yamblzweather.model.api.data.city.RawCity;
 import tljfn.yamblzweather.model.api.data.weather.RawWeather;
 import tljfn.yamblzweather.model.db.cities.DBCity;
-import tljfn.yamblzweather.model.db.weather.DBWeatherConverter;
 import tljfn.yamblzweather.model.db.weather.DBWeatherData;
 import tljfn.yamblzweather.model.errors.RawToDBConvertingException;
 

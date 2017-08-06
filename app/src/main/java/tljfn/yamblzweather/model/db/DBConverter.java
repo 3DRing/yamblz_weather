@@ -57,6 +57,22 @@ public class DBConverter {
     }
 
     public static DBCity fromRawCity(RawCity city) {
+        if (city.yaId <= 0) {
+            throw new RawToDBConvertingException("Incorrect yaId in city");
+        }
+        if (city.openWeatherId <= 0) {
+            throw new RawToDBConvertingException("Incorrect open weather id in city");
+        }
+        if (city.country == null || city.country.isEmpty()) {
+            throw new RawToDBConvertingException("Incorrect country code in city");
+        }
+        if (city.enName == null) {
+            throw new RawToDBConvertingException("Incorrect eng name in city");
+        }
+        if (city.ruName == null) {
+            throw new RawToDBConvertingException("Incorrect rus name in city");
+        }
+
         return new DBCity.Builder()
                 .id(city.yaId)
                 .openWeatherId(city.openWeatherId)
