@@ -6,6 +6,7 @@ import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import tljfn.yamblzweather.App;
+import tljfn.yamblzweather.model.db.DBConverter;
 import tljfn.yamblzweather.model.db.cities.DBCity;
 import tljfn.yamblzweather.model.repo.DatabaseRepo;
 import tljfn.yamblzweather.model.repo.PreferencesRepo;
@@ -41,7 +42,7 @@ public class MainViewModel extends BaseViewModel<UIMainData> {
         if (preferencesRepo.isFirstLaunch()) {
             remoteRepo.getAllCities()
                     .flatMapObservable(Observable::fromIterable)
-                    .map(DBCity::fromRawCity)
+                    .map(DBConverter::fromRawCity)
                     .toList()
                     .flatMap(cities -> dbRepo.initCities(cities.toArray(new DBCity[cities.size()])))
                     .flatMapCompletable(success -> preferencesRepo.setFirstLaunch(false))

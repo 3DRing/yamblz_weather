@@ -2,9 +2,11 @@ package tljfn.yamblzweather.model.db;
 
 import java.util.List;
 
+import tljfn.yamblzweather.model.api.data.city.RawCity;
 import tljfn.yamblzweather.model.api.data.weather.Main;
 import tljfn.yamblzweather.model.api.data.weather.RawWeather;
 import tljfn.yamblzweather.model.api.data.weather.Weather;
+import tljfn.yamblzweather.model.db.cities.DBCity;
 import tljfn.yamblzweather.model.db.weather.DBWeatherData;
 import tljfn.yamblzweather.model.errors.RawToDBConvertingException;
 import tljfn.yamblzweather.modules.weather.data.UIWeatherData;
@@ -54,4 +56,14 @@ public class DBConverter {
         return data;
     }
 
+    public static DBCity fromRawCity(RawCity city) {
+        return new DBCity.Builder()
+                .id(city.yaId)
+                .openWeatherId(city.openWeatherId)
+                .ruName(city.ruName.toLowerCase())
+                .enName(city.enName.toLowerCase())
+                .countryCode(city.country.toLowerCase())
+                .favorite(false)
+                .build();
+    }
 }

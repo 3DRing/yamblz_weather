@@ -1,12 +1,18 @@
-package tljfn.yamblzweather.modules.weather.data;
+package tljfn.yamblzweather.modules;
 
+import java.util.Locale;
+
+import tljfn.yamblzweather.model.db.cities.DBCity;
 import tljfn.yamblzweather.model.db.weather.DBWeatherData;
+import tljfn.yamblzweather.modules.city.choose_city.data.UICitySuggestion;
+import tljfn.yamblzweather.modules.weather.data.UIWeatherData;
+import tljfn.yamblzweather.modules.weather.data.WeatherCondition;
 
 /**
  * Created by ringov on 07.08.17.
  */
 
-public class UIWeatherConverter {
+public class UIConverter {
 
     public static UIWeatherData toUIWeatherData(DBWeatherData weather) {
         UIWeatherData data = new UIWeatherData.Builder()
@@ -43,4 +49,18 @@ public class UIWeatherConverter {
         }
     }
 
+
+    public static UICitySuggestion toUISuggestions(DBCity city) {
+        String locale = Locale.getDefault().getLanguage();
+        String name;
+        // todo differentiate languages in more generic way
+        if (locale.equals("ru")) {
+            name = city.getRuName();
+        } else {
+            name = city.getEnName();
+        }
+        StringBuilder sb = new StringBuilder();
+        name = sb.append(name.substring(0, 1).toUpperCase()).append(name.substring(1)).toString();
+        return new UICitySuggestion(city.getOpenWeatherId(), name);
+    }
 }

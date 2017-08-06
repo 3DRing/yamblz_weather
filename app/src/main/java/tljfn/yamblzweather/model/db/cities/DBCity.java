@@ -19,20 +19,6 @@ import tljfn.yamblzweather.modules.city.choose_city.data.UICitySuggestion;
 @Entity(tableName = "city", indices = {@Index("ru_name"), @Index("en_name")})
 public class DBCity {
 
-    public static UICitySuggestion toUISuggestions(DBCity city) {
-        String locale = Locale.getDefault().getLanguage();
-        String name;
-        // todo differentiate languages in more generic way
-        if (locale.equals("ru")) {
-            name = city.getRuName();
-        } else {
-            name = city.getEnName();
-        }
-        StringBuilder sb = new StringBuilder();
-        name = sb.append(name.substring(0, 1).toUpperCase()).append(name.substring(1)).toString();
-        return new UICitySuggestion(city.getOpenWeatherId(), name);
-    }
-
     @PrimaryKey
     @SerializedName("yaId")
     private int id;
@@ -103,17 +89,6 @@ public class DBCity {
         this.favorite = favorite;
     }
 
-    public static DBCity fromRawCity(RawCity city) {
-        return new DBCity.Builder()
-                .id(city.yaId)
-                .openWeatherId(city.openWeatherId)
-                .ruName(city.ruName.toLowerCase())
-                .enName(city.enName.toLowerCase())
-                .countryCode(city.country.toLowerCase())
-                .favorite(false)
-                .build();
-    }
-
     public static class Builder {
         private DBCity city;
 
@@ -126,32 +101,32 @@ public class DBCity {
             return this;
         }
 
-        Builder openWeatherId(int id) {
+        public Builder openWeatherId(int id) {
             city.openWeatherId = id;
             return this;
         }
 
-        Builder ruName(String ruName) {
+        public Builder ruName(String ruName) {
             city.ruName = ruName;
             return this;
         }
 
-        Builder enName(String enName) {
+        public Builder enName(String enName) {
             city.enName = enName;
             return this;
         }
 
-        Builder countryCode(String code) {
+        public Builder countryCode(String code) {
             city.countryCode = code;
             return this;
         }
 
-        Builder favorite(boolean favorite) {
+        public Builder favorite(boolean favorite) {
             city.favorite = favorite;
             return this;
         }
 
-        DBCity build() {
+        public DBCity build() {
             return city;
         }
     }

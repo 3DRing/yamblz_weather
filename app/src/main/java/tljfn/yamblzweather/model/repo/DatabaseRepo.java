@@ -13,7 +13,7 @@ import tljfn.yamblzweather.model.db.DBConverter;
 import tljfn.yamblzweather.model.db.weather.DBWeatherData;
 import tljfn.yamblzweather.model.db.weather.WeatherDao;
 import tljfn.yamblzweather.modules.city.choose_city.data.UICitySuggestion;
-import tljfn.yamblzweather.modules.weather.data.UIWeatherConverter;
+import tljfn.yamblzweather.modules.UIConverter;
 import tljfn.yamblzweather.modules.weather.data.UIWeatherData;
 
 /**
@@ -33,7 +33,7 @@ public class DatabaseRepo {
         return Single.fromCallable(() -> {
             DBWeatherData data = DBConverter.fromRawWeatherData(weather);
             weatherDao.insertWeather(data);
-            return UIWeatherConverter.toUIWeatherData(data);
+            return UIConverter.toUIWeatherData(data);
         })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
@@ -41,7 +41,7 @@ public class DatabaseRepo {
 
     public Flowable<UIWeatherData> loadCachedWeather() {
         return weatherDao.loadWeather()
-                .map(UIWeatherConverter::toUIWeatherData)
+                .map(UIConverter::toUIWeatherData)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
@@ -51,7 +51,7 @@ public class DatabaseRepo {
         sb.append(requestString).append("%");
         return cityDao.loadCitiesSuggestion(sb.toString())
                 .flatMap(cities -> Flowable.fromIterable(cities)
-                        .map(DBCity::toUISuggestions)
+                        .map(UIConverter::toUISuggestions)
                         .toSortedList((city1, city2) -> city1.getName().compareTo(city2.getName()))
                         .toFlowable())
                 .flatMapSingle(Single::just)
