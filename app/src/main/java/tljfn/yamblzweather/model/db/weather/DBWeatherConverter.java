@@ -13,7 +13,7 @@ import tljfn.yamblzweather.modules.weather.data.WeatherCondition;
  * Created by ringov on 06.08.17.
  */
 
-public class DBConverter {
+public class DBWeatherConverter {
 
     private static final double KELVIN_OFFSET = 273.15;
 

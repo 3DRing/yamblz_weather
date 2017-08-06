@@ -5,7 +5,7 @@ import org.junit.Test;
 
 import tljfn.yamblzweather.data.DataProvider;
 import tljfn.yamblzweather.model.api.data.weather.RawWeather;
-import tljfn.yamblzweather.model.db.weather.DBConverter;
+import tljfn.yamblzweather.model.db.weather.DBWeatherConverter;
 import tljfn.yamblzweather.model.db.weather.DBWeatherData;
 import tljfn.yamblzweather.model.errors.RawToDBConvertingException;
 
@@ -16,7 +16,7 @@ import static junit.framework.Assert.fail;
  * Created by ringov on 06.08.17.
  */
 
-public class DBConverterTest {
+public class DBWeatherConverterTest {
 
     DataProvider dataProvider;
 
@@ -28,7 +28,7 @@ public class DBConverterTest {
     @Test
     public void converting_to_db_data_correctly() {
         RawWeather rawData = dataProvider.getNewYorkWeather();
-        DBWeatherData dbData = DBConverter.fromRawWeatherData(rawData);
+        DBWeatherData dbData = DBWeatherConverter.fromRawWeatherData(rawData);
         long crtTime = System.currentTimeMillis();
 
         // not used so far
@@ -43,7 +43,7 @@ public class DBConverterTest {
     @Test(expected = RawToDBConvertingException.class)
     public void converting_to_db_data_error() {
         RawWeather data = dataProvider.getBadWeather();
-        DBWeatherData dbWeatherData = DBConverter.fromRawWeatherData(data);
+        DBWeatherData dbWeatherData = DBWeatherConverter.fromRawWeatherData(data);
         fail();
     }
 

@@ -9,7 +9,7 @@ import io.reactivex.schedulers.Schedulers;
 import tljfn.yamblzweather.model.api.data.weather.RawWeather;
 import tljfn.yamblzweather.model.db.cities.CityDao;
 import tljfn.yamblzweather.model.db.cities.DBCity;
-import tljfn.yamblzweather.model.db.weather.DBConverter;
+import tljfn.yamblzweather.model.db.weather.DBWeatherConverter;
 import tljfn.yamblzweather.model.db.weather.DBWeatherData;
 import tljfn.yamblzweather.model.db.weather.WeatherDao;
 import tljfn.yamblzweather.modules.city.choose_city.data.UICitySuggestion;
@@ -30,9 +30,9 @@ public class DatabaseRepo {
 
     public Single<UIWeatherData> insertOrUpdateWeather(RawWeather weather) {
         return Single.fromCallable(() -> {
-            DBWeatherData data = DBConverter.fromRawWeatherData(weather);
+            DBWeatherData data = DBWeatherConverter.fromRawWeatherData(weather);
             weatherDao.insertWeather(data);
-            return DBConverter.toUIWeatherData(data);
+            return DBWeatherConverter.toUIWeatherData(data);
         })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
@@ -47,7 +47,7 @@ public class DatabaseRepo {
 
     public Flowable<UIWeatherData> loadCachedWeather() {
         return weatherDao.loadWeather()
-                .map(DBConverter::toUIWeatherData)
+                .map(DBWeatherConverter::toUIWeatherData)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
