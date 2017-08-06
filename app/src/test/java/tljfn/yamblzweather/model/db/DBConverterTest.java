@@ -16,7 +16,7 @@ import static junit.framework.Assert.fail;
  * Created by ringov on 06.08.17.
  */
 
-public class DBWeatherConverterTest {
+public class DBConverterTest {
 
     DataProvider dataProvider;
 
