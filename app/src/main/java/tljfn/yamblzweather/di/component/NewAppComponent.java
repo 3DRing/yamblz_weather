@@ -12,6 +12,7 @@ import tljfn.yamblzweather.di.modules.PreferencesRepoModule;
 import tljfn.yamblzweather.di.modules.RemoteRepoModule;
 import tljfn.yamblzweather.di.modules.WeatherApiModule;
 import tljfn.yamblzweather.di.modules.WeatherDaoModule;
+import tljfn.yamblzweather.di.modules.WeatherInteractorModule;
 import tljfn.yamblzweather.model.scheduler.WeatherUpdateJob;
 import tljfn.yamblzweather.modules.city.choose_city.ChooseCityViewModel;
 import tljfn.yamblzweather.modules.main.MainViewModel;
@@ -31,7 +32,8 @@ import tljfn.yamblzweather.modules.weather.WeatherViewModel;
         PreferencesRepoModule.class,
         RemoteRepoModule.class,
         WeatherApiModule.class,
-        WeatherDaoModule.class})
+        WeatherDaoModule.class,
+        WeatherInteractorModule.class})
 @Singleton
 public interface NewAppComponent {
     void inject(WeatherViewModel weatherViewModel);

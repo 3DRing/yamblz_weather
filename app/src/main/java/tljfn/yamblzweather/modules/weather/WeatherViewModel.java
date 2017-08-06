@@ -29,11 +29,7 @@ import tljfn.yamblzweather.modules.weather.data.UIWeatherData;
 public class WeatherViewModel extends BaseViewModel<UIWeatherData> {
 
     @Inject
-    RemoteRepo remoteRepo;
-    @Inject
-    DatabaseRepo databaseRepo;
-    @Inject
-    PreferencesRepo preferencesRepo;
+    WeatherInteractor interactor;
 
     public WeatherViewModel() {
         App.getComponent().inject(this);
@@ -41,29 +37,14 @@ public class WeatherViewModel extends BaseViewModel<UIWeatherData> {
     }
 
     public void loadCachedWeather() {
-        sub(databaseRepo.loadCachedWeather()
+        sub(interactor.loadCachedWeather()
                 .subscribe(this::onChange, this::onError));
     }
 
     public void updateWeather() {
-        preferencesRepo.getCurrentCity()
-                .flatMap(remoteRepo::getWeather)
-                .flatMap(databaseRepo::insertOrUpdateWeather)
+        sub(interactor.updateWeather()
                 .doOnError(error -> loadCachedWeather())
-                .subscribe(this::onChange, this::onError);
-    }
-
-    public void changeCity(double lat, double lon) {
-        remoteRepo.getWeather(lat, lon)
-                .doOnSubscribe(sub -> showLoading())
-                .doOnSuccess(this::updateCurrentCity)
-                .flatMap(databaseRepo::insertOrUpdateWeather)
-                .subscribe(this::onChange, this::onError);
-    }
-
-    private void updateCurrentCity(RawWeather weatherMap) {
-        preferencesRepo.updateCurrentCity(weatherMap.getId())
-                .subscribe();
+                .subscribe(this::onChange, this::onError));
     }
 
     @Override
