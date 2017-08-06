@@ -39,13 +39,6 @@ public class MainActivity extends ViewModelActivity<MainViewModel, UIMainData> i
 
     private final LifecycleRegistry lifecycleRegistry = new LifecycleRegistry(this);
 
-    @Inject
-    PreferencesRepo preferencesRepo;
-    @Inject
-    DatabaseRepo dbRepo;
-    @Inject
-    RemoteRepo remoteRepo;
-
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.drawer_layout)
@@ -62,9 +55,6 @@ public class MainActivity extends ViewModelActivity<MainViewModel, UIMainData> i
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        App.getComponent().inject(this);
-        initDBIfNot();
-        setScheduler();
 
         setSupportActionBar(toolbar);
         actionBar = getSupportActionBar();
@@ -81,34 +71,6 @@ public class MainActivity extends ViewModelActivity<MainViewModel, UIMainData> i
     @Override
     protected int getLayoutRes() {
         return R.layout.activity_main;
-    }
-
-    private void initDBIfNot() {
-        if (preferencesRepo.isFirstLaunch()) {
-            remoteRepo.getAllCities()
-                    .flatMapObservable(Observable::fromIterable)
-                    .map(DBCity::fromRawCity)
-                    .toList()
-                    .flatMap(cities -> dbRepo.initCities(cities.toArray(new DBCity[cities.size()])))
-                    .flatMapCompletable(success -> preferencesRepo.setFirstLaunch(false))
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(() -> {
-                    }, this::onError);
-        }
-    }
-
-    private void onError(Throwable throwable) {
-        Toast.makeText(this, throwable.getMessage(), Toast.LENGTH_SHORT).show();
-    }
-
-    private void setScheduler() {
-        WeatherUpdateJob.schedule(preferencesRepo);
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
     }
 
     @Override
@@ -174,6 +136,6 @@ public class MainActivity extends ViewModelActivity<MainViewModel, UIMainData> i
 
     @Override
     public void onError(String errorMessage) {
-
+        Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show();
     }
 }

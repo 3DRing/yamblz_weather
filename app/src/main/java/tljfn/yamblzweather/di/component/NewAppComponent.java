@@ -15,6 +15,7 @@ import tljfn.yamblzweather.di.modules.WeatherApiModule;
 import tljfn.yamblzweather.di.modules.WeatherDaoModule;
 import tljfn.yamblzweather.scheduler.WeatherUpdateJob;
 import tljfn.yamblzweather.ui.choose_city.ChooseCityViewModel;
+import tljfn.yamblzweather.ui.main.MainViewModel;
 import tljfn.yamblzweather.ui.settings.SettingsFragment;
 import tljfn.yamblzweather.ui.weather.WeatherViewModel;
 
@@ -36,11 +37,11 @@ import tljfn.yamblzweather.ui.weather.WeatherViewModel;
 public interface NewAppComponent {
     void inject(WeatherViewModel weatherViewModel);
 
-    void inject(MainActivity mainActivity);
-
     void inject(SettingsFragment settingsFragment);
 
     void inject(ChooseCityViewModel chooseCityViewModel);
 
     void inject(WeatherUpdateJob weatherUpdateJob);
+
+    void inject(MainViewModel mainViewModel);
 }

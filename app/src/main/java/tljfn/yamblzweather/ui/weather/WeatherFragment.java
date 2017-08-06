@@ -42,7 +42,7 @@ public class WeatherFragment extends ViewModelFragment<WeatherViewModel, UIWeath
     @Override
     protected void initializeViews() {
         super.initializeViews();
-        swipeLayout.setOnRefreshListener(() -> viewModel.updateWeather());
+        swipeLayout.setOnRefreshListener(() -> getViewModel().updateWeather());
     }
 
     @NonNull
