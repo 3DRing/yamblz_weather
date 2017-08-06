@@ -64,35 +64,9 @@ public class PreferencesRepo {
         notificationsDefaultValue = context.getString(R.string.update_notifications_default);
     }
 
-/*    @Deprecated
-    private Single<Long> getUpdateInterval() {
-        return Single.fromCallable(() -> {
-            String value = preferences.getString(intervalKey, intervalDefaultValue);
-            int minutes = Integer.parseInt(value);
-            return TimeUnit.MINUTES.toMillis(minutes);
-        });
-    }*/
-
     public boolean isNotificationEnabled() {
         final boolean DEFAULT_VALUE = Boolean.parseBoolean(notificationsDefaultValue);
         return preferences.getBoolean(notificationsKey, DEFAULT_VALUE);
-    }
-
-    /**
-     * @return value that represents time interval in seconds for updating weather
-     */
-    @Deprecated
-    public Single<Integer> getInterval() {
-        return Single.fromCallable(() -> preferences.getInt(intervalKey, 60));
-    }
-
-    /**
-     * @param seconds the new seconds interval for weather updating
-     */
-    @Deprecated
-    public Completable setInterval(Integer seconds) {
-        return Completable.fromAction(() ->
-                preferences.edit().putInt(intervalKey, seconds).apply());
     }
 
     public Completable updateCurrentCity(long id) {
