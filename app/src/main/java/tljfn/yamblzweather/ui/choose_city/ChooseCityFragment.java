@@ -25,6 +25,8 @@ import tljfn.yamblzweather.ui.choose_city.data.CitySuggestions;
 
 public class ChooseCityFragment extends ViewModelFragment<ChooseCityViewModel, CitySuggestions> {
 
+    public static final String TAG = ChooseCityFragment.class.getName();
+
     @BindView(R.id.close)
     View close;
     @BindView(R.id.backpress)
@@ -47,11 +49,9 @@ public class ChooseCityFragment extends ViewModelFragment<ChooseCityViewModel, C
         getViewModel().hideSearching();
     }
 
-    public static final String TAG = ChooseCityFragment.class.getName();
-
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    protected void initializeViews() {
+        super.initializeViews();
         initializeSuggestionsView();
 
         search.addTextChangedListener(new TextWatcher() {

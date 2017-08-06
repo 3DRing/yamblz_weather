@@ -32,8 +32,6 @@ import tljfn.yamblzweather.ui.weather.WeatherFragment;
  */
 public class NavigationController {
 
-    public static final int PLACE_AUTOCOMPLETE_REQUEST_CODE = 1;
-
     public static void navigateToAbout(@IdRes int layout, FragmentManager fragmentManager) {
         AboutFragment fragment = new AboutFragment();
         fragmentManager.beginTransaction()

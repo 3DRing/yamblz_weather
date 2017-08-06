@@ -5,6 +5,8 @@
     <string name="open_drawer">Открыть боковое меню</string>
     <string name="close_drawer">Закрыть боковое меню</string>
 
+    <string name="version">Версия приложения: %s</string>
+
     <string name="weather">Погода</string>
     <string name="settings">Настройки</string>
     <string name="about">О приложении</string>

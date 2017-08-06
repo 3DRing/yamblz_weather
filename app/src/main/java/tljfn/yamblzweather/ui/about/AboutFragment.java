@@ -2,7 +2,10 @@ package tljfn.yamblzweather.ui.about;
 
 import android.support.annotation.NonNull;
 import android.support.v4.widget.DrawerLayout;
+import android.widget.TextView;
 
+import butterknife.BindView;
+import tljfn.yamblzweather.BuildConfig;
 import tljfn.yamblzweather.R;
 import tljfn.yamblzweather.ui.base.data.UIBaseData;
 import tljfn.yamblzweather.ui.base.ViewModelFragment;
@@ -13,7 +16,16 @@ import tljfn.yamblzweather.ui.base.ViewModelFragment;
 
 public class AboutFragment extends ViewModelFragment<AboutViewModel, UIBaseData> {
 
-    public static final String TAG = "about";
+    public static final String TAG = AboutFragment.class.getName();
+
+    @BindView(R.id.tv_version)
+    TextView version;
+
+    @Override
+    protected void initializeViews() {
+        super.initializeViews();
+        version.setText(getString(R.string.version, BuildConfig.VERSION_NAME));
+    }
 
     @NonNull
     @Override
