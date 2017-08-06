@@ -1,8 +1,9 @@
-package tljfn.yamblzweather;
+package tljfn.yamblzweather.ui;
 
 import android.os.SystemClock;
 import android.support.test.espresso.UiController;
 import android.support.test.espresso.ViewAction;
+import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -13,6 +14,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import tljfn.yamblzweather.R;
 import tljfn.yamblzweather.modules.main.MainActivity;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -53,7 +55,7 @@ public class DataUpdateTest {
 
     @Test
     public void dataUpdates() {
-        onView(withId(R.id.swipe_layout))
+        onView(ViewMatchers.withId(R.id.swipe_layout))
                 .perform(withCustomConstraints(swipeDown(), isDisplayingAtLeast(85)));
         SystemClock.sleep(2000);
         assertFalse(((SwipeRefreshLayout) mActivityRule.getActivity()
