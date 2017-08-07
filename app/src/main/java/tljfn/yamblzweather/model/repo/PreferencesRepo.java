@@ -41,16 +41,16 @@ public class PreferencesRepo {
 
     static final long DEFAULT_CITY = 524901; // moscow, russia
 
-    private static final String FIRST_LAUNCH_KEY = "first_launch";
+    static final String FIRST_LAUNCH_KEY = "first_launch";
 
-    private String intervalKey;
-    private String intervalDefaultValue;
+    String intervalKey;
+    String intervalDefaultValue;
 
-    private String notificationsKey;
-    private String notificationsDefaultValue;
+    String notificationsKey;
+    String notificationsDefaultValue;
 
-    private String currentCityKey;
-    private String currentCityDefaultValue;
+    String currentCityKey;
+    String currentCityDefaultValue;
 
     private final SharedPreferences preferences;
 

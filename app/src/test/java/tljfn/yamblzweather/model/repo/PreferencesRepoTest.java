@@ -1,11 +1,28 @@
 package tljfn.yamblzweather.model.repo;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnit;
+import org.mockito.junit.MockitoRule;
+
+import tljfn.yamblzweather.utils.BaseFields;
+
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertTrue;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 /**
  * Created by ringov on 27.07.17.
  */
 public class PreferencesRepoTest {
 
-/*    @Rule
+    @Rule
     public MockitoRule rule = MockitoJUnit.rule();
 
     @Mock
@@ -26,6 +43,28 @@ public class PreferencesRepoTest {
     }
 
     @Test
+    public void is_notification_enabled_correct() {
+        when(sp.getBoolean(repo.notificationsKey, false)).thenReturn(false);
+        assertFalse(repo.isNotificationEnabled());
+        verify(sp).getBoolean(repo.notificationsKey, false);
+
+        when(sp.getBoolean(repo.notificationsKey, false)).thenReturn(true);
+        assertTrue(repo.isNotificationEnabled());
+        verify(sp).getBoolean(repo.notificationsKey, false);
+    }
+
+    @Test
+    public void is_first_launch_correct() {
+        when(sp.getBoolean(PreferencesRepo.FIRST_LAUNCH_KEY, true)).thenReturn(true);
+        assertTrue(repo.isFirstLaunch());
+        verify(sp).getBoolean(PreferencesRepo.FIRST_LAUNCH_KEY, true);
+
+        when(sp.getBoolean(PreferencesRepo.FIRST_LAUNCH_KEY, true)).thenReturn(false);
+        assertFalse(repo.isFirstLaunch());
+        verify(sp).getBoolean(PreferencesRepo.FIRST_LAUNCH_KEY, true);
+    }
+
+/*     @Test
     public void getInterval() throws Exception {
         when(sp.getInt(PreferencesRepo.KEY_INTERVAL, 60)).thenReturn(15);
 
