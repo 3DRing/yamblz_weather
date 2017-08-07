@@ -27,6 +27,8 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
+import javax.inject.Inject;
+
 import io.reactivex.Completable;
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -54,8 +56,9 @@ public class PreferencesRepo {
 
     private final SharedPreferences preferences;
 
-    public PreferencesRepo(Context context) {
-        this.preferences = PreferenceManager.getDefaultSharedPreferences(context);
+    @Inject
+    public PreferencesRepo(Context context, SharedPreferences sp) {
+        this.preferences = sp;
 
         intervalKey = context.getString(R.string.update_intervals_key);
         intervalDefaultValue = context.getString(R.string.default_update_intervals_value);

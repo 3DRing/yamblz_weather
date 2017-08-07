@@ -2,23 +2,24 @@ package tljfn.yamblzweather.di.modules;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 
 import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-import tljfn.yamblzweather.model.repo.PreferencesRepo;
 
 /**
- * Created by ringov on 03.08.17.
+ * Created by ringov on 07.08.17.
  */
+
 @Module
-public class PreferencesRepoModule {
-    @Provides
+public class SharedPreferencesModule {
     @NonNull
+    @Provides
     @Singleton
-    public PreferencesRepo providePreferencesRepo(Context context, SharedPreferences sp) {
-        return new PreferencesRepo(context, sp);
+    public SharedPreferences provideSharedPreferences(Context context) {
+        return PreferenceManager.getDefaultSharedPreferences(context);
     }
 }
