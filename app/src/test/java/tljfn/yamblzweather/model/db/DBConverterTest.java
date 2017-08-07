@@ -3,6 +3,7 @@ package tljfn.yamblzweather.model.db;
 import org.junit.Before;
 import org.junit.Test;
 
+import tljfn.yamblzweather.TestUtils;
 import tljfn.yamblzweather.data.DataProvider;
 import tljfn.yamblzweather.model.api.data.city.RawCity;
 import tljfn.yamblzweather.model.api.data.weather.RawWeather;
@@ -38,7 +39,7 @@ public class DBConverterTest {
         assertTrue(dbData.getCity().equals("New York"));
         assertTrue(dbData.getCondition() == 721);
         assertTrue(Double.compare(dbData.getTemperature(), 22.22) == 0);
-        assertTrue(equalTime(dbData.getTime(), crtTime));
+        assertTrue(TestUtils.equalTime(dbData.getTime(), crtTime));
     }
 
     @Test(expected = RawToDBConvertingException.class)
@@ -66,10 +67,6 @@ public class DBConverterTest {
         RawCity data = dataProvider.getBadRawCity();
         DBCity dbData = DBConverter.fromRawCity(data);
         fail();
-    }
-
-    private boolean equalTime(long time1, long time2) {
-        return Math.abs(time1 - time2) < 1000; // diff less then 1 second
     }
 }
 

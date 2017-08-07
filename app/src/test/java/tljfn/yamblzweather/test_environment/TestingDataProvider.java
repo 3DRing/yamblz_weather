@@ -12,9 +12,13 @@ import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 import java.util.List;
 
+import tljfn.yamblzweather.TestUtils;
 import tljfn.yamblzweather.data.DataProvider;
 import tljfn.yamblzweather.model.api.data.city.RawCity;
 import tljfn.yamblzweather.model.api.data.weather.RawWeather;
+import tljfn.yamblzweather.model.api.data.weather.Sys;
+import tljfn.yamblzweather.model.db.cities.DBCity;
+import tljfn.yamblzweather.model.db.weather.DBWeatherData;
 
 import static junit.framework.Assert.assertTrue;
 import static junit.framework.Assert.fail;
@@ -153,5 +157,29 @@ public class TestingDataProvider {
         assertTrue(raw.country.equals("ru"));
         assertTrue(raw.enName.equals("Saint Petersburg"));
         assertTrue(raw.ruName.equals("Санкт-Петербург"));
+    }
+
+    @Test
+    public void loading_db_saint_petersburg() {
+        DBCity saintpetersubrg = dataProvider.getSaintPetersburgCityDB();
+
+        assertTrue(saintpetersubrg.getId() == 2);
+        assertTrue(saintpetersubrg.getOpenWeatherId() == 498817);
+        assertTrue(saintpetersubrg.getCountryCode().equals("ru"));
+        assertTrue(saintpetersubrg.getRuName().equals("санкт-петербург"));
+        assertTrue(saintpetersubrg.getEnName().equals("saint petersburg"));
+    }
+
+    @Test
+    public void loading_db_weather() {
+        DBWeatherData weather = dataProvider.getNewYorkWeatherDB();
+
+        // not used so far
+        // assertTrue(weather.getId() == -1)
+        long crtTime = System.currentTimeMillis();
+        assertTrue(TestUtils.equalTime(crtTime, weather.getTime()));
+        assertTrue(weather.getTemperature() == 22.22);
+        assertTrue(weather.getCondition() == 721);
+        assertTrue(weather.getCity().equals("New York"));
     }
 }

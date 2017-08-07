@@ -43,7 +43,7 @@ public class WeatherApiTest {
     }
 
     @Test
-    public void getWeatherById() throws IOException {
+    public void get_weather_by_id() throws IOException {
         enqueueResponse("new_york_weather.json");
 
         api.getWeather(0, "ru").test()
@@ -52,7 +52,7 @@ public class WeatherApiTest {
     }
 
     @Test
-    public void getWeatherByIdBadResponse() throws IOException {
+    public void getting_weather_by_id_with_bad_response() throws IOException {
         enqueueResponse("bad_weather_response.json");
 
         // todo specify this error in the actual code

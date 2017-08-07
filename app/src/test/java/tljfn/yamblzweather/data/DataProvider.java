@@ -13,6 +13,7 @@ import tljfn.yamblzweather.model.api.data.city.RawCity;
 import tljfn.yamblzweather.model.api.data.weather.RawWeather;
 import tljfn.yamblzweather.model.db.DBConverter;
 import tljfn.yamblzweather.model.db.cities.DBCity;
+import tljfn.yamblzweather.model.db.weather.DBWeatherData;
 
 /**
  * Created by ringov on 06.08.17.
@@ -72,7 +73,7 @@ public class DataProvider {
     public DBCity[] getDBCitiesSampleArray() {
         DBCity[] array = new DBCity[2];
 
-        array[0] = DBConverter.fromRawCity(getSaintPetersburgCity());
+        array[0] = getSaintPetersburgCityDB();
         array[1] = DBConverter.fromRawCity(getBelgorod());
 
         return array;
@@ -80,5 +81,13 @@ public class DataProvider {
 
     public RawCity getBelgorod() {
         return loadTestRawCity("belgorod_city.json");
+    }
+
+    public DBCity getSaintPetersburgCityDB() {
+        return DBConverter.fromRawCity(getSaintPetersburgCity());
+    }
+
+    public DBWeatherData getNewYorkWeatherDB() {
+        return DBConverter.fromRawWeatherData(getNewYorkWeather());
     }
 }
