@@ -91,30 +91,37 @@ public class RawWeather {
         if (getDt() != that.getDt()) return false;
         if (getId() != that.getId()) return false;
         if (getCod() != that.getCod()) return false;
-        if (!getCoord().equals(that.getCoord())) return false;
-        if (!getWeather().equals(that.getWeather())) return false;
-        if (!getBase().equals(that.getBase())) return false;
-        if (!getMain().equals(that.getMain())) return false;
-        if (!getWind().equals(that.getWind())) return false;
-        if (!getClouds().equals(that.getClouds())) return false;
-        if (!getSys().equals(that.getSys())) return false;
-        return getName().equals(that.getName());
+        if (getCoord() != null ? !getCoord().equals(that.getCoord()) : that.getCoord() != null)
+            return false;
+        if (getWeather() != null ? !getWeather().equals(that.getWeather()) : that.getWeather() != null)
+            return false;
+        if (getBase() != null ? !getBase().equals(that.getBase()) : that.getBase() != null)
+            return false;
+        if (getMain() != null ? !getMain().equals(that.getMain()) : that.getMain() != null)
+            return false;
+        if (getWind() != null ? !getWind().equals(that.getWind()) : that.getWind() != null)
+            return false;
+        if (getClouds() != null ? !getClouds().equals(that.getClouds()) : that.getClouds() != null)
+            return false;
+        if (getSys() != null ? !getSys().equals(that.getSys()) : that.getSys() != null)
+            return false;
+        return getName() != null ? getName().equals(that.getName()) : that.getName() == null;
 
     }
 
     @Override
     public int hashCode() {
-        int result = getCoord().hashCode();
-        result = 31 * result + getWeather().hashCode();
-        result = 31 * result + getBase().hashCode();
-        result = 31 * result + getMain().hashCode();
+        int result = getCoord() != null ? getCoord().hashCode() : 0;
+        result = 31 * result + (getWeather() != null ? getWeather().hashCode() : 0);
+        result = 31 * result + (getBase() != null ? getBase().hashCode() : 0);
+        result = 31 * result + (getMain() != null ? getMain().hashCode() : 0);
         result = 31 * result + getVisibility();
-        result = 31 * result + getWind().hashCode();
-        result = 31 * result + getClouds().hashCode();
+        result = 31 * result + (getWind() != null ? getWind().hashCode() : 0);
+        result = 31 * result + (getClouds() != null ? getClouds().hashCode() : 0);
         result = 31 * result + getDt();
-        result = 31 * result + getSys().hashCode();
+        result = 31 * result + (getSys() != null ? getSys().hashCode() : 0);
         result = 31 * result + getId();
-        result = 31 * result + getName().hashCode();
+        result = 31 * result + (getName() != null ? getName().hashCode() : 0);
         result = 31 * result + getCod();
         return result;
     }

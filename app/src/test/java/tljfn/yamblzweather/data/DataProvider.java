@@ -2,9 +2,12 @@ package tljfn.yamblzweather.data;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.Type;
+import java.util.List;
 
 import tljfn.yamblzweather.model.api.data.city.RawCity;
 import tljfn.yamblzweather.model.api.data.weather.RawWeather;
@@ -52,5 +55,15 @@ public class DataProvider {
 
     public RawCity getBadRawCity() {
         return loadTestRawCity("bad_city_response.json");
+    }
+
+    public List<RawCity> getAllCities() {
+        InputStream is = getCitiesInputStream();
+        InputStreamReader isr = new InputStreamReader(is);
+
+        Gson gson = new GsonBuilder().create();
+        Type itemsListType = new TypeToken<List<RawCity>>() {
+        }.getType();
+        return gson.fromJson(isr, itemsListType);
     }
 }
