@@ -45,6 +45,30 @@ public class UIWeatherData extends UIBaseData {
         return condition.getConditionImage();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        UIWeatherData that = (UIWeatherData) o;
+
+        if (Double.compare(that.getTemperature(), getTemperature()) != 0) return false;
+        if (!getCity().equals(that.getCity())) return false;
+        return condition == that.condition;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result;
+        long temp;
+        result = getCity().hashCode();
+        temp = Double.doubleToLongBits(getTemperature());
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        result = 31 * result + condition.hashCode();
+        return result;
+    }
+
     public static class Builder extends UIBaseData.Builder<UIWeatherData, UIWeatherData.Builder> {
 
         @Override

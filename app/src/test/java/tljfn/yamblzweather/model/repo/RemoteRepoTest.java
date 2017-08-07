@@ -50,10 +50,8 @@ public class RemoteRepoTest {
         when(weatherApi.getWeather(5128581, "ru")).thenReturn(Single.fromCallable(() -> dataProvider.getNewYorkWeather()));
         repo.getWeather(5128581).test()
                 .assertNoErrors()
-                .assertSubscribed()
+                .assertOf(listTestObserver -> verify(weatherApi).getWeather(5128581, "ru"))
                 .assertValue(dataProvider.getNewYorkWeather());
-
-        verify(weatherApi).getWeather(5128581, "ru");
     }
 
     @Test
@@ -61,9 +59,8 @@ public class RemoteRepoTest {
         when(weatherApi.getWeather(123, "ru")).thenReturn(Single.fromCallable(() -> dataProvider.getBadWeather()));
         repo.getWeather(123).test()
                 .assertNoErrors()
+                .assertOf(listTestObserver -> verify(weatherApi).getWeather(123, "ru"))
                 .assertValue(received -> received.equals(dataProvider.getBadWeather()));
-
-        verify(weatherApi).getWeather(123, "ru");
     }
 
     @Test
@@ -71,6 +68,7 @@ public class RemoteRepoTest {
         Exception e = new Exception();
         when(weatherApi.getWeather(5128581, "ru")).thenReturn(Single.error(e));
         repo.getWeather(5128581).test()
+                .assertOf(listTestObserver -> verify(weatherApi).getWeather(5128581, "ru"))
                 .assertError(e);
     }
 
@@ -78,6 +76,7 @@ public class RemoteRepoTest {
     public void getting_cities_is_correct() {
         repo.getAllCities().test()
                 .assertNoErrors()
+                .assertOf(listTestObserver -> verify(cityApi).getAllCities())
                 .assertValue(rawCities -> {
                     List<RawCity> toCompare = dataProvider.getAllCities();
                     return rawCities.get(0).equals(toCompare.get(0)) &&
@@ -95,6 +94,7 @@ public class RemoteRepoTest {
         }));
 
         repo.getAllCities().test()
+                .assertOf(listTestObserver -> verify(cityApi).getAllCities())
                 .assertError(e);
     }
 }

@@ -72,6 +72,32 @@ public class DBWeatherData {
         this.condition = condition;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        DBWeatherData that = (DBWeatherData) o;
+
+        if (getId() != that.getId()) return false;
+        if (Double.compare(that.getTemperature(), getTemperature()) != 0) return false;
+        if (getCondition() != that.getCondition()) return false;
+        return getCity().equals(that.getCity());
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result;
+        long temp;
+        result = getId();
+        result = 31 * result + getCity().hashCode();
+        temp = Double.doubleToLongBits(getTemperature());
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        result = 31 * result + getCondition();
+        return result;
+    }
+
     public static class Builder {
 
         DBWeatherData data;

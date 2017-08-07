@@ -34,16 +34,12 @@ public class DatabaseRepo {
             DBWeatherData data = DBConverter.fromRawWeatherData(weather);
             weatherDao.insertWeather(data);
             return UIConverter.toUIWeatherData(data);
-        })
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+        });
     }
 
     public Flowable<UIWeatherData> loadCachedWeather() {
         return weatherDao.loadWeather()
-                .map(UIConverter::toUIWeatherData)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+                .map(UIConverter::toUIWeatherData);
     }
 
     public Flowable<List<UICitySuggestion>> getSuggestions(String requestString) {

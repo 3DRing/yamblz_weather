@@ -1,40 +1,57 @@
 package tljfn.yamblzweather.model.repo;
 
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnit;
+import org.mockito.junit.MockitoRule;
+
+import io.reactivex.Flowable;
+import tljfn.yamblzweather.data.DataProvider;
+import tljfn.yamblzweather.model.db.DBConverter;
+import tljfn.yamblzweather.model.db.cities.CityDao;
+import tljfn.yamblzweather.model.db.cities.DBCity;
+import tljfn.yamblzweather.model.db.weather.DBWeatherData;
+import tljfn.yamblzweather.model.db.weather.WeatherDao;
+import tljfn.yamblzweather.modules.UIConverter;
+
+import static org.mockito.Mockito.when;
+
 /**
  * Created by ringov on 26.07.17.
  */
 public class DatabaseRepoTest {
 
-/*    @Rule
+    @Rule
     public MockitoRule rule = MockitoJUnit.rule();
 
-    Data data;
     @Mock
-    WeatherDao dao;
+    WeatherDao weatherDao;
+    @Mock
+    CityDao cityDao;
+
+    DataProvider dataProvider;
 
     DatabaseRepo repo;
 
     @Before
     public void setup() {
-        data = new Data.Builder()
-                .build();
-        repo = new DatabaseRepo(dao);
+        repo = new DatabaseRepo(weatherDao, cityDao);
+        dataProvider = new DataProvider();
     }
 
     @Test
-    public void correctGetWeather() throws Exception {
-*//*        when(dao.getWeather()).thenReturn(Flowable.just(data.wm));
+    public void loading_cached_weather() {
+        when(weatherDao.loadWeather()).thenReturn(Flowable.fromCallable(() ->
+                DBConverter.fromRawWeatherData(dataProvider.getNewYorkWeather())));
 
-        repo.getWeather().test()
+        repo.loadCachedWeather().test()
                 .assertNoErrors()
-                .assertResult(data.wm);*//*
+                .assertValue(cachedUIData ->
+                        cachedUIData.equals(
+                                UIConverter.toUIWeatherData(
+                                        DBConverter.fromRawWeatherData(
+                                                dataProvider.getNewYorkWeather()))));
     }
-
-    @Test
-    public void errorGetWeather() throws Exception {
-*//*        when(dao.getWeather()).thenReturn(Flowable.error(new Throwable("test")));
-
-        repo.getWeather().test()
-                .assertErrorMessage("test");*//*
-    }*/
 }
