@@ -28,11 +28,11 @@ import tljfn.yamblzweather.modules.weather.data.UIWeatherData;
 
 public class WeatherViewModel extends BaseViewModel<UIWeatherData> {
 
-    @Inject
     WeatherInteractor interactor;
 
-    public WeatherViewModel() {
-        App.getComponent().inject(this);
+    @Inject
+    public WeatherViewModel(WeatherInteractor interactor) {
+        this.interactor = interactor;
         loadCachedWeather();
     }
 

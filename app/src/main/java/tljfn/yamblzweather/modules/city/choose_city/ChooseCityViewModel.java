@@ -19,13 +19,13 @@ import tljfn.yamblzweather.modules.city.choose_city.data.UICitySuggestion;
 
 public class ChooseCityViewModel extends BaseViewModel<CitySuggestions> {
 
-    @Inject
     DatabaseRepo dbRepo;
 
     private Disposable suggestions;
 
-    public ChooseCityViewModel() {
-        App.getComponent().inject(this);
+    @Inject
+    public ChooseCityViewModel(DatabaseRepo dbRepo) {
+        this.dbRepo = dbRepo;
     }
 
     @Override

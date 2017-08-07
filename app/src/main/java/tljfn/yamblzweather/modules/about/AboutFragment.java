@@ -4,9 +4,13 @@ import android.support.annotation.NonNull;
 import android.support.v4.widget.DrawerLayout;
 import android.widget.TextView;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
+import tljfn.yamblzweather.App;
 import tljfn.yamblzweather.BuildConfig;
 import tljfn.yamblzweather.R;
+import tljfn.yamblzweather.di.modules.viewmodel.ViewModelFactory;
 import tljfn.yamblzweather.modules.base.data.UIBaseData;
 import tljfn.yamblzweather.modules.base.fragment.ViewModelFragment;
 
@@ -17,6 +21,9 @@ import tljfn.yamblzweather.modules.base.fragment.ViewModelFragment;
 public class AboutFragment extends ViewModelFragment<AboutViewModel, UIBaseData> {
 
     public static final String TAG = AboutFragment.class.getName();
+
+    @Inject
+    ViewModelFactory factory;
 
     @BindView(R.id.tv_version)
     TextView version;
@@ -66,5 +73,15 @@ public class AboutFragment extends ViewModelFragment<AboutViewModel, UIBaseData>
     @Override
     public void onError(String errorMessage) {
 
+    }
+
+    @Override
+    protected void inject() {
+        App.getComponent().inject(this);
+    }
+
+    @Override
+    protected ViewModelFactory getViewModelFactory() {
+        return factory;
     }
 }
