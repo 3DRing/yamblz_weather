@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 
+import com.evernote.android.job.JobManager;
+
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -18,7 +20,7 @@ public class PreferencesRepoModule {
     @Provides
     @NonNull
     @Singleton
-    public PreferencesRepo providePreferencesRepo(Context context, SharedPreferences sp) {
-        return new PreferencesRepo(context, sp);
+    public PreferencesRepo providePreferencesRepo(Context context, SharedPreferences sp, JobManager jobManager) {
+        return new PreferencesRepo(context, sp, jobManager);
     }
 }

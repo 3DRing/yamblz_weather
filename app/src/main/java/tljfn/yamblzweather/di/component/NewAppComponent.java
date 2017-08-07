@@ -8,6 +8,7 @@ import tljfn.yamblzweather.di.modules.CityApiModule;
 import tljfn.yamblzweather.di.modules.CityDaoModule;
 import tljfn.yamblzweather.di.modules.DatabaseModule;
 import tljfn.yamblzweather.di.modules.DatabaseRepoModule;
+import tljfn.yamblzweather.di.modules.JobManagerModule;
 import tljfn.yamblzweather.di.modules.PreferencesRepoModule;
 import tljfn.yamblzweather.di.modules.RemoteRepoModule;
 import tljfn.yamblzweather.di.modules.SharedPreferencesModule;
@@ -30,6 +31,7 @@ import tljfn.yamblzweather.modules.weather.WeatherViewModel;
         CityDaoModule.class,
         DatabaseModule.class,
         DatabaseRepoModule.class,
+        JobManagerModule.class,
         PreferencesRepoModule.class,
         RemoteRepoModule.class,
         SharedPreferencesModule.class,

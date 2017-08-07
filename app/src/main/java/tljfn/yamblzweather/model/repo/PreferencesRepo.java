@@ -18,7 +18,6 @@ package tljfn.yamblzweather.model.repo;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 
 import com.evernote.android.job.JobManager;
 import com.evernote.android.job.JobRequest;
@@ -31,8 +30,6 @@ import javax.inject.Inject;
 
 import io.reactivex.Completable;
 import io.reactivex.Single;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
 import tljfn.yamblzweather.R;
 import tljfn.yamblzweather.model.scheduler.WeatherUpdateJob;
 
@@ -54,11 +51,13 @@ public class PreferencesRepo {
     String currentCityKey;
     String currentCityDefaultValue;
 
-    private final SharedPreferences preferences;
+    private SharedPreferences preferences;
+    private JobManager jobManager;
 
     @Inject
-    public PreferencesRepo(Context context, SharedPreferences sp) {
+    public PreferencesRepo(Context context, SharedPreferences sp, JobManager jobManager) {
         this.preferences = sp;
+        this.jobManager = jobManager;
 
         intervalKey = context.getString(R.string.update_intervals_key);
         intervalDefaultValue = context.getString(R.string.default_update_intervals_value);
@@ -90,7 +89,7 @@ public class PreferencesRepo {
     }
 
     private void onChangingUpdateInterval() {
-        Set<JobRequest> requests = JobManager.instance().getAllJobRequestsForTag(WeatherUpdateJob.TAG);
+        Set<JobRequest> requests = jobManager.getAllJobRequestsForTag(WeatherUpdateJob.TAG);
         if (!requests.isEmpty()) {
             Iterator<JobRequest> iterator = requests.iterator();
             if (iterator.hasNext()) {
