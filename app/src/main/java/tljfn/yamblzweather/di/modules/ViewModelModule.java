@@ -8,6 +8,7 @@ import dagger.Module;
 import dagger.multibindings.IntoMap;
 import tljfn.yamblzweather.modules.about.AboutViewModel;
 import tljfn.yamblzweather.modules.base.viewmodel.ViewModelFactory;
+import tljfn.yamblzweather.modules.base.viewmodel.ViewModelKey;
 import tljfn.yamblzweather.modules.city.choose_city.ChooseCityViewModel;
 import tljfn.yamblzweather.modules.weather.WeatherViewModel;
 
