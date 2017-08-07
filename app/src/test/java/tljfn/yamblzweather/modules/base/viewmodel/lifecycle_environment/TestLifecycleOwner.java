@@ -9,8 +9,16 @@ import android.arch.lifecycle.LifecycleRegistry;
  */
 
 public class TestLifecycleOwner implements LifecycleOwner {
+
+    LifecycleRegistry registry;
+
+    public TestLifecycleOwner() {
+        registry = new LifecycleRegistry(this);
+        registry.markState(Lifecycle.State.RESUMED);
+    }
+
     @Override
     public Lifecycle getLifecycle() {
-        return new LifecycleRegistry(this);
+        return registry;
     }
 }
