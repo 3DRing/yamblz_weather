@@ -11,6 +11,8 @@ import java.util.List;
 
 import tljfn.yamblzweather.model.api.data.city.RawCity;
 import tljfn.yamblzweather.model.api.data.weather.RawWeather;
+import tljfn.yamblzweather.model.db.DBConverter;
+import tljfn.yamblzweather.model.db.cities.DBCity;
 
 /**
  * Created by ringov on 06.08.17.
@@ -65,5 +67,18 @@ public class DataProvider {
         Type itemsListType = new TypeToken<List<RawCity>>() {
         }.getType();
         return gson.fromJson(isr, itemsListType);
+    }
+
+    public DBCity[] getDBCitiesSampleArray() {
+        DBCity[] array = new DBCity[2];
+
+        array[0] = DBConverter.fromRawCity(getSaintPetersburgCity());
+        array[1] = DBConverter.fromRawCity(getBelgorod());
+
+        return array;
+    }
+
+    public RawCity getBelgorod() {
+        return loadTestRawCity("belgorod_city.json");
     }
 }

@@ -50,9 +50,7 @@ public class DatabaseRepo {
                         .map(UIConverter::toUISuggestions)
                         .toSortedList((city1, city2) -> city1.getName().compareTo(city2.getName()))
                         .toFlowable())
-                .flatMapSingle(Single::just)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+                .flatMapSingle(Single::just);
     }
 
     public Single<Boolean> initCities(DBCity[] cities) {

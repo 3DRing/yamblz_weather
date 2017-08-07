@@ -116,6 +116,18 @@ public class TestingDataProvider {
     }
 
     @Test
+    public void loading_raw_city_correctly_2() {
+        RawCity city = dataProvider.getBelgorod();
+
+        assertTrue(city != null);
+        assertTrue(city.yaId == 4);
+        assertTrue(city.openWeatherId == 578072);
+        assertTrue(city.country.equals("ru"));
+        assertTrue(city.enName.equals("Belgorod"));
+        assertTrue(city.ruName.equals("Белгород"));
+    }
+
+    @Test
     public void loading_raw_city_with_nulls() {
         RawCity city = dataProvider.getBadRawCity();
 

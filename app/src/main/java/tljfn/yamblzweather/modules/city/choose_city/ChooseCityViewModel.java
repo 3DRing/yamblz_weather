@@ -4,7 +4,9 @@ import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 import tljfn.yamblzweather.App;
 import tljfn.yamblzweather.model.repo.DatabaseRepo;
 import tljfn.yamblzweather.modules.base.viewmodel.BaseViewModel;
@@ -42,6 +44,8 @@ public class ChooseCityViewModel extends BaseViewModel<CitySuggestions> {
                     return builder.build();
                 })
                 .debounce(500, TimeUnit.MILLISECONDS)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::onChange, this::onError);
     }
 

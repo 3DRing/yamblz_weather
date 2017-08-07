@@ -60,6 +60,8 @@ public class UIConverter {
             name = city.getEnName();
         }
         StringBuilder sb = new StringBuilder();
+
+        // todo provide correct uppercase letters for each part of city name
         name = sb.append(name.substring(0, 1).toUpperCase()).append(name.substring(1)).toString();
         return new UICitySuggestion(city.getOpenWeatherId(), name);
     }
