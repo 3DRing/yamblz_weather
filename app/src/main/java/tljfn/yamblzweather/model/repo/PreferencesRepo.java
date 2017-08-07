@@ -74,9 +74,7 @@ public class PreferencesRepo {
 
     public Completable updateCurrentCity(long id) {
         return Completable.fromAction(() ->
-                preferences.edit().putLong(currentCityKey, id).apply())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+                preferences.edit().putLong(currentCityKey, id).apply());
     }
 
     public Single<Long> getCurrentCity() {
