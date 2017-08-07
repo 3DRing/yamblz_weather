@@ -81,20 +81,20 @@ public class PreferencesRepo {
         return Single.fromCallable(() -> preferences.getLong(currentCityKey, DEFAULT_CITY));
     }
 
-    public void onPreferencesChanged(SharedPreferences sharedPreferences, String s) {
+    public void onPreferencesChanged(String s) {
         if (s.equals(intervalKey)) {
-            onChangingUpdateInterval(sharedPreferences);
+            onChangingUpdateInterval();
         } else {
             // for other preferences
         }
     }
 
-    private void onChangingUpdateInterval(SharedPreferences sp) {
+    private void onChangingUpdateInterval() {
         Set<JobRequest> requests = JobManager.instance().getAllJobRequestsForTag(WeatherUpdateJob.TAG);
         if (!requests.isEmpty()) {
             Iterator<JobRequest> iterator = requests.iterator();
             if (iterator.hasNext()) {
-                getUpdateInterval(sp)
+                getUpdateInterval()
                         .subscribe(interval -> {
                             while (iterator.hasNext()) {
                                 JobRequest jr = iterator.next();
@@ -108,6 +108,7 @@ public class PreferencesRepo {
         }
     }
 
+    @Deprecated
     public Single<Long> getUpdateInterval(SharedPreferences sharedPreferences) {
         return Single.fromCallable(() -> {
             String value = sharedPreferences.getString(intervalKey, intervalDefaultValue);
