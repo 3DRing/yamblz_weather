@@ -3,6 +3,8 @@ package tljfn.yamblzweather.modules.base.data;
 import org.junit.Before;
 import org.junit.Test;
 
+import tljfn.yamblzweather.data.TestUIData;
+
 import static org.junit.Assert.*;
 
 /**
@@ -10,29 +12,12 @@ import static org.junit.Assert.*;
  */
 public class UIBaseDataTest {
 
-    private static class TestData extends UIBaseData {
-        public int field;
-    }
-
-    private static class TestBuilder extends UIBaseData.Builder<TestData, TestBuilder> {
-
-        @Override
-        protected TestData init() {
-            return new TestData();
-        }
-
-        @Override
-        protected TestBuilder getThis() {
-            return this;
-        }
-    }
-
     UIBaseData.Builder builder;
     UIBaseData data;
 
     @Before
     public void setup() {
-        builder = new TestBuilder();
+        builder = new TestUIData.TestBuilder();
         data = builder.build();
     }
 
@@ -40,9 +25,9 @@ public class UIBaseDataTest {
     public void correct_building_base_data() {
         UIBaseData init = builder.init();
 
-        assertTrue(init instanceof TestData);
-        assertTrue(builder.getThis() != null && builder.getThis() instanceof TestBuilder);
-        assertTrue(builder.build() instanceof TestData);
+        assertTrue(init instanceof TestUIData);
+        assertTrue(builder.getThis() != null && builder.getThis() instanceof TestUIData.TestBuilder);
+        assertTrue(builder.build() instanceof TestUIData);
         assertTrue(builder.build().equals(data));
     }
 

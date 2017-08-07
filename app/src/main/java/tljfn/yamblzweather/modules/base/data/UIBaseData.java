@@ -40,6 +40,25 @@ public class UIBaseData implements UIState {
         error = "";
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        UIBaseData that = (UIBaseData) o;
+
+        if (isLoading() != that.isLoading()) return false;
+        return error != null ? error.equals(that.error) : that.error == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = error != null ? error.hashCode() : 0;
+        result = 31 * result + (isLoading() ? 1 : 0);
+        return result;
+    }
+
     protected static abstract class Builder<D extends UIBaseData, B extends Builder> {
 
         protected D data;
