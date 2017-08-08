@@ -28,7 +28,7 @@ public class FavoriteCitiesFragment extends ViewModelFragment<FavoriteCitiesView
 
     @BindView(R.id.rv_favorite_cities)
     RecyclerView favoriteCities;
-    CitiesListAdapter<FavoriteCity> adapter;
+    CitiesListAdapter<FavoriteCity, Boolean> adapter;
 
     @Override
     protected void initializeViews() {

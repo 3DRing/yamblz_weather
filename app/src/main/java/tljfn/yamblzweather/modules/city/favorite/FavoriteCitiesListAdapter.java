@@ -23,9 +23,9 @@ import tljfn.yamblzweather.utils.custom_views.FavoriteButton;
  * Created by ringov on 05.08.17.
  */
 
-public class FavoriteCitiesListAdapter extends CitiesListAdapter<FavoriteCity> {
+public class FavoriteCitiesListAdapter extends CitiesListAdapter<FavoriteCity, Boolean> {
 
-    public FavoriteCitiesListAdapter(@Nullable ClickListener<FavoriteCity> listener) {
+    public FavoriteCitiesListAdapter(@Nullable ClickListener<FavoriteCity, Boolean> listener) {
         super(listener);
     }
 
@@ -35,11 +35,11 @@ public class FavoriteCitiesListAdapter extends CitiesListAdapter<FavoriteCity> {
     }
 
     @Override
-    protected CitiesListAdapter.ViewHolder<FavoriteCity> initHolder(View v) {
+    protected CitiesListAdapter.ViewHolder<FavoriteCity, Boolean> initHolder(View v) {
         return new ViewHolder(v);
     }
 
-    static class ViewHolder extends CitiesListAdapter.ViewHolder<FavoriteCity> {
+    static class ViewHolder extends CitiesListAdapter.ViewHolder<FavoriteCity, Boolean> {
 
         @BindView(R.id.tv_city_name)
         TextView tvCity;
@@ -51,10 +51,10 @@ public class FavoriteCitiesListAdapter extends CitiesListAdapter<FavoriteCity> {
         }
 
         @Override
-        protected void bind(FavoriteCity city, int position, @Nullable ClickListener<FavoriteCity> listener) {
+        protected void bind(FavoriteCity city, int position, @Nullable ClickListener<FavoriteCity, Boolean> listener) {
             tvCity.setText(city.getName());
             if (listener != null) {
-                tvCity.setOnClickListener(v -> listener.onClick(city, position));
+                favorite.setOnToggleListener((fav) -> listener.onClick(city, position, fav));
             }
         }
     }

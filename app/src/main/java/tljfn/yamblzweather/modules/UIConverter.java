@@ -57,7 +57,7 @@ public class UIConverter {
 
         // todo provide correct uppercase letters for each part of city name
         name = sb.append(name.substring(0, 1).toUpperCase()).append(name.substring(1)).toString();
-        return new CitySuggestion(city.getOpenWeatherId(), name);
+        return new CitySuggestion(city.getId(), name);
     }
 
     public static FavoriteCity toFavoriteCity(DBCity city) {

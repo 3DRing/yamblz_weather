@@ -16,12 +16,12 @@ import butterknife.ButterKnife;
  * Created by ringov on 08.08.17.
  */
 
-public abstract class CitiesListAdapter<T extends CityItem> extends RecyclerView.Adapter<CitiesListAdapter.ViewHolder<T>> {
+public abstract class CitiesListAdapter<T extends CityItem, R> extends RecyclerView.Adapter<CitiesListAdapter.ViewHolder<T, R>> {
 
     private List<T> items;
-    private ClickListener<T> listener;
+    private ClickListener<T, R> listener;
 
-    public CitiesListAdapter(@Nullable ClickListener<T> listener) {
+    public CitiesListAdapter(@Nullable ClickListener<T, R> listener) {
         items = new ArrayList<>();
         this.listener = listener;
     }
@@ -34,16 +34,16 @@ public abstract class CitiesListAdapter<T extends CityItem> extends RecyclerView
     @LayoutRes
     protected abstract int getLayoutRes();
 
-    protected abstract ViewHolder<T> initHolder(View v);
+    protected abstract ViewHolder<T, R> initHolder(View v);
 
     @Override
-    public ViewHolder<T> onCreateViewHolder(ViewGroup viewGroup, int i) {
+    public ViewHolder<T, R> onCreateViewHolder(ViewGroup viewGroup, int i) {
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(getLayoutRes(), viewGroup, false);
         return initHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder<T> viewHolder, int i) {
+    public void onBindViewHolder(ViewHolder<T, R> viewHolder, int i) {
         viewHolder.bind(items.get(i), i, listener);
     }
 
@@ -52,17 +52,17 @@ public abstract class CitiesListAdapter<T extends CityItem> extends RecyclerView
         return items.size();
     }
 
-    protected static abstract class ViewHolder<T extends CityItem> extends RecyclerView.ViewHolder {
+    protected static abstract class ViewHolder<T extends CityItem, R> extends RecyclerView.ViewHolder {
 
         protected ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
 
-        protected abstract void bind(T city, int position, @Nullable ClickListener<T> listener);
+        protected abstract void bind(T city, int position, @Nullable ClickListener<T, R> listener);
     }
 
-    public interface ClickListener<T extends CityItem> {
-        void onClick(T city, int position);
+    public interface ClickListener<T extends CityItem, R> {
+        void onClick(T city, int position, R result);
     }
 }

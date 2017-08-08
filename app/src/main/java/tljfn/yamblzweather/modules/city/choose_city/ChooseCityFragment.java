@@ -43,7 +43,7 @@ public class ChooseCityFragment extends ViewModelFragment<ChooseCityViewModel, U
     @BindView(R.id.rv_suggestions)
     RecyclerView suggestions;
 
-    CitiesListAdapter<CitySuggestion> adapter;
+    CitiesListAdapter<CitySuggestion, Boolean> adapter;
 
     @OnClick(R.id.backpress)
     void onTopBackPress() {
@@ -90,8 +90,10 @@ public class ChooseCityFragment extends ViewModelFragment<ChooseCityViewModel, U
         suggestions.setAdapter(adapter);
     }
 
-    private void onFavoriteClick(CitySuggestion citySuggestion, int i) {
-        getViewModel().onFavoriteClicked(citySuggestion.getId());
+    private void onFavoriteClick(CitySuggestion citySuggestion, int i, boolean favorite) {
+        getViewModel().onFavoriteClicked(citySuggestion.getId(), favorite)
+                // todo handle result
+                .subscribe();
     }
 
     @Override

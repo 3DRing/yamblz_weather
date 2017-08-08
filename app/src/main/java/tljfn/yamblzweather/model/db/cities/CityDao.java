@@ -4,6 +4,7 @@ import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
+import android.arch.persistence.room.Update;
 
 import java.util.List;
 
@@ -22,6 +23,9 @@ public interface CityDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     long[] addCities(DBCity[] cities);
 
-    @Query("SELECT * FROM city WHERE en_name LIKE \'oren%\'")
+    @Query("SELECT * FROM city WHERE favorite == \'true\'")
     Flowable<List<DBCity>> loadFavoriteCities();
+
+    @Update
+    int setFavorite(DBCity city);
 }

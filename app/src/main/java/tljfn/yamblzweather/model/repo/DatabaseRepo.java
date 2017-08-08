@@ -64,4 +64,10 @@ public class DatabaseRepo {
         return cityDao.loadFavoriteCities();
     }
 
+    public Single<Boolean> setFavorite(int id, boolean favorite) {
+        return Single.fromCallable(() -> {
+            int result = cityDao.setFavorite(new DBCity.Builder().id(id).favorite(favorite).build());
+            return result > 0;
+        });
+    }
 }

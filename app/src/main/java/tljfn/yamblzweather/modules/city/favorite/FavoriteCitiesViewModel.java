@@ -17,11 +17,7 @@ public class FavoriteCitiesViewModel extends BaseViewModel<UIFavoriteCityList> {
     public FavoriteCitiesViewModel(FavoriteCitiesInteractor interactor) {
         this.interactor = interactor;
         sub(interactor.loadFavoriteCities()
-                .subscribe(this::test, this::onError));
-    }
-
-    private void test(UIFavoriteCityList list){
-        this.onChange(list);
+                .subscribe(this::onChange, this::onError));
     }
 
     @Override

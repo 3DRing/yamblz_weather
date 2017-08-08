@@ -3,6 +3,7 @@ package tljfn.yamblzweather.modules.city.choose_city;
 import javax.inject.Inject;
 
 import io.reactivex.Flowable;
+import io.reactivex.Single;
 import tljfn.yamblzweather.model.repo.DatabaseRepo;
 import tljfn.yamblzweather.modules.base.BaseInteractor;
 import tljfn.yamblzweather.modules.city.choose_city.data.CitySuggestion;
@@ -31,5 +32,9 @@ public class ChooseCityInteractor extends BaseInteractor {
                     }
                     return builder.build();
                 });
+    }
+
+    public Single<Boolean> addFavorite(int id, boolean favorite) {
+        return dbRepo.setFavorite(id, favorite);
     }
 }
