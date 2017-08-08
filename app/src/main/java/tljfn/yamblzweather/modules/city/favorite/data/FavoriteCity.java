@@ -10,7 +10,7 @@ public class FavoriteCity implements CityItem {
 
     private String name;
 
-    FavoriteCity(String name) {
+    public FavoriteCity(String name) {
         this.name = name;
     }
 

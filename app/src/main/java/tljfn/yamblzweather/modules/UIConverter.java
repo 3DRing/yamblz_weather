@@ -5,6 +5,7 @@ import java.util.Locale;
 import tljfn.yamblzweather.model.db.cities.DBCity;
 import tljfn.yamblzweather.model.db.weather.DBWeatherData;
 import tljfn.yamblzweather.modules.city.choose_city.data.CitySuggestion;
+import tljfn.yamblzweather.modules.city.favorite.data.FavoriteCity;
 import tljfn.yamblzweather.modules.weather.data.UIWeatherData;
 import tljfn.yamblzweather.modules.weather.data.WeatherCondition;
 
@@ -51,18 +52,20 @@ public class UIConverter {
 
 
     public static CitySuggestion toUISuggestions(DBCity city) {
-        String locale = Locale.getDefault().getLanguage();
-        String name;
-        // todo differentiate languages in more generic way
-        if (locale.equals("ru")) {
-            name = city.getRuName();
-        } else {
-            name = city.getEnName();
-        }
         StringBuilder sb = new StringBuilder();
+        String name = chooseDependingOnLocale(city.getRuName(), city.getEnName());
 
         // todo provide correct uppercase letters for each part of city name
         name = sb.append(name.substring(0, 1).toUpperCase()).append(name.substring(1)).toString();
         return new CitySuggestion(city.getOpenWeatherId(), name);
+    }
+
+    public static FavoriteCity toFavoriteCity(DBCity city) {
+        return new FavoriteCity(chooseDependingOnLocale(city.getRuName(), city.getEnName()));
+    }
+
+    private static String chooseDependingOnLocale(String ru, String other) {
+        // todo differentiate languages in more generic way
+        return Locale.getDefault().getLanguage().equals("ru") ? ru : other;
     }
 }

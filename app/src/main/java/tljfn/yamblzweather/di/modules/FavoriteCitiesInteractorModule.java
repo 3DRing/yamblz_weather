@@ -6,6 +6,7 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import tljfn.yamblzweather.model.repo.DatabaseRepo;
 import tljfn.yamblzweather.modules.city.favorite.FavoriteCitiesInteractor;
 
 /**
@@ -18,7 +19,7 @@ public class FavoriteCitiesInteractorModule {
     @NonNull
     @Singleton
     @Provides
-    public FavoriteCitiesInteractor provideFavoriteCitiesInteractor() {
-        return new FavoriteCitiesInteractor();
+    public FavoriteCitiesInteractor provideFavoriteCitiesInteractor(DatabaseRepo repo) {
+        return new FavoriteCitiesInteractor(repo);
     }
 }

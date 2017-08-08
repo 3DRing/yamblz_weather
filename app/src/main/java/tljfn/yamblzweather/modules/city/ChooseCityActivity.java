@@ -1,4 +1,4 @@
-package tljfn.yamblzweather.modules.city.choose_city;
+package tljfn.yamblzweather.modules.city;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,13 +9,14 @@ import android.support.v7.app.AppCompatActivity;
 import butterknife.ButterKnife;
 import tljfn.yamblzweather.R;
 import tljfn.yamblzweather.modules.base.fragment.BaseFragment;
+import tljfn.yamblzweather.modules.city.choose_city.ChooseCityFragment;
 import tljfn.yamblzweather.modules.city.favorite.FavoriteCitiesFragment;
 
 /**
  * Created by ringov on 04.08.17.
  */
 
-public class ChooseCityActivity extends AppCompatActivity implements BaseFragment.OnFragmentInteractionListener{
+public class ChooseCityActivity extends AppCompatActivity implements BaseFragment.OnFragmentInteractionListener {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -30,12 +31,14 @@ public class ChooseCityActivity extends AppCompatActivity implements BaseFragmen
         FragmentManager fm = getSupportFragmentManager();
         if (fm.findFragmentByTag(ChooseCityFragment.TAG) == null) {
             fm.beginTransaction()
-                    .replace(R.id.choose_city_container, new ChooseCityFragment())
+                    .replace(R.id.choose_city_container, new ChooseCityFragment(),
+                            ChooseCityFragment.TAG)
                     .commit();
         }
-        if(fm.findFragmentByTag(FavoriteCitiesFragment.TAG) == null){
+        if (fm.findFragmentByTag(FavoriteCitiesFragment.TAG) == null) {
             fm.beginTransaction()
-                    .replace(R.id.favorite_container, new ChooseCityFragment())
+                    .replace(R.id.favorite_container, new FavoriteCitiesFragment(),
+                            FavoriteCitiesFragment.TAG)
                     .commit();
         }
     }

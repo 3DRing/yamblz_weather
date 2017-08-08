@@ -33,6 +33,11 @@ public class UIFavoriteCityList extends UIBaseData {
             return getThis();
         }
 
+        public Builder addAllCities(List<FavoriteCity> cities) {
+            data.cities.addAll(cities);
+            return getThis();
+        }
+
         @Override
         protected Builder getThis() {
             return this;

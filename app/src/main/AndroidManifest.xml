@@ -27,7 +27,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".modules.city.choose_city.ChooseCityActivity" />
+        <activity android:name=".modules.city.ChooseCityActivity" />
 
     </application>
 

@@ -8,6 +8,7 @@ import android.arch.persistence.room.Query;
 import java.util.List;
 
 import io.reactivex.Flowable;
+import io.reactivex.Single;
 
 /**
  * Created by ringov on 04.08.17.
@@ -20,4 +21,7 @@ public interface CityDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     long[] addCities(DBCity[] cities);
+
+    @Query("SELECT * FROM city WHERE en_name LIKE \'oren%\'")
+    Flowable<List<DBCity>> loadFavoriteCities();
 }
