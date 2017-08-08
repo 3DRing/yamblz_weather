@@ -16,7 +16,7 @@ import butterknife.ButterKnife;
  * Created by ringov on 08.08.17.
  */
 
-public abstract class CitiesListAdapter<T extends CitiesList> extends RecyclerView.Adapter<CitiesListAdapter.ViewHolder<T>> {
+public abstract class CitiesListAdapter<T extends CityItem> extends RecyclerView.Adapter<CitiesListAdapter.ViewHolder<T>> {
 
     private List<T> items;
     private ClickListener listener;
@@ -52,17 +52,17 @@ public abstract class CitiesListAdapter<T extends CitiesList> extends RecyclerVi
         return items.size();
     }
 
-    static abstract class ViewHolder<T extends CitiesList> extends RecyclerView.ViewHolder {
+    protected static abstract class ViewHolder<T extends CityItem> extends RecyclerView.ViewHolder {
 
-        ViewHolder(View itemView) {
+        protected ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
 
-        abstract void bind(T city, int position, @Nullable ClickListener listener);
+        protected abstract void bind(T city, int position, @Nullable ClickListener listener);
     }
 
-    public interface ClickListener<T extends CitiesList> {
+    public interface ClickListener<T extends CityItem> {
         void onClick(T city, int position);
     }
 }

@@ -1,10 +1,12 @@
 package tljfn.yamblzweather.modules.city.choose_city.data;
 
+import tljfn.yamblzweather.modules.city.CityItem;
+
 /**
  * Created by ringov on 04.08.17.
  */
 
-public class CitySuggestion {
+public class CitySuggestion implements CityItem {
     private int id;
     private String name;
 
