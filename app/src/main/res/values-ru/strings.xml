@@ -62,4 +62,5 @@
     <string name="update_notifications_summary">Уведомлять о получении обновления погоды</string>
     <string name="update_intervals_title">Частота обновления</string>
     <string name="update_intervals_summary">Как часто получать обновления погоды</string>
+    <string name="favorite_cities">Избранные города</string>
 </resources>

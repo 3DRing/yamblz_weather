@@ -79,4 +79,5 @@
     <string name="update_notifications_key" translatable="false">update_notifications_key</string>
     <string name="update_notifications_default" translatable="false">false</string>
     <string name="update_intervals_key" translatable="false">update_intervals_key</string>
+    <string name="favorite_cities">Favorite cities</string>
 </resources>

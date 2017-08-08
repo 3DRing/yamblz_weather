@@ -64,7 +64,16 @@ public class UIBaseData implements UIState {
         protected D data;
 
         public Builder() {
-            data = init();
+            data = checkedInitialization();
+        }
+
+        private D checkedInitialization(){
+            D data = init();
+            if(data == null){
+                throw new IllegalStateException("You must implement init() method and provide an instance of a data. Appeared in "
+                        + this.getClass().getSimpleName());
+            }
+            return data;
         }
 
         /**

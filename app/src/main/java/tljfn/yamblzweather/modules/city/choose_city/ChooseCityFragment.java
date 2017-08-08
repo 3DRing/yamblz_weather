@@ -115,7 +115,7 @@ public class ChooseCityFragment extends ViewModelFragment<ChooseCityViewModel, U
 
     @NonNull
     @Override
-    public Integer getLayoutRes() {
+    public int getLayoutRes() {
         return R.layout.fragment_choose_city;
     }
 
@@ -125,7 +125,7 @@ public class ChooseCityFragment extends ViewModelFragment<ChooseCityViewModel, U
     }
 
     @Override
-    public Integer getDrawerMode() {
+    public int getDrawerMode() {
         return DrawerLayout.LOCK_MODE_UNLOCKED;
     }
 

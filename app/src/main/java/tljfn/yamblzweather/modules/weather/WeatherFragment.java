@@ -54,7 +54,7 @@ public class WeatherFragment extends ViewModelFragment<WeatherViewModel, UIWeath
 
     @NonNull
     @Override
-    public Integer getLayoutRes() {
+    public int getLayoutRes() {
         return R.layout.fragment_weather;
     }
 
@@ -64,7 +64,7 @@ public class WeatherFragment extends ViewModelFragment<WeatherViewModel, UIWeath
     }
 
     @Override
-    public Integer getDrawerMode() {
+    public int getDrawerMode() {
         return DrawerLayout.LOCK_MODE_UNLOCKED;
     }
 
