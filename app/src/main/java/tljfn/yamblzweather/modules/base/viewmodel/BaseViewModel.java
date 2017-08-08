@@ -44,6 +44,6 @@ public abstract class BaseViewModel<D extends UIBaseData> extends ViewModel {
         if (crtData != null) {
             crtData.setLoading(true);
         }
-        liveData.changeData(crtData);
+        onChange(crtData);
     }
 }

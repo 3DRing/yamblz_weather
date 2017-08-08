@@ -7,6 +7,10 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 
+import javax.inject.Inject;
+
+import tljfn.yamblzweather.App;
+import tljfn.yamblzweather.di.modules.viewmodel.ViewModelFactory;
 import tljfn.yamblzweather.modules.base.LoadingScreen;
 import tljfn.yamblzweather.modules.base.UIErrorShower;
 import tljfn.yamblzweather.modules.base.data.UIBaseData;
@@ -29,10 +33,16 @@ public abstract class ViewModelFragment<VM extends BaseViewModel<D>, D extends U
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        viewModel = ViewModelProviders.of(this).get(getViewModelClass());
+        inject();
+
+        viewModel = ViewModelProviders.of(this, getViewModelFactory()).get(getViewModelClass());
         viewModel.observe(this, this::onChanged);
         errorShower = new UIErrorShower<>();
     }
+
+    protected abstract void inject();
+
+    protected abstract ViewModelFactory getViewModelFactory();
 
     protected void onChanged(@Nullable D data) {
         errorShower.showError(getContext(), this, data);

@@ -7,6 +7,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import javax.inject.Inject;
+
+import tljfn.yamblzweather.App;
+import tljfn.yamblzweather.di.modules.viewmodel.ViewModelFactory;
 import tljfn.yamblzweather.utils.Utils;
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -20,6 +24,9 @@ import tljfn.yamblzweather.modules.weather.data.UIWeatherData;
 
 public class WeatherFragment extends ViewModelFragment<WeatherViewModel, UIWeatherData> {
     public static final String TAG = WeatherFragment.class.getName();
+
+    @Inject
+    ViewModelFactory factory;
 
     @BindView(R.id.swipe_layout)
     SwipeRefreshLayout swipeLayout;
@@ -88,5 +95,15 @@ public class WeatherFragment extends ViewModelFragment<WeatherViewModel, UIWeath
     @Override
     public void onError(String errorMessage) {
         Toast.makeText(getContext(), errorMessage, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    protected void inject() {
+        App.getComponent().inject(this);
+    }
+
+    @Override
+    protected ViewModelFactory getViewModelFactory() {
+        return factory;
     }
 }

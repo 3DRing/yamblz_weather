@@ -1,8 +1,9 @@
-package tljfn.yamblzweather;
+package tljfn.yamblzweather.ui;
 
 import android.support.annotation.IdRes;
 import android.support.test.espresso.contrib.DrawerActions;
 import android.support.test.espresso.contrib.NavigationViewActions;
+import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.support.v4.app.Fragment;
@@ -11,6 +12,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import tljfn.yamblzweather.R;
 import tljfn.yamblzweather.modules.main.MainActivity;
 import tljfn.yamblzweather.modules.weather.WeatherFragment;
 
@@ -33,7 +35,7 @@ public class DrawerInstrumentedTest {
             MainActivity.class);
 
     private void openDrawerMenu(@IdRes int menuId) {
-        onView(withId(R.id.drawer_layout)).perform(DrawerActions.open());
+        onView(ViewMatchers.withId(R.id.drawer_layout)).perform(DrawerActions.open());
         onView(withId(R.id.drawer_layout)).check(matches(isOpen()));
         onView(withId(R.id.nav_view)).perform(NavigationViewActions.navigateTo(menuId));
     }

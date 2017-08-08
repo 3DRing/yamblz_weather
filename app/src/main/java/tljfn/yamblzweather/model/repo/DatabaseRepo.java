@@ -4,14 +4,14 @@ import java.util.List;
 
 import io.reactivex.Flowable;
 import io.reactivex.Single;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
 import tljfn.yamblzweather.model.api.data.weather.RawWeather;
 import tljfn.yamblzweather.model.db.cities.CityDao;
 import tljfn.yamblzweather.model.db.cities.DBCity;
+import tljfn.yamblzweather.model.db.DBConverter;
 import tljfn.yamblzweather.model.db.weather.DBWeatherData;
 import tljfn.yamblzweather.model.db.weather.WeatherDao;
-import tljfn.yamblzweather.modules.city.choose_city.data.UICitySuggestion;
+import tljfn.yamblzweather.modules.city.choose_city.data.CitySuggestion;
+import tljfn.yamblzweather.modules.UIConverter;
 import tljfn.yamblzweather.modules.weather.data.UIWeatherData;
 
 /**
@@ -29,39 +29,26 @@ public class DatabaseRepo {
 
     public Single<UIWeatherData> insertOrUpdateWeather(RawWeather weather) {
         return Single.fromCallable(() -> {
-            DBWeatherData data = DBWeatherData.fromRawWeatherData(weather);
+            DBWeatherData data = DBConverter.fromRawWeatherData(weather);
             weatherDao.insertWeather(data);
-            return DBWeatherData.toUIWeatherData(data);
-        })
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
-    }
-
-    /**
-     * Deletes all from the database.
-     */
-    public void deleteAll() {
-        //weatherDao.deleteAll();
+            return UIConverter.toUIWeatherData(data);
+        });
     }
 
     public Flowable<UIWeatherData> loadCachedWeather() {
         return weatherDao.loadWeather()
-                .map(DBWeatherData::toUIWeatherData)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+                .map(UIConverter::toUIWeatherData);
     }
 
-    public Flowable<List<UICitySuggestion>> getSuggestions(String requestString) {
+    public Flowable<List<CitySuggestion>> getSuggestions(String requestString) {
         StringBuilder sb = new StringBuilder();
         sb.append(requestString).append("%");
         return cityDao.loadCitiesSuggestion(sb.toString())
                 .flatMap(cities -> Flowable.fromIterable(cities)
-                        .map(DBCity::toUISuggestions)
+                        .map(UIConverter::toUISuggestions)
                         .toSortedList((city1, city2) -> city1.getName().compareTo(city2.getName()))
                         .toFlowable())
-                .flatMapSingle(Single::just)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+                .flatMapSingle(Single::just);
     }
 
     public Single<Boolean> initCities(DBCity[] cities) {

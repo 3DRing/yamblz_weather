@@ -1,6 +1,7 @@
 package tljfn.yamblzweather.di.modules;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 
 import javax.inject.Singleton;
@@ -17,7 +18,7 @@ public class PreferencesRepoModule {
     @Provides
     @NonNull
     @Singleton
-    public PreferencesRepo providePreferencesRepo(Context context) {
-        return new PreferencesRepo(context);
+    public PreferencesRepo providePreferencesRepo(Context context, SharedPreferences sp) {
+        return new PreferencesRepo(context, sp);
     }
 }

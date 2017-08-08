@@ -27,6 +27,8 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
+import javax.inject.Inject;
+
 import io.reactivex.Completable;
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -41,21 +43,22 @@ public class PreferencesRepo {
 
     static final long DEFAULT_CITY = 524901; // moscow, russia
 
-    private static final String FIRST_LAUNCH_KEY = "first_launch";
+    static final String FIRST_LAUNCH_KEY = "first_launch";
 
-    private String intervalKey;
-    private String intervalDefaultValue;
+    String intervalKey;
+    String intervalDefaultValue;
 
-    private String notificationsKey;
-    private String notificationsDefaultValue;
+    String notificationsKey;
+    String notificationsDefaultValue;
 
-    private String currentCityKey;
-    private String currentCityDefaultValue;
+    String currentCityKey;
+    String currentCityDefaultValue;
 
     private final SharedPreferences preferences;
 
-    public PreferencesRepo(Context context) {
-        this.preferences = PreferenceManager.getDefaultSharedPreferences(context);
+    @Inject
+    public PreferencesRepo(Context context, SharedPreferences sp) {
+        this.preferences = sp;
 
         intervalKey = context.getString(R.string.update_intervals_key);
         intervalDefaultValue = context.getString(R.string.default_update_intervals_value);
@@ -64,62 +67,34 @@ public class PreferencesRepo {
         notificationsDefaultValue = context.getString(R.string.update_notifications_default);
     }
 
-/*    @Deprecated
-    private Single<Long> getUpdateInterval() {
-        return Single.fromCallable(() -> {
-            String value = preferences.getString(intervalKey, intervalDefaultValue);
-            int minutes = Integer.parseInt(value);
-            return TimeUnit.MINUTES.toMillis(minutes);
-        });
-    }*/
-
     public boolean isNotificationEnabled() {
         final boolean DEFAULT_VALUE = Boolean.parseBoolean(notificationsDefaultValue);
         return preferences.getBoolean(notificationsKey, DEFAULT_VALUE);
     }
 
-    /**
-     * @return value that represents time interval in seconds for updating weather
-     */
-    @Deprecated
-    public Single<Integer> getInterval() {
-        return Single.fromCallable(() -> preferences.getInt(intervalKey, 60));
-    }
-
-    /**
-     * @param seconds the new seconds interval for weather updating
-     */
-    @Deprecated
-    public Completable setInterval(Integer seconds) {
-        return Completable.fromAction(() ->
-                preferences.edit().putInt(intervalKey, seconds).apply());
-    }
-
     public Completable updateCurrentCity(long id) {
         return Completable.fromAction(() ->
-                preferences.edit().putLong(currentCityKey, id).apply())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+                preferences.edit().putLong(currentCityKey, id).apply());
     }
 
     public Single<Long> getCurrentCity() {
         return Single.fromCallable(() -> preferences.getLong(currentCityKey, DEFAULT_CITY));
     }
 
-    public void onPreferencesChanged(SharedPreferences sharedPreferences, String s) {
+    public void onPreferencesChanged(String s) {
         if (s.equals(intervalKey)) {
-            onChangingUpdateInterval(sharedPreferences);
+            onChangingUpdateInterval();
         } else {
             // for other preferences
         }
     }
 
-    private void onChangingUpdateInterval(SharedPreferences sp) {
+    private void onChangingUpdateInterval() {
         Set<JobRequest> requests = JobManager.instance().getAllJobRequestsForTag(WeatherUpdateJob.TAG);
         if (!requests.isEmpty()) {
             Iterator<JobRequest> iterator = requests.iterator();
             if (iterator.hasNext()) {
-                getUpdateInterval(sp)
+                getUpdateInterval()
                         .subscribe(interval -> {
                             while (iterator.hasNext()) {
                                 JobRequest jr = iterator.next();
@@ -133,6 +108,7 @@ public class PreferencesRepo {
         }
     }
 
+    @Deprecated
     public Single<Long> getUpdateInterval(SharedPreferences sharedPreferences) {
         return Single.fromCallable(() -> {
             String value = sharedPreferences.getString(intervalKey, intervalDefaultValue);

@@ -56,7 +56,7 @@ public class ConnectivityInterceptorTest {
     }
 
     @Test
-    public void internetAvailable() throws IOException {
+    public void internet_available() throws IOException {
         when(networkInfo.isConnected()).thenReturn(true);
         when(manager.getActiveNetworkInfo()).thenReturn(networkInfo);
         when(context.getSystemService(Context.CONNECTIVITY_SERVICE)).thenReturn(manager);
@@ -67,7 +67,7 @@ public class ConnectivityInterceptorTest {
     }
 
     @Test(expected = NoInternetConnectionException.class)
-    public void internetNotAvailable() throws IOException {
+    public void internet_not_available() throws IOException {
         when(networkInfo.isConnected()).thenReturn(false);
         when(manager.getActiveNetworkInfo()).thenReturn(networkInfo);
         when(context.getSystemService(Context.CONNECTIVITY_SERVICE)).thenReturn(manager);

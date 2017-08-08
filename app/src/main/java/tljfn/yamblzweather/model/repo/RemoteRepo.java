@@ -25,16 +25,8 @@ public class RemoteRepo {
         this.cityApi = cityApi;
     }
 
-    public Single<RawWeather> getWeather(double lat, double lon) {
-        return weatherApi.getWeather(lat, lon)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
-    }
-
     public Single<RawWeather> getWeather(long id) {
-        return weatherApi.getWeather(id, DEFAULT_LOCALE)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+        return weatherApi.getWeather(id, DEFAULT_LOCALE);
     }
 
     public Single<List<RawCity>> getAllCities(){

@@ -80,6 +80,6 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
-        settings.onPreferencesChanged(sharedPreferences, s);
+        settings.onPreferencesChanged(s);
     }
 }

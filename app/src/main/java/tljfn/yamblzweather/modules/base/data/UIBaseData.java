@@ -1,5 +1,7 @@
 package tljfn.yamblzweather.modules.base.data;
 
+import android.support.annotation.NonNull;
+
 /**
  * Created by ringov on 31.07.17.
  */
@@ -21,7 +23,7 @@ public class UIBaseData implements UIState {
 
     @Override
     public String getErrorMessage() {
-        return error;
+        return error != null ? error : "";
     }
 
     @Override
@@ -38,6 +40,25 @@ public class UIBaseData implements UIState {
         error = "";
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        UIBaseData that = (UIBaseData) o;
+
+        if (isLoading() != that.isLoading()) return false;
+        return error != null ? error.equals(that.error) : that.error == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = error != null ? error.hashCode() : 0;
+        result = 31 * result + (isLoading() ? 1 : 0);
+        return result;
+    }
+
     protected static abstract class Builder<D extends UIBaseData, B extends Builder> {
 
         protected D data;
@@ -46,11 +67,17 @@ public class UIBaseData implements UIState {
             data = init();
         }
 
+        /**
+         * @return the new instance of {@link UIBaseData}-child class
+         */
         protected abstract D init();
 
+        /**
+         * @return the instance of the exact {@link Builder}-child class
+         */
         protected abstract B getThis();
 
-        public B error(String errorMessage) {
+        public B error(@NonNull String errorMessage) {
             data.error = errorMessage;
             return getThis();
         }

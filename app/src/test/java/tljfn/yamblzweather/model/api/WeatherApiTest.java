@@ -17,7 +17,7 @@ import okio.Okio;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
-import tljfn.yamblzweather.Data;
+import tljfn.yamblzweather.data.DataProvider;
 import tljfn.yamblzweather.model.api.data.weather.RawWeather;
 
 /**
@@ -39,58 +39,24 @@ public class WeatherApiTest {
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build()
                 .create(WeatherApi.class);
-        weather = new Data().getNewYorkWeatherMap();
+        weather = new DataProvider().getNewYorkWeather();
     }
 
     @Test
-    public void getWeatherById() throws IOException {
-        enqueueResponse("weather.json");
+    public void get_weather_by_id() throws IOException {
+        enqueueResponse("new_york_weather.json");
 
         api.getWeather(0, "ru").test()
                 .assertNoErrors()
-                .assertValue(weather);
+                .assertValue(rawWeather -> rawWeather.equals(weather));
     }
 
     @Test
-    public void getWeatherByIdBadResponse() throws IOException {
-        enqueueResponse("weather_bad.json");
+    public void getting_weather_by_id_with_bad_response() throws IOException {
+        enqueueResponse("bad_weather_response.json");
 
         // todo specify this error in the actual code
         api.getWeather(0, "ru").test()
-                .assertError(Throwable.class);
-    }
-
-    @Test
-    public void getWeatherByCoords() throws IOException {
-        enqueueResponse("weather.json");
-
-        api.getWeather(-74.01f, 40.71f).test()
-                .assertNoErrors()
-                .assertValue(weather);
-    }
-
-    @Test
-    public void getWeatherByCoordsBadResponse() throws IOException {
-        enqueueResponse("weather_bad.json");
-
-        api.getWeather(-74.01f, 40.71f).test()
-                .assertError(Throwable.class);
-    }
-
-    @Test
-    public void getWeatherByCityName() throws IOException {
-        enqueueResponse("weather.json");
-
-        api.getWeather("New York", "ru").test()
-                .assertNoErrors()
-                .assertValue(weather);
-    }
-
-    @Test
-    public void getWeatherByCityNameBadResponse() throws IOException {
-        enqueueResponse("weather_bad.json");
-
-        api.getWeather("New York", "ru").test()
                 .assertError(Throwable.class);
     }
 

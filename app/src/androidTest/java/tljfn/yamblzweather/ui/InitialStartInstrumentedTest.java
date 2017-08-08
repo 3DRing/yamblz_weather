@@ -1,5 +1,6 @@
-package tljfn.yamblzweather;
+package tljfn.yamblzweather.ui;
 
+import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
@@ -7,6 +8,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import tljfn.yamblzweather.R;
 import tljfn.yamblzweather.modules.main.MainActivity;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -27,10 +29,10 @@ public class InitialStartInstrumentedTest {
 
     @Test
     public void allElementsVisible() {
-        onView(withId(R.id.temp_tv)).check(matches(isDisplayed()));
-        onView(withId(R.id.city_tv)).check(matches(isDisplayed()));
-        onView(withId(R.id.weather_iv)).check(matches(isDisplayed()));
-        onView(withId(R.id.last_update_tv)).check(matches(isDisplayed()));
-        onView(withId(R.id.description_tv)).check(matches(isDisplayed()));
+        onView(ViewMatchers.withId(R.id.tv_temperature)).check(matches(isDisplayed()));
+        onView(withId(R.id.tv_city)).check(matches(isDisplayed()));
+        onView(withId(R.id.tv_conditions)).check(matches(isDisplayed()));
+        onView(withId(R.id.tv_time)).check(matches(isDisplayed()));
+        onView(withId(R.id.weather_image)).check(matches(isDisplayed()));
     }
 }

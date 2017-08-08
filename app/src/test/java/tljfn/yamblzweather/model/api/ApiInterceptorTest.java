@@ -46,7 +46,7 @@ public class ApiInterceptorTest {
     }
 
     @Test
-    public void addingAppId() throws IOException {
+    public void adding_app_id() throws IOException {
         when(chain.request()).thenReturn(request);
         when(chain.proceed(any())).thenReturn(new Response.Builder()
                 .request(newRequest)

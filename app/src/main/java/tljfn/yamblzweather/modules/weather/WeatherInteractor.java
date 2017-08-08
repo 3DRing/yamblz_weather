@@ -4,6 +4,8 @@ import javax.inject.Inject;
 
 import io.reactivex.Flowable;
 import io.reactivex.Single;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 import tljfn.yamblzweather.model.repo.DatabaseRepo;
 import tljfn.yamblzweather.model.repo.PreferencesRepo;
 import tljfn.yamblzweather.model.repo.RemoteRepo;
@@ -28,12 +30,16 @@ public class WeatherInteractor extends BaseInteractor {
     }
 
     public Flowable<UIWeatherData> loadCachedWeather() {
-        return databaseRepo.loadCachedWeather();
+        return databaseRepo.loadCachedWeather()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     public Single<UIWeatherData> updateWeather() {
         return preferencesRepo.getCurrentCity()
                 .flatMap(remoteRepo::getWeather)
-                .flatMap(databaseRepo::insertOrUpdateWeather);
+                .flatMap(databaseRepo::insertOrUpdateWeather)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 }

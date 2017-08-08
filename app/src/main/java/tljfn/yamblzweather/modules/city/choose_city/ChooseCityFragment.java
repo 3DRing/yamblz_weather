@@ -11,19 +11,26 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.OnClick;
+import tljfn.yamblzweather.App;
 import tljfn.yamblzweather.R;
+import tljfn.yamblzweather.di.modules.viewmodel.ViewModelFactory;
 import tljfn.yamblzweather.modules.base.fragment.ViewModelFragment;
-import tljfn.yamblzweather.modules.city.choose_city.data.CitySuggestions;
+import tljfn.yamblzweather.modules.city.choose_city.data.UICitySuggestions;
 
 /**
  * Created by ringov on 05.08.17.
  */
 
-public class ChooseCityFragment extends ViewModelFragment<ChooseCityViewModel, CitySuggestions> {
+public class ChooseCityFragment extends ViewModelFragment<ChooseCityViewModel, UICitySuggestions> {
 
     public static final String TAG = ChooseCityFragment.class.getName();
+
+    @Inject
+    ViewModelFactory factory;
 
     @BindView(R.id.close)
     View close;
@@ -97,7 +104,7 @@ public class ChooseCityFragment extends ViewModelFragment<ChooseCityViewModel, C
     }
 
     @Override
-    public void onSuccess(@NonNull CitySuggestions data) {
+    public void onSuccess(@NonNull UICitySuggestions data) {
         adapter.setSuggestions(data.getSuggestions());
     }
 
@@ -125,5 +132,15 @@ public class ChooseCityFragment extends ViewModelFragment<ChooseCityViewModel, C
     private void hideKeyboard() {
         InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         inputManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+    }
+
+    @Override
+    protected void inject() {
+        App.getComponent().inject(this);
+    }
+
+    @Override
+    protected ViewModelFactory getViewModelFactory() {
+        return factory;
     }
 }
