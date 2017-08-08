@@ -13,6 +13,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import tljfn.yamblzweather.R;
+import tljfn.yamblzweather.modules.city.CitiesListAdapter;
+import tljfn.yamblzweather.modules.city.CityItem;
 import tljfn.yamblzweather.modules.city.choose_city.data.CitySuggestion;
 import tljfn.yamblzweather.modules.city.favorite.data.FavoriteCity;
 import tljfn.yamblzweather.utils.custom_views.FavoriteButton;
@@ -21,58 +23,39 @@ import tljfn.yamblzweather.utils.custom_views.FavoriteButton;
  * Created by ringov on 05.08.17.
  */
 
-public class FavoriteCitiesListAdapter extends RecyclerView.Adapter<FavoriteCitiesListAdapter.ViewHolder> {
+public class FavoriteCitiesListAdapter extends CitiesListAdapter<FavoriteCity> {
 
-    private List<FavoriteCity> cities;
-    private ClickListener listener;
-
-    public FavoriteCitiesListAdapter(@Nullable ClickListener listener) {
-        cities = new ArrayList<>();
-        this.listener = listener;
-    }
-
-    public void setCities(List<FavoriteCity> cities) {
-        this.cities = cities;
-        notifyDataSetChanged();
+    public FavoriteCitiesListAdapter(@Nullable ClickListener<FavoriteCity> listener) {
+        super(listener);
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.favorite_city_item, viewGroup, false);
+    protected int getLayoutRes() {
+        return R.layout.favorite_city_item;
+    }
+
+    @Override
+    protected CitiesListAdapter.ViewHolder<FavoriteCity> initHolder(View v) {
         return new ViewHolder(v);
     }
 
-    @Override
-    public void onBindViewHolder(ViewHolder viewHolder, int i) {
-        viewHolder.bind(cities.get(i), i, listener);
-    }
-
-    @Override
-    public int getItemCount() {
-        return cities.size();
-    }
-
-    static class ViewHolder extends RecyclerView.ViewHolder {
+    static class ViewHolder extends CitiesListAdapter.ViewHolder<FavoriteCity> {
 
         @BindView(R.id.tv_city_name)
         TextView tvCity;
         @BindView(R.id.favorite)
         FavoriteButton favorite;
 
-        public ViewHolder(View itemView) {
+        protected ViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this, itemView);
         }
 
-        void bind(FavoriteCity city, int position, ClickListener listener) {
+        @Override
+        protected void bind(FavoriteCity city, int position, @Nullable ClickListener<FavoriteCity> listener) {
             tvCity.setText(city.getName());
             if (listener != null) {
                 tvCity.setOnClickListener(v -> listener.onClick(city, position));
             }
         }
-    }
-
-    public interface ClickListener {
-        void onClick(FavoriteCity city, int position);
     }
 }

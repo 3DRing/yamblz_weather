@@ -19,7 +19,7 @@ import butterknife.ButterKnife;
 public abstract class CitiesListAdapter<T extends CityItem> extends RecyclerView.Adapter<CitiesListAdapter.ViewHolder<T>> {
 
     private List<T> items;
-    private ClickListener listener;
+    private ClickListener<T> listener;
 
     public CitiesListAdapter(@Nullable ClickListener<T> listener) {
         items = new ArrayList<>();
@@ -59,7 +59,7 @@ public abstract class CitiesListAdapter<T extends CityItem> extends RecyclerView
             ButterKnife.bind(this, itemView);
         }
 
-        protected abstract void bind(T city, int position, @Nullable ClickListener listener);
+        protected abstract void bind(T city, int position, @Nullable ClickListener<T> listener);
     }
 
     public interface ClickListener<T extends CityItem> {

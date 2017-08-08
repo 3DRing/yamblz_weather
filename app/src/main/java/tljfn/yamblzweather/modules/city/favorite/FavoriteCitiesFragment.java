@@ -2,13 +2,18 @@ package tljfn.yamblzweather.modules.city.favorite;
 
 import android.support.annotation.NonNull;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
 import tljfn.yamblzweather.App;
 import tljfn.yamblzweather.R;
 import tljfn.yamblzweather.di.modules.viewmodel.ViewModelFactory;
 import tljfn.yamblzweather.modules.base.fragment.ViewModelFragment;
+import tljfn.yamblzweather.modules.city.CitiesListAdapter;
+import tljfn.yamblzweather.modules.city.favorite.data.FavoriteCity;
 import tljfn.yamblzweather.modules.city.favorite.data.UIFavoriteCityList;
 
 /**
@@ -17,8 +22,25 @@ import tljfn.yamblzweather.modules.city.favorite.data.UIFavoriteCityList;
 
 public class FavoriteCitiesFragment extends ViewModelFragment<FavoriteCitiesViewModel, UIFavoriteCityList> {
 
+    public static final String TAG = FavoriteCitiesFragment.class.getName();
     @Inject
     ViewModelFactory factory;
+
+    @BindView(R.id.rv_favorite_cities)
+    RecyclerView favoriteCities;
+    CitiesListAdapter<FavoriteCity> adapter;
+
+    @Override
+    protected void initializeViews() {
+        super.initializeViews();
+        initializeRecycler();
+    }
+
+    private void initializeRecycler() {
+        adapter = new FavoriteCitiesListAdapter(null);
+        favoriteCities.setLayoutManager(new LinearLayoutManager(getContext()));
+        favoriteCities.setAdapter(adapter);
+    }
 
     @Override
     public Class<FavoriteCitiesViewModel> getViewModelClass() {
@@ -64,7 +86,7 @@ public class FavoriteCitiesFragment extends ViewModelFragment<FavoriteCitiesView
 
     @Override
     public void onSuccess(@NonNull UIFavoriteCityList data) {
-
+        adapter.setItems(data.getFavoriteCities());
     }
 
     @Override

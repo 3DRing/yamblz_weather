@@ -5,11 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_favorite"
+    <FrameLayout
+        android:id="@+id/favorite_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingTop="72dp" />
+        android:layout_height="match_parent" />
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"

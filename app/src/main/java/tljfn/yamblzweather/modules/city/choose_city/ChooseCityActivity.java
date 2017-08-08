@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import butterknife.ButterKnife;
 import tljfn.yamblzweather.R;
 import tljfn.yamblzweather.modules.base.fragment.BaseFragment;
+import tljfn.yamblzweather.modules.city.favorite.FavoriteCitiesFragment;
 
 /**
  * Created by ringov on 04.08.17.
@@ -25,9 +26,17 @@ public class ChooseCityActivity extends AppCompatActivity implements BaseFragmen
     }
 
     private void startFragment() {
+        // todo rewrite in more unified way
         FragmentManager fm = getSupportFragmentManager();
         if (fm.findFragmentByTag(ChooseCityFragment.TAG) == null) {
-            fm.beginTransaction().replace(R.id.choose_city_container, new ChooseCityFragment()).commit();
+            fm.beginTransaction()
+                    .replace(R.id.choose_city_container, new ChooseCityFragment())
+                    .commit();
+        }
+        if(fm.findFragmentByTag(FavoriteCitiesFragment.TAG) == null){
+            fm.beginTransaction()
+                    .replace(R.id.favorite_container, new ChooseCityFragment())
+                    .commit();
         }
     }
 

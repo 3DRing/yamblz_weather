@@ -16,7 +16,7 @@ import tljfn.yamblzweather.utils.custom_views.FavoriteButton;
 
 public class ChooseCityListAdapter extends CitiesListAdapter<CitySuggestion> {
 
-    public ChooseCityListAdapter(@Nullable ClickListener<CitySuggestion> listener) {
+    ChooseCityListAdapter(@Nullable ClickListener<CitySuggestion> listener) {
         super(listener);
     }
 
@@ -30,7 +30,7 @@ public class ChooseCityListAdapter extends CitiesListAdapter<CitySuggestion> {
         return new ViewHolder(v);
     }
 
-    protected static class ViewHolder extends CitiesListAdapter.ViewHolder<CitySuggestion> {
+    static class ViewHolder extends CitiesListAdapter.ViewHolder<CitySuggestion> {
 
         @BindView(R.id.tv_city_name)
         TextView tvCity;
@@ -42,7 +42,7 @@ public class ChooseCityListAdapter extends CitiesListAdapter<CitySuggestion> {
         }
 
         @Override
-        protected void bind(CitySuggestion city, int position, @Nullable ClickListener listener) {
+        protected void bind(CitySuggestion city, int position, @Nullable ClickListener<CitySuggestion> listener) {
             tvCity.setText(city.getName());
             if (listener != null) {
                 tvCity.setOnClickListener(v -> listener.onClick(city, position));
