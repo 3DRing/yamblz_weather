@@ -78,4 +78,20 @@ public class UIBaseDataTest {
         assertFalse(data.hasError());
         assertTrue(data.getErrorMessage().isEmpty());
     }
+
+    @Test
+    public void equals_correct() {
+        UIBaseData d1 = new UIBaseData.ErrorBuilder().build();
+        UIBaseData d2 = new UIBaseData.ErrorBuilder().build();
+
+        assertTrue(d1.equals(d2));
+    }
+
+    @Test
+    public void hashcode_correct() {
+        UIBaseData d1 = new UIBaseData.ErrorBuilder().build();
+        UIBaseData d2 = new UIBaseData.ErrorBuilder().build();
+
+        assertTrue(d1.hashCode() == d2.hashCode());
+    }
 }

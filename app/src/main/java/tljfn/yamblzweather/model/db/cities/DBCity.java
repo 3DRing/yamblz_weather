@@ -84,6 +84,35 @@ public class DBCity {
         this.favorite = favorite;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        DBCity dbCity = (DBCity) o;
+
+        if (getId() != dbCity.getId()) return false;
+        if (getOpenWeatherId() != dbCity.getOpenWeatherId()) return false;
+        if (isFavorite() != dbCity.isFavorite()) return false;
+        if (getRuName() != null ? !getRuName().equals(dbCity.getRuName()) : dbCity.getRuName() != null)
+            return false;
+        if (getEnName() != null ? !getEnName().equals(dbCity.getEnName()) : dbCity.getEnName() != null)
+            return false;
+        return getCountryCode() != null ? getCountryCode().equals(dbCity.getCountryCode()) : dbCity.getCountryCode() == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getId();
+        result = 31 * result + getOpenWeatherId();
+        result = 31 * result + (getRuName() != null ? getRuName().hashCode() : 0);
+        result = 31 * result + (getEnName() != null ? getEnName().hashCode() : 0);
+        result = 31 * result + (getCountryCode() != null ? getCountryCode().hashCode() : 0);
+        result = 31 * result + (isFavorite() ? 1 : 0);
+        return result;
+    }
+
     public static class Builder {
         private DBCity city;
 
