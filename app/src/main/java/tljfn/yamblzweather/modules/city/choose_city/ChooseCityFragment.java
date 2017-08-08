@@ -85,9 +85,13 @@ public class ChooseCityFragment extends ViewModelFragment<ChooseCityViewModel, U
     }
 
     private void initializeSuggestionsView() {
-        adapter = new ChooseCityListAdapter(null);
+        adapter = new ChooseCityListAdapter(this::onFavoriteClick);
         suggestions.setLayoutManager(new LinearLayoutManager(getContext()));
         suggestions.setAdapter(adapter);
+    }
+
+    private void onFavoriteClick(CitySuggestion citySuggestion, int i) {
+        getViewModel().onFavoriteClicked(citySuggestion.getId());
     }
 
     @Override

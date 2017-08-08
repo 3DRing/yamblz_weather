@@ -4,6 +4,7 @@ import javax.inject.Singleton;
 
 import dagger.Component;
 import tljfn.yamblzweather.di.modules.AppModule;
+import tljfn.yamblzweather.di.modules.ChooseCityInteractorModule;
 import tljfn.yamblzweather.di.modules.CityApiModule;
 import tljfn.yamblzweather.di.modules.CityDaoModule;
 import tljfn.yamblzweather.di.modules.DatabaseModule;
@@ -34,6 +35,7 @@ import tljfn.yamblzweather.modules.weather.WeatherViewModel;
 
 @Component(modules = {
         AppModule.class,
+        ChooseCityInteractorModule.class,
         CityApiModule.class,
         CityDaoModule.class,
         DatabaseModule.class,

@@ -18,4 +18,8 @@ public class CitySuggestion implements CityItem {
     public String getName() {
         return name;
     }
+
+    public int getId() {
+        return id;
+    }
 }
