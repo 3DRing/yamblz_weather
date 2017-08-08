@@ -7,17 +7,16 @@ import javax.inject.Inject;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
-import tljfn.yamblzweather.App;
 import tljfn.yamblzweather.model.repo.DatabaseRepo;
 import tljfn.yamblzweather.modules.base.viewmodel.BaseViewModel;
-import tljfn.yamblzweather.modules.city.choose_city.data.CitySuggestions;
-import tljfn.yamblzweather.modules.city.choose_city.data.UICitySuggestion;
+import tljfn.yamblzweather.modules.city.choose_city.data.UICitySuggestions;
+import tljfn.yamblzweather.modules.city.choose_city.data.CitySuggestion;
 
 /**
  * Created by ringov on 05.08.17.
  */
 
-public class ChooseCityViewModel extends BaseViewModel<CitySuggestions> {
+public class ChooseCityViewModel extends BaseViewModel<UICitySuggestions> {
 
     DatabaseRepo dbRepo;
 
@@ -29,15 +28,15 @@ public class ChooseCityViewModel extends BaseViewModel<CitySuggestions> {
     }
 
     @Override
-    protected CitySuggestions buildUIError(String messageError) {
-        return new CitySuggestions.Builder().error(messageError).build();
+    protected UICitySuggestions buildUIError(String messageError) {
+        return new UICitySuggestions.Builder().error(messageError).build();
     }
 
     public void searchCity(String requestedString) {
         suggestions = dbRepo.getSuggestions(requestedString.toLowerCase())
                 .map(list -> {
-                    CitySuggestions.Builder builder = new CitySuggestions.Builder();
-                    for (UICitySuggestion s :
+                    UICitySuggestions.Builder builder = new UICitySuggestions.Builder();
+                    for (CitySuggestion s :
                             list) {
                         builder.addCity(s);
                     }
@@ -53,6 +52,6 @@ public class ChooseCityViewModel extends BaseViewModel<CitySuggestions> {
         if (suggestions != null && !suggestions.isDisposed()) {
             suggestions.dispose();
         }
-        this.onChange(new CitySuggestions.Builder().build());
+        this.onChange(new UICitySuggestions.Builder().build());
     }
 }

@@ -7,11 +7,6 @@ import android.arch.persistence.room.PrimaryKey;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.Locale;
-
-import tljfn.yamblzweather.model.api.data.city.RawCity;
-import tljfn.yamblzweather.modules.city.choose_city.data.UICitySuggestion;
-
 /**
  * Created by ringov on 04.08.17.
  */

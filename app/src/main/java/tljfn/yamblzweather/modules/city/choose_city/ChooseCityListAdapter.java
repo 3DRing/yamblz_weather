@@ -14,7 +14,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import tljfn.yamblzweather.R;
 import tljfn.yamblzweather.utils.custom_views.FavoriteButton;
-import tljfn.yamblzweather.modules.city.choose_city.data.UICitySuggestion;
+import tljfn.yamblzweather.modules.city.choose_city.data.CitySuggestion;
 
 /**
  * Created by ringov on 05.08.17.
@@ -22,7 +22,7 @@ import tljfn.yamblzweather.modules.city.choose_city.data.UICitySuggestion;
 
 public class ChooseCityListAdapter extends RecyclerView.Adapter<ChooseCityListAdapter.ViewHolder> {
 
-    private List<UICitySuggestion> suggestions;
+    private List<CitySuggestion> suggestions;
     private ClickListener listener;
 
     public ChooseCityListAdapter(@Nullable ClickListener listener) {
@@ -30,7 +30,7 @@ public class ChooseCityListAdapter extends RecyclerView.Adapter<ChooseCityListAd
         this.listener = listener;
     }
 
-    public void setSuggestions(List<UICitySuggestion> suggestions) {
+    public void setSuggestions(List<CitySuggestion> suggestions) {
         this.suggestions = suggestions;
         notifyDataSetChanged();
     }
@@ -63,7 +63,7 @@ public class ChooseCityListAdapter extends RecyclerView.Adapter<ChooseCityListAd
             ButterKnife.bind(this, itemView);
         }
 
-        void bind(UICitySuggestion suggestion, int position, ClickListener listener) {
+        void bind(CitySuggestion suggestion, int position, ClickListener listener) {
             tvCity.setText(suggestion.getName());
             if (listener != null) {
                 tvCity.setOnClickListener(v -> listener.onClick(suggestion, position));
@@ -72,6 +72,6 @@ public class ChooseCityListAdapter extends RecyclerView.Adapter<ChooseCityListAd
     }
 
     public interface ClickListener {
-        void onClick(UICitySuggestion suggestion, int position);
+        void onClick(CitySuggestion suggestion, int position);
     }
 }

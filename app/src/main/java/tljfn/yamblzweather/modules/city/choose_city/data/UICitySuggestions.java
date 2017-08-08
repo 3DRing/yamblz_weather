@@ -9,23 +9,23 @@ import tljfn.yamblzweather.modules.base.data.UIBaseData;
  * Created by ringov on 05.08.17.
  */
 
-public class CitySuggestions extends UIBaseData {
+public class UICitySuggestions extends UIBaseData {
 
-    private List<UICitySuggestion> suggestions;
+    private List<CitySuggestion> suggestions;
 
-    private CitySuggestions() {
+    private UICitySuggestions() {
         suggestions = new ArrayList<>();
     }
 
-    public List<UICitySuggestion> getSuggestions() {
+    public List<CitySuggestion> getSuggestions() {
         return suggestions;
     }
 
-    public static class Builder extends UIBaseData.Builder<CitySuggestions, Builder> {
+    public static class Builder extends UIBaseData.Builder<UICitySuggestions, Builder> {
 
         @Override
-        protected CitySuggestions init() {
-            return new CitySuggestions();
+        protected UICitySuggestions init() {
+            return new UICitySuggestions();
         }
 
         @Override
@@ -33,7 +33,7 @@ public class CitySuggestions extends UIBaseData {
             return this;
         }
 
-        public Builder addCity(UICitySuggestion suggestion) {
+        public Builder addCity(CitySuggestion suggestion) {
             data.suggestions.add(suggestion);
             return this;
         }

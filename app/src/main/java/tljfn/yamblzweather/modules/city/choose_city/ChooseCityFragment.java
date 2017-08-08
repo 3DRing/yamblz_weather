@@ -19,13 +19,13 @@ import tljfn.yamblzweather.App;
 import tljfn.yamblzweather.R;
 import tljfn.yamblzweather.di.modules.viewmodel.ViewModelFactory;
 import tljfn.yamblzweather.modules.base.fragment.ViewModelFragment;
-import tljfn.yamblzweather.modules.city.choose_city.data.CitySuggestions;
+import tljfn.yamblzweather.modules.city.choose_city.data.UICitySuggestions;
 
 /**
  * Created by ringov on 05.08.17.
  */
 
-public class ChooseCityFragment extends ViewModelFragment<ChooseCityViewModel, CitySuggestions> {
+public class ChooseCityFragment extends ViewModelFragment<ChooseCityViewModel, UICitySuggestions> {
 
     public static final String TAG = ChooseCityFragment.class.getName();
 
@@ -104,7 +104,7 @@ public class ChooseCityFragment extends ViewModelFragment<ChooseCityViewModel, C
     }
 
     @Override
-    public void onSuccess(@NonNull CitySuggestions data) {
+    public void onSuccess(@NonNull UICitySuggestions data) {
         adapter.setSuggestions(data.getSuggestions());
     }
 

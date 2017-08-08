@@ -4,7 +4,7 @@ import java.util.Locale;
 
 import tljfn.yamblzweather.model.db.cities.DBCity;
 import tljfn.yamblzweather.model.db.weather.DBWeatherData;
-import tljfn.yamblzweather.modules.city.choose_city.data.UICitySuggestion;
+import tljfn.yamblzweather.modules.city.choose_city.data.CitySuggestion;
 import tljfn.yamblzweather.modules.weather.data.UIWeatherData;
 import tljfn.yamblzweather.modules.weather.data.WeatherCondition;
 
@@ -50,7 +50,7 @@ public class UIConverter {
     }
 
 
-    public static UICitySuggestion toUISuggestions(DBCity city) {
+    public static CitySuggestion toUISuggestions(DBCity city) {
         String locale = Locale.getDefault().getLanguage();
         String name;
         // todo differentiate languages in more generic way
@@ -63,6 +63,6 @@ public class UIConverter {
 
         // todo provide correct uppercase letters for each part of city name
         name = sb.append(name.substring(0, 1).toUpperCase()).append(name.substring(1)).toString();
-        return new UICitySuggestion(city.getOpenWeatherId(), name);
+        return new CitySuggestion(city.getOpenWeatherId(), name);
     }
 }
