@@ -3,8 +3,5 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_favorite_cities"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+    <include layout="@layout/city_suggestion_item" />
 </FrameLayout>

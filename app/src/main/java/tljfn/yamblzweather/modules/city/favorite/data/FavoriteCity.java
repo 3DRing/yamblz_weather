@@ -5,4 +5,14 @@ package tljfn.yamblzweather.modules.city.favorite.data;
  */
 
 public class FavoriteCity {
+
+    private String name;
+
+    FavoriteCity(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
 }
