@@ -2,7 +2,10 @@ package tljfn.yamblzweather.modules.city.favorite;
 
 import javax.inject.Inject;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 import tljfn.yamblzweather.modules.base.viewmodel.BaseViewModel;
+import tljfn.yamblzweather.modules.city.favorite.data.FavoriteCity;
 import tljfn.yamblzweather.modules.city.favorite.data.UIFavoriteCityList;
 
 /**
@@ -24,8 +27,10 @@ public class FavoriteCitiesViewModel extends BaseViewModel<UIFavoriteCityList> {
         return new UIFavoriteCityList.Builder().error(messageError).build();
     }
 
-    private void loadFavoriteCities() {
-        sub(interactor.loadFavoriteCities()
-                .subscribe(this::onChange, this::onError));
+    protected void loadFavoriteCities() {
+        interactor.loadFavoriteCities()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::onChange, this::onError);
     }
 }

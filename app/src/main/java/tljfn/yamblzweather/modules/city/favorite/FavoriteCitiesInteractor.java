@@ -32,8 +32,6 @@ public class FavoriteCitiesInteractor extends BaseInteractor {
                         .toFlowable())
                 .map(list -> new UIFavoriteCityList.Builder()
                         .addAllCities(list)
-                        .build())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+                        .build());
     }
 }
