@@ -42,7 +42,9 @@ public class WeatherInteractor extends BaseInteractor {
 
     public Flowable<UIWeatherData> updateWeather() {
         return preferencesRepo.getCurrentCity()
-                .flatMap(remoteRepo::getWeather)
+                .flatMap(databaseRepo::getCity)
+                .zipWith(preferencesRepo.getCurrentCity()
+                        .flatMap(remoteRepo::getWeather), DBConverter::fromRawWeatherData)
                 .flatMap(databaseRepo::insertOrUpdateWeather)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());

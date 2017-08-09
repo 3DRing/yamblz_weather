@@ -51,7 +51,7 @@ public class WeatherInteractorTest {
         RawWeather raw = dataProvider.getNewYorkWeather();
 
         Flowable<DBWeatherData> flowable = Flowable.fromCallable(() ->
-                DBConverter.fromDBWeatherData(raw));
+                DBConverter.fromRawWeatherData(raw));
 
         when(databaseRepo.loadCachedWeather(0)).thenReturn(flowable);
         when(preferencesRepo.getCurrentCity()).thenReturn(Flowable.fromCallable(() -> 0l));
@@ -61,7 +61,7 @@ public class WeatherInteractorTest {
         flowable.test()
                 .assertNoErrors()
                 .assertSubscribed()
-                .assertValue(DBConverter.fromDBWeatherData(
+                .assertValue(DBConverter.fromRawWeatherData(
                         dataProvider.getNewYorkWeather()));
     }
 
@@ -73,15 +73,15 @@ public class WeatherInteractorTest {
         when(remoteRepo.getWeather(5128581)).thenReturn(Flowable.fromCallable(() -> raw));
 
         Flowable<UIWeatherData> single = Flowable.fromCallable(() -> UIConverter.toUIWeatherData(
-                DBConverter.fromDBWeatherData(dataProvider.getNewYorkWeather())));
-        when(databaseRepo.insertOrUpdateWeather(raw)).thenReturn(single);
+                DBConverter.fromRawWeatherData(dataProvider.getNewYorkWeather())));
+        when(databaseRepo.insertOrUpdateWeather(DBConverter.fromRawWeatherData(raw))).thenReturn(single);
 
         interactor.updateWeather();
 
         single.test()
                 .assertNoErrors()
                 .assertValue(UIConverter.toUIWeatherData(
-                        DBConverter.fromDBWeatherData(
+                        DBConverter.fromRawWeatherData(
                                 dataProvider.getNewYorkWeather())))
                 .assertSubscribed();
     }

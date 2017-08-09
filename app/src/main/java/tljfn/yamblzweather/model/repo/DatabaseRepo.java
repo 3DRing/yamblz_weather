@@ -26,16 +26,15 @@ public class DatabaseRepo {
         this.cityDao = cityDao;
     }
 
-    public Flowable<UIWeatherData> insertOrUpdateWeather(RawWeather weather) {
+    public Flowable<UIWeatherData> insertOrUpdateWeather(DBWeatherData weather) {
         return Flowable.fromCallable(() -> {
-            DBWeatherData data = DBConverter.fromDBWeatherData(weather);
-            weatherDao.insertWeather(data);
-            return UIConverter.toUIWeatherData(data);
+            long result = weatherDao.insertWeather(weather);
+            return UIConverter.toUIWeatherData(weather);
         });
     }
 
     public Flowable<DBWeatherData> loadCachedWeather(long cityId) {
-        return weatherDao.loadWeather();
+        return weatherDao.loadWeather(cityId);
     }
 
     public Flowable<List<DBCity>> getSuggestions(String requestString) {

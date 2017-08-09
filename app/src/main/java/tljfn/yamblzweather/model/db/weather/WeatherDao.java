@@ -14,10 +14,10 @@ import io.reactivex.Flowable;
 public interface WeatherDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertWeather(DBWeatherData weather);
+    long insertWeather(DBWeatherData weather);
 
 
-    @Query("SELECT * FROM weather")
-    Flowable<DBWeatherData> loadWeather();
+    @Query("SELECT * FROM weather WHERE id = :id")
+    Flowable<DBWeatherData> loadWeather(long id);
 
 }

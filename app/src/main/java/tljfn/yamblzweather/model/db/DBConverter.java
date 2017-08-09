@@ -1,10 +1,12 @@
 package tljfn.yamblzweather.model.db;
 
 import java.util.List;
+import java.util.Locale;
 
 import tljfn.yamblzweather.model.api.data.city.RawCity;
 import tljfn.yamblzweather.model.api.data.weather.Main;
 import tljfn.yamblzweather.model.api.data.weather.RawWeather;
+import tljfn.yamblzweather.model.api.data.weather.Sys;
 import tljfn.yamblzweather.model.api.data.weather.Weather;
 import tljfn.yamblzweather.model.db.cities.DBCity;
 import tljfn.yamblzweather.model.db.weather.DBWeatherData;
@@ -28,7 +30,7 @@ public class DBConverter {
         return kelvins - KELVIN_OFFSET;
     }
 
-    public static DBWeatherData fromDBWeatherData(RawWeather weather) {
+    public static DBWeatherData fromRawWeatherData(RawWeather weather) {
         List<Weather> weathers = weather.getWeather();
         String city = weather.getName();
         Main main = weather.getMain();
@@ -80,5 +82,34 @@ public class DBConverter {
                 .countryCode(city.country.toLowerCase())
                 .favorite(false)
                 .build();
+    }
+
+    public static DBWeatherData fromRawWeatherData(DBCity city, RawWeather weather) {
+        // todo rewrite more unified
+        List<Weather> weathers = weather.getWeather();
+        Main main = weather.getMain();
+
+        if (weathers == null) {
+            throw new RawToDBConvertingException("Cannot extract weather condition from server response");
+        }
+        if (main == null) {
+            throw new RawToDBConvertingException("No temperature received from server response");
+        }
+        int condition = weathers.get(0).getId();
+        double temperature = round(toCelsius(weather.getMain().getTemp()));
+
+        DBWeatherData data = new DBWeatherData.Builder()
+                .id(city.getOpenWeatherId())
+                .time(System.currentTimeMillis())
+                .city(chooseDependingOnLocale(city.getRuName(), city.getEnName()))
+                .temperature(temperature)
+                .condition(condition)
+                .build();
+        return data;
+    }
+
+    private static String chooseDependingOnLocale(String ru, String other) {
+        // todo differentiate languages in more generic way
+        return Locale.getDefault().getLanguage().equals("ru") ? ru : other;
     }
 }
