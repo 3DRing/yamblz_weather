@@ -91,9 +91,7 @@ public class ChooseCityFragment extends ViewModelFragment<ChooseCityViewModel, U
     }
 
     private void onFavoriteClick(CitySuggestion citySuggestion, int i, boolean favorite) {
-        getViewModel().onFavoriteClicked(citySuggestion.getId(), favorite)
-                // todo handle result
-                .subscribe();
+        getViewModel().onFavoriteClicked(citySuggestion.getId(), favorite);
     }
 
     @Override
