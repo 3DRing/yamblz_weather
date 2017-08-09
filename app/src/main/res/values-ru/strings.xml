@@ -63,4 +63,6 @@
     <string name="update_intervals_title">Частота обновления</string>
     <string name="update_intervals_summary">Как часто получать обновления погоды</string>
     <string name="favorite_cities">Избранные города</string>
+    <string name="forecast">Прогноз</string>
+    <string name="cities">Города</string>
 </resources>

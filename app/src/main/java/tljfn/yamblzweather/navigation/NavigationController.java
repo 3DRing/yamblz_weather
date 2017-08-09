@@ -21,6 +21,7 @@ import android.content.Intent;
 import android.support.annotation.IdRes;
 import android.support.v4.app.FragmentManager;
 
+import tljfn.yamblzweather.modules.forecast.ForecastFragment;
 import tljfn.yamblzweather.modules.main.MainActivity;
 import tljfn.yamblzweather.modules.about.AboutFragment;
 import tljfn.yamblzweather.modules.city.ChooseCityActivity;
@@ -50,6 +51,13 @@ public class NavigationController {
         WeatherFragment fragment = new WeatherFragment();
         fragmentManager.beginTransaction()
                 .replace(layout, fragment, WeatherFragment.TAG)
+                .commit();
+    }
+
+    public static void navigateToForecast(@IdRes int layout, FragmentManager fragmentManager) {
+        ForecastFragment fragment = new ForecastFragment();
+        fragmentManager.beginTransaction()
+                .replace(layout, fragment, ForecastFragment.TAG)
                 .commit();
     }
 

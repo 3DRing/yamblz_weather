@@ -12,6 +12,7 @@ import tljfn.yamblzweather.di.modules.viewmodel.ViewModelFactory;
 import tljfn.yamblzweather.di.modules.viewmodel.ViewModelKey;
 import tljfn.yamblzweather.modules.city.choose_city.ChooseCityViewModel;
 import tljfn.yamblzweather.modules.city.favorite.FavoriteCitiesViewModel;
+import tljfn.yamblzweather.modules.forecast.ForecastViewModel;
 import tljfn.yamblzweather.modules.weather.WeatherViewModel;
 
 /**
@@ -39,6 +40,11 @@ public abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(FavoriteCitiesViewModel.class)
     abstract ViewModel bindFavoriteCitiesViewModel(FavoriteCitiesViewModel viewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(ForecastViewModel.class)
+    abstract ViewModel bindForecastViewModel(ForecastViewModel viewModel);
 
     @Binds
     abstract ViewModelProvider.Factory bindViewModelFactory(ViewModelFactory factory);

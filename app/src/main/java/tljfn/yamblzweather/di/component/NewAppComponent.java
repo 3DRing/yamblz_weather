@@ -18,16 +18,12 @@ import tljfn.yamblzweather.di.modules.WeatherDaoModule;
 import tljfn.yamblzweather.di.modules.WeatherInteractorModule;
 import tljfn.yamblzweather.model.scheduler.WeatherUpdateJob;
 import tljfn.yamblzweather.modules.about.AboutFragment;
-import tljfn.yamblzweather.modules.base.data.UIBaseData;
-import tljfn.yamblzweather.modules.base.fragment.ViewModelFragment;
-import tljfn.yamblzweather.modules.base.viewmodel.BaseViewModel;
 import tljfn.yamblzweather.modules.city.choose_city.ChooseCityFragment;
-import tljfn.yamblzweather.modules.city.choose_city.ChooseCityViewModel;
 import tljfn.yamblzweather.modules.city.favorite.FavoriteCitiesFragment;
+import tljfn.yamblzweather.modules.forecast.ForecastFragment;
 import tljfn.yamblzweather.modules.main.MainViewModel;
 import tljfn.yamblzweather.modules.settings.SettingsFragment;
 import tljfn.yamblzweather.modules.weather.WeatherFragment;
-import tljfn.yamblzweather.modules.weather.WeatherViewModel;
 
 /**
  * Created by ringov on 12.07.17.
@@ -50,17 +46,19 @@ import tljfn.yamblzweather.modules.weather.WeatherViewModel;
 @Singleton
 public interface NewAppComponent {
 
-    void inject(SettingsFragment settingsFragment);
+    void inject(SettingsFragment fragment);
 
     void inject(WeatherUpdateJob weatherUpdateJob);
 
     void inject(MainViewModel mainViewModel);
 
-    void inject(AboutFragment aboutFragment);
+    void inject(AboutFragment fragment);
 
-    void inject(ChooseCityFragment chooseCityFragment);
+    void inject(ChooseCityFragment fragment);
 
-    void inject(WeatherFragment weatherFragment);
+    void inject(WeatherFragment fragment);
 
-    void inject(FavoriteCitiesFragment favoriteCitiesFragment);
+    void inject(FavoriteCitiesFragment fragment);
+
+    void inject(ForecastFragment fragment);
 }

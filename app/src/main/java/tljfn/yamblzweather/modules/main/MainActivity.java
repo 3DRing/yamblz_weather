@@ -82,6 +82,14 @@ public class MainActivity extends ViewModelActivity<MainViewModel, UIMainData> i
             case R.id.nav_weather:
                 NavigationController.navigateToWeather(R.id.fragment_container, getSupportFragmentManager());
                 break;
+            case R.id.nav_forecast:
+                NavigationController.navigateToForecast(R.id.fragment_container, getSupportFragmentManager());
+                break;
+            case R.id.nav_city:
+                NavigationController.navigateToChooseCity(this);
+                break;
+            default:
+                throw new IllegalStateException("No such menu is declared: " + item.getItemId());
         }
 
         drawer.closeDrawer(GravityCompat.START);

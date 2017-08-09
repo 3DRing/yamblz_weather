@@ -5,6 +5,17 @@
         android:id="@+id/nav_weather"
         android:icon="@drawable/ic_weather"
         android:title="@string/weather" />
+
+    <item
+        android:id="@+id/nav_forecast"
+        android:icon="@drawable/ic_forecast"
+        android:title="@string/forecast" />
+
+    <item
+        android:id="@+id/nav_city"
+        android:icon="@drawable/ic_location"
+        android:title="@string/cities" />
+
     <item
         android:id="@+id/nav_settings"
         android:icon="@drawable/ic_settings_black_24dp"
