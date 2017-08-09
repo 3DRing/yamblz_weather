@@ -62,7 +62,7 @@ public abstract class BaseFragment extends Fragment {
      */
     @LayoutRes
     @NonNull
-    public abstract Integer getLayoutRes();
+    public abstract int getLayoutRes();
 
     /**
      * @return {@link String} on the toolbar that corresponds to the required toolbar title
@@ -74,7 +74,7 @@ public abstract class BaseFragment extends Fragment {
      * @return {@link Integer} that reflects navigation drawer mode for
      * {@link android.support.v4.widget.DrawerLayout}.
      */
-    public abstract Integer getDrawerMode();
+    public abstract int getDrawerMode();
 
     /**
      * This interface should listen when new fragment appears on the activity

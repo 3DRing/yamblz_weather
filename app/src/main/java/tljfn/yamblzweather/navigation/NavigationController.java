@@ -23,7 +23,7 @@ import android.support.v4.app.FragmentManager;
 
 import tljfn.yamblzweather.modules.main.MainActivity;
 import tljfn.yamblzweather.modules.about.AboutFragment;
-import tljfn.yamblzweather.modules.city.choose_city.ChooseCityActivity;
+import tljfn.yamblzweather.modules.city.ChooseCityActivity;
 import tljfn.yamblzweather.modules.settings.SettingsFragment;
 import tljfn.yamblzweather.modules.weather.WeatherFragment;
 

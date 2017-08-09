@@ -46,6 +46,8 @@ public class ChooseCityViewModelTest {
 
     DatabaseRepo repo;
 
+    ChooseCityInteractor interactor;
+
     DataProvider dataProvider;
     TestLifecycleOwner owner;
 
@@ -57,7 +59,8 @@ public class ChooseCityViewModelTest {
         owner = new TestLifecycleOwner();
 
         repo = new DatabaseRepo(weatherDao, cityDao);
-        viewModel = new ChooseCityViewModel(repo);
+        interactor = new ChooseCityInteractor(repo);
+        viewModel = new ChooseCityViewModel(interactor);
     }
 
     @Test

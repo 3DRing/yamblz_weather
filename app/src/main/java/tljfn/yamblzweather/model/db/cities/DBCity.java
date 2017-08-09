@@ -11,7 +11,7 @@ import com.google.gson.annotations.SerializedName;
  * Created by ringov on 04.08.17.
  */
 
-@Entity(tableName = "city", indices = {@Index("ru_name"), @Index("en_name")})
+@Entity(tableName = "city", indices = {@Index("ru_name"), @Index("en_name"), @Index("favorite")})
 public class DBCity {
 
     @PrimaryKey

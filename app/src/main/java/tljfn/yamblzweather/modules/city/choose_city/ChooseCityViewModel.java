@@ -4,6 +4,7 @@ import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
+import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
@@ -18,13 +19,13 @@ import tljfn.yamblzweather.modules.city.choose_city.data.CitySuggestion;
 
 public class ChooseCityViewModel extends BaseViewModel<UICitySuggestions> {
 
-    DatabaseRepo dbRepo;
-
     private Disposable suggestions;
 
+    private ChooseCityInteractor interactor;
+
     @Inject
-    public ChooseCityViewModel(DatabaseRepo dbRepo) {
-        this.dbRepo = dbRepo;
+    ChooseCityViewModel(ChooseCityInteractor interactor) {
+        this.interactor = interactor;
     }
 
     @Override
@@ -33,25 +34,28 @@ public class ChooseCityViewModel extends BaseViewModel<UICitySuggestions> {
     }
 
     public void searchCity(String requestedString) {
-        suggestions = dbRepo.getSuggestions(requestedString.toLowerCase())
-                .map(list -> {
-                    UICitySuggestions.Builder builder = new UICitySuggestions.Builder();
-                    for (CitySuggestion s :
-                            list) {
-                        builder.addCity(s);
-                    }
-                    return builder.build();
-                })
+        disposeSuggestions();
+        suggestions = interactor.getSuggestions(requestedString)
                 .debounce(500, TimeUnit.MILLISECONDS)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::onChange, this::onError);
     }
 
-    public void hideSearching() {
+    private void disposeSuggestions() {
         if (suggestions != null && !suggestions.isDisposed()) {
             suggestions.dispose();
         }
+    }
+
+    public void hideSearching() {
+        disposeSuggestions();
         this.onChange(new UICitySuggestions.Builder().build());
+    }
+
+    public Single<Boolean> onFavoriteClicked(int id, boolean favorite) {
+        return interactor.addFavorite(id, favorite)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 }

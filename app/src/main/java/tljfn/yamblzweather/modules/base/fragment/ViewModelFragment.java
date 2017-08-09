@@ -35,9 +35,28 @@ public abstract class ViewModelFragment<VM extends BaseViewModel<D>, D extends U
         super.onViewCreated(view, savedInstanceState);
         inject();
 
-        viewModel = ViewModelProviders.of(this, getViewModelFactory()).get(getViewModelClass());
+        ViewModelFactory factory = getViewModelFactory();
+        checkFactory(factory);
+        Class<VM> cls = getViewModelClass();
+        checkViewModelClass(cls);
+
+        viewModel = ViewModelProviders.of(this, factory).get(cls);
         viewModel.observe(this, this::onChanged);
         errorShower = new UIErrorShower<>();
+    }
+
+    protected void checkViewModelClass(Class<VM> cls){
+        if(cls == null){
+            throw new IllegalStateException("You must override getViewModelClass and provide an instance of a view model class. Appeared in "
+                    + this.getClass().getSimpleName());
+        }
+    }
+
+    private void checkFactory(ViewModelFactory factory) {
+        if(factory == null){
+            throw new IllegalStateException("You must override getViewModelFactory and provide an instance of a factory. Appeared in "
+                    + this.getClass().getSimpleName());
+        }
     }
 
     protected abstract void inject();

@@ -2,6 +2,8 @@ package tljfn.yamblzweather.model.repo;
 
 import java.util.List;
 
+import javax.xml.transform.Transformer;
+
 import io.reactivex.Flowable;
 import io.reactivex.Single;
 import tljfn.yamblzweather.model.api.data.weather.RawWeather;
@@ -40,21 +42,27 @@ public class DatabaseRepo {
                 .map(UIConverter::toUIWeatherData);
     }
 
-    public Flowable<List<CitySuggestion>> getSuggestions(String requestString) {
+    public Flowable<List<DBCity>> getSuggestions(String requestString) {
         StringBuilder sb = new StringBuilder();
         sb.append(requestString).append("%");
-        return cityDao.loadCitiesSuggestion(sb.toString())
-                .flatMap(cities -> Flowable.fromIterable(cities)
-                        .map(UIConverter::toUISuggestions)
-                        .toSortedList((city1, city2) -> city1.getName().compareTo(city2.getName()))
-                        .toFlowable())
-                .flatMapSingle(Single::just);
+        return cityDao.loadCitiesSuggestion(sb.toString());
     }
 
     public Single<Boolean> initCities(DBCity[] cities) {
         return Single.fromCallable(() -> {
             long[] results = cityDao.addCities(cities);
             return results.length > 0;
+        });
+    }
+
+    public Flowable<List<DBCity>> loadFavoriteCities() {
+        return cityDao.loadFavoriteCities(true);
+    }
+
+    public Single<Boolean> setFavorite(DBCity favorite) {
+        return Single.fromCallable(() -> {
+            int result = cityDao.setFavorite(favorite);
+            return result > 0;
         });
     }
 }

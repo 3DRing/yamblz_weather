@@ -36,7 +36,7 @@ public class AboutFragment extends ViewModelFragment<AboutViewModel, UIBaseData>
 
     @NonNull
     @Override
-    public Integer getLayoutRes() {
+    public int getLayoutRes() {
         return R.layout.fragment_about;
     }
 
@@ -46,7 +46,7 @@ public class AboutFragment extends ViewModelFragment<AboutViewModel, UIBaseData>
     }
 
     @Override
-    public Integer getDrawerMode() {
+    public int getDrawerMode() {
         return DrawerLayout.LOCK_MODE_UNLOCKED;
     }
 

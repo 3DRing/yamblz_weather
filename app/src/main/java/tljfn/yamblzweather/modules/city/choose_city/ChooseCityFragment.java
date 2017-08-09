@@ -19,6 +19,8 @@ import tljfn.yamblzweather.App;
 import tljfn.yamblzweather.R;
 import tljfn.yamblzweather.di.modules.viewmodel.ViewModelFactory;
 import tljfn.yamblzweather.modules.base.fragment.ViewModelFragment;
+import tljfn.yamblzweather.modules.city.CitiesListAdapter;
+import tljfn.yamblzweather.modules.city.choose_city.data.CitySuggestion;
 import tljfn.yamblzweather.modules.city.choose_city.data.UICitySuggestions;
 
 /**
@@ -41,7 +43,7 @@ public class ChooseCityFragment extends ViewModelFragment<ChooseCityViewModel, U
     @BindView(R.id.rv_suggestions)
     RecyclerView suggestions;
 
-    ChooseCityListAdapter adapter;
+    CitiesListAdapter<CitySuggestion, Boolean> adapter;
 
     @OnClick(R.id.backpress)
     void onTopBackPress() {
@@ -83,9 +85,15 @@ public class ChooseCityFragment extends ViewModelFragment<ChooseCityViewModel, U
     }
 
     private void initializeSuggestionsView() {
-        adapter = new ChooseCityListAdapter(null);
+        adapter = new ChooseCityListAdapter(this::onFavoriteClick);
         suggestions.setLayoutManager(new LinearLayoutManager(getContext()));
         suggestions.setAdapter(adapter);
+    }
+
+    private void onFavoriteClick(CitySuggestion citySuggestion, int i, boolean favorite) {
+        getViewModel().onFavoriteClicked(citySuggestion.getId(), favorite)
+                // todo handle result
+                .subscribe();
     }
 
     @Override
@@ -105,7 +113,7 @@ public class ChooseCityFragment extends ViewModelFragment<ChooseCityViewModel, U
 
     @Override
     public void onSuccess(@NonNull UICitySuggestions data) {
-        adapter.setSuggestions(data.getSuggestions());
+        adapter.setItems(data.getSuggestions());
     }
 
     @Override
@@ -115,7 +123,7 @@ public class ChooseCityFragment extends ViewModelFragment<ChooseCityViewModel, U
 
     @NonNull
     @Override
-    public Integer getLayoutRes() {
+    public int getLayoutRes() {
         return R.layout.fragment_choose_city;
     }
 
@@ -125,7 +133,7 @@ public class ChooseCityFragment extends ViewModelFragment<ChooseCityViewModel, U
     }
 
     @Override
-    public Integer getDrawerMode() {
+    public int getDrawerMode() {
         return DrawerLayout.LOCK_MODE_UNLOCKED;
     }
 

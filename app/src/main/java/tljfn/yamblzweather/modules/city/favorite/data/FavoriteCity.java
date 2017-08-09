@@ -1,28 +1,23 @@
-package tljfn.yamblzweather.modules.city.choose_city.data;
+package tljfn.yamblzweather.modules.city.favorite.data;
 
 import tljfn.yamblzweather.modules.city.CityItem;
 
 /**
- * Created by ringov on 04.08.17.
+ * Created by ringov on 08.08.17.
  */
 
-public class CitySuggestion implements CityItem {
-    private int id;
+public class FavoriteCity implements CityItem {
+
     private String name;
     private boolean favorite;
 
-    public CitySuggestion(int id, String name, boolean favorite) {
-        this.id = id;
+    public FavoriteCity(String name, boolean favorite) {
         this.name = name;
         this.favorite = favorite;
     }
 
     public String getName() {
         return name;
-    }
-
-    public int getId() {
-        return id;
     }
 
     public boolean isFavorite() {

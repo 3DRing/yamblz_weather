@@ -11,6 +11,7 @@ import javax.inject.Inject;
 
 import tljfn.yamblzweather.App;
 import tljfn.yamblzweather.di.modules.viewmodel.ViewModelFactory;
+import tljfn.yamblzweather.navigation.NavigationController;
 import tljfn.yamblzweather.utils.Utils;
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -43,7 +44,7 @@ public class WeatherFragment extends ViewModelFragment<WeatherViewModel, UIWeath
 
     @OnClick(R.id.tv_city)
     public void onCityClick() {
-        //NavigationController.navigateToChooseCity(getContext());
+        NavigationController.navigateToChooseCity(getContext());
     }
 
     @Override
@@ -54,7 +55,7 @@ public class WeatherFragment extends ViewModelFragment<WeatherViewModel, UIWeath
 
     @NonNull
     @Override
-    public Integer getLayoutRes() {
+    public int getLayoutRes() {
         return R.layout.fragment_weather;
     }
 
@@ -64,7 +65,7 @@ public class WeatherFragment extends ViewModelFragment<WeatherViewModel, UIWeath
     }
 
     @Override
-    public Integer getDrawerMode() {
+    public int getDrawerMode() {
         return DrawerLayout.LOCK_MODE_UNLOCKED;
     }
 

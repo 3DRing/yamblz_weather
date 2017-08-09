@@ -4,6 +4,7 @@ import javax.inject.Singleton;
 
 import dagger.Component;
 import tljfn.yamblzweather.di.modules.AppModule;
+import tljfn.yamblzweather.di.modules.ChooseCityInteractorModule;
 import tljfn.yamblzweather.di.modules.CityApiModule;
 import tljfn.yamblzweather.di.modules.CityDaoModule;
 import tljfn.yamblzweather.di.modules.DatabaseModule;
@@ -22,6 +23,7 @@ import tljfn.yamblzweather.modules.base.fragment.ViewModelFragment;
 import tljfn.yamblzweather.modules.base.viewmodel.BaseViewModel;
 import tljfn.yamblzweather.modules.city.choose_city.ChooseCityFragment;
 import tljfn.yamblzweather.modules.city.choose_city.ChooseCityViewModel;
+import tljfn.yamblzweather.modules.city.favorite.FavoriteCitiesFragment;
 import tljfn.yamblzweather.modules.main.MainViewModel;
 import tljfn.yamblzweather.modules.settings.SettingsFragment;
 import tljfn.yamblzweather.modules.weather.WeatherFragment;
@@ -33,6 +35,7 @@ import tljfn.yamblzweather.modules.weather.WeatherViewModel;
 
 @Component(modules = {
         AppModule.class,
+        ChooseCityInteractorModule.class,
         CityApiModule.class,
         CityDaoModule.class,
         DatabaseModule.class,
@@ -49,8 +52,6 @@ public interface NewAppComponent {
 
     void inject(SettingsFragment settingsFragment);
 
-    void inject(ChooseCityViewModel chooseCityViewModel);
-
     void inject(WeatherUpdateJob weatherUpdateJob);
 
     void inject(MainViewModel mainViewModel);
@@ -60,4 +61,6 @@ public interface NewAppComponent {
     void inject(ChooseCityFragment chooseCityFragment);
 
     void inject(WeatherFragment weatherFragment);
+
+    void inject(FavoriteCitiesFragment favoriteCitiesFragment);
 }
