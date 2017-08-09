@@ -19,7 +19,6 @@ import tljfn.yamblzweather.App;
 import tljfn.yamblzweather.R;
 import tljfn.yamblzweather.di.modules.viewmodel.ViewModelFactory;
 import tljfn.yamblzweather.modules.base.fragment.ViewModelFragment;
-import tljfn.yamblzweather.modules.city.CitiesListAdapter;
 import tljfn.yamblzweather.modules.city.choose_city.data.CitySuggestion;
 import tljfn.yamblzweather.modules.city.choose_city.data.UICitySuggestions;
 
@@ -43,7 +42,7 @@ public class ChooseCityFragment extends ViewModelFragment<ChooseCityViewModel, U
     @BindView(R.id.rv_suggestions)
     RecyclerView suggestions;
 
-    CitiesListAdapter<CitySuggestion, Boolean> adapter;
+    CityListAdapter adapter;
 
     @OnClick(R.id.backpress)
     void onTopBackPress() {
@@ -85,7 +84,7 @@ public class ChooseCityFragment extends ViewModelFragment<ChooseCityViewModel, U
     }
 
     private void initializeSuggestionsView() {
-        adapter = new ChooseCityListAdapter(this::onFavoriteClick, this::onChooseClick);
+        adapter = new CityListAdapter(this::onFavoriteClick, this::onChooseClick);
         suggestions.setLayoutManager(new LinearLayoutManager(getContext()));
         suggestions.setAdapter(adapter);
     }
