@@ -34,6 +34,7 @@ public class ChooseCityViewModel extends BaseViewModel<UICitySuggestions> {
     }
 
     public void searchCity(String requestedString) {
+        disposeSuggestions();
         suggestions = interactor.getSuggestions(requestedString)
                 .debounce(500, TimeUnit.MILLISECONDS)
                 .subscribeOn(Schedulers.io())
@@ -41,10 +42,14 @@ public class ChooseCityViewModel extends BaseViewModel<UICitySuggestions> {
                 .subscribe(this::onChange, this::onError);
     }
 
-    public void hideSearching() {
+    private void disposeSuggestions() {
         if (suggestions != null && !suggestions.isDisposed()) {
             suggestions.dispose();
         }
+    }
+
+    public void hideSearching() {
+        disposeSuggestions();
         this.onChange(new UICitySuggestions.Builder().build());
     }
 

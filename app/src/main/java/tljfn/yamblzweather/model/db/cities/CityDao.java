@@ -17,13 +17,13 @@ import io.reactivex.Single;
 @Dao
 public interface CityDao {
 
-    @Query("SELECT * FROM city WHERE ru_name LIKE (:requestString) OR en_name LIKE (:requestString)")
+    @Query("SELECT * FROM city WHERE ru_name LIKE :requestString OR en_name LIKE :requestString")
     Flowable<List<DBCity>> loadCitiesSuggestion(String requestString);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     long[] addCities(DBCity[] cities);
 
-    @Query("SELECT * FROM city WHERE favorite = (:favorite)")
+    @Query("SELECT * FROM city WHERE favorite = :favorite")
     Flowable<List<DBCity>> loadFavoriteCities(boolean favorite);
 
     @Update
