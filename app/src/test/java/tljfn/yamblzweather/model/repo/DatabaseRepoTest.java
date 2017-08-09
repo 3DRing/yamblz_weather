@@ -144,7 +144,7 @@ public class DatabaseRepoTest {
                 .assertNoErrors()
                 .assertValue(list -> {
                     return list != null && list.size() != 0
-                            && list.get(0).getName().equals("Saint petersburg");
+                            && list.get(0).getEnName().equals("saint petersburg");
                 });
     }
 
