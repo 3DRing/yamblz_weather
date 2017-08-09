@@ -171,4 +171,38 @@ public class DatabaseRepoTest {
         repo.getSuggestions("sainttt").test()
                 .assertError(e);
     }
+
+    @Test
+    public void getting_favorite_cities_correct() {
+        DBCity[] sample = dataProvider.getDBCitiesSampleArray();
+        when(cityDao.loadFavoriteCities(true)).thenReturn(Flowable.fromCallable(() -> {
+            List<DBCity> cities = new ArrayList<DBCity>();
+            cities.add(sample[0]);
+            cities.add(sample[1]);
+            return cities;
+        }));
+
+        repo.loadFavoriteCities().test()
+                .assertNoErrors()
+                .assertOf(observer -> verify(cityDao).loadFavoriteCities(true))
+                .assertValue(list -> {
+                    for (int i = 0; i < list.size(); i++) {
+                        if (!list.get(i).equals(sample[i])) {
+                            return false;
+                        }
+                    }
+                    return true;
+                });
+    }
+
+    @Test
+    public void setting_favorite_city_correct() {
+        DBCity[] sample = dataProvider.getDBCitiesSampleArray();
+        when(cityDao.setFavorite(sample[0])).thenReturn(5);
+
+        repo.setFavorite(sample[0]).test()
+                .assertNoErrors()
+                .assertOf(observer -> verify(cityDao).setFavorite(sample[0]))
+                .assertValue(true);
+    }
 }
