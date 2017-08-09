@@ -25,7 +25,8 @@ public class FavoriteCitiesInteractor extends BaseInteractor {
 
     public Flowable<UIFavoriteCityList> loadFavoriteCities() {
         return dbRepo.loadFavoriteCities()
-                .flatMap(list -> Flowable.fromIterable(list)
+                .flatMap(list ->
+                        Flowable.fromIterable(list)
                         .map(UIConverter::toFavoriteCity)
                         .toSortedList((city1, city2) -> city1.getName().compareTo(city2.getName()))
                         .toFlowable())

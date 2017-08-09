@@ -44,6 +44,7 @@ public class ChooseCityListAdapter extends CitiesListAdapter<CitySuggestion, Boo
         @Override
         protected void bind(CitySuggestion city, int position, @Nullable ClickListener<CitySuggestion, Boolean> listener) {
             tvCity.setText(city.getName());
+            favorite.setChecked(city.isFavorite());
             if (listener != null) {
                 favorite.setOnToggleListener((fav) -> listener.onClick(city, position, fav));
             }

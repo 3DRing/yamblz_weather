@@ -9,12 +9,18 @@ import tljfn.yamblzweather.modules.city.CityItem;
 public class FavoriteCity implements CityItem {
 
     private String name;
+    private boolean favorite;
 
-    public FavoriteCity(String name) {
+    public FavoriteCity(String name, boolean favorite) {
         this.name = name;
+        this.favorite = favorite;
     }
 
     public String getName() {
         return name;
+    }
+
+    public boolean isFavorite() {
+        return favorite;
     }
 }

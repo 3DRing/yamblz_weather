@@ -23,8 +23,8 @@ public interface CityDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     long[] addCities(DBCity[] cities);
 
-    @Query("SELECT * FROM city WHERE favorite == \'true\'")
-    Flowable<List<DBCity>> loadFavoriteCities();
+    @Query("SELECT * FROM city WHERE favorite = (:favorite)")
+    Flowable<List<DBCity>> loadFavoriteCities(boolean favorite);
 
     @Update
     int setFavorite(DBCity city);

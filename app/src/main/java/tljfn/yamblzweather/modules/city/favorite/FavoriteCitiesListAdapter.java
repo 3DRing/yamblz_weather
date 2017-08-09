@@ -1,21 +1,12 @@
 package tljfn.yamblzweather.modules.city.favorite;
 
 import android.support.annotation.Nullable;
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import tljfn.yamblzweather.R;
 import tljfn.yamblzweather.modules.city.CitiesListAdapter;
-import tljfn.yamblzweather.modules.city.CityItem;
-import tljfn.yamblzweather.modules.city.choose_city.data.CitySuggestion;
 import tljfn.yamblzweather.modules.city.favorite.data.FavoriteCity;
 import tljfn.yamblzweather.utils.custom_views.FavoriteButton;
 
@@ -53,6 +44,7 @@ public class FavoriteCitiesListAdapter extends CitiesListAdapter<FavoriteCity, B
         @Override
         protected void bind(FavoriteCity city, int position, @Nullable ClickListener<FavoriteCity, Boolean> listener) {
             tvCity.setText(city.getName());
+            favorite.setChecked(city.isFavorite());
             if (listener != null) {
                 favorite.setOnToggleListener((fav) -> listener.onClick(city, position, fav));
             }

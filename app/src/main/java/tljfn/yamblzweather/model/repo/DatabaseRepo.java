@@ -42,15 +42,10 @@ public class DatabaseRepo {
                 .map(UIConverter::toUIWeatherData);
     }
 
-    public Flowable<List<CitySuggestion>> getSuggestions(String requestString) {
+    public Flowable<List<DBCity>> getSuggestions(String requestString) {
         StringBuilder sb = new StringBuilder();
         sb.append(requestString).append("%");
-        return cityDao.loadCitiesSuggestion(sb.toString())
-                .flatMap(list -> Flowable.fromIterable(list)
-                        .map(UIConverter::toUISuggestions)
-                        .toSortedList((city1, city2) -> city1.getName().compareTo(city2.getName()))
-                        .toFlowable())
-                .flatMapSingle(Single::just);
+        return cityDao.loadCitiesSuggestion(sb.toString());
     }
 
     public Single<Boolean> initCities(DBCity[] cities) {
@@ -61,12 +56,12 @@ public class DatabaseRepo {
     }
 
     public Flowable<List<DBCity>> loadFavoriteCities() {
-        return cityDao.loadFavoriteCities();
+        return cityDao.loadFavoriteCities(true);
     }
 
-    public Single<Boolean> setFavorite(int id, boolean favorite) {
+    public Single<Boolean> setFavorite(DBCity favorite) {
         return Single.fromCallable(() -> {
-            int result = cityDao.setFavorite(new DBCity.Builder().id(id).favorite(favorite).build());
+            int result = cityDao.setFavorite(favorite);
             return result > 0;
         });
     }

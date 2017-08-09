@@ -16,12 +16,16 @@ public class FavoriteCitiesViewModel extends BaseViewModel<UIFavoriteCityList> {
     @Inject
     public FavoriteCitiesViewModel(FavoriteCitiesInteractor interactor) {
         this.interactor = interactor;
-        sub(interactor.loadFavoriteCities()
-                .subscribe(this::onChange, this::onError));
+        loadFavoriteCities();
     }
 
     @Override
     protected UIFavoriteCityList buildUIError(String messageError) {
         return new UIFavoriteCityList.Builder().error(messageError).build();
+    }
+
+    private void loadFavoriteCities() {
+        sub(interactor.loadFavoriteCities()
+                .subscribe(this::onChange, this::onError));
     }
 }
