@@ -26,11 +26,12 @@ public class ChooseCityInteractor extends BaseInteractor {
 
     DatabaseRepo dbRepo;
 
-    SparseArray<DBCity> suggestedCities = new SparseArray<>();
+    SparseArray<DBCity> suggestedCities;
 
     @Inject
     public ChooseCityInteractor(DatabaseRepo dbRepo) {
         this.dbRepo = dbRepo;
+        suggestedCities = new SparseArray<>();
     }
 
     public Flowable<UICitySuggestions> getSuggestions(String requestedString) {
@@ -54,7 +55,11 @@ public class ChooseCityInteractor extends BaseInteractor {
 
     public Single<Boolean> addFavorite(int id, boolean favorite) {
         DBCity favoriteCity = suggestedCities.get(id);
-        favoriteCity.setFavorite(favorite);
-        return dbRepo.setFavorite(favoriteCity);
+        if (favoriteCity != null) {
+            favoriteCity.setFavorite(favorite);
+            return dbRepo.setFavorite(favoriteCity);
+        } else {
+            return Single.just(false);
+        }
     }
 }
