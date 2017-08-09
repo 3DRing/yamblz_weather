@@ -147,4 +147,15 @@ public class PreferencesRepoTest {
                     verify(editor).apply();
                 });
     }
+
+    @Test
+    public void correct_updating_current_city_and_notify_others() {
+        when(editor.putLong(repo.currentCityKey, 600l)).thenReturn(editor);
+
+        repo.updateCurrentCity(600l)
+                .doOnNext(id ->
+                        repo.getCurrentCity().test()
+                                .assertNoErrors()
+                                .assertValue(600l));
+    }
 }
