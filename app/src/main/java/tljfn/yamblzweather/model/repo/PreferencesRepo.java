@@ -48,6 +48,7 @@ public class PreferencesRepo {
     static final long DEFAULT_CITY = 524901; // moscow, russia
 
     static final String FIRST_LAUNCH_KEY = "first_launch";
+    static final String CURRENT_CITY_ID_KEY = "current_city_id";
 
     String intervalKey;
     String intervalDefaultValue;
@@ -73,6 +74,11 @@ public class PreferencesRepo {
         notificationsDefaultValue = context.getString(R.string.update_notifications_default);
 
         currentIdChanges = BehaviorSubject.create();
+        currentIdChanges.onNext(getCurrentCityId());
+    }
+
+    private long getCurrentCityId() {
+        return preferences.getLong(CURRENT_CITY_ID_KEY, DEFAULT_CITY);
     }
 
     public boolean isNotificationEnabled() {
@@ -81,13 +87,12 @@ public class PreferencesRepo {
     }
 
     public Flowable<Long> updateCurrentCity(long id) {
-        preferences.edit().putLong(currentCityKey, id).apply();
-        currentIdChanges.onNext(id);
+        preferences.edit().putLong(CURRENT_CITY_ID_KEY, id).apply();
+        currentIdChanges.onNext(getCurrentCityId());
         return currentIdChanges.toFlowable(BackpressureStrategy.LATEST);
     }
 
     public Flowable<Long> getCurrentCity() {
-        currentIdChanges.onNext(preferences.getLong(currentCityKey, DEFAULT_CITY));
         return currentIdChanges.toFlowable(BackpressureStrategy.LATEST);
     }
 

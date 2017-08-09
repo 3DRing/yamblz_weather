@@ -30,7 +30,7 @@ public class DBConverterTest {
     @Test
     public void converting_to_db_weather_data_correctly() {
         RawWeather rawData = dataProvider.getNewYorkWeather();
-        DBWeatherData dbData = DBConverter.fromRawWeatherData(rawData);
+        DBWeatherData dbData = DBConverter.fromDBWeatherData(rawData);
         long crtTime = System.currentTimeMillis();
 
         // not used so far
@@ -45,7 +45,7 @@ public class DBConverterTest {
     @Test(expected = RawToDBConvertingException.class)
     public void converting_to_db_weather_data_error() {
         RawWeather data = dataProvider.getBadWeather();
-        DBWeatherData dbWeatherData = DBConverter.fromRawWeatherData(data);
+        DBWeatherData dbWeatherData = DBConverter.fromDBWeatherData(data);
         fail();
     }
 

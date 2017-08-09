@@ -68,4 +68,14 @@ public class UIConverter {
         // todo differentiate languages in more generic way
         return Locale.getDefault().getLanguage().equals("ru") ? ru : other;
     }
+
+    public static UIWeatherData toUIWeatherData(DBCity city, DBWeatherData weather) {
+        UIWeatherData data = new UIWeatherData.Builder()
+                .city(chooseDependingOnLocale(city.getRuName(), city.getEnName()))
+                .temperature(weather.getTemperature())
+                .time(weather.getTime())
+                .condition(weatherIdToCondition(weather.getCondition()))
+                .build();
+        return data;
+    }
 }

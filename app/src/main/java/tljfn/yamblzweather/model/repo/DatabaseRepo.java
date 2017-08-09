@@ -2,8 +2,6 @@ package tljfn.yamblzweather.model.repo;
 
 import java.util.List;
 
-import javax.xml.transform.Transformer;
-
 import io.reactivex.Flowable;
 import io.reactivex.Single;
 import tljfn.yamblzweather.model.api.data.weather.RawWeather;
@@ -12,7 +10,6 @@ import tljfn.yamblzweather.model.db.cities.DBCity;
 import tljfn.yamblzweather.model.db.DBConverter;
 import tljfn.yamblzweather.model.db.weather.DBWeatherData;
 import tljfn.yamblzweather.model.db.weather.WeatherDao;
-import tljfn.yamblzweather.modules.city.choose_city.data.CitySuggestion;
 import tljfn.yamblzweather.modules.UIConverter;
 import tljfn.yamblzweather.modules.weather.data.UIWeatherData;
 
@@ -31,15 +28,14 @@ public class DatabaseRepo {
 
     public Flowable<UIWeatherData> insertOrUpdateWeather(RawWeather weather) {
         return Flowable.fromCallable(() -> {
-            DBWeatherData data = DBConverter.fromRawWeatherData(weather);
+            DBWeatherData data = DBConverter.fromDBWeatherData(weather);
             weatherDao.insertWeather(data);
             return UIConverter.toUIWeatherData(data);
         });
     }
 
-    public Flowable<UIWeatherData> loadCachedWeather() {
-        return weatherDao.loadWeather()
-                .map(UIConverter::toUIWeatherData);
+    public Flowable<DBWeatherData> loadCachedWeather(long cityId) {
+        return weatherDao.loadWeather();
     }
 
     public Flowable<List<DBCity>> getSuggestions(String requestString) {
@@ -64,5 +60,9 @@ public class DatabaseRepo {
             int result = cityDao.setFavorite(favorite);
             return result > 0;
         });
+    }
+
+    public Flowable<DBCity> getCity(long cityId) {
+        return cityDao.getCity(cityId);
     }
 }

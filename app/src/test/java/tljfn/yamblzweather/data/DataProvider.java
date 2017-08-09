@@ -88,6 +88,6 @@ public class DataProvider {
     }
 
     public DBWeatherData getNewYorkWeatherDB() {
-        return DBConverter.fromRawWeatherData(getNewYorkWeather());
+        return DBConverter.fromDBWeatherData(getNewYorkWeather());
     }
 }

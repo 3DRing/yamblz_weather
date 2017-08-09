@@ -28,7 +28,7 @@ public class DBConverter {
         return kelvins - KELVIN_OFFSET;
     }
 
-    public static DBWeatherData fromRawWeatherData(RawWeather weather) {
+    public static DBWeatherData fromDBWeatherData(RawWeather weather) {
         List<Weather> weathers = weather.getWeather();
         String city = weather.getName();
         Main main = weather.getMain();
@@ -45,7 +45,6 @@ public class DBConverter {
 
         int condition = weathers.get(0).getId();
         double temperature = round(toCelsius(weather.getMain().getTemp()));
-
 
         DBWeatherData data = new DBWeatherData.Builder()
                 .city(city)

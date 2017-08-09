@@ -28,4 +28,7 @@ public interface CityDao {
 
     @Update
     int setFavorite(DBCity city);
+
+    @Query("SELECT * FROM city WHERE open_weather_id = :cityId")
+    Flowable<DBCity> getCity(long cityId);
 }
