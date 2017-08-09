@@ -1,5 +1,7 @@
 package tljfn.yamblzweather.modules.city.choose_city;
 
+import java.util.concurrent.TimeUnit;
+
 import javax.inject.Inject;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -32,7 +34,7 @@ public class ChooseCityViewModel extends BaseViewModel<UICitySuggestions> {
     public void searchCity(String requestedString) {
         disposeSuggestions();
         suggestions = interactor.getSuggestions(requestedString)
-                //.debounce(500, TimeUnit.MILLISECONDS)
+                .debounce(500, TimeUnit.MILLISECONDS)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::onChange, this::onError);
@@ -59,5 +61,6 @@ public class ChooseCityViewModel extends BaseViewModel<UICitySuggestions> {
 
     public void onChooseClicked(CitySuggestion citySuggestion, int position, int id) {
         interactor.chooseCity(id);
+        hideSearching();
     }
 }

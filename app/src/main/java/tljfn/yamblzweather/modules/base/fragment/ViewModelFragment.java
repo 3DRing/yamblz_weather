@@ -40,9 +40,15 @@ public abstract class ViewModelFragment<VM extends BaseViewModel<D>, D extends U
         Class<VM> cls = getViewModelClass();
         checkViewModelClass(cls);
 
+        initializeInternalViewModels();
+
         viewModel = ViewModelProviders.of(this, factory).get(cls);
         viewModel.observe(this, this::onChanged);
         errorShower = new UIErrorShower<>();
+    }
+
+    protected void initializeInternalViewModels(){
+        // for overriding
     }
 
     protected void checkViewModelClass(Class<VM> cls){
