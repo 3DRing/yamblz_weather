@@ -46,7 +46,7 @@ public class WeatherViewModelTest {
         dataProvider = new DataProvider();
         when(interactor.loadCachedWeather()).thenReturn(Flowable.fromCallable(() ->
                 UIConverter.toUIWeatherData(dataProvider.getNewYorkWeatherDB())));
-        when(interactor.updateWeather()).thenReturn(Single.fromCallable(() ->
+        when(interactor.updateWeather()).thenReturn(Flowable.fromCallable(() ->
                 UIConverter.toUIWeatherData(dataProvider.getNewYorkWeatherDB())));
 
         viewModel = new WeatherViewModel(interactor);

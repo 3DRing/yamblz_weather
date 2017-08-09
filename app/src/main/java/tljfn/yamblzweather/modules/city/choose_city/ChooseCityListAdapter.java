@@ -16,8 +16,12 @@ import tljfn.yamblzweather.utils.custom_views.FavoriteButton;
 
 public class ChooseCityListAdapter extends CitiesListAdapter<CitySuggestion, Boolean> {
 
-    ChooseCityListAdapter(@Nullable ClickListener<CitySuggestion, Boolean> listener) {
-        super(listener);
+    ClickListener<CitySuggestion, Integer> chooseListener;
+
+    ChooseCityListAdapter(@Nullable ClickListener<CitySuggestion, Boolean> favoriteListener,
+                          ClickListener<CitySuggestion, Integer> chooseListener) {
+        super(favoriteListener);
+        this.chooseListener = chooseListener;
     }
 
     @Override
@@ -48,6 +52,12 @@ public class ChooseCityListAdapter extends CitiesListAdapter<CitySuggestion, Boo
             if (listener != null) {
                 favorite.setOnToggleListener((fav) -> listener.onClick(city, position, fav));
             }
+        }
+
+        protected void bind(CitySuggestion city, int position, @Nullable ClickListener<CitySuggestion, Boolean> favoriteListener,
+                            ClickListener<CitySuggestion, Integer> chooseListener) {
+            bind(city, position, favoriteListener);
+            itemView.setOnClickListener(v -> chooseListener.onClick(city, position, city.getId()));
         }
     }
 }

@@ -29,8 +29,8 @@ public class DatabaseRepo {
         this.cityDao = cityDao;
     }
 
-    public Single<UIWeatherData> insertOrUpdateWeather(RawWeather weather) {
-        return Single.fromCallable(() -> {
+    public Flowable<UIWeatherData> insertOrUpdateWeather(RawWeather weather) {
+        return Flowable.fromCallable(() -> {
             DBWeatherData data = DBConverter.fromRawWeatherData(weather);
             weatherDao.insertWeather(data);
             return UIConverter.toUIWeatherData(data);

@@ -85,12 +85,16 @@ public class ChooseCityFragment extends ViewModelFragment<ChooseCityViewModel, U
     }
 
     private void initializeSuggestionsView() {
-        adapter = new ChooseCityListAdapter(this::onFavoriteClick);
+        adapter = new ChooseCityListAdapter(this::onFavoriteClick, this::onChooseClick);
         suggestions.setLayoutManager(new LinearLayoutManager(getContext()));
         suggestions.setAdapter(adapter);
     }
 
-    private void onFavoriteClick(CitySuggestion citySuggestion, int i, boolean favorite) {
+    private void onChooseClick(CitySuggestion citySuggestion, int position, int id) {
+        getViewModel().onChooseClicked(citySuggestion, position, id);
+    }
+
+    private void onFavoriteClick(CitySuggestion citySuggestion, int position, boolean favorite) {
         getViewModel().onFavoriteClicked(citySuggestion.getId(), favorite);
     }
 

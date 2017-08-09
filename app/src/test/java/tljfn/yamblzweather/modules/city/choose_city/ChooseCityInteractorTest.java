@@ -18,6 +18,7 @@ import tljfn.yamblzweather.data.DataProvider;
 import tljfn.yamblzweather.model.db.DBConverter;
 import tljfn.yamblzweather.model.db.cities.DBCity;
 import tljfn.yamblzweather.model.repo.DatabaseRepo;
+import tljfn.yamblzweather.model.repo.PreferencesRepo;
 
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -33,6 +34,8 @@ public class ChooseCityInteractorTest {
 
     @Mock
     DatabaseRepo dbRepo;
+    @Mock
+    PreferencesRepo preferencesRepo;
 
     DataProvider dataProvider;
 
@@ -41,7 +44,7 @@ public class ChooseCityInteractorTest {
     @Before
     public void setup() {
         dataProvider = new DataProvider();
-        interactor = new ChooseCityInteractor(dbRepo);
+        interactor = new ChooseCityInteractor(preferencesRepo, dbRepo);
     }
 
     @Test

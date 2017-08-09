@@ -29,10 +29,14 @@ import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
+import io.reactivex.BackpressureStrategy;
 import io.reactivex.Completable;
+import io.reactivex.Flowable;
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import io.reactivex.subjects.BehaviorSubject;
+import io.reactivex.subjects.PublishSubject;
 import tljfn.yamblzweather.R;
 import tljfn.yamblzweather.model.scheduler.WeatherUpdateJob;
 
@@ -56,6 +60,8 @@ public class PreferencesRepo {
 
     private final SharedPreferences preferences;
 
+    BehaviorSubject<Long> currentIdChanges;
+
     @Inject
     public PreferencesRepo(Context context, SharedPreferences sp) {
         this.preferences = sp;
@@ -65,6 +71,8 @@ public class PreferencesRepo {
 
         notificationsKey = context.getString(R.string.update_notifications_key);
         notificationsDefaultValue = context.getString(R.string.update_notifications_default);
+
+        currentIdChanges = BehaviorSubject.create();
     }
 
     public boolean isNotificationEnabled() {
@@ -72,13 +80,15 @@ public class PreferencesRepo {
         return preferences.getBoolean(notificationsKey, DEFAULT_VALUE);
     }
 
-    public Completable updateCurrentCity(long id) {
-        return Completable.fromAction(() ->
-                preferences.edit().putLong(currentCityKey, id).apply());
+    public Flowable<Long> updateCurrentCity(long id) {
+        preferences.edit().putLong(currentCityKey, id).apply();
+        currentIdChanges.onNext(id);
+        return currentIdChanges.toFlowable(BackpressureStrategy.LATEST);
     }
 
-    public Single<Long> getCurrentCity() {
-        return Single.fromCallable(() -> preferences.getLong(currentCityKey, DEFAULT_CITY));
+    public Flowable<Long> getCurrentCity() {
+        currentIdChanges.onNext(preferences.getLong(currentCityKey, DEFAULT_CITY));
+        return currentIdChanges.toFlowable(BackpressureStrategy.LATEST);
     }
 
     public void onPreferencesChanged(String s) {

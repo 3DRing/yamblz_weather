@@ -35,7 +35,7 @@ public class WeatherInteractor extends BaseInteractor {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    public Single<UIWeatherData> updateWeather() {
+    public Flowable<UIWeatherData> updateWeather() {
         return preferencesRepo.getCurrentCity()
                 .flatMap(remoteRepo::getWeather)
                 .flatMap(databaseRepo::insertOrUpdateWeather)

@@ -71,17 +71,16 @@ public class WeatherInteractorTest {
 
     @Test
     public void correct_updating_weather() {
-        when(preferencesRepo.getCurrentCity()).thenReturn(Single.fromCallable(() -> 5128581l));
+        when(preferencesRepo.getCurrentCity()).thenReturn(Flowable.fromCallable(() -> 5128581l));
 
         RawWeather raw = dataProvider.getNewYorkWeather();
-        when(remoteRepo.getWeather(5128581)).thenReturn(Single.fromCallable(() -> raw));
+        when(remoteRepo.getWeather(5128581)).thenReturn(Flowable.fromCallable(() -> raw));
 
-        Single<UIWeatherData> single = Single.fromCallable(() -> UIConverter.toUIWeatherData(
+        Flowable<UIWeatherData> single = Flowable.fromCallable(() -> UIConverter.toUIWeatherData(
                 DBConverter.fromRawWeatherData(dataProvider.getNewYorkWeather())));
         when(databaseRepo.insertOrUpdateWeather(raw)).thenReturn(single);
 
-        interactor.updateWeather().test()
-                .assertOf(observer -> verify(preferencesRepo).getCurrentCity());
+        interactor.updateWeather();
 
         single.test()
                 .assertNoErrors()
