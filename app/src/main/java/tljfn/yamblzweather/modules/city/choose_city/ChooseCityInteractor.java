@@ -36,7 +36,9 @@ public class ChooseCityInteractor extends BaseInteractor {
 
     public Flowable<UICitySuggestions> getSuggestions(String requestedString) {
         return dbRepo.getSuggestions(requestedString.toLowerCase())
-                .doOnNext(list -> suggestedCities.clear())
+                .doOnNext(list -> {
+                    suggestedCities.clear();
+                })
                 .flatMap(list -> Flowable.fromIterable(list)
                         .doOnNext(city -> suggestedCities.put(city.getId(), city))
                         .map(UIConverter::toUISuggestions)

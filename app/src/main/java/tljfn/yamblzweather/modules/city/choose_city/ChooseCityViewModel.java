@@ -1,17 +1,12 @@
 package tljfn.yamblzweather.modules.city.choose_city;
 
-import java.util.concurrent.TimeUnit;
-
 import javax.inject.Inject;
 
-import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
-import tljfn.yamblzweather.model.repo.DatabaseRepo;
 import tljfn.yamblzweather.modules.base.viewmodel.BaseViewModel;
 import tljfn.yamblzweather.modules.city.choose_city.data.UICitySuggestions;
-import tljfn.yamblzweather.modules.city.choose_city.data.CitySuggestion;
 
 /**
  * Created by ringov on 05.08.17.
@@ -36,7 +31,7 @@ public class ChooseCityViewModel extends BaseViewModel<UICitySuggestions> {
     public void searchCity(String requestedString) {
         disposeSuggestions();
         suggestions = interactor.getSuggestions(requestedString)
-                .debounce(500, TimeUnit.MILLISECONDS)
+                //.debounce(500, TimeUnit.MILLISECONDS)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::onChange, this::onError);
@@ -53,9 +48,11 @@ public class ChooseCityViewModel extends BaseViewModel<UICitySuggestions> {
         this.onChange(new UICitySuggestions.Builder().build());
     }
 
-    public Single<Boolean> onFavoriteClicked(int id, boolean favorite) {
-        return interactor.addFavorite(id, favorite)
+    public void onFavoriteClicked(int id, boolean favorite) {
+        interactor.addFavorite(id, favorite)
                 .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+                .observeOn(AndroidSchedulers.mainThread())
+                // todo handle result
+                .subscribe();
     }
 }

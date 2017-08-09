@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Flowable;
+import io.reactivex.Single;
 import tljfn.yamblzweather.data.DataProvider;
 import tljfn.yamblzweather.model.db.DBConverter;
 import tljfn.yamblzweather.model.db.cities.CityDao;
@@ -27,6 +28,7 @@ import tljfn.yamblzweather.modules.weather.data.UIWeatherData;
 import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 /**
@@ -71,7 +73,22 @@ public class ChooseCityViewModelTest {
 
     @Test
     public void searching_city_correct() {
-        // todo
+/*        when(cityDao.loadCitiesSuggestion("city")).thenReturn(Flowable.fromCallable(() -> {
+            List<DBCity> list = new ArrayList<>();
+            list.add(new DBCity.Builder()
+                    .id(1)
+                    .enName("city")
+                    .favorite(true)
+                    .build());
+            return list;
+        }));
+
+        viewModel.searchCity("cit");
+
+        viewModel.observe(owner, suggestions -> {
+            assertTrue(suggestions != null);
+            assertTrue(suggestions.getSuggestions().size() > 0);
+        });*/
     }
 
     @Test
@@ -83,5 +100,4 @@ public class ChooseCityViewModelTest {
             assertFalse(cityList.hasError());
         });
     }
-
 }
