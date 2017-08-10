@@ -49,6 +49,7 @@ public class DBConverter {
         double temperature = round(toCelsius(weather.getMain().getTemp()));
 
         DBWeatherData data = new DBWeatherData.Builder()
+                .id(weather.getId())
                 .city(city)
                 .temperature(temperature)
                 .time(System.currentTimeMillis())

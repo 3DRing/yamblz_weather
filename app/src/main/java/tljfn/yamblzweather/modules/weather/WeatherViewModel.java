@@ -18,6 +18,8 @@ package tljfn.yamblzweather.modules.weather;
 
 import javax.inject.Inject;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 import tljfn.yamblzweather.App;
 import tljfn.yamblzweather.model.api.data.weather.RawWeather;
 import tljfn.yamblzweather.model.repo.DatabaseRepo;
@@ -43,7 +45,6 @@ public class WeatherViewModel extends BaseViewModel<UIWeatherData> {
 
     public void updateWeather() {
         sub(interactor.updateWeather()
-                .doOnError(error -> loadCachedWeather())
                 .subscribe(this::onChange, this::onError));
     }
 
