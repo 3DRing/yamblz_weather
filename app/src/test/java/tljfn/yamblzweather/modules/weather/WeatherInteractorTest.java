@@ -54,7 +54,7 @@ public class WeatherInteractorTest {
                 DBConverter.fromRawWeatherData(raw));
 
         when(databaseRepo.loadCachedWeather(0)).thenReturn(flowable);
-        when(preferencesRepo.getCurrentCity()).thenReturn(Flowable.fromCallable(() -> 0l));
+        when(preferencesRepo.subscribeToCityUpdate()).thenReturn(Flowable.fromCallable(() -> 0l));
 
         interactor.loadCachedWeather();
 
