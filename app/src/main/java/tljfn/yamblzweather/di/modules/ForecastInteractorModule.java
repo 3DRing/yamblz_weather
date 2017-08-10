@@ -7,6 +7,7 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 import tljfn.yamblzweather.model.repo.DatabaseRepo;
+import tljfn.yamblzweather.model.repo.PreferencesRepo;
 import tljfn.yamblzweather.model.repo.RemoteRepo;
 import tljfn.yamblzweather.modules.forecast.ForecastInteractor;
 
@@ -20,8 +21,8 @@ public class ForecastInteractorModule {
     @NonNull
     @Provides
     @Singleton
-    public ForecastInteractor provideForecastInteractor(RemoteRepo remoteRepo, DatabaseRepo dbRepo) {
-        return new ForecastInteractor(remoteRepo, dbRepo);
+    public ForecastInteractor provideForecastInteractor(PreferencesRepo preferencesRepo, RemoteRepo remoteRepo, DatabaseRepo dbRepo) {
+        return new ForecastInteractor(preferencesRepo, remoteRepo, dbRepo);
     }
 
 }

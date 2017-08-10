@@ -3,6 +3,7 @@ package tljfn.yamblzweather.modules.forecast;
 import javax.inject.Inject;
 
 import tljfn.yamblzweather.model.repo.DatabaseRepo;
+import tljfn.yamblzweather.model.repo.PreferencesRepo;
 import tljfn.yamblzweather.model.repo.RemoteRepo;
 import tljfn.yamblzweather.modules.base.BaseInteractor;
 
@@ -12,11 +13,13 @@ import tljfn.yamblzweather.modules.base.BaseInteractor;
 
 public class ForecastInteractor extends BaseInteractor {
 
+    private final PreferencesRepo preferencesRepo;
     private RemoteRepo remoteRepo;
     private DatabaseRepo dbRepo;
 
     @Inject
-    public ForecastInteractor(RemoteRepo remoteRepo, DatabaseRepo dbRepo) {
+    public ForecastInteractor(PreferencesRepo preferencesRepo, RemoteRepo remoteRepo, DatabaseRepo dbRepo) {
+        this.preferencesRepo = preferencesRepo;
         this.remoteRepo = remoteRepo;
         this.dbRepo = dbRepo;
     }
