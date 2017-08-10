@@ -33,4 +33,8 @@ public class FavoriteCitiesViewModel extends BaseViewModel<UIFavoriteCityList> {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::onChange, this::onError);
     }
+
+    public void onCityClicked(int cityId) {
+
+    }
 }

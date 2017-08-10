@@ -16,12 +16,12 @@ import butterknife.ButterKnife;
  * Created by ringov on 08.08.17.
  */
 
-public abstract class CitiesListAdapter<T extends CityItem, R> extends RecyclerView.Adapter<CitiesListAdapter.ViewHolder<T, R>> {
+public abstract class OverengineeredCitiesListAdapter<T, R> extends RecyclerView.Adapter<OverengineeredCitiesListAdapter.ViewHolder<T, R>> {
 
     private List<T> items;
     private ClickListener<T, R> listener;
 
-    public CitiesListAdapter(@Nullable ClickListener<T, R> listener) {
+    public OverengineeredCitiesListAdapter(@Nullable ClickListener<T, R> listener) {
         items = new ArrayList<>();
         this.listener = listener;
     }
@@ -52,7 +52,7 @@ public abstract class CitiesListAdapter<T extends CityItem, R> extends RecyclerV
         return items.size();
     }
 
-    protected static abstract class ViewHolder<T extends CityItem, R> extends RecyclerView.ViewHolder {
+    protected static abstract class ViewHolder<T, R> extends RecyclerView.ViewHolder {
 
         protected ViewHolder(View itemView) {
             super(itemView);
@@ -62,7 +62,7 @@ public abstract class CitiesListAdapter<T extends CityItem, R> extends RecyclerV
         protected abstract void bind(T city, int position, @Nullable ClickListener<T, R> listener);
     }
 
-    public interface ClickListener<T extends CityItem, R> {
+    public interface ClickListener<T, R> {
         void onClick(T city, int position, R result);
     }
 }

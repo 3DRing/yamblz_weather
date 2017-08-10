@@ -1,4 +1,4 @@
-package tljfn.yamblzweather.modules.city.choose_city;
+package tljfn.yamblzweather.modules.city;
 
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
@@ -22,7 +22,7 @@ import tljfn.yamblzweather.utils.custom_views.FavoriteButton;
 
 public class CityListAdapter extends RecyclerView.Adapter<CityListAdapter.ViewHolder> {
 
-    private List<CitySuggestion> items;
+    private List<UICity> items;
     private FavoriteListener favoriteListener;
     private ChooseCityListener chooseCityListener;
 
@@ -48,7 +48,7 @@ public class CityListAdapter extends RecyclerView.Adapter<CityListAdapter.ViewHo
         return items.size();
     }
 
-    public void setItems(List<CitySuggestion> items) {
+    public void setItems(List<UICity> items) {
         this.items = items;
         notifyDataSetChanged();
     }
@@ -65,7 +65,7 @@ public class CityListAdapter extends RecyclerView.Adapter<CityListAdapter.ViewHo
             ButterKnife.bind(this, itemView);
         }
 
-        void bind(CitySuggestion city, int position, @Nullable FavoriteListener favoriteListener, ChooseCityListener chooseCityListener) {
+        void bind(UICity city, int position, @Nullable FavoriteListener favoriteListener, ChooseCityListener chooseCityListener) {
             tvCity.setText(city.getName());
             favorite.setChecked(city.isFavorite());
             if (favoriteListener != null) {
@@ -77,11 +77,11 @@ public class CityListAdapter extends RecyclerView.Adapter<CityListAdapter.ViewHo
         }
     }
 
-    interface ChooseCityListener {
-        void onClick(CitySuggestion city, int position, int cityId);
+    public interface ChooseCityListener {
+        void onClick(UICity city, int position, int cityId);
     }
 
-    interface FavoriteListener {
-        void onClick(CitySuggestion city, int position, boolean favorite);
+    public interface FavoriteListener {
+        void onClick(UICity city, int position, boolean favorite);
     }
 }

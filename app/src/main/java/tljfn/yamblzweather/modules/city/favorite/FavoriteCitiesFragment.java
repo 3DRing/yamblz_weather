@@ -14,7 +14,9 @@ import tljfn.yamblzweather.App;
 import tljfn.yamblzweather.R;
 import tljfn.yamblzweather.di.modules.viewmodel.ViewModelFactory;
 import tljfn.yamblzweather.modules.base.fragment.ViewModelFragment;
-import tljfn.yamblzweather.modules.city.CitiesListAdapter;
+import tljfn.yamblzweather.modules.city.CityListAdapter;
+import tljfn.yamblzweather.modules.city.OverengineeredCitiesListAdapter;
+import tljfn.yamblzweather.modules.city.UICity;
 import tljfn.yamblzweather.modules.city.favorite.data.FavoriteCity;
 import tljfn.yamblzweather.modules.city.favorite.data.UIFavoriteCityList;
 import tljfn.yamblzweather.modules.weather.WeatherViewModel;
@@ -33,11 +35,11 @@ public class FavoriteCitiesFragment extends ViewModelFragment<FavoriteCitiesView
     @BindView(R.id.tv_crt_city)
     TextView crtCity;
 
-    //WeatherViewModel weatherViewModel;
+    WeatherViewModel weatherViewModel;
 
     @BindView(R.id.rv_favorite_cities)
     RecyclerView favoriteCities;
-    CitiesListAdapter<FavoriteCity, Boolean> adapter;
+    CityListAdapter adapter;
 
     @Override
     protected void initializeViews() {
@@ -48,14 +50,22 @@ public class FavoriteCitiesFragment extends ViewModelFragment<FavoriteCitiesView
     @Override
     protected void initializeInternalViewModels() {
         super.initializeInternalViewModels();
-        //weatherViewModel = ViewModelProviders.of(this, getViewModelFactory()).get(WeatherViewModel.class);
-        //weatherViewModel.observe(this, this::onCrtCityWeatherChanged);
+        weatherViewModel = ViewModelProviders.of(this, getViewModelFactory()).get(WeatherViewModel.class);
+        weatherViewModel.observe(this, this::onCrtCityWeatherChanged);
     }
 
     private void initializeRecycler() {
-        adapter = new FavoriteCitiesListAdapter(null);
+        adapter = new CityListAdapter(this::onFavoriteClick, this::onCityClick);
         favoriteCities.setLayoutManager(new LinearLayoutManager(getContext()));
         favoriteCities.setAdapter(adapter);
+    }
+
+    private void onCityClick(UICity city, int position, int cityId) {
+        getViewModel().onCityClicked(cityId);
+    }
+
+    private void onFavoriteClick(UICity city, int position, boolean favorite) {
+
     }
 
     private void onCrtCityWeatherChanged(UIWeatherData uiWeatherData) {

@@ -17,6 +17,7 @@ import tljfn.yamblzweather.model.repo.DatabaseRepo;
 import tljfn.yamblzweather.model.repo.PreferencesRepo;
 import tljfn.yamblzweather.modules.UIConverter;
 import tljfn.yamblzweather.modules.base.BaseInteractor;
+import tljfn.yamblzweather.modules.city.UICity;
 import tljfn.yamblzweather.modules.city.choose_city.data.CitySuggestion;
 import tljfn.yamblzweather.modules.city.choose_city.data.UICitySuggestions;
 
@@ -51,7 +52,7 @@ public class ChooseCityInteractor extends BaseInteractor {
                 .flatMapSingle(Single::just)
                 .map(list -> {
                     UICitySuggestions.Builder builder = new UICitySuggestions.Builder();
-                    for (CitySuggestion s :
+                    for (UICity s :
                             list) {
                         builder.addCity(s);
                     }

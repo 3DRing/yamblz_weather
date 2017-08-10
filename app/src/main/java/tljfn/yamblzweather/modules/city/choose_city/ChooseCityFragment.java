@@ -19,6 +19,8 @@ import tljfn.yamblzweather.App;
 import tljfn.yamblzweather.R;
 import tljfn.yamblzweather.di.modules.viewmodel.ViewModelFactory;
 import tljfn.yamblzweather.modules.base.fragment.ViewModelFragment;
+import tljfn.yamblzweather.modules.city.CityListAdapter;
+import tljfn.yamblzweather.modules.city.UICity;
 import tljfn.yamblzweather.modules.city.choose_city.data.CitySuggestion;
 import tljfn.yamblzweather.modules.city.choose_city.data.UICitySuggestions;
 
@@ -89,11 +91,11 @@ public class ChooseCityFragment extends ViewModelFragment<ChooseCityViewModel, U
         suggestions.setAdapter(adapter);
     }
 
-    private void onChooseClick(CitySuggestion citySuggestion, int position, int id) {
+    private void onChooseClick(UICity citySuggestion, int position, int id) {
         getViewModel().onChooseClicked(citySuggestion, position, id);
     }
 
-    private void onFavoriteClick(CitySuggestion citySuggestion, int position, boolean favorite) {
+    private void onFavoriteClick(UICity citySuggestion, int position, boolean favorite) {
         getViewModel().onFavoriteClicked(citySuggestion.getId(), favorite);
     }
 
