@@ -6,6 +6,7 @@ import io.reactivex.Flowable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import tljfn.yamblzweather.model.db.DBConverter;
+import tljfn.yamblzweather.model.db.weather.DBWeatherData;
 import tljfn.yamblzweather.model.repo.DatabaseRepo;
 import tljfn.yamblzweather.model.repo.PreferencesRepo;
 import tljfn.yamblzweather.model.repo.RemoteRepo;
@@ -31,18 +32,20 @@ public class WeatherInteractor extends BaseInteractor {
     }
 
     public Flowable<UIWeatherData> loadCachedWeather() {
-        return preferencesRepo.getCurrentCity()
+        return preferencesRepo.subscribeToCityUpdate()
                 .flatMap(databaseRepo::getCity)
-                .zipWith(preferencesRepo.getCurrentCity()
-                                .flatMap(databaseRepo::loadCachedWeather),
-                        UIConverter::toUIWeatherData)
+                .zipWith(preferencesRepo.subscribeToCityUpdate()
+                                .flatMap(id -> databaseRepo.loadCachedWeather(id).subscribeOn(Schedulers.io()))
+                        , UIConverter::toUIWeatherData)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
     public Flowable<UIWeatherData> updateWeather() {
         return preferencesRepo.getCurrentCity()
-                .flatMap(remoteRepo::getWeather)
+                .flatMap(databaseRepo::getCity)
+                .zipWith(preferencesRepo.getCurrentCity()
+                        .flatMap(remoteRepo::getWeather), DBConverter::fromRawWeatherData)
                 .flatMap(databaseRepo::insertOrUpdateWeather)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());

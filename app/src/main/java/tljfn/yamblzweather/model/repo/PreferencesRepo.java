@@ -39,6 +39,7 @@ import io.reactivex.subjects.BehaviorSubject;
 import io.reactivex.subjects.PublishSubject;
 import tljfn.yamblzweather.R;
 import tljfn.yamblzweather.model.scheduler.WeatherUpdateJob;
+import tljfn.yamblzweather.modules.weather.data.UIWeatherData;
 
 /**
  * Repository that handles User objects.
@@ -93,7 +94,7 @@ public class PreferencesRepo {
     }
 
     public Flowable<Long> getCurrentCity() {
-        return currentIdChanges.toFlowable(BackpressureStrategy.LATEST);
+        return Flowable.just(currentIdChanges.getValue());
     }
 
     public void onPreferencesChanged(String s) {
@@ -150,5 +151,9 @@ public class PreferencesRepo {
     public boolean isFirstLaunch() {
         boolean isFirst = preferences.getBoolean(FIRST_LAUNCH_KEY, true);
         return isFirst;
+    }
+
+    public Flowable<Long> subscribeToCityUpdate() {
+        return currentIdChanges.toFlowable(BackpressureStrategy.LATEST);
     }
 }

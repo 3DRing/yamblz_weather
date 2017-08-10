@@ -33,7 +33,7 @@ public class FavoriteCitiesFragment extends ViewModelFragment<FavoriteCitiesView
     @BindView(R.id.tv_crt_city)
     TextView crtCity;
 
-    WeatherViewModel weatherViewModel;
+    //WeatherViewModel weatherViewModel;
 
     @BindView(R.id.rv_favorite_cities)
     RecyclerView favoriteCities;
@@ -48,8 +48,8 @@ public class FavoriteCitiesFragment extends ViewModelFragment<FavoriteCitiesView
     @Override
     protected void initializeInternalViewModels() {
         super.initializeInternalViewModels();
-        weatherViewModel = ViewModelProviders.of(this, getViewModelFactory()).get(WeatherViewModel.class);
-        weatherViewModel.observe(this, this::onCrtCityWeatherChanged);
+        //weatherViewModel = ViewModelProviders.of(this, getViewModelFactory()).get(WeatherViewModel.class);
+        //weatherViewModel.observe(this, this::onCrtCityWeatherChanged);
     }
 
     private void initializeRecycler() {
