@@ -7,6 +7,7 @@ import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import tljfn.yamblzweather.model.db.DBConverter;
+import tljfn.yamblzweather.model.db.weather.DBWeatherData;
 import tljfn.yamblzweather.model.repo.DatabaseRepo;
 import tljfn.yamblzweather.model.repo.PreferencesRepo;
 import tljfn.yamblzweather.model.repo.RemoteRepo;
@@ -37,6 +38,16 @@ public class WeatherInteractor extends BaseInteractor {
                 .zipWith(preferencesRepo.subscribeToCityUpdate()
                                 .flatMap(id -> databaseRepo.loadCachedWeather(id).subscribeOn(Schedulers.io()))
                         , UIConverter::toUIWeatherData)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public Flowable<UIWeatherData> lazyUpdateCachedWeather() {
+        return preferencesRepo.subscribeToCityUpdate()
+                .flatMap(databaseRepo::getCity)
+                .zipWith(preferencesRepo.subscribeToCityUpdate()
+                                .flatMap(id -> databaseRepo.loadCachedWeather(id).subscribeOn(Schedulers.io()))
+                        , UIConverter::toUIWeatherData)
                 .flatMap(weather -> {
                     if (weather.isEmpty()) {
                         // add check for old data
@@ -58,7 +69,7 @@ public class WeatherInteractor extends BaseInteractor {
     }
 
     public Flowable<UIWeatherData> updateWeather() {
-        return loadCachedWeather()
+        return loadWeatherFromRemote()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

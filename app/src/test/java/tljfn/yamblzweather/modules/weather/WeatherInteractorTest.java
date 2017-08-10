@@ -56,7 +56,7 @@ public class WeatherInteractorTest {
         when(databaseRepo.loadCachedWeather(0)).thenReturn(flowable);
         when(preferencesRepo.subscribeToCityUpdate()).thenReturn(Flowable.fromCallable(() -> 0l));
 
-        interactor.loadCachedWeather();
+        interactor.lazyUpdateCachedWeather();
 
         flowable.test()
                 .assertNoErrors()
