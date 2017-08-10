@@ -9,10 +9,8 @@ import org.mockito.Mock;
 import org.mockito.internal.verification.VerificationModeFactory;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
-import org.mockito.verification.VerificationMode;
 
 import io.reactivex.Flowable;
-import io.reactivex.Single;
 import tljfn.yamblzweather.data.DataProvider;
 import tljfn.yamblzweather.modules.UIConverter;
 import tljfn.yamblzweather.modules.base.viewmodel.lifecycle_environment.TestLifecycleOwner;
@@ -44,9 +42,9 @@ public class WeatherViewModelTest {
     public void setup() {
         owner = new TestLifecycleOwner();
         dataProvider = new DataProvider();
-        when(interactor.loadCachedWeather()).thenReturn(Flowable.fromCallable(() ->
+        when(interactor.lazyUpdateCachedWeather()).thenReturn(Flowable.fromCallable(() ->
                 UIConverter.toUIWeatherData(dataProvider.getNewYorkWeatherDB())));
-        when(interactor.updateWeather()).thenReturn(Single.fromCallable(() ->
+        when(interactor.updateWeather()).thenReturn(Flowable.fromCallable(() ->
                 UIConverter.toUIWeatherData(dataProvider.getNewYorkWeatherDB())));
 
         viewModel = new WeatherViewModel(interactor);
@@ -54,9 +52,9 @@ public class WeatherViewModelTest {
 
     @Test
     public void load_cached_weather_correct() {
-        viewModel.loadCachedWeather();
+        viewModel.lazyUpdateCachedWeather();
         viewModel.observe(owner, weather -> {
-            verify(interactor, VerificationModeFactory.atLeastOnce()).loadCachedWeather();
+            verify(interactor, VerificationModeFactory.atLeastOnce()).lazyUpdateCachedWeather();
             weather.equals(UIConverter
                     .toUIWeatherData(dataProvider.getNewYorkWeatherDB()));
         });
@@ -66,7 +64,7 @@ public class WeatherViewModelTest {
     public void update_weather_correct() {
         viewModel.updateWeather();
         viewModel.observe(owner, weather -> {
-                    verify(interactor).loadCachedWeather();
+                    verify(interactor).lazyUpdateCachedWeather();
                     weather.equals(UIConverter
                             .toUIWeatherData(dataProvider.getNewYorkWeatherDB()));
                 }

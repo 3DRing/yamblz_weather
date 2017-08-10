@@ -18,11 +18,8 @@ package tljfn.yamblzweather.modules.weather;
 
 import javax.inject.Inject;
 
-import tljfn.yamblzweather.App;
-import tljfn.yamblzweather.model.api.data.weather.RawWeather;
-import tljfn.yamblzweather.model.repo.DatabaseRepo;
-import tljfn.yamblzweather.model.repo.PreferencesRepo;
-import tljfn.yamblzweather.model.repo.RemoteRepo;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 import tljfn.yamblzweather.modules.base.viewmodel.BaseViewModel;
 import tljfn.yamblzweather.modules.weather.data.UIWeatherData;
 
@@ -33,17 +30,20 @@ public class WeatherViewModel extends BaseViewModel<UIWeatherData> {
     @Inject
     public WeatherViewModel(WeatherInteractor interactor) {
         this.interactor = interactor;
-        loadCachedWeather();
+        lazyUpdateCachedWeather();
     }
 
-    public void loadCachedWeather() {
-        sub(interactor.loadCachedWeather()
+    public void lazyUpdateCachedWeather() {
+        sub(interactor.lazyUpdateCachedWeather()
                 .subscribe(this::onChange, this::onError));
     }
 
     public void updateWeather() {
         sub(interactor.updateWeather()
-                .doOnError(error -> loadCachedWeather())
+                .doOnError(t -> interactor.loadCachedWeather()
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(this::onChange, this::onError))
                 .subscribe(this::onChange, this::onError));
     }
 

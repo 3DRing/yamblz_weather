@@ -19,7 +19,8 @@ import tljfn.yamblzweather.App;
 import tljfn.yamblzweather.R;
 import tljfn.yamblzweather.di.modules.viewmodel.ViewModelFactory;
 import tljfn.yamblzweather.modules.base.fragment.ViewModelFragment;
-import tljfn.yamblzweather.modules.city.CitiesListAdapter;
+import tljfn.yamblzweather.modules.city.CityListAdapter;
+import tljfn.yamblzweather.modules.city.UICity;
 import tljfn.yamblzweather.modules.city.choose_city.data.CitySuggestion;
 import tljfn.yamblzweather.modules.city.choose_city.data.UICitySuggestions;
 
@@ -43,7 +44,7 @@ public class ChooseCityFragment extends ViewModelFragment<ChooseCityViewModel, U
     @BindView(R.id.rv_suggestions)
     RecyclerView suggestions;
 
-    CitiesListAdapter<CitySuggestion, Boolean> adapter;
+    CityListAdapter adapter;
 
     @OnClick(R.id.backpress)
     void onTopBackPress() {
@@ -85,12 +86,16 @@ public class ChooseCityFragment extends ViewModelFragment<ChooseCityViewModel, U
     }
 
     private void initializeSuggestionsView() {
-        adapter = new ChooseCityListAdapter(this::onFavoriteClick);
+        adapter = new CityListAdapter(this::onFavoriteClick, this::onChooseClick);
         suggestions.setLayoutManager(new LinearLayoutManager(getContext()));
         suggestions.setAdapter(adapter);
     }
 
-    private void onFavoriteClick(CitySuggestion citySuggestion, int i, boolean favorite) {
+    private void onChooseClick(UICity citySuggestion, int position, int id) {
+        getViewModel().onChooseClicked(citySuggestion, position, id);
+    }
+
+    private void onFavoriteClick(UICity citySuggestion, int position, boolean favorite) {
         getViewModel().onFavoriteClicked(citySuggestion.getId(), favorite);
     }
 

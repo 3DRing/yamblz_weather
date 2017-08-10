@@ -5,7 +5,7 @@ import javax.inject.Inject;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import tljfn.yamblzweather.modules.base.viewmodel.BaseViewModel;
-import tljfn.yamblzweather.modules.city.favorite.data.FavoriteCity;
+import tljfn.yamblzweather.modules.city.UICity;
 import tljfn.yamblzweather.modules.city.favorite.data.UIFavoriteCityList;
 
 /**
@@ -32,5 +32,18 @@ public class FavoriteCitiesViewModel extends BaseViewModel<UIFavoriteCityList> {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::onChange, this::onError);
+    }
+
+    public void onCityClicked(int cityId) {
+        interactor.chooseCity(cityId)
+                .subscribe();
+    }
+
+    public void onFavoriteClicked(UICity city, boolean favorite) {
+        interactor.setFavorite(city.getId(), favorite)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                // todo handle result
+                .subscribe();
     }
 }

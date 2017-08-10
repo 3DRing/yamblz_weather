@@ -4,6 +4,7 @@ import java.util.Locale;
 
 import tljfn.yamblzweather.model.db.cities.DBCity;
 import tljfn.yamblzweather.model.db.weather.DBWeatherData;
+import tljfn.yamblzweather.modules.city.UICity;
 import tljfn.yamblzweather.modules.city.choose_city.data.CitySuggestion;
 import tljfn.yamblzweather.modules.city.favorite.data.FavoriteCity;
 import tljfn.yamblzweather.modules.weather.data.UIWeatherData;
@@ -16,13 +17,20 @@ import tljfn.yamblzweather.modules.weather.data.WeatherCondition;
 public class UIConverter {
 
     public static UIWeatherData toUIWeatherData(DBWeatherData weather) {
-        UIWeatherData data = new UIWeatherData.Builder()
-                .city(weather.getCity())
-                .temperature(weather.getTemperature())
-                .time(weather.getTime())
-                .condition(weatherIdToCondition(weather.getCondition()))
-                .build();
-        return data;
+        if (weather.getId() == -1) {
+            return new UIWeatherData.Builder()
+                    .city(weather.getCity())
+                    .empty(true)
+                    .build();
+        } else {
+            UIWeatherData data = new UIWeatherData.Builder()
+                    .city(weather.getCity())
+                    .temperature(weather.getTemperature())
+                    .time(weather.getTime())
+                    .condition(weatherIdToCondition(weather.getCondition()))
+                    .build();
+            return data;
+        }
     }
 
     private static WeatherCondition weatherIdToCondition(int id) {
@@ -51,21 +59,38 @@ public class UIConverter {
     }
 
 
-    public static CitySuggestion toUISuggestions(DBCity city) {
+    public static UICity toUISuggestions(DBCity city) {
         StringBuilder sb = new StringBuilder();
         String name = chooseDependingOnLocale(city.getRuName(), city.getEnName());
 
         // todo provide correct uppercase letters for each part of city name
         name = sb.append(name.substring(0, 1).toUpperCase()).append(name.substring(1)).toString();
-        return new CitySuggestion(city.getId(), name, city.isFavorite());
+        return new UICity(city.getOpenWeatherId(), name, city.isFavorite());
     }
 
-    public static FavoriteCity toFavoriteCity(DBCity city) {
-        return new FavoriteCity(chooseDependingOnLocale(city.getRuName(), city.getEnName()), city.isFavorite());
+    public static UICity toFavoriteCity(DBCity city) {
+        return new UICity(city.getOpenWeatherId(), chooseDependingOnLocale(city.getRuName(), city.getEnName()), city.isFavorite());
     }
 
     private static String chooseDependingOnLocale(String ru, String other) {
         // todo differentiate languages in more generic way
         return Locale.getDefault().getLanguage().equals("ru") ? ru : other;
+    }
+
+    public static UIWeatherData toUIWeatherData(DBCity city, DBWeatherData weather) {
+        if (weather.getId() == -1) {
+            return new UIWeatherData.Builder()
+                    .city(chooseDependingOnLocale(city.getRuName(), city.getEnName()))
+                    .empty(true)
+                    .build();
+        } else {
+            UIWeatherData data = new UIWeatherData.Builder()
+                    .city(chooseDependingOnLocale(city.getRuName(), city.getEnName()))
+                    .temperature(weather.getTemperature())
+                    .time(weather.getTime())
+                    .condition(weatherIdToCondition(weather.getCondition()))
+                    .build();
+            return data;
+        }
     }
 }

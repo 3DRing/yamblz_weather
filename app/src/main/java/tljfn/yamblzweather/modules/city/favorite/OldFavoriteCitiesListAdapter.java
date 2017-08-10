@@ -6,7 +6,7 @@ import android.widget.TextView;
 
 import butterknife.BindView;
 import tljfn.yamblzweather.R;
-import tljfn.yamblzweather.modules.city.CitiesListAdapter;
+import tljfn.yamblzweather.modules.city.OverengineeredCitiesListAdapter;
 import tljfn.yamblzweather.modules.city.favorite.data.FavoriteCity;
 import tljfn.yamblzweather.utils.custom_views.FavoriteButton;
 
@@ -14,9 +14,9 @@ import tljfn.yamblzweather.utils.custom_views.FavoriteButton;
  * Created by ringov on 05.08.17.
  */
 
-public class FavoriteCitiesListAdapter extends CitiesListAdapter<FavoriteCity, Boolean> {
+public class OldFavoriteCitiesListAdapter extends OverengineeredCitiesListAdapter<FavoriteCity, Boolean> {
 
-    public FavoriteCitiesListAdapter(@Nullable ClickListener<FavoriteCity, Boolean> listener) {
+    public OldFavoriteCitiesListAdapter(@Nullable ClickListener<FavoriteCity, Boolean> listener) {
         super(listener);
     }
 
@@ -26,11 +26,11 @@ public class FavoriteCitiesListAdapter extends CitiesListAdapter<FavoriteCity, B
     }
 
     @Override
-    protected CitiesListAdapter.ViewHolder<FavoriteCity, Boolean> initHolder(View v) {
+    protected OverengineeredCitiesListAdapter.ViewHolder<FavoriteCity, Boolean> initHolder(View v) {
         return new ViewHolder(v);
     }
 
-    static class ViewHolder extends CitiesListAdapter.ViewHolder<FavoriteCity, Boolean> {
+    static class ViewHolder extends OverengineeredCitiesListAdapter.ViewHolder<FavoriteCity, Boolean> {
 
         @BindView(R.id.tv_city_name)
         TextView tvCity;

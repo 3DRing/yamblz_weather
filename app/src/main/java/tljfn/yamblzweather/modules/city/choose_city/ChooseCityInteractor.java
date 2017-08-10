@@ -9,12 +9,15 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
+import io.reactivex.Completable;
 import io.reactivex.Flowable;
 import io.reactivex.Single;
 import tljfn.yamblzweather.model.db.cities.DBCity;
 import tljfn.yamblzweather.model.repo.DatabaseRepo;
+import tljfn.yamblzweather.model.repo.PreferencesRepo;
 import tljfn.yamblzweather.modules.UIConverter;
 import tljfn.yamblzweather.modules.base.BaseInteractor;
+import tljfn.yamblzweather.modules.city.UICity;
 import tljfn.yamblzweather.modules.city.choose_city.data.CitySuggestion;
 import tljfn.yamblzweather.modules.city.choose_city.data.UICitySuggestions;
 
@@ -24,12 +27,14 @@ import tljfn.yamblzweather.modules.city.choose_city.data.UICitySuggestions;
 
 public class ChooseCityInteractor extends BaseInteractor {
 
+    PreferencesRepo preferencesRepo;
     DatabaseRepo dbRepo;
 
     SparseArray<DBCity> suggestedCities;
 
     @Inject
-    public ChooseCityInteractor(DatabaseRepo dbRepo) {
+    public ChooseCityInteractor(PreferencesRepo preferencesRepo, DatabaseRepo dbRepo) {
+        this.preferencesRepo = preferencesRepo;
         this.dbRepo = dbRepo;
         suggestedCities = new SparseArray<>();
     }
@@ -40,14 +45,14 @@ public class ChooseCityInteractor extends BaseInteractor {
                     suggestedCities.clear();
                 })
                 .flatMap(list -> Flowable.fromIterable(list)
-                        .doOnNext(city -> suggestedCities.put(city.getId(), city))
+                        .doOnNext(city -> suggestedCities.put(city.getOpenWeatherId(), city))
                         .map(UIConverter::toUISuggestions)
                         .toSortedList((city1, city2) -> city1.getName().compareTo(city2.getName()))
                         .toFlowable())
                 .flatMapSingle(Single::just)
                 .map(list -> {
                     UICitySuggestions.Builder builder = new UICitySuggestions.Builder();
-                    for (CitySuggestion s :
+                    for (UICity s :
                             list) {
                         builder.addCity(s);
                     }
@@ -55,7 +60,7 @@ public class ChooseCityInteractor extends BaseInteractor {
                 });
     }
 
-    public Single<Boolean> addFavorite(int id, boolean favorite) {
+    public Single<Boolean> setFavorite(int id, boolean favorite) {
         DBCity favoriteCity = suggestedCities.get(id);
         if (favoriteCity != null) {
             favoriteCity.setFavorite(favorite);
@@ -63,5 +68,10 @@ public class ChooseCityInteractor extends BaseInteractor {
         } else {
             return Single.just(false);
         }
+    }
+
+    public Completable chooseCity(int id) {
+        preferencesRepo.updateCurrentCity(id);
+        return Completable.complete();
     }
 }

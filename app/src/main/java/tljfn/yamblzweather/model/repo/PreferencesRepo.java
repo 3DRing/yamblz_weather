@@ -29,12 +29,17 @@ import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
+import io.reactivex.BackpressureStrategy;
 import io.reactivex.Completable;
+import io.reactivex.Flowable;
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import io.reactivex.subjects.BehaviorSubject;
+import io.reactivex.subjects.PublishSubject;
 import tljfn.yamblzweather.R;
 import tljfn.yamblzweather.model.scheduler.WeatherUpdateJob;
+import tljfn.yamblzweather.modules.weather.data.UIWeatherData;
 
 /**
  * Repository that handles User objects.
@@ -44,6 +49,7 @@ public class PreferencesRepo {
     static final long DEFAULT_CITY = 524901; // moscow, russia
 
     static final String FIRST_LAUNCH_KEY = "first_launch";
+    static final String CURRENT_CITY_ID_KEY = "current_city_id";
 
     String intervalKey;
     String intervalDefaultValue;
@@ -56,6 +62,8 @@ public class PreferencesRepo {
 
     private final SharedPreferences preferences;
 
+    BehaviorSubject<Long> currentIdChanges;
+
     @Inject
     public PreferencesRepo(Context context, SharedPreferences sp) {
         this.preferences = sp;
@@ -65,6 +73,13 @@ public class PreferencesRepo {
 
         notificationsKey = context.getString(R.string.update_notifications_key);
         notificationsDefaultValue = context.getString(R.string.update_notifications_default);
+
+        currentIdChanges = BehaviorSubject.create();
+        currentIdChanges.onNext(getCurrentCityId());
+    }
+
+    private long getCurrentCityId() {
+        return preferences.getLong(CURRENT_CITY_ID_KEY, DEFAULT_CITY);
     }
 
     public boolean isNotificationEnabled() {
@@ -72,13 +87,14 @@ public class PreferencesRepo {
         return preferences.getBoolean(notificationsKey, DEFAULT_VALUE);
     }
 
-    public Completable updateCurrentCity(long id) {
-        return Completable.fromAction(() ->
-                preferences.edit().putLong(currentCityKey, id).apply());
+    public Flowable<Long> updateCurrentCity(long id) {
+        preferences.edit().putLong(CURRENT_CITY_ID_KEY, id).apply();
+        currentIdChanges.onNext(getCurrentCityId());
+        return currentIdChanges.toFlowable(BackpressureStrategy.LATEST);
     }
 
-    public Single<Long> getCurrentCity() {
-        return Single.fromCallable(() -> preferences.getLong(currentCityKey, DEFAULT_CITY));
+    public Flowable<Long> getCurrentCity() {
+        return Flowable.just(currentIdChanges.getValue());
     }
 
     public void onPreferencesChanged(String s) {
@@ -135,5 +151,9 @@ public class PreferencesRepo {
     public boolean isFirstLaunch() {
         boolean isFirst = preferences.getBoolean(FIRST_LAUNCH_KEY, true);
         return isFirst;
+    }
+
+    public Flowable<Long> subscribeToCityUpdate() {
+        return currentIdChanges.toFlowable(BackpressureStrategy.LATEST);
     }
 }

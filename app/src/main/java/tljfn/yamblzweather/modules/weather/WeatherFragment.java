@@ -86,11 +86,19 @@ public class WeatherFragment extends ViewModelFragment<WeatherViewModel, UIWeath
 
     @Override
     public void onSuccess(@NonNull UIWeatherData data) {
-        tvTemperature.setText(getString(R.string.temperature, data.getTemperature()));
-        tvCity.setText(data.getCity());
-        tvTime.setText(Utils.getRelativeTime(getContext(), data.getTime()));
-        tvCondition.setText(data.getConditionName());
-        weatherImage.setImageResource(data.getConditionImage());
+        if (!data.isEmpty()) {
+            tvTemperature.setText(getString(R.string.temperature, data.getTemperature()));
+            tvCity.setText(data.getCity());
+            tvTime.setText(Utils.getRelativeTime(getContext(), data.getTime()));
+            tvCondition.setText(data.getConditionName());
+            weatherImage.setImageResource(data.getConditionImage());
+        } else {
+            tvTemperature.setText("");
+            tvCity.setText(data.getCity());
+            tvTime.setText("");
+            tvCondition.setText("");
+            weatherImage.setImageResource(data.getConditionImage());
+        }
     }
 
     @Override

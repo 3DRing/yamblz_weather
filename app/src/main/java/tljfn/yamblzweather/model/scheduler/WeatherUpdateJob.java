@@ -68,11 +68,11 @@ public class WeatherUpdateJob extends Job {
     protected Result onRunJob(Params params) {
         App.getComponent().inject(this);
 
-        preferencesRepo.getCurrentCity()
+/*        preferencesRepo.getCurrentCity()
                 .flatMap(remoteRepo::getWeather)
                 .flatMap(dbRepo::insertOrUpdateWeather)
                 .filter(weather -> preferencesRepo.isNotificationEnabled())
-                .subscribe(this::sendWeatherNotification, this::handleError);
+                .subscribe(this::sendWeatherNotification, this::handleError);*/
         return Result.SUCCESS;
     }
 

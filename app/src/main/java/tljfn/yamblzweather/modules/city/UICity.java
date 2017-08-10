@@ -1,15 +1,15 @@
-package tljfn.yamblzweather.modules.city.choose_city.data;
+package tljfn.yamblzweather.modules.city;
 
 /**
- * Created by ringov on 04.08.17.
+ * Created by ringov on 10.08.17.
  */
 
-public class CitySuggestion {
+public class UICity {
     private int id;
     private String name;
     private boolean favorite;
 
-    public CitySuggestion(int id, String name, boolean favorite) {
+    public UICity(int id, String name, boolean favorite) {
         this.id = id;
         this.name = name;
         this.favorite = favorite;

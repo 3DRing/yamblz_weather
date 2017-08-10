@@ -129,5 +129,10 @@ public class DBWeatherData {
         public DBWeatherData build() {
             return data;
         }
+
+        public Builder id(int openWeatherId) {
+            data.id = openWeatherId;
+            return this;
+        }
     }
 }

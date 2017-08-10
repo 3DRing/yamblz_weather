@@ -5,6 +5,8 @@ import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 
+import java.util.List;
+
 import io.reactivex.Flowable;
 
 /**
@@ -14,10 +16,10 @@ import io.reactivex.Flowable;
 public interface WeatherDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertWeather(DBWeatherData weather);
+    long insertWeather(DBWeatherData weather);
 
 
-    @Query("SELECT * FROM weather")
-    Flowable<DBWeatherData> loadWeather();
+    @Query("SELECT * FROM weather WHERE id = :id")
+    List<DBWeatherData> loadWeather(long id);
 
 }
