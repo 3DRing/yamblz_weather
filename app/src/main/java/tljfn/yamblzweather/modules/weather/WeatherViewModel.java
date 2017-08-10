@@ -35,6 +35,7 @@ public class WeatherViewModel extends BaseViewModel<UIWeatherData> {
 
     public void lazyUpdateCachedWeather() {
         sub(interactor.lazyUpdateCachedWeather()
+                .doOnSubscribe(s -> this.showLoading())
                 .subscribe(this::onChange, this::onError));
     }
 

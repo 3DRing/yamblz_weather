@@ -1,16 +1,19 @@
 package tljfn.yamblzweather.model.repo;
 
+import java.util.Arrays;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import io.reactivex.Flowable;
 import io.reactivex.Single;
-import tljfn.yamblzweather.model.api.data.weather.RawWeather;
 import tljfn.yamblzweather.model.db.cities.CityDao;
 import tljfn.yamblzweather.model.db.cities.DBCity;
-import tljfn.yamblzweather.model.db.DBConverter;
+import tljfn.yamblzweather.model.db.forecast.DBForecast;
 import tljfn.yamblzweather.model.db.weather.DBWeatherData;
 import tljfn.yamblzweather.model.db.weather.WeatherDao;
 import tljfn.yamblzweather.modules.UIConverter;
+import tljfn.yamblzweather.modules.forecast.data.UIForecast;
 import tljfn.yamblzweather.modules.weather.data.UIWeatherData;
 
 /**
@@ -21,6 +24,7 @@ public class DatabaseRepo {
     private final WeatherDao weatherDao;
     private final CityDao cityDao;
 
+    @Inject
     public DatabaseRepo(WeatherDao weatherDao, CityDao cityDao) {
         this.weatherDao = weatherDao;
         this.cityDao = cityDao;
@@ -66,5 +70,16 @@ public class DatabaseRepo {
 
     public Flowable<DBCity> getCity(long cityId) {
         return cityDao.getCity(cityId);
+    }
+
+    public Flowable<DBForecast> loadCachedForecast(long id) {
+        return Flowable.just(new DBForecast());
+    }
+
+    public Flowable<List<DBForecast>> insertOrUpdateForecast(DBForecast[] forecasts) {
+        return Flowable.fromCallable(() -> {
+            long[] result = weatherDao.insertForecast(forecasts);
+            return Arrays.asList(forecasts);
+        });
     }
 }

@@ -7,7 +7,7 @@ import android.arch.persistence.room.Query;
 
 import java.util.List;
 
-import io.reactivex.Flowable;
+import tljfn.yamblzweather.model.db.forecast.DBForecast;
 
 /**
  * Data Access Object for the weather table.
@@ -22,4 +22,6 @@ public interface WeatherDao {
     @Query("SELECT * FROM weather WHERE id = :id")
     List<DBWeatherData> loadWeather(long id);
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    long[] insertForecast(DBForecast[] forecasts);
 }

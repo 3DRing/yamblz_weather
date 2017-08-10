@@ -28,7 +28,7 @@ public class WeatherApiModule {
     @NonNull
     @Singleton
     @Provides
-    public WeatherApi provideWeatherApi(Context context){
+    public WeatherApi provideWeatherApi(Context context) {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         builder.addInterceptor(new ApiInterceptor("appid", BaseFields.WEATHER_API_KEY));
         builder.addInterceptor(new ConnectivityInterceptor(context));

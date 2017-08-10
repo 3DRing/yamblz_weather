@@ -1,7 +1,5 @@
 package tljfn.yamblzweather.modules.base.data;
 
-import android.support.annotation.NonNull;
-
 /**
  * Created by ringov on 31.07.17.
  */
@@ -10,10 +8,16 @@ public class UIBaseData implements UIState {
 
     String error;
     boolean loading;
+    boolean empty;
 
     protected UIBaseData() {
         error = "";
         loading = false;
+        empty = false;
+    }
+
+    public boolean isEmpty() {
+        return empty;
     }
 
     @Override
@@ -59,6 +63,10 @@ public class UIBaseData implements UIState {
         return result;
     }
 
+    public void setEmpty(boolean empty) {
+        this.empty = empty;
+    }
+
     protected static abstract class Builder<D extends UIBaseData, B extends Builder> {
 
         protected D data;
@@ -67,9 +75,9 @@ public class UIBaseData implements UIState {
             data = checkedInitialization();
         }
 
-        private D checkedInitialization(){
+        private D checkedInitialization() {
             D data = init();
-            if(data == null){
+            if (data == null) {
                 throw new IllegalStateException("You must implement init() method and provide an instance of a data. Appeared in "
                         + this.getClass().getSimpleName());
             }
@@ -86,8 +94,13 @@ public class UIBaseData implements UIState {
          */
         protected abstract B getThis();
 
-        public B error(@NonNull String errorMessage) {
+        public B error(String errorMessage) {
             data.error = errorMessage;
+            return getThis();
+        }
+
+        public B empty(boolean empty) {
+            this.data.empty = empty;
             return getThis();
         }
 
@@ -107,5 +120,6 @@ public class UIBaseData implements UIState {
         protected ErrorBuilder getThis() {
             return this;
         }
+
     }
 }

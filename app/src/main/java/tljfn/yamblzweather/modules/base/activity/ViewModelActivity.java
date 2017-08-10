@@ -43,6 +43,6 @@ public abstract class ViewModelActivity<VM extends BaseViewModel<D>, D extends U
     }
 
     protected void onChanged(@Nullable D data) {
-        errorShower.showError(this, this, data);
+        errorShower.showDataOrError(this, this, data);
     }
 }

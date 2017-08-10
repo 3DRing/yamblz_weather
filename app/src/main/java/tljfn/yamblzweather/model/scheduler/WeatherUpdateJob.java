@@ -72,7 +72,7 @@ public class WeatherUpdateJob extends Job {
                 .flatMap(remoteRepo::getWeather)
                 .flatMap(dbRepo::insertOrUpdateWeather)
                 .filter(weather -> preferencesRepo.isNotificationEnabled())
-                .subscribe(this::sendWeatherNotification, this::handleError);*/
+                .subscribe(this::sendWeatherNotification, this::showDataOrError);*/
         return Result.SUCCESS;
     }
 

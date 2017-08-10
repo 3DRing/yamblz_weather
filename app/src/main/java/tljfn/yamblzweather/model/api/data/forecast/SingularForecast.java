@@ -10,7 +10,7 @@ public class SingularForecast {
 
     @SerializedName("dt")
     @Expose
-    private int dt;
+    private long dt;
     @SerializedName("main")
     @Expose
     private Main main;
@@ -33,7 +33,7 @@ public class SingularForecast {
     @Expose
     private Rain rain;
 
-    public int getDt() {
+    public long getDt() {
         return dt;
     }
 
@@ -49,11 +49,11 @@ public class SingularForecast {
         this.main = main;
     }
 
-    public java.util.List<Weather> getWeather() {
+    public List<Weather> getWeather() {
         return weather;
     }
 
-    public void setWeather(java.util.List<Weather> weather) {
+    public void setWeather(List<Weather> weather) {
         this.weather = weather;
     }
 
