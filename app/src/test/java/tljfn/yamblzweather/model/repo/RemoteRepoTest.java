@@ -9,6 +9,7 @@ import org.mockito.junit.MockitoRule;
 
 import java.util.List;
 
+import io.reactivex.Flowable;
 import io.reactivex.Single;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Predicate;
@@ -47,7 +48,7 @@ public class RemoteRepoTest {
 
     @Test
     public void getting_weather_is_correct() {
-        when(weatherApi.getWeather(5128581, "ru")).thenReturn(Single.fromCallable(() -> dataProvider.getNewYorkWeather()));
+        when(weatherApi.getWeather(5128581, "ru")).thenReturn(Flowable.fromCallable(() -> dataProvider.getNewYorkWeather()));
         repo.getWeather(5128581).test()
                 .assertNoErrors()
                 .assertOf(listTestObserver -> verify(weatherApi).getWeather(5128581, "ru"))
@@ -56,7 +57,7 @@ public class RemoteRepoTest {
 
     @Test
     public void getting_bad_weather_is_correct() {
-        when(weatherApi.getWeather(123, "ru")).thenReturn(Single.fromCallable(() -> dataProvider.getBadWeather()));
+        when(weatherApi.getWeather(123, "ru")).thenReturn(Flowable.fromCallable(() -> dataProvider.getBadWeather()));
         repo.getWeather(123).test()
                 .assertNoErrors()
                 .assertOf(listTestObserver -> verify(weatherApi).getWeather(123, "ru"))
@@ -66,7 +67,7 @@ public class RemoteRepoTest {
     @Test
     public void getting_error_on_weather() {
         Exception e = new Exception();
-        when(weatherApi.getWeather(5128581, "ru")).thenReturn(Single.error(e));
+        when(weatherApi.getWeather(5128581, "ru")).thenReturn(Flowable.error(e));
         repo.getWeather(5128581).test()
                 .assertOf(listTestObserver -> verify(weatherApi).getWeather(5128581, "ru"))
                 .assertError(e);

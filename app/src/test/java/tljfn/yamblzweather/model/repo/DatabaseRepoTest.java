@@ -12,11 +12,11 @@ import java.util.List;
 
 import io.reactivex.Flowable;
 import tljfn.yamblzweather.data.DataProvider;
-import tljfn.yamblzweather.model.api.data.city.RawCity;
 import tljfn.yamblzweather.model.api.data.weather.RawWeather;
 import tljfn.yamblzweather.model.db.DBConverter;
 import tljfn.yamblzweather.model.db.cities.CityDao;
 import tljfn.yamblzweather.model.db.cities.DBCity;
+import tljfn.yamblzweather.model.db.weather.DBWeatherData;
 import tljfn.yamblzweather.model.db.weather.WeatherDao;
 import tljfn.yamblzweather.model.errors.RawToDBConvertingException;
 import tljfn.yamblzweather.modules.UIConverter;
@@ -50,40 +50,26 @@ public class DatabaseRepoTest {
 
     @Test
     public void loading_cached_weather() {
-        when(weatherDao.loadWeather()).thenReturn(Flowable.fromCallable(() ->
-                DBConverter.fromRawWeatherData(dataProvider.getNewYorkWeather())));
+        List<DBWeatherData> list = new ArrayList<>();
+        list.add(DBConverter.fromRawWeatherData(dataProvider.getNewYorkWeather()));
+        when(weatherDao.loadWeather(0)).thenReturn(list);
 
-        repo.loadCachedWeather().test()
+        repo.loadCachedWeather(0).test()
                 .assertNoErrors()
-                .assertOf(observable -> weatherDao.loadWeather())
+                .assertOf(observable -> weatherDao.loadWeather(0))
                 .assertValue(cachedUIData ->
-                        cachedUIData.equals(
-                                UIConverter.toUIWeatherData(
-                                        DBConverter.fromRawWeatherData(
-                                                dataProvider.getNewYorkWeather()))));
+                        cachedUIData.equals(DBConverter.fromRawWeatherData(dataProvider.getNewYorkWeather())));
 
     }
 
     @Test
-    public void loading_cached_weather_bad_converting() {
-        when(weatherDao.loadWeather()).thenReturn(Flowable.fromCallable(() ->
-                DBConverter.fromRawWeatherData(dataProvider.getBadWeather())));
+    public void loading_cached_weather_empty() {
+        when(weatherDao.loadWeather(0)).thenReturn(null);
 
-        repo.loadCachedWeather().test()
-                .assertError(error -> error instanceof RawToDBConvertingException)
-                .assertOf(observable -> verify(weatherDao).loadWeather());
-    }
-
-    @Test
-    public void loading_cached_weather_unknown_exception() {
-        Exception e = new Exception();
-        when(weatherDao.loadWeather()).thenReturn(Flowable.fromCallable(() -> {
-            throw e;
-        }));
-
-        repo.loadCachedWeather().test()
-                .assertError(e)
-                .assertOf(observer -> verify(weatherDao).loadWeather());
+        repo.loadCachedWeather(0).test()
+                .assertNoErrors()
+                .assertValue(new DBWeatherData.Builder().build())
+                .assertOf(observer -> verify(weatherDao).loadWeather(0));
     }
 
     @Test
@@ -114,21 +100,13 @@ public class DatabaseRepoTest {
     public void inserting_weather_is_correct() {
         RawWeather weather = dataProvider.getNewYorkWeather();
 
-        repo.insertOrUpdateWeather(weather).test()
+        repo.insertOrUpdateWeather(DBConverter.fromRawWeatherData(weather)).test()
                 .assertNoErrors()
                 .assertOf(observer -> verify(weatherDao).insertWeather(any()))
                 .assertValue(uiWeather ->
                         UIConverter.toUIWeatherData(
                                 DBConverter.fromRawWeatherData(
                                         dataProvider.getNewYorkWeather())).equals(uiWeather));
-    }
-
-    @Test
-    public void inserting_weather_bad_converting() {
-        RawWeather weather = dataProvider.getBadWeather();
-
-        repo.insertOrUpdateWeather(weather).test()
-                .assertError(error -> error instanceof RawToDBConvertingException);
     }
 
     @Test

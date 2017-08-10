@@ -1,5 +1,6 @@
 package tljfn.yamblzweather.model.api;
 
+import io.reactivex.Flowable;
 import io.reactivex.Single;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
@@ -20,6 +21,6 @@ public interface WeatherApi {
                                   @Query("lon") double lon);
 
     @GET("weather")
-    Single<RawWeather> getWeather(@Query("id") long id,
-                                  @Query("lang") String lang);
+    Flowable<RawWeather> getWeather(@Query("id") long id,
+                                    @Query("lang") String lang);
 }

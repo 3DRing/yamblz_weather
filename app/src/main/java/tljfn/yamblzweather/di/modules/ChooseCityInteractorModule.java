@@ -7,6 +7,7 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 import tljfn.yamblzweather.model.repo.DatabaseRepo;
+import tljfn.yamblzweather.model.repo.PreferencesRepo;
 import tljfn.yamblzweather.modules.city.choose_city.ChooseCityInteractor;
 
 /**
@@ -19,8 +20,8 @@ public class ChooseCityInteractorModule {
     @NonNull
     @Singleton
     @Provides
-    public ChooseCityInteractor provideChooseCityInteractor(DatabaseRepo dbRepo) {
-        return new ChooseCityInteractor(dbRepo);
+    public ChooseCityInteractor provideChooseCityInteractor(PreferencesRepo preferencesRepo, DatabaseRepo dbRepo) {
+        return new ChooseCityInteractor(preferencesRepo, dbRepo);
     }
 
 }

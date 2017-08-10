@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import io.reactivex.Flowable;
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -25,7 +26,7 @@ public class RemoteRepo {
         this.cityApi = cityApi;
     }
 
-    public Single<RawWeather> getWeather(long id) {
+    public Flowable<RawWeather> getWeather(long id) {
         return weatherApi.getWeather(id, DEFAULT_LOCALE);
     }
 

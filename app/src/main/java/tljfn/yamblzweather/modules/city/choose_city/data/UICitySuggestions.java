@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import tljfn.yamblzweather.modules.base.data.UIBaseData;
+import tljfn.yamblzweather.modules.city.UICity;
 
 /**
  * Created by ringov on 05.08.17.
@@ -11,13 +12,13 @@ import tljfn.yamblzweather.modules.base.data.UIBaseData;
 
 public class UICitySuggestions extends UIBaseData {
 
-    private List<CitySuggestion> suggestions;
+    private List<UICity> suggestions;
 
     private UICitySuggestions() {
         suggestions = new ArrayList<>();
     }
 
-    public List<CitySuggestion> getSuggestions() {
+    public List<UICity> getSuggestions() {
         return suggestions;
     }
 
@@ -33,7 +34,7 @@ public class UICitySuggestions extends UIBaseData {
             return this;
         }
 
-        public Builder addCity(CitySuggestion suggestion) {
+        public Builder addCity(UICity suggestion) {
             data.suggestions.add(suggestion);
             return this;
         }

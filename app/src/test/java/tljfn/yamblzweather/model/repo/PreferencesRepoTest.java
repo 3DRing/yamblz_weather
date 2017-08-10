@@ -46,6 +46,9 @@ public class PreferencesRepoTest {
 
         when(sp.edit()).thenReturn(editor);
 
+        when(sp.getLong(PreferencesRepo.CURRENT_CITY_ID_KEY, PreferencesRepo.DEFAULT_CITY))
+                .thenReturn(PreferencesRepo.DEFAULT_CITY);
+
         repo = new PreferencesRepo(context, sp);
         verify(context).getString(R.string.default_update_intervals_value);
         verify(context).getString(R.string.update_intervals_key);
@@ -126,25 +129,34 @@ public class PreferencesRepoTest {
 
     @Test
     public void correct_getting_current_city() {
-        when(sp.getLong(repo.currentCityKey, PreferencesRepo.DEFAULT_CITY)).thenReturn(12356L);
-
         repo.getCurrentCity().test()
                 .assertNoErrors()
-                .assertValue(12356L)
+                .assertValue(PreferencesRepo.DEFAULT_CITY)
                 .assertOf(longTestObserver ->
-                        verify(sp).getLong(repo.currentCityKey, PreferencesRepo.DEFAULT_CITY));
+                        verify(sp).getLong(PreferencesRepo.CURRENT_CITY_ID_KEY, PreferencesRepo.DEFAULT_CITY));
     }
 
     @Test
     public void correct_updating_current_city() {
-        when(editor.putLong(repo.currentCityKey, 600l)).thenReturn(editor);
+        when(editor.putLong(PreferencesRepo.CURRENT_CITY_ID_KEY, 600l)).thenReturn(editor);
 
         repo.updateCurrentCity(600l).test()
                 .assertNoErrors()
                 .assertOf(voidTestObserver -> {
                     verify(sp).edit();
-                    verify(editor).putLong(repo.currentCityKey, 600l);
+                    verify(editor).putLong(PreferencesRepo.CURRENT_CITY_ID_KEY, 600l);
                     verify(editor).apply();
                 });
+    }
+
+    @Test
+    public void correct_updating_current_city_and_notify_others() {
+        when(editor.putLong(PreferencesRepo.CURRENT_CITY_ID_KEY, 600l)).thenReturn(editor);
+
+        repo.updateCurrentCity(600l)
+                .doOnNext(id ->
+                        repo.getCurrentCity().test()
+                                .assertNoErrors()
+                                .assertValue(600l));
     }
 }

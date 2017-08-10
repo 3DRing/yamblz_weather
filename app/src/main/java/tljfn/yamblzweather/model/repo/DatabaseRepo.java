@@ -2,8 +2,6 @@ package tljfn.yamblzweather.model.repo;
 
 import java.util.List;
 
-import javax.xml.transform.Transformer;
-
 import io.reactivex.Flowable;
 import io.reactivex.Single;
 import tljfn.yamblzweather.model.api.data.weather.RawWeather;
@@ -12,7 +10,6 @@ import tljfn.yamblzweather.model.db.cities.DBCity;
 import tljfn.yamblzweather.model.db.DBConverter;
 import tljfn.yamblzweather.model.db.weather.DBWeatherData;
 import tljfn.yamblzweather.model.db.weather.WeatherDao;
-import tljfn.yamblzweather.modules.city.choose_city.data.CitySuggestion;
 import tljfn.yamblzweather.modules.UIConverter;
 import tljfn.yamblzweather.modules.weather.data.UIWeatherData;
 
@@ -29,17 +26,18 @@ public class DatabaseRepo {
         this.cityDao = cityDao;
     }
 
-    public Single<UIWeatherData> insertOrUpdateWeather(RawWeather weather) {
-        return Single.fromCallable(() -> {
-            DBWeatherData data = DBConverter.fromRawWeatherData(weather);
-            weatherDao.insertWeather(data);
-            return UIConverter.toUIWeatherData(data);
+    public Flowable<UIWeatherData> insertOrUpdateWeather(DBWeatherData weather) {
+        return Flowable.fromCallable(() -> {
+            long result = weatherDao.insertWeather(weather);
+            return UIConverter.toUIWeatherData(weather);
         });
     }
 
-    public Flowable<UIWeatherData> loadCachedWeather() {
-        return weatherDao.loadWeather()
-                .map(UIConverter::toUIWeatherData);
+    public Flowable<DBWeatherData> loadCachedWeather(long cityId) {
+        return Flowable.fromCallable(() -> {
+            List<DBWeatherData> list = weatherDao.loadWeather(cityId);
+            return (list == null || list.size() == 0) ? new DBWeatherData.Builder().build() : list.get(0);
+        });
     }
 
     public Flowable<List<DBCity>> getSuggestions(String requestString) {
@@ -64,5 +62,9 @@ public class DatabaseRepo {
             int result = cityDao.setFavorite(favorite);
             return result > 0;
         });
+    }
+
+    public Flowable<DBCity> getCity(long cityId) {
+        return cityDao.getCity(cityId);
     }
 }
