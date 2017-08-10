@@ -48,28 +48,28 @@ public class RemoteRepoTest {
 
     @Test
     public void getting_weather_is_correct() {
-        when(weatherApi.getWeather(5128581, "ru")).thenReturn(Flowable.fromCallable(() -> dataProvider.getNewYorkWeather()));
+        when(weatherApi.getWeather(5128581)).thenReturn(Flowable.fromCallable(() -> dataProvider.getNewYorkWeather()));
         repo.getWeather(5128581).test()
                 .assertNoErrors()
-                .assertOf(listTestObserver -> verify(weatherApi).getWeather(5128581, "ru"))
+                .assertOf(listTestObserver -> verify(weatherApi).getWeather(5128581))
                 .assertValue(dataProvider.getNewYorkWeather());
     }
 
     @Test
     public void getting_bad_weather_is_correct() {
-        when(weatherApi.getWeather(123, "ru")).thenReturn(Flowable.fromCallable(() -> dataProvider.getBadWeather()));
+        when(weatherApi.getWeather(123)).thenReturn(Flowable.fromCallable(() -> dataProvider.getBadWeather()));
         repo.getWeather(123).test()
                 .assertNoErrors()
-                .assertOf(listTestObserver -> verify(weatherApi).getWeather(123, "ru"))
+                .assertOf(listTestObserver -> verify(weatherApi).getWeather(123))
                 .assertValue(received -> received.equals(dataProvider.getBadWeather()));
     }
 
     @Test
     public void getting_error_on_weather() {
         Exception e = new Exception();
-        when(weatherApi.getWeather(5128581, "ru")).thenReturn(Flowable.error(e));
+        when(weatherApi.getWeather(5128581)).thenReturn(Flowable.error(e));
         repo.getWeather(5128581).test()
-                .assertOf(listTestObserver -> verify(weatherApi).getWeather(5128581, "ru"))
+                .assertOf(listTestObserver -> verify(weatherApi).getWeather(5128581))
                 .assertError(e);
     }
 

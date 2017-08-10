@@ -69,7 +69,7 @@ public class ChooseCityViewModelTest {
     @Test
     public void searching_city_correct() {
 /*        when(cityDao.loadCitiesSuggestion("city")).thenReturn(Flowable.fromCallable(() -> {
-            List<DBCity> list = new ArrayList<>();
+            SingularForecast<DBCity> list = new ArrayList<>();
             list.add(new DBCity.Builder()
                     .id(1)
                     .enName("city")

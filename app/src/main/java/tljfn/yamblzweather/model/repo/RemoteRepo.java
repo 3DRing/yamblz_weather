@@ -15,8 +15,6 @@ import tljfn.yamblzweather.model.api.data.weather.RawWeather;
 
 public class RemoteRepo {
 
-    static final String DEFAULT_LOCALE = "ru";
-
     private final WeatherApi weatherApi;
     private final CityApi cityApi;
 
@@ -27,7 +25,7 @@ public class RemoteRepo {
     }
 
     public Flowable<RawWeather> getWeather(long id) {
-        return weatherApi.getWeather(id, DEFAULT_LOCALE);
+        return weatherApi.getWeather(id);
     }
 
     public Single<List<RawCity>> getAllCities(){

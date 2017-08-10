@@ -46,7 +46,7 @@ public class WeatherApiTest {
     public void get_weather_by_id() throws IOException {
         enqueueResponse("new_york_weather.json");
 
-        api.getWeather(0, "ru").test()
+        api.getWeather(0).test()
                 .assertNoErrors()
                 .assertValue(rawWeather -> rawWeather.equals(weather));
     }
@@ -56,7 +56,7 @@ public class WeatherApiTest {
         enqueueResponse("bad_weather_response.json");
 
         // todo specify this error in the actual code
-        api.getWeather(0, "ru").test()
+        api.getWeather(0).test()
                 .assertError(Throwable.class);
     }
 
