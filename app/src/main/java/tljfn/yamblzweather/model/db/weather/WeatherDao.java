@@ -20,6 +20,6 @@ public interface WeatherDao {
 
 
     @Query("SELECT * FROM weather WHERE id = :id")
-    Flowable<List<DBWeatherData>> loadWeather(long id);
+    List<DBWeatherData> loadWeather(long id);
 
 }

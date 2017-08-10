@@ -31,30 +31,12 @@ public class WeatherInteractor extends BaseInteractor {
         this.preferencesRepo = preferencesRepo;
     }
 
-    /**
-     * either from db or network
-     *
-     * @return
-     */
-    public Flowable<UIWeatherData> getWeather() {
+    public Flowable<UIWeatherData> loadCachedWeather() {
         return preferencesRepo.subscribeToCityUpdate()
                 .flatMap(databaseRepo::getCity)
                 .zipWith(preferencesRepo.subscribeToCityUpdate()
-                                .flatMap(databaseRepo::loadCachedWeather)
-                        , (city, weather) -> {
-                            return UIConverter.toUIWeatherData(city, weather);
-                        }
-                )
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
-    }
-/*
-    public Flowable<UIWeatherData> loadCachedWeather() {
-        return preferencesRepo.getCurrentCity()
-                .flatMap(databaseRepo::getCity)
-                .zipWith(preferencesRepo.getCurrentCity()
-                                .flatMap(databaseRepo::loadCachedWeather),
-                        UIConverter::toUIWeatherData)
+                                .flatMap(id -> databaseRepo.loadCachedWeather(id).subscribeOn(Schedulers.io()))
+                        , UIConverter::toUIWeatherData)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
@@ -67,5 +49,5 @@ public class WeatherInteractor extends BaseInteractor {
                 .flatMap(databaseRepo::insertOrUpdateWeather)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
-    }*/
+    }
 }

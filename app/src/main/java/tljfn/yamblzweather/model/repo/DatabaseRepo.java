@@ -34,8 +34,10 @@ public class DatabaseRepo {
     }
 
     public Flowable<DBWeatherData> loadCachedWeather(long cityId) {
-        return weatherDao.loadWeather(cityId)
-                .map(list -> list.size() == 0 ? new DBWeatherData.Builder().build() : list.get(0));
+        return Flowable.fromCallable(() -> {
+            List<DBWeatherData> list = weatherDao.loadWeather(cityId);
+            return list.size() == 0 ? new DBWeatherData.Builder().build() : list.get(0);
+        });
     }
 
     public Flowable<List<DBCity>> getSuggestions(String requestString) {

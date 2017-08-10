@@ -69,7 +69,7 @@ public class UIConverter {
         return Locale.getDefault().getLanguage().equals("ru") ? ru : other;
     }
 
-    public synchronized static UIWeatherData toUIWeatherData(DBCity city, DBWeatherData weather) {
+    public static UIWeatherData toUIWeatherData(DBCity city, DBWeatherData weather) {
         UIWeatherData data = new UIWeatherData.Builder()
                 .city(chooseDependingOnLocale(city.getRuName(), city.getEnName()))
                 .temperature(weather.getTemperature())
