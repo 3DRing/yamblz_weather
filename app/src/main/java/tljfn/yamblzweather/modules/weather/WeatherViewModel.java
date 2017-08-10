@@ -37,14 +37,14 @@ public class WeatherViewModel extends BaseViewModel<UIWeatherData> {
     }
 
     public void loadCachedWeather() {
-        sub(interactor.loadCachedWeather()
+        sub(interactor.getWeather()
                 .subscribe(this::onChange, this::onError));
     }
 
     public void updateWeather() {
-        sub(interactor.updateWeather()
+/*        sub(interactor.updateWeather()
                 .doOnError(error -> loadCachedWeather())
-                .subscribe(this::onChange, this::onError));
+                .subscribe(this::onChange, this::onError));*/
     }
 
     @Override
