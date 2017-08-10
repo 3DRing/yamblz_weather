@@ -3,10 +3,11 @@ package tljfn.yamblzweather.modules;
 import java.util.Locale;
 
 import tljfn.yamblzweather.model.db.cities.DBCity;
+import tljfn.yamblzweather.model.db.forecast.DBForecast;
 import tljfn.yamblzweather.model.db.weather.DBWeatherData;
 import tljfn.yamblzweather.modules.city.UICity;
-import tljfn.yamblzweather.modules.city.choose_city.data.CitySuggestion;
-import tljfn.yamblzweather.modules.city.favorite.data.FavoriteCity;
+import tljfn.yamblzweather.modules.forecast.data.UIForecast;
+import tljfn.yamblzweather.modules.forecast.data.UISingleForecast;
 import tljfn.yamblzweather.modules.weather.data.UIWeatherData;
 import tljfn.yamblzweather.modules.weather.data.WeatherCondition;
 
@@ -58,6 +59,9 @@ public class UIConverter {
         }
     }
 
+    public static UIForecast toUIForecast(DBCity city, DBForecast dbForecast) {
+        return new UIForecast();
+    }
 
     public static UICity toUISuggestions(DBCity city) {
         StringBuilder sb = new StringBuilder();
@@ -92,5 +96,16 @@ public class UIConverter {
                     .build();
             return data;
         }
+    }
+
+    public static UIForecast toUIForecast(DBForecast dbForecast) {
+        return new UIForecast();
+    }
+
+    public static UISingleForecast toUISingleForecast(DBForecast dbForecast) {
+        return new UISingleForecast.Builder()
+                .fromDBForecast(dbForecast)
+                .condition(weatherIdToCondition(dbForecast.getConditionId()))
+                .build();
     }
 }

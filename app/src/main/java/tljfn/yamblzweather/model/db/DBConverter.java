@@ -1,18 +1,19 @@
 package tljfn.yamblzweather.model.db;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 import tljfn.yamblzweather.model.api.data.city.RawCity;
+import tljfn.yamblzweather.model.api.data.forecast.RawForecast;
+import tljfn.yamblzweather.model.api.data.forecast.SingularForecast;
 import tljfn.yamblzweather.model.api.data.weather.Main;
 import tljfn.yamblzweather.model.api.data.weather.RawWeather;
-import tljfn.yamblzweather.model.api.data.weather.Sys;
 import tljfn.yamblzweather.model.api.data.weather.Weather;
 import tljfn.yamblzweather.model.db.cities.DBCity;
+import tljfn.yamblzweather.model.db.forecast.DBForecast;
 import tljfn.yamblzweather.model.db.weather.DBWeatherData;
 import tljfn.yamblzweather.model.errors.RawToDBConvertingException;
-import tljfn.yamblzweather.modules.weather.data.UIWeatherData;
-import tljfn.yamblzweather.modules.weather.data.WeatherCondition;
 
 /**
  * Created by ringov on 06.08.17.
@@ -83,6 +84,35 @@ public class DBConverter {
                 .countryCode(city.country.toLowerCase())
                 .favorite(false)
                 .build();
+    }
+
+    public static DBForecast[] fromRawForecast(DBCity city, RawForecast forecast) {
+        List<SingularForecast> all = forecast.getList();
+        DBForecast.Builder builder = new DBForecast.Builder();
+
+        DBForecast[] result = new DBForecast[forecast.getCnt()];
+        int i = 0;
+        for (SingularForecast f :
+                all) {
+            // todo refactor name of the class (?)
+            List<tljfn.yamblzweather.model.api.data.forecast.Weather> weathers = f.getWeather();
+            if (weathers == null || weathers.size() == 0) {
+                throw new RawToDBConvertingException("Cannot extract weather condition from server response");
+            }
+            int conditionId = weathers.get(0).getId();
+            int cityId = city.getOpenWeatherId();
+            DBForecast single = builder.id(DBForecast.generateId(cityId, i))
+                    .cityId(cityId)
+                    .updateTime(System.currentTimeMillis())
+                    .forecastTime(f.getDt())
+                    .temperature(f.getMain().getTemp())
+                    .condition(conditionId)
+                    .build();
+            result[i] = single;
+            i++;
+        }
+
+        return result;
     }
 
     public static DBWeatherData fromRawWeatherData(DBCity city, RawWeather weather) {

@@ -79,7 +79,8 @@ public class PreferencesRepo {
     }
 
     private long getCurrentCityId() {
-        return preferences.getLong(CURRENT_CITY_ID_KEY, DEFAULT_CITY);
+        long crtId = preferences.getLong(CURRENT_CITY_ID_KEY, DEFAULT_CITY);
+        return crtId;
     }
 
     public boolean isNotificationEnabled() {

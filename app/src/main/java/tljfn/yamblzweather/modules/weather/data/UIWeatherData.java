@@ -15,14 +15,12 @@ public class UIWeatherData extends UIBaseData {
     private String city;
     private double temperature;
     private WeatherCondition condition;
-    private boolean empty;
 
     private UIWeatherData() {
         time = 0;
         city = "";
         temperature = 0;
         condition = WeatherCondition.Other;
-        empty = false;
     }
 
     public long getTime() {
@@ -71,10 +69,6 @@ public class UIWeatherData extends UIBaseData {
         return result;
     }
 
-    public boolean isEmpty() {
-        return empty;
-    }
-
     public static class Builder extends UIBaseData.Builder<UIWeatherData, UIWeatherData.Builder> {
 
         @Override
@@ -104,11 +98,6 @@ public class UIWeatherData extends UIBaseData {
 
         public Builder condition(WeatherCondition condition) {
             this.data.condition = condition;
-            return this;
-        }
-
-        public Builder empty(boolean empty) {
-            this.data.empty = empty;
             return this;
         }
     }

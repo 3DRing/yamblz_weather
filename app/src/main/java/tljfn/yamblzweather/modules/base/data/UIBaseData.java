@@ -10,10 +10,16 @@ public class UIBaseData implements UIState {
 
     String error;
     boolean loading;
+    boolean empty;
 
     protected UIBaseData() {
         error = "";
         loading = false;
+        empty = false;
+    }
+
+    public boolean isEmpty() {
+        return empty;
     }
 
     @Override
@@ -67,9 +73,9 @@ public class UIBaseData implements UIState {
             data = checkedInitialization();
         }
 
-        private D checkedInitialization(){
+        private D checkedInitialization() {
             D data = init();
-            if(data == null){
+            if (data == null) {
                 throw new IllegalStateException("You must implement init() method and provide an instance of a data. Appeared in "
                         + this.getClass().getSimpleName());
             }
@@ -91,6 +97,11 @@ public class UIBaseData implements UIState {
             return getThis();
         }
 
+        public B empty(boolean empty) {
+            this.data.empty = empty;
+            return getThis();
+        }
+
         public D build() {
             return data;
         }
@@ -107,5 +118,6 @@ public class UIBaseData implements UIState {
         protected ErrorBuilder getThis() {
             return this;
         }
+
     }
 }

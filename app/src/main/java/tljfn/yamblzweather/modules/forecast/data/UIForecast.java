@@ -1,5 +1,8 @@
 package tljfn.yamblzweather.modules.forecast.data;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import tljfn.yamblzweather.modules.base.data.UIBaseData;
 
 /**
@@ -8,8 +11,10 @@ import tljfn.yamblzweather.modules.base.data.UIBaseData;
 
 public class UIForecast extends UIBaseData {
 
-    UIForecast() {
+    List<UISingleForecast> forecasts;
 
+    public UIForecast() {
+        forecasts = new ArrayList<>();
     }
 
     public static class Builder extends UIBaseData.Builder<UIForecast, Builder> {
@@ -21,6 +26,11 @@ public class UIForecast extends UIBaseData {
 
         @Override
         protected Builder getThis() {
+            return this;
+        }
+
+        public Builder addSingleForecasts(List<UISingleForecast> forecasts) {
+            data.forecasts.addAll(forecasts);
             return this;
         }
     }
