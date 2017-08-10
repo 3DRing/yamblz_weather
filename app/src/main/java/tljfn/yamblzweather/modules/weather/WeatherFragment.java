@@ -93,7 +93,11 @@ public class WeatherFragment extends ViewModelFragment<WeatherViewModel, UIWeath
             tvCondition.setText(data.getConditionName());
             weatherImage.setImageResource(data.getConditionImage());
         } else {
+            tvTemperature.setText("");
             tvCity.setText(data.getCity());
+            tvTime.setText("");
+            tvCondition.setText("");
+            weatherImage.setImageResource(data.getConditionImage());
         }
     }
 
