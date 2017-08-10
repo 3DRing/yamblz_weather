@@ -16,13 +16,20 @@ import tljfn.yamblzweather.modules.weather.data.WeatherCondition;
 public class UIConverter {
 
     public static UIWeatherData toUIWeatherData(DBWeatherData weather) {
-        UIWeatherData data = new UIWeatherData.Builder()
-                .city(weather.getCity())
-                .temperature(weather.getTemperature())
-                .time(weather.getTime())
-                .condition(weatherIdToCondition(weather.getCondition()))
-                .build();
-        return data;
+        if (weather.getId() == -1) {
+            return new UIWeatherData.Builder()
+                    .city(weather.getCity())
+                    .empty(true)
+                    .build();
+        } else {
+            UIWeatherData data = new UIWeatherData.Builder()
+                    .city(weather.getCity())
+                    .temperature(weather.getTemperature())
+                    .time(weather.getTime())
+                    .condition(weatherIdToCondition(weather.getCondition()))
+                    .build();
+            return data;
+        }
     }
 
     private static WeatherCondition weatherIdToCondition(int id) {
@@ -70,12 +77,19 @@ public class UIConverter {
     }
 
     public static UIWeatherData toUIWeatherData(DBCity city, DBWeatherData weather) {
-        UIWeatherData data = new UIWeatherData.Builder()
-                .city(chooseDependingOnLocale(city.getRuName(), city.getEnName()))
-                .temperature(weather.getTemperature())
-                .time(weather.getTime())
-                .condition(weatherIdToCondition(weather.getCondition()))
-                .build();
-        return data;
+        if (weather.getId() == -1) {
+            return new UIWeatherData.Builder()
+                    .city(chooseDependingOnLocale(city.getRuName(), city.getEnName()))
+                    .empty(true)
+                    .build();
+        } else {
+            UIWeatherData data = new UIWeatherData.Builder()
+                    .city(chooseDependingOnLocale(city.getRuName(), city.getEnName()))
+                    .temperature(weather.getTemperature())
+                    .time(weather.getTime())
+                    .condition(weatherIdToCondition(weather.getCondition()))
+                    .build();
+            return data;
+        }
     }
 }
