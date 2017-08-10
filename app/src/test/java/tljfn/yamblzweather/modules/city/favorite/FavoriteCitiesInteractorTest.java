@@ -13,6 +13,8 @@ import java.util.List;
 import io.reactivex.Flowable;
 import tljfn.yamblzweather.model.db.cities.DBCity;
 import tljfn.yamblzweather.model.repo.DatabaseRepo;
+import tljfn.yamblzweather.model.repo.PreferencesRepo;
+
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -25,13 +27,15 @@ public class FavoriteCitiesInteractorTest {
     public MockitoRule rule = MockitoJUnit.rule();
 
     @Mock
+    PreferencesRepo preferencesRepo;
+    @Mock
     DatabaseRepo dbRepo;
 
     FavoriteCitiesInteractor interactor;
 
     @Before
     public void setup() {
-        interactor = new FavoriteCitiesInteractor(dbRepo);
+        interactor = new FavoriteCitiesInteractor(preferencesRepo, dbRepo);
     }
 
     @Test

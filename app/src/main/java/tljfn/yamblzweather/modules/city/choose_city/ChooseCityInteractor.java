@@ -45,7 +45,7 @@ public class ChooseCityInteractor extends BaseInteractor {
                     suggestedCities.clear();
                 })
                 .flatMap(list -> Flowable.fromIterable(list)
-                        .doOnNext(city -> suggestedCities.put(city.getId(), city))
+                        .doOnNext(city -> suggestedCities.put(city.getOpenWeatherId(), city))
                         .map(UIConverter::toUISuggestions)
                         .toSortedList((city1, city2) -> city1.getName().compareTo(city2.getName()))
                         .toFlowable())
@@ -60,7 +60,7 @@ public class ChooseCityInteractor extends BaseInteractor {
                 });
     }
 
-    public Single<Boolean> addFavorite(int id, boolean favorite) {
+    public Single<Boolean> setFavorite(int id, boolean favorite) {
         DBCity favoriteCity = suggestedCities.get(id);
         if (favoriteCity != null) {
             favoriteCity.setFavorite(favorite);

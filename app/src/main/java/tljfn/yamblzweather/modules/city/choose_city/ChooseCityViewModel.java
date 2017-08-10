@@ -9,7 +9,6 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import tljfn.yamblzweather.modules.base.viewmodel.BaseViewModel;
 import tljfn.yamblzweather.modules.city.UICity;
-import tljfn.yamblzweather.modules.city.choose_city.data.CitySuggestion;
 import tljfn.yamblzweather.modules.city.choose_city.data.UICitySuggestions;
 
 /**
@@ -53,7 +52,7 @@ public class ChooseCityViewModel extends BaseViewModel<UICitySuggestions> {
     }
 
     public void onFavoriteClicked(int id, boolean favorite) {
-        interactor.addFavorite(id, favorite)
+        interactor.setFavorite(id, favorite)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 // todo handle result
@@ -61,7 +60,8 @@ public class ChooseCityViewModel extends BaseViewModel<UICitySuggestions> {
     }
 
     public void onChooseClicked(UICity citySuggestion, int position, int id) {
-        interactor.chooseCity(id);
+        interactor.chooseCity(id)
+                .subscribe();
         hideSearching();
     }
 }

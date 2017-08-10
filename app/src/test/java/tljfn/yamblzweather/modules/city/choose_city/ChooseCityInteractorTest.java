@@ -4,10 +4,8 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.Mock;
-import org.mockito.internal.verification.VerificationModeFactory;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
-import org.mockito.verification.VerificationMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,7 +64,7 @@ public class ChooseCityInteractorTest {
     @Test
     public void setting_favorite_without_seeing_suggestions_wrong_behavior() {
         DBCity[] sample = dataProvider.getDBCitiesSampleArray();
-        interactor.addFavorite(sample[0].getId(), true).test()
+        interactor.setFavorite(sample[0].getId(), true).test()
                 .assertNoErrors()
                 .assertOf(observer -> verify(dbRepo, never()).setFavorite(sample[0]))
                 .assertValue(false);
@@ -83,7 +81,7 @@ public class ChooseCityInteractorTest {
 
         interactor.getSuggestions("city")
                 .doOnNext(suggestions ->
-                        interactor.addFavorite(suggestions.getSuggestions().get(0).getId(), true).test()
+                        interactor.setFavorite(suggestions.getSuggestions().get(0).getId(), true).test()
                                 .assertNoErrors()
                                 .assertOf(observer -> verify(dbRepo)
                                         .setFavorite(new DBCity.Builder().id(1)

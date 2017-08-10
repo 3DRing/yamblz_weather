@@ -65,7 +65,7 @@ public class FavoriteCitiesFragment extends ViewModelFragment<FavoriteCitiesView
     }
 
     private void onFavoriteClick(UICity city, int position, boolean favorite) {
-
+        getViewModel().onFavoriteClicked(city, favorite);
     }
 
     private void onCrtCityWeatherChanged(UIWeatherData uiWeatherData) {
