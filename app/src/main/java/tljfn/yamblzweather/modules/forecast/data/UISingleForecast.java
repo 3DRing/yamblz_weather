@@ -12,10 +12,27 @@ public class UISingleForecast {
 
     long id;
     int cityId;
+    String cityName;
     private long updateTime;
     private long forecastTime;
     private double temperature;
     private WeatherCondition condition;
+
+    public String getCityName() {
+        return cityName;
+    }
+
+    public long getForecastTime() {
+        return forecastTime;
+    }
+
+    public double getTemperature() {
+        return temperature;
+    }
+
+    public WeatherCondition getCondition() {
+        return condition;
+    }
 
     public static class Builder {
 
@@ -31,6 +48,7 @@ public class UISingleForecast {
             forecast.updateTime = dbForecast.getUpdateTime();
             forecast.forecastTime = dbForecast.getForecastTime();
             forecast.temperature = dbForecast.getTemperature();
+            forecast.cityName = dbForecast.getCityName();
             return this;
         }
 
@@ -42,7 +60,6 @@ public class UISingleForecast {
         public UISingleForecast build() {
             return forecast;
         }
-
 
     }
 }

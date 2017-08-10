@@ -7,9 +7,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 
-import javax.inject.Inject;
-
-import tljfn.yamblzweather.App;
 import tljfn.yamblzweather.di.modules.viewmodel.ViewModelFactory;
 import tljfn.yamblzweather.modules.base.LoadingScreen;
 import tljfn.yamblzweather.modules.base.UIErrorShower;
@@ -70,7 +67,7 @@ public abstract class ViewModelFragment<VM extends BaseViewModel<D>, D extends U
     protected abstract ViewModelFactory getViewModelFactory();
 
     protected void onChanged(@Nullable D data) {
-        errorShower.showError(getContext(), this, data);
+        errorShower.showDataOrError(getContext(), this, data);
     }
 
     @Override

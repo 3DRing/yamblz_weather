@@ -41,9 +41,12 @@ public abstract class BaseViewModel<D extends UIBaseData> extends ViewModel {
 
     protected void showLoading() {
         D crtData = liveData.getValue();
-        if (crtData != null) {
-            crtData.setLoading(true);
+        if (crtData == null) {
+           crtData = buildUIError("");  // tricky part, point to rethink architecture for data and UI states
+                                        // sets empty data and shows updating. Necessary after the first launch
+            crtData.setEmpty(true);
         }
+        crtData.setLoading(true);
         onChange(crtData);
     }
 }

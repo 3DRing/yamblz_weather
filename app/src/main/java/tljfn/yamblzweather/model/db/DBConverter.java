@@ -103,6 +103,7 @@ public class DBConverter {
             int cityId = city.getOpenWeatherId();
             DBForecast single = builder.id(DBForecast.generateId(cityId, i))
                     .cityId(cityId)
+                    .city(chooseDependingOnLocale(city.getRuName(), city.getEnName()))
                     .updateTime(System.currentTimeMillis())
                     .forecastTime(f.getDt())
                     .temperature(f.getMain().getTemp())

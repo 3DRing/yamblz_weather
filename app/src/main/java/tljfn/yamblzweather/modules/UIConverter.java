@@ -18,6 +18,7 @@ import tljfn.yamblzweather.modules.weather.data.WeatherCondition;
 public class UIConverter {
 
     public static UIWeatherData toUIWeatherData(DBWeatherData weather) {
+
         if (weather.getId() == -1) {
             return new UIWeatherData.Builder()
                     .city(weather.getCity())

@@ -17,13 +17,11 @@ public class DBForecast {
     @PrimaryKey
     long id;
     int cityId;
+    String cityName;
     long updateTime;
     long forecastTime;
     double temperature;
     int conditionId;
-
-    public DBForecast() {
-    }
 
     public int getCityId() {
         return cityId;
@@ -31,6 +29,14 @@ public class DBForecast {
 
     public void setCityId(int cityId) {
         this.cityId = cityId;
+    }
+
+    public String getCityName() {
+        return cityName;
+    }
+
+    public void setCityName(String cityName) {
+        this.cityName = cityName;
     }
 
     public long getForecastTime() {
@@ -80,6 +86,11 @@ public class DBForecast {
 
         public Builder cityId(int cityId) {
             this.forecast.cityId = cityId;
+            return this;
+        }
+
+        public Builder city(String name) {
+            this.forecast.cityName = name;
             return this;
         }
 

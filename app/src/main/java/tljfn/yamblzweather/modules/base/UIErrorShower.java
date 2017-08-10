@@ -11,7 +11,7 @@ import tljfn.yamblzweather.modules.base.data.UIBaseData;
 
 public class UIErrorShower<D extends UIBaseData> {
 
-    public void showError(Context context, LoadingScreen<D> screen, D data) {
+    public void showDataOrError(Context context, LoadingScreen<D> screen, D data) {
         if (data != null) {
             if (data.isLoading()) {
                 screen.showLoading();
