@@ -1,6 +1,5 @@
 package tljfn.yamblzweather.model.db;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -108,7 +107,7 @@ public class DBConverter {
                     .forecastTime(f.getDt())
                     .temperature(f.getMain().getTemp())
                     .condition(conditionId)
-                    .build();
+                    .buildClone();
             result[i] = single;
             i++;
         }

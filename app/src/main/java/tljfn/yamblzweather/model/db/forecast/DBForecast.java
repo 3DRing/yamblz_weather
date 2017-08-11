@@ -1,5 +1,6 @@
 package tljfn.yamblzweather.model.db.forecast;
 
+import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 
@@ -15,13 +16,34 @@ public class DBForecast {
     }
 
     @PrimaryKey
+    @ColumnInfo(name = "id")
     long id;
+    @ColumnInfo(name = "city_id")
     int cityId;
+    @ColumnInfo(name = "city_name")
     String cityName;
+    @ColumnInfo(name = "update_time")
     long updateTime;
+    @ColumnInfo(name = "forecast_time")
     long forecastTime;
+    @ColumnInfo(name = "temperature")
     double temperature;
+    @ColumnInfo(name = "condition_id")
     int conditionId;
+
+    public DBForecast() {
+
+    }
+
+    private DBForecast(DBForecast otherForecast) {
+        this.id = otherForecast.getId();
+        this.cityId = otherForecast.getCityId();
+        this.cityName = otherForecast.getCityName();
+        this.updateTime = otherForecast.getUpdateTime();
+        this.forecastTime = otherForecast.getForecastTime();
+        this.temperature = otherForecast.getTemperature();
+        this.conditionId = otherForecast.getConditionId();
+    }
 
     public int getCityId() {
         return cityId;
@@ -67,8 +89,16 @@ public class DBForecast {
         return id;
     }
 
+    public void setId(long id) {
+        this.id = id;
+    }
+
     public long getUpdateTime() {
         return updateTime;
+    }
+
+    public void setUpdateTime(long updateTime) {
+        this.updateTime = updateTime;
     }
 
     public static class Builder {
@@ -116,6 +146,10 @@ public class DBForecast {
 
         public DBForecast build() {
             return forecast;
+        }
+
+        public DBForecast buildClone() {
+            return new DBForecast(forecast);
         }
     }
 }

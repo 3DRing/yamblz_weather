@@ -5,18 +5,16 @@ import java.util.List;
 import javax.inject.Inject;
 
 import io.reactivex.Flowable;
-import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import tljfn.yamblzweather.model.db.DBConverter;
+import tljfn.yamblzweather.model.db.forecast.DBForecast;
 import tljfn.yamblzweather.model.repo.DatabaseRepo;
 import tljfn.yamblzweather.model.repo.PreferencesRepo;
 import tljfn.yamblzweather.model.repo.RemoteRepo;
 import tljfn.yamblzweather.modules.UIConverter;
 import tljfn.yamblzweather.modules.base.BaseInteractor;
 import tljfn.yamblzweather.modules.forecast.data.UIForecast;
-import tljfn.yamblzweather.modules.forecast.data.UISingleForecast;
-import tljfn.yamblzweather.modules.weather.data.UIWeatherData;
 
 /**
  * Created by ringov on 09.08.17.
@@ -24,6 +22,7 @@ import tljfn.yamblzweather.modules.weather.data.UIWeatherData;
 
 public class ForecastInteractor extends BaseInteractor {
 
+    private static final int MIN_NUMBER_OF_FORECASTS = 4;
     private final PreferencesRepo preferencesRepo;
     private RemoteRepo remoteRepo;
     private DatabaseRepo dbRepo;
@@ -37,35 +36,41 @@ public class ForecastInteractor extends BaseInteractor {
 
     Flowable<UIForecast> lazyUpdateCachedForecast() {
         return preferencesRepo.subscribeToCityUpdate()
-                .flatMap(dbRepo::getCity)
-                .zipWith(preferencesRepo.subscribeToCityUpdate()
-                                .flatMap(id -> dbRepo.loadCachedForecast(id).subscribeOn(Schedulers.io()))
-                        , UIConverter::toUIForecast)
+                .flatMap(dbRepo::loadCachedForecast)
+                .zipWith(Flowable.just(true), (forecasts, b) -> forecasts)  // doesn't work without it =\\
                 .flatMap(forecast -> {
-                    if (forecast.isEmpty()) {
-                        // add check for old data
-                        return Flowable.just(forecast);//loadForecastFromRemote();
-                    } else {
-                        return Flowable.just(forecast);
+                    if (forecast.size() > MIN_NUMBER_OF_FORECASTS) {
+                        boolean outOfData = forecast.get(forecast.size() - MIN_NUMBER_OF_FORECASTS).getForecastTime()
+                                > System.currentTimeMillis();
+                        if (outOfData) {
+                            return Flowable.just(forecast);
+                        }
                     }
+                    return loadForecastFromRemote();
                 })
+                .flatMap(Flowable::fromIterable)
+                .map(UIConverter::toUISingleForecast)
+                .toList()
+                .toFlowable()
+                .map(list -> new UIForecast.Builder().addSingleForecasts(list).build())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    private Single<List<UISingleForecast>> loadForecastFromRemote() {
+    private Flowable<List<DBForecast>> loadForecastFromRemote() {
         return preferencesRepo.getCurrentCity()
                 .flatMap(dbRepo::getCity)
                 .zipWith(preferencesRepo.getCurrentCity()
                         .flatMap(remoteRepo::getForecast), DBConverter::fromRawForecast)
-                .flatMap(dbRepo::insertOrUpdateForecast)
-                .flatMap(Flowable::fromIterable)
-                .map(UIConverter::toUISingleForecast)
-                .toList();
+                .flatMap(dbRepo::insertOrUpdateForecast);
     }
 
-    public Single<UIForecast> updateForecast() {
+    public Flowable<UIForecast> updateForecast() {
         return loadForecastFromRemote()
+                .flatMap(Flowable::fromIterable)
+                .map(UIConverter::toUISingleForecast)
+                .toList()
+                .toFlowable()
                 .map(list -> new UIForecast.Builder().addSingleForecasts(list).build())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());

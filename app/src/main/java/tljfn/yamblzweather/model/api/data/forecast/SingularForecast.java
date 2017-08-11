@@ -34,7 +34,7 @@ public class SingularForecast {
     private Rain rain;
 
     public long getDt() {
-        return dt;
+        return dt * 1000;   // server gives dt in seconds from 1970
     }
 
     public void setDt(int dt) {

@@ -18,10 +18,13 @@ public interface WeatherDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     long insertWeather(DBWeatherData weather);
 
-
     @Query("SELECT * FROM weather WHERE id = :id")
     List<DBWeatherData> loadWeather(long id);
 
+    @Query("SELECT * FROM forecast WHERE city_id = :id ORDER BY forecast_time ASC")
+    List<DBForecast> getForecast(long id);
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     long[] insertForecast(DBForecast[] forecasts);
+
 }

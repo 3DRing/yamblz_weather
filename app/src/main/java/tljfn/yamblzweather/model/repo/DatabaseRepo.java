@@ -72,8 +72,11 @@ public class DatabaseRepo {
         return cityDao.getCity(cityId);
     }
 
-    public Flowable<DBForecast> loadCachedForecast(long id) {
-        return Flowable.just(new DBForecast());
+    public Flowable<List<DBForecast>> loadCachedForecast(long id) {
+        return Flowable.fromCallable(() -> {
+            List<DBForecast> forecast = weatherDao.getForecast(id);
+            return forecast;
+        });
     }
 
     public Flowable<List<DBForecast>> insertOrUpdateForecast(DBForecast[] forecasts) {

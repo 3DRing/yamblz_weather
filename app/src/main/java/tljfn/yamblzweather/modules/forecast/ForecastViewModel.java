@@ -16,10 +16,15 @@ public class ForecastViewModel extends BaseViewModel<UIForecast> {
     @Inject
     public ForecastViewModel(ForecastInteractor interactor) {
         this.interactor = interactor;
-        updateForecast();
+        lazyUpdateCachedForecast();
     }
 
-    private void updateForecast() {
+    private void lazyUpdateCachedForecast() {
+        sub(interactor.lazyUpdateCachedForecast()
+                .subscribe(this::onChange, this::onError));
+    }
+
+    public void updateForecast() {
         sub(interactor.updateForecast()
                 .subscribe(this::onChange, this::onError));
     }
