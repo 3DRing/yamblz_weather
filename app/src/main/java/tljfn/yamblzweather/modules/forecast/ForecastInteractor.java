@@ -48,6 +48,7 @@ public class ForecastInteractor extends BaseInteractor {
                     }
                     return loadForecastFromRemote();
                 })
+                //.map(UIConverter::toUIForecast)
                 .flatMap(Flowable::fromIterable)
                 .map(UIConverter::toUISingleForecast)
                 .toList()

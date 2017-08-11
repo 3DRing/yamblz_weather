@@ -15,6 +15,8 @@ public class UISingleForecast {
     String cityName;
     private long updateTime;
     private long forecastTime;
+    private RelativeDay relativeDay;
+    private RelativeTime relativeTime;
     private double temperature;
     private WeatherCondition condition;
 
@@ -61,5 +63,44 @@ public class UISingleForecast {
             return forecast;
         }
 
+        public Builder id(long id) {
+            forecast.id = id;
+            return this;
+        }
+
+        public Builder cityId(int cityId) {
+            forecast.cityId = cityId;
+            return this;
+        }
+
+        public Builder cityName(String cityName) {
+            forecast.cityName = cityName;
+            return this;
+        }
+
+        public Builder temperature(double temperature) {
+            forecast.temperature = temperature;
+            return this;
+        }
+
+        public Builder updateTime(long updateTime) {
+            forecast.updateTime = updateTime;
+            return this;
+        }
+
+        public Builder forecastTime(long forecastTime) {
+            forecast.forecastTime = forecastTime;
+            return this;
+        }
+
+        public Builder relativeDay(RelativeDay relativeDay) {
+            forecast.relativeDay = relativeDay;
+            return this;
+        }
+
+        public Builder relativeTime(RelativeTime relativeTime) {
+            forecast.relativeTime = relativeTime;
+            return this;
+        }
     }
 }

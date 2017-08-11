@@ -15,7 +15,12 @@ import tljfn.yamblzweather.R;
  */
 
 public class Utils {
-    public static String getRelativeTime(Context context, long time) {
+
+    public static String getRelativeTimeInFuture(Context context, long time) {
+        return DateUtils.getRelativeTimeSpanString(context, time, true).toString();
+    }
+
+    public static String getRelativeTimeInPast(Context context, long time) {
         long now = System.currentTimeMillis();
         long diff = now - time;
         if (diff < TimeUnit.MINUTES.toMillis(1)) {

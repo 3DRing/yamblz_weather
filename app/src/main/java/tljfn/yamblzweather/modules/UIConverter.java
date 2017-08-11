@@ -1,11 +1,16 @@
 package tljfn.yamblzweather.modules;
 
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import tljfn.yamblzweather.model.db.cities.DBCity;
 import tljfn.yamblzweather.model.db.forecast.DBForecast;
 import tljfn.yamblzweather.model.db.weather.DBWeatherData;
 import tljfn.yamblzweather.modules.city.UICity;
+import tljfn.yamblzweather.modules.forecast.data.RelativeDay;
+import tljfn.yamblzweather.modules.forecast.data.RelativeTime;
 import tljfn.yamblzweather.modules.forecast.data.UIForecast;
 import tljfn.yamblzweather.modules.forecast.data.UISingleForecast;
 import tljfn.yamblzweather.modules.weather.data.UIWeatherData;
@@ -16,6 +21,9 @@ import tljfn.yamblzweather.modules.weather.data.WeatherCondition;
  */
 
 public class UIConverter {
+
+    private static final int DAYS_IN_YEAR = 365; // for simplicity assume only this amount of days
+    private static final int DEFAULT_DAYS_FORWARD_TO_FORECAST = 5;
 
     public static UIWeatherData toUIWeatherData(DBWeatherData weather) {
 
@@ -60,10 +68,6 @@ public class UIConverter {
         }
     }
 
-    public static UIForecast toUIForecast(DBCity city, DBForecast dbForecast) {
-        return new UIForecast();
-    }
-
     public static UICity toUISuggestions(DBCity city) {
         StringBuilder sb = new StringBuilder();
         String name = chooseDependingOnLocale(city.getRuName(), city.getEnName());
@@ -99,13 +103,128 @@ public class UIConverter {
         }
     }
 
-    public static UIForecast toUIForecast(DBForecast dbForecast) {
-        return new UIForecast();
+    public static UIForecast toUIForecast(List<DBForecast> dbForecast) {
+        UIForecast.Builder builder = new UIForecast.Builder(DEFAULT_DAYS_FORWARD_TO_FORECAST);
+
+        long now = System.currentTimeMillis();
+
+        for (int i = 0; i < dbForecast.size(); i++) {
+            DBForecast crt = dbForecast.get(i);
+
+            int diff = getDaysDifference(now, crt.getForecastTime());
+            if (diff < 0 || diff > DEFAULT_DAYS_FORWARD_TO_FORECAST - 1) {
+                // do not take forecast from the past and far future
+                continue;
+            }
+            RelativeTime relativeTime = toRelativeTime(crt.getForecastTime());
+            switch (relativeTime) {
+                case Morning:
+                    builder.addMorning(diff, crt);
+                    break;
+                case Afternoon:
+                    builder.addAfternoon(diff, crt);
+                    break;
+                case Evening:
+                    builder.addEvening(diff, crt);
+                    break;
+                case Night:
+                    builder.addNight(diff, crt);
+                default:
+                    // skip, add nothing
+                    break;
+            }
+        }
+
+        return builder.build();
+    }
+
+    private static int getDaysDifference(long now, long target) {
+        Date nowDate = new Date(now);
+        Calendar c1 = Calendar.getInstance();
+        c1.setTime(nowDate);
+        Calendar c2 = Calendar.getInstance();
+        Date targetDate = new Date(target);
+        c2.setTime(targetDate);
+
+        int nowDays = c1.get(Calendar.DAY_OF_YEAR);
+        int targetDays = c2.get(Calendar.DAY_OF_YEAR);
+
+        int diff = targetDays - nowDays;
+        if (diff < 0 && nowDate.before(targetDate)) {
+            // it means there is a difference in the year
+            diff = DAYS_IN_YEAR - nowDays + targetDays; // works only for differences less then one year
+        }
+        return diff;
+    }
+
+    private static RelativeTime toRelativeTime(long millis) {
+        Calendar c = Calendar.getInstance();
+        c.setTime(new Date(millis));
+        int timeOfDay = c.get(Calendar.HOUR_OF_DAY);
+
+        if (timeOfDay >= 0 && timeOfDay < 5) {
+            return RelativeTime.Night;
+        } else if (timeOfDay >= 5 && timeOfDay < 12) {
+            return RelativeTime.Morning;
+        } else if (timeOfDay >= 12 && timeOfDay < 18) {
+            return RelativeTime.Afternoon;
+        } else if (timeOfDay >= 18 && timeOfDay < 24) {
+            return RelativeTime.Evening;
+        } else {
+            throw new IllegalStateException("Wrong converting of time to relative time of the day");
+        }
+    }
+
+    private static RelativeDay toRelativeDay(long now, long millis) {
+        Calendar c1 = Calendar.getInstance();
+        c1.setTime(new Date(now));
+
+        Calendar c2 = Calendar.getInstance();
+        c2.setTime(new Date(millis));
+
+        c1.add(Calendar.DAY_OF_YEAR, -2);
+        if (daysAreEqual(c1, c2)) {
+            return RelativeDay.BeforeYesterday;
+        }
+        c1.add(Calendar.DAY_OF_YEAR, 1);
+        if (daysAreEqual(c1, c2)) {
+            return RelativeDay.Yesterday;
+        }
+        c1.add(Calendar.DAY_OF_YEAR, 1);
+        if (daysAreEqual(c1, c2)) {
+            return RelativeDay.Today;
+        }
+        c1.add(Calendar.DAY_OF_YEAR, 1);
+        if (daysAreEqual(c1, c2)) {
+            return RelativeDay.Tomorrow;
+        }
+        c1.add(Calendar.DAY_OF_YEAR, 1);
+        if (daysAreEqual(c1, c2)) {
+            return RelativeDay.AfterTomorrow;
+        } else {
+            return new Date(now).before(new Date(millis)) ? RelativeDay.AfterTomorrow : RelativeDay.BeforeYesterday;
+        }
+    }
+
+    private static boolean daysAreEqual(Calendar c1, Calendar c2) {
+        int c1Year = c1.get(Calendar.YEAR);
+        int c2Year = c2.get(Calendar.YEAR);
+        int c1Day = c1.get(Calendar.DAY_OF_YEAR);
+        int c2Day = c2.get(Calendar.DAY_OF_YEAR);
+        return c1Year == c2Year
+                && c1Day == c2Day;
     }
 
     public static UISingleForecast toUISingleForecast(DBForecast dbForecast) {
         return new UISingleForecast.Builder()
-                .fromDBForecast(dbForecast)
+                .id(dbForecast.getId())
+                .cityId(dbForecast.getCityId())
+                .cityName(dbForecast.getCityName())
+                .temperature(dbForecast.getTemperature())
+                .updateTime(dbForecast.getUpdateTime())
+                .forecastTime(dbForecast.getForecastTime())
+                .relativeDay(toRelativeDay(System.currentTimeMillis(), dbForecast.getForecastTime()))
+                .relativeTime(toRelativeTime(dbForecast.getForecastTime()))
                 .condition(weatherIdToCondition(dbForecast.getConditionId()))
                 .build();
     }
