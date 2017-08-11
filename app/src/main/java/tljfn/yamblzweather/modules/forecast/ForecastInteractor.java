@@ -48,12 +48,12 @@ public class ForecastInteractor extends BaseInteractor {
                     }
                     return loadForecastFromRemote();
                 })
-                //.map(UIConverter::toUIForecast)
-                .flatMap(Flowable::fromIterable)
+                .map(UIConverter::toUIForecast)
+/*                .flatMap(Flowable::fromIterable)
                 .map(UIConverter::toUISingleForecast)
                 .toList()
                 .toFlowable()
-                .map(list -> new UIForecast.Builder().addSingleForecasts(list).build())
+                .map(list -> new UIForecast.Builder().addSingleForecasts(list).build())*/
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
@@ -68,11 +68,12 @@ public class ForecastInteractor extends BaseInteractor {
 
     public Flowable<UIForecast> updateForecast() {
         return loadForecastFromRemote()
-                .flatMap(Flowable::fromIterable)
+                .map(UIConverter::toUIForecast)
+/*                .flatMap(Flowable::fromIterable)
                 .map(UIConverter::toUISingleForecast)
                 .toList()
                 .toFlowable()
-                .map(list -> new UIForecast.Builder().addSingleForecasts(list).build())
+                .map(list -> new UIForecast.Builder().addSingleForecasts(list).build())*/
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

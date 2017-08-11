@@ -26,9 +26,13 @@ public class UIForecast extends UIBaseData {
         return forecasts;
     }
 
+    public UIDayForecast[] getDaysForecast() {
+        return dayForecasts;
+    }
+
     public static class Builder extends UIBaseData.Builder<UIForecast, Builder> {
 
-        public Builder(){
+        public Builder() {
             data.dayForecasts = new UIDayForecast[DEFAULT_DAYS_TO_FORECAST];
         }
 

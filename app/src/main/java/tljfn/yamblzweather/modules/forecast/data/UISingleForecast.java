@@ -36,6 +36,10 @@ public class UISingleForecast {
         return condition;
     }
 
+    public RelativeTime getRelativeTime() {
+        return relativeTime;
+    }
+
     public static class Builder {
 
         UISingleForecast forecast;

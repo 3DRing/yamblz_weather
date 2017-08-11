@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
 
@@ -40,7 +41,7 @@ public class ForecastFragment extends ViewModelFragment<ForecastViewModel, UIFor
     }
 
     private void initializeRecycler() {
-        rvForecast.setLayoutManager(new GridLayoutManager(getContext(), 3));
+        rvForecast.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new ForecastListAdapter(null);
         rvForecast.setAdapter(adapter);
     }
@@ -88,7 +89,7 @@ public class ForecastFragment extends ViewModelFragment<ForecastViewModel, UIFor
 
     @Override
     public void onSuccess(@NonNull UIForecast data) {
-        adapter.setForecasts(data.getForecasts());
+        adapter.setDayForecasts(data.getDaysForecast());
     }
 
     @Override

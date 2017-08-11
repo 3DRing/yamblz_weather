@@ -11,8 +11,20 @@ public class UIDayForecast {
     private UISingleForecast evening;
     private UISingleForecast night;
 
-    public UIDayForecast() {
+    public UISingleForecast getMorning() {
+        return morning;
+    }
 
+    public UISingleForecast getAfternoon() {
+        return afternoon;
+    }
+
+    public UISingleForecast getEvening() {
+        return evening;
+    }
+
+    public UISingleForecast getNight() {
+        return night;
     }
 
     public void setAfternoon(UISingleForecast afternoon) {

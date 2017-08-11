@@ -66,4 +66,9 @@
     <string name="forecast">Прогноз</string>
     <string name="cities">Города</string>
     <string name="forecast_time_format">%1$s, в %2$s</string>
+
+    <string name="morning">Утро</string>
+    <string name="afternoon">День</string>
+    <string name="evening">Вечер</string>
+    <string name="night">Ночь</string>
 </resources>
