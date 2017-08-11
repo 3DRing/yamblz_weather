@@ -63,6 +63,9 @@ public class ForecastListAdapter extends RecyclerView.Adapter<ForecastListAdapte
 
     static class ViewHolder extends RecyclerView.ViewHolder {
 
+        @BindView(R.id.tv_date)
+        TextView date;
+
         @BindView(R.id.weather_image_night)
         ImageView imageNight;
         @BindView(R.id.tv_temperature_night)
@@ -97,11 +100,14 @@ public class ForecastListAdapter extends RecyclerView.Adapter<ForecastListAdapte
         }
 
         void bind(UIDayForecast forecast, ClickListener listener) {
+
             UISingleForecast single = forecast.getNight();
             if (single != null) {
                 imageNight.setImageResource(single.getCondition().getConditionImage());
                 temperatureNight.setText(Utils.getFormattedTemperature(itemView.getContext(), single.getTemperature()));
                 timeNight.setText(single.getRelativeTime().getName());
+
+                date.setText(Utils.getFormattedDate(single.getForecastTime()));
             }
 
             single = forecast.getMorning();
@@ -126,35 +132,6 @@ public class ForecastListAdapter extends RecyclerView.Adapter<ForecastListAdapte
             }
         }
     }
-
-/*    static class ViewHolder extends RecyclerView.ViewHolder {
-
-        @BindView(R.id.weather_image)
-        ImageView imageMorning;
-        @BindView(R.id.tv_temperature)
-        TextView temperatureMorning;
-        @BindView(R.id.tv_conditions)
-        TextView conditions;
-        @BindView(R.id.tv_time)
-        TextView timeMorning;
-
-        ViewHolder(View itemView) {
-            super(itemView);
-            ButterKnife.bind(this, itemView);
-        }
-
-        void bind(UISingleForecast forecast, ClickListener listener) {
-            timeMorning.setText(Utils.getFormattedTime(itemView.getContext(), forecast.getForecastTime()));
-            temperatureMorning.setText(Utils.getFormattedTemperature(itemView.getContext(), forecast.getTemperature()));
-            conditions.setText(forecast.getCondition().getFriendlyName());
-
-            imageMorning.setImageResource(forecast.getCondition().getConditionImage());
-
-            if (listener != null) {
-                itemView.setOnClickListener(v -> listener.onClick(forecast));
-            }
-        }
-    }*/
 
     public interface ClickListener {
         void onClick(UISingleForecast forecast);

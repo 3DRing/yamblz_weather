@@ -42,4 +42,11 @@ public class Utils {
 
         return sdf.format(new Date(time));
     }
+
+    public static String getFormattedDate(long time) {
+        String dateFormat = "dd MMMM";
+        SimpleDateFormat sdf = new SimpleDateFormat(dateFormat, Locale.getDefault());
+
+        return sdf.format(new Date(time));
+    }
 }
