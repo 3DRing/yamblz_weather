@@ -13,8 +13,8 @@ import tljfn.yamblzweather.model.api.data.weather.RawWeather;
 public interface WeatherApi {
 
     @GET("weather")
-    Single<RawWeather> getWeather(@Query("id") long id);
+    Flowable<RawWeather> getWeather(@Query("id") long id);
 
     @GET("forecast")
-    Single<RawForecast> getForecast(@Query("id") long id);
+    Flowable<RawForecast> getForecast(@Query("id") long id);
 }

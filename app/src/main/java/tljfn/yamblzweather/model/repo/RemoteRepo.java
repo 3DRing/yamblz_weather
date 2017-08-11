@@ -26,11 +26,11 @@ public class RemoteRepo {
     }
 
     public Flowable<RawWeather> getWeather(long id) {
-        return weatherApi.getWeather(id).toFlowable();
+        return weatherApi.getWeather(id);
     }
 
     public Flowable<RawForecast> getForecast(long id) {
-        return weatherApi.getForecast(id).toFlowable();
+        return weatherApi.getForecast(id);
     }
 
     public Single<List<RawCity>> getAllCities() {

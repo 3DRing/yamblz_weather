@@ -25,7 +25,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="TextView"
-                android:textSize="8sp"
+                android:textSize="12sp"
                 tools:text="13 авг, 12:00" />
 
             <FrameLayout
@@ -33,7 +33,7 @@
                 android:layout_height="match_parent">
 
                 <ImageView
-                    android:id="@+id/imageView"
+                    android:id="@+id/weather_image"
                     android:layout_width="64dp"
                     android:layout_height="64dp"
                     android:layout_gravity="center"
@@ -41,8 +41,8 @@
                     app:srcCompat="@drawable/weather_other" />
 
                 <TextView
-                    android:id="@+id/textView4"
-                    android:layout_width="36dp"
+                    android:id="@+id/tv_temperature"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:gravity="center"
@@ -54,12 +54,12 @@
             </FrameLayout>
 
             <TextView
-                android:id="@+id/tv_description"
+                android:id="@+id/tv_conditions"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:textSize="8sp"
+                android:textSize="12sp"
                 tools:text="Атмосферненько" />
 
         </LinearLayout>

@@ -17,6 +17,10 @@ public class UIForecast extends UIBaseData {
         forecasts = new ArrayList<>();
     }
 
+    public List<UISingleForecast> getForecasts() {
+        return forecasts;
+    }
+
     public static class Builder extends UIBaseData.Builder<UIForecast, Builder> {
 
         @Override

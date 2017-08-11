@@ -82,4 +82,5 @@
     <string name="favorite_cities">Favorite items</string>
     <string name="forecast">Forecast</string>
     <string name="cities">Cities</string>
+    <string name="forecast_time_format">%1$s, at %2$s</string>
 </resources>

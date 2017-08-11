@@ -1,5 +1,7 @@
 package tljfn.yamblzweather.model.db;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
 
@@ -100,12 +102,14 @@ public class DBConverter {
             }
             int conditionId = weathers.get(0).getId();
             int cityId = city.getOpenWeatherId();
+            double temperature = round(toCelsius(f.getMain().getTemp()));
+
             DBForecast single = builder.id(DBForecast.generateId(cityId, i))
                     .cityId(cityId)
                     .city(chooseDependingOnLocale(city.getRuName(), city.getEnName()))
                     .updateTime(System.currentTimeMillis())
                     .forecastTime(f.getDt())
-                    .temperature(f.getMain().getTemp())
+                    .temperature(temperature)
                     .condition(conditionId)
                     .buildClone();
             result[i] = single;

@@ -2,9 +2,14 @@ package tljfn.yamblzweather.modules.forecast;
 
 import android.support.annotation.NonNull;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.widget.Toast;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
 import tljfn.yamblzweather.App;
 import tljfn.yamblzweather.R;
 import tljfn.yamblzweather.di.modules.viewmodel.ViewModelFactory;
@@ -20,6 +25,25 @@ public class ForecastFragment extends ViewModelFragment<ForecastViewModel, UIFor
     public static final String TAG = ForecastFragment.class.getName();
     @Inject
     ViewModelFactory factory;
+
+    @BindView(R.id.swipe_layout)
+    SwipeRefreshLayout swipeLayout;
+    @BindView(R.id.rv_forecast)
+    RecyclerView rvForecast;
+    ForecastListAdapter adapter;
+
+    @Override
+    protected void initializeViews() {
+        super.initializeViews();
+        initializeRecycler();
+        swipeLayout.setOnRefreshListener(() -> getViewModel().updateForecast());
+    }
+
+    private void initializeRecycler() {
+        rvForecast.setLayoutManager(new GridLayoutManager(getContext(), 3));
+        adapter = new ForecastListAdapter(null);
+        rvForecast.setAdapter(adapter);
+    }
 
     @Override
     public Class<ForecastViewModel> getViewModelClass() {
@@ -54,21 +78,21 @@ public class ForecastFragment extends ViewModelFragment<ForecastViewModel, UIFor
 
     @Override
     public void showLoading() {
-
+        swipeLayout.setRefreshing(true);
     }
 
     @Override
     public void hideLoading() {
-
+        swipeLayout.setRefreshing(false);
     }
 
     @Override
     public void onSuccess(@NonNull UIForecast data) {
-
+        adapter.setForecasts(data.getForecasts());
     }
 
     @Override
     public void onError(String errorMessage) {
-
+        Toast.makeText(getContext(), errorMessage, Toast.LENGTH_SHORT).show();
     }
 }
