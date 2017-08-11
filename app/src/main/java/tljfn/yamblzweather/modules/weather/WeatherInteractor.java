@@ -73,17 +73,4 @@ public class WeatherInteractor extends BaseInteractor {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
-
-    public static <T, R> Func1<? super T, ? extends Observable<? extends R>> ternary(
-            Func1<T, Boolean> predicate,
-            Func1<? super T, ? extends Observable<? extends R>> ifTrue,
-            Func1<? super T, ? extends Observable<? extends R>> ifFalse) {
-        return (item) -> predicate.call(item)
-                ? ifTrue.call(item)
-                : ifFalse.call(item);
-    }
-
-    public static interface Func1<T, R> {
-        R call(T t);
-    }
 }

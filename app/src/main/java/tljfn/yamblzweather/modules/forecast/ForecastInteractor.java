@@ -37,7 +37,7 @@ public class ForecastInteractor extends BaseInteractor {
     Flowable<UIForecast> lazyUpdateCachedForecast() {
         return preferencesRepo.subscribeToCityUpdate()
                 .flatMap(dbRepo::loadCachedForecast)
-                .zipWith(Flowable.just(true), (forecasts, b) -> forecasts)  // doesn't work without it =\\
+                .zipWith(Flowable.fromCallable(() -> true), (forecasts, b) -> forecasts)  // doesn't work without it =\\
                 .flatMap(forecast -> {
                     if (forecast.size() > MIN_NUMBER_OF_FORECASTS) {
                         boolean outOfData = forecast.get(forecast.size() - MIN_NUMBER_OF_FORECASTS).getForecastTime()
@@ -49,11 +49,6 @@ public class ForecastInteractor extends BaseInteractor {
                     return loadForecastFromRemote();
                 })
                 .map(UIConverter::toUIForecast)
-/*                .flatMap(Flowable::fromIterable)
-                .map(UIConverter::toUISingleForecast)
-                .toList()
-                .toFlowable()
-                .map(list -> new UIForecast.Builder().addSingleForecasts(list).build())*/
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
@@ -69,11 +64,6 @@ public class ForecastInteractor extends BaseInteractor {
     public Flowable<UIForecast> updateForecast() {
         return loadForecastFromRemote()
                 .map(UIConverter::toUIForecast)
-/*                .flatMap(Flowable::fromIterable)
-                .map(UIConverter::toUISingleForecast)
-                .toList()
-                .toFlowable()
-                .map(list -> new UIForecast.Builder().addSingleForecasts(list).build())*/
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
