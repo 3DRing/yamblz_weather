@@ -4,6 +4,7 @@ import android.arch.lifecycle.LifecycleRegistry;
 import android.arch.lifecycle.LifecycleRegistryOwner;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -12,6 +13,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
 import butterknife.BindView;
@@ -29,8 +31,14 @@ public class MainActivity extends ViewModelActivity<MainViewModel, UIMainData> i
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+
+    @Nullable
     @BindView(R.id.drawer_layout)
     DrawerLayout drawer;
+
+    @Nullable
+    @BindView(R.id.additional_container)
+    ViewGroup otherContainer;
 
     private ActionBar actionBar;
     private ActionBarDrawerToggle toggle;
@@ -47,13 +55,23 @@ public class MainActivity extends ViewModelActivity<MainViewModel, UIMainData> i
         setSupportActionBar(toolbar);
         actionBar = getSupportActionBar();
         toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.open_drawer, R.string.close_drawer);
-        drawer.addDrawerListener(toggle);
+
+        if (drawer != null) {
+            drawer.addDrawerListener(toggle);
+        }
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         if (savedInstanceState == null) {
+            if (isTwoPane()) {
+                NavigationController.navigateToForecast(R.id.additional_container, getSupportFragmentManager());
+            }
             NavigationController.navigateToWeather(R.id.fragment_container, getSupportFragmentManager());
         }
+    }
+
+    private boolean isTwoPane() {
+        return getResources().getBoolean(R.bool.twoPaneMode);
     }
 
     @Override
@@ -63,7 +81,7 @@ public class MainActivity extends ViewModelActivity<MainViewModel, UIMainData> i
 
     @Override
     public void onBackPressed() {
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
+        if (drawer != null && drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
@@ -72,33 +90,40 @@ public class MainActivity extends ViewModelActivity<MainViewModel, UIMainData> i
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        int container = isTwoPane() ? R.id.additional_container : R.id.fragment_container;
+
         switch (item.getItemId()) {
             case R.id.nav_settings:
-                NavigationController.navigateToSettings(R.id.fragment_container, getSupportFragmentManager());
+                NavigationController.navigateToSettings(container, getSupportFragmentManager());
                 break;
             case R.id.nav_about:
-                NavigationController.navigateToAbout(R.id.fragment_container, getSupportFragmentManager());
+                NavigationController.navigateToAbout(container, getSupportFragmentManager());
                 break;
             case R.id.nav_weather:
                 NavigationController.navigateToWeather(R.id.fragment_container, getSupportFragmentManager());
                 break;
             case R.id.nav_forecast:
-                NavigationController.navigateToForecast(R.id.fragment_container, getSupportFragmentManager());
+                NavigationController.navigateToForecast(container, getSupportFragmentManager());
                 break;
             case R.id.nav_city:
-                NavigationController.navigateToChooseCity(this);
+                NavigationController.navigateToChooseCity(container, getSupportFragmentManager());
                 break;
             default:
                 throw new IllegalStateException("No such menu is declared: " + item.getItemId());
         }
 
-        drawer.closeDrawer(GravityCompat.START);
+        if (drawer != null) {
+            drawer.closeDrawer(GravityCompat.START);
+        }
         return true;
     }
 
     @Override
     public void onFragmentInteraction(@StringRes int titleRes, Integer drawerMode) {
         actionBar.setTitle(titleRes);
+        if (drawer == null) {
+            return;
+        }
         drawer.setDrawerLockMode(drawerMode);
         boolean isDrawerLocked = drawerMode == DrawerLayout.LOCK_MODE_LOCKED_CLOSED;
         actionBar.setDisplayHomeAsUpEnabled(isDrawerLocked);

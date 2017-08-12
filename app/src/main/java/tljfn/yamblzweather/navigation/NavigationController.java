@@ -21,6 +21,7 @@ import android.content.Intent;
 import android.support.annotation.IdRes;
 import android.support.v4.app.FragmentManager;
 
+import tljfn.yamblzweather.modules.city.choose_city.ChooseCityFragment;
 import tljfn.yamblzweather.modules.forecast.ForecastFragment;
 import tljfn.yamblzweather.modules.main.MainActivity;
 import tljfn.yamblzweather.modules.about.AboutFragment;
@@ -34,6 +35,9 @@ import tljfn.yamblzweather.modules.weather.WeatherFragment;
 public class NavigationController {
 
     public static void navigateToAbout(@IdRes int layout, FragmentManager fragmentManager) {
+        if(fragmentManager.findFragmentByTag(AboutFragment.TAG) != null){
+            return;
+        }
         AboutFragment fragment = new AboutFragment();
         fragmentManager.beginTransaction()
                 .replace(layout, fragment, AboutFragment.TAG)
@@ -41,6 +45,9 @@ public class NavigationController {
     }
 
     public static void navigateToSettings(@IdRes int layout, FragmentManager fragmentManager) {
+        if(fragmentManager.findFragmentByTag(SettingsFragment.TAG) != null){
+            return;
+        }
         SettingsFragment fragment = new SettingsFragment();
         fragmentManager.beginTransaction()
                 .replace(layout, fragment, SettingsFragment.TAG)
@@ -48,6 +55,9 @@ public class NavigationController {
     }
 
     public static void navigateToWeather(@IdRes int layout, FragmentManager fragmentManager) {
+        if(fragmentManager.findFragmentByTag(WeatherFragment.TAG) != null){
+            return;
+        }
         WeatherFragment fragment = new WeatherFragment();
         fragmentManager.beginTransaction()
                 .replace(layout, fragment, WeatherFragment.TAG)
@@ -55,6 +65,9 @@ public class NavigationController {
     }
 
     public static void navigateToForecast(@IdRes int layout, FragmentManager fragmentManager) {
+        if(fragmentManager.findFragmentByTag(ForecastFragment.TAG) != null){
+            return;
+        }
         ForecastFragment fragment = new ForecastFragment();
         fragmentManager.beginTransaction()
                 .replace(layout, fragment, ForecastFragment.TAG)
@@ -64,5 +77,15 @@ public class NavigationController {
     public static void navigateToChooseCity(Context context) {
         Intent intent = new Intent(context, ChooseCityActivity.class);
         context.startActivity(intent);
+    }
+
+    public static void navigateToChooseCity(@IdRes int layout, FragmentManager fragmentManager) {
+        if(fragmentManager.findFragmentByTag(ChooseCityFragment.TAG) != null){
+            return;
+        }
+        ChooseCityFragment fragment = new ChooseCityFragment();
+        fragmentManager.beginTransaction()
+                .replace(layout, fragment, ChooseCityFragment.TAG)
+                .commit();
     }
 }

@@ -25,7 +25,7 @@ import tljfn.yamblzweather.modules.weather.WeatherFragment;
 
 public class SettingsFragment extends PreferenceFragmentCompat implements SharedPreferences.OnSharedPreferenceChangeListener {
 
-    public static final String TAG = WeatherFragment.class.getName();
+    public static final String TAG = SettingsFragment.class.getName();
 
     @Inject
     PreferencesRepo settings;
