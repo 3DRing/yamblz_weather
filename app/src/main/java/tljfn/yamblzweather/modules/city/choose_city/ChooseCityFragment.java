@@ -132,17 +132,12 @@ public class ChooseCityFragment extends ViewModelFragment<ChooseCityViewModel, U
 
     @Override
     public int getToolbarTitle() {
-        return 0;
+        return 0; // no title
     }
 
     @Override
     public int getDrawerMode() {
         return DrawerLayout.LOCK_MODE_UNLOCKED;
-    }
-
-    private void hideKeyboard() {
-        InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-        inputManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
     }
 
     @Override

@@ -13,6 +13,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
@@ -39,6 +40,9 @@ public class MainActivity extends ViewModelActivity<MainViewModel, UIMainData> i
     @Nullable
     @BindView(R.id.additional_container)
     ViewGroup otherContainer;
+    @Nullable
+    @BindView(R.id.search_container)
+    View searchContainer;
 
     private ActionBar actionBar;
     private ActionBarDrawerToggle toggle;
@@ -65,6 +69,8 @@ public class MainActivity extends ViewModelActivity<MainViewModel, UIMainData> i
         if (savedInstanceState == null) {
             if (isTwoPane()) {
                 NavigationController.navigateToForecast(R.id.additional_container, getSupportFragmentManager());
+                NavigationController.navigateToChooseCity(R.id.search_container, getSupportFragmentManager());
+                showSearch();
             }
             NavigationController.navigateToWeather(R.id.fragment_container, getSupportFragmentManager());
         }
@@ -88,6 +94,18 @@ public class MainActivity extends ViewModelActivity<MainViewModel, UIMainData> i
         }
     }
 
+    private void hideSearch() {
+        if (searchContainer != null) {
+            searchContainer.setVisibility(View.GONE);
+        }
+    }
+
+    private void showSearch() {
+        if (searchContainer != null) {
+            searchContainer.setVisibility(View.VISIBLE);
+        }
+    }
+
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int container = isTwoPane() ? R.id.additional_container : R.id.fragment_container;
@@ -95,18 +113,23 @@ public class MainActivity extends ViewModelActivity<MainViewModel, UIMainData> i
         switch (item.getItemId()) {
             case R.id.nav_settings:
                 NavigationController.navigateToSettings(container, getSupportFragmentManager());
+                hideSearch();
                 break;
             case R.id.nav_about:
                 NavigationController.navigateToAbout(container, getSupportFragmentManager());
+                hideSearch();
                 break;
             case R.id.nav_weather:
                 NavigationController.navigateToWeather(R.id.fragment_container, getSupportFragmentManager());
+                hideSearch();
                 break;
             case R.id.nav_forecast:
                 NavigationController.navigateToForecast(container, getSupportFragmentManager());
+                hideSearch();
                 break;
             case R.id.nav_city:
-                NavigationController.navigateToChooseCity(container, getSupportFragmentManager());
+                NavigationController.navigateToFavoriteCity(container, getSupportFragmentManager());
+                showSearch();
                 break;
             default:
                 throw new IllegalStateException("No such menu is declared: " + item.getItemId());

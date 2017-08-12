@@ -22,6 +22,8 @@ import android.support.annotation.IdRes;
 import android.support.v4.app.FragmentManager;
 
 import tljfn.yamblzweather.modules.city.choose_city.ChooseCityFragment;
+import tljfn.yamblzweather.modules.city.favorite.FavoriteCitiesFragment;
+import tljfn.yamblzweather.modules.city.favorite.data.FavoriteCity;
 import tljfn.yamblzweather.modules.forecast.ForecastFragment;
 import tljfn.yamblzweather.modules.main.MainActivity;
 import tljfn.yamblzweather.modules.about.AboutFragment;
@@ -35,7 +37,7 @@ import tljfn.yamblzweather.modules.weather.WeatherFragment;
 public class NavigationController {
 
     public static void navigateToAbout(@IdRes int layout, FragmentManager fragmentManager) {
-        if(fragmentManager.findFragmentByTag(AboutFragment.TAG) != null){
+        if (fragmentManager.findFragmentByTag(AboutFragment.TAG) != null) {
             return;
         }
         AboutFragment fragment = new AboutFragment();
@@ -45,7 +47,7 @@ public class NavigationController {
     }
 
     public static void navigateToSettings(@IdRes int layout, FragmentManager fragmentManager) {
-        if(fragmentManager.findFragmentByTag(SettingsFragment.TAG) != null){
+        if (fragmentManager.findFragmentByTag(SettingsFragment.TAG) != null) {
             return;
         }
         SettingsFragment fragment = new SettingsFragment();
@@ -55,7 +57,7 @@ public class NavigationController {
     }
 
     public static void navigateToWeather(@IdRes int layout, FragmentManager fragmentManager) {
-        if(fragmentManager.findFragmentByTag(WeatherFragment.TAG) != null){
+        if (fragmentManager.findFragmentByTag(WeatherFragment.TAG) != null) {
             return;
         }
         WeatherFragment fragment = new WeatherFragment();
@@ -65,7 +67,7 @@ public class NavigationController {
     }
 
     public static void navigateToForecast(@IdRes int layout, FragmentManager fragmentManager) {
-        if(fragmentManager.findFragmentByTag(ForecastFragment.TAG) != null){
+        if (fragmentManager.findFragmentByTag(ForecastFragment.TAG) != null) {
             return;
         }
         ForecastFragment fragment = new ForecastFragment();
@@ -74,18 +76,28 @@ public class NavigationController {
                 .commit();
     }
 
-    public static void navigateToChooseCity(Context context) {
+    public static void navigateToFavoriteCity(Context context) {
         Intent intent = new Intent(context, ChooseCityActivity.class);
         context.startActivity(intent);
     }
 
-    public static void navigateToChooseCity(@IdRes int layout, FragmentManager fragmentManager) {
-        if(fragmentManager.findFragmentByTag(ChooseCityFragment.TAG) != null){
+    public static void navigateToFavoriteCity(@IdRes int layout, FragmentManager fragmentManager) {
+        if (fragmentManager.findFragmentByTag(FavoriteCitiesFragment.TAG) != null) {
+            return;
+        }
+        FavoriteCitiesFragment fragment = new FavoriteCitiesFragment();
+        fragmentManager.beginTransaction()
+                .replace(layout, fragment, FavoriteCitiesFragment.TAG)
+                .commit();
+    }
+
+    public static void navigateToChooseCity(int container, FragmentManager fragmentManager) {
+        if (fragmentManager.findFragmentByTag(ChooseCityFragment.TAG) != null) {
             return;
         }
         ChooseCityFragment fragment = new ChooseCityFragment();
         fragmentManager.beginTransaction()
-                .replace(layout, fragment, ChooseCityFragment.TAG)
+                .replace(container, fragment, ChooseCityFragment.TAG)
                 .commit();
     }
 }
