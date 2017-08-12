@@ -42,11 +42,6 @@ public class WeatherFragment extends ViewModelFragment<WeatherViewModel, UIWeath
     @BindView(R.id.weather_image)
     ImageView weatherImage;
 
-    @OnClick(R.id.tv_city)
-    public void onCityClick() {
-        NavigationController.navigateToFavoriteCity(getContext());
-    }
-
     @Override
     protected void initializeViews() {
         super.initializeViews();

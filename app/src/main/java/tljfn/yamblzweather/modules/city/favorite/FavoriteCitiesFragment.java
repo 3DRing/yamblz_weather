@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import javax.inject.Inject;
@@ -30,8 +31,14 @@ public class FavoriteCitiesFragment extends ViewModelFragment<FavoriteCitiesView
     @Inject
     ViewModelFactory factory;
 
-    @BindView(R.id.tv_crt_city)
+    @BindView(R.id.tv_city)
     TextView crtCity;
+    @BindView(R.id.weather_image)
+    ImageView crtWeatherImage;
+    @BindView(R.id.tv_temperature)
+    TextView tvTemperature;
+    @BindView(R.id.tv_conditions)
+    TextView tvConditions;
 
     WeatherViewModel weatherViewModel;
 
@@ -67,7 +74,10 @@ public class FavoriteCitiesFragment extends ViewModelFragment<FavoriteCitiesView
     }
 
     private void onCrtCityWeatherChanged(UIWeatherData uiWeatherData) {
-        crtCity.setText(uiWeatherData.getCity());
+        crtCity.setText(getString(R.string.chosen_city_text, uiWeatherData.getCity()));
+        tvConditions.setText(uiWeatherData.getConditionName());
+        tvTemperature.setText(getString(R.string.temperature, uiWeatherData.getTemperature()));
+        crtWeatherImage.setImageResource(uiWeatherData.getConditionImage());
     }
 
     @Override

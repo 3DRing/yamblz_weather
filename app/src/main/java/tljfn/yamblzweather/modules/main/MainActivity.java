@@ -40,7 +40,7 @@ public class MainActivity extends ViewModelActivity<MainViewModel, UIMainData> i
     @Nullable
     @BindView(R.id.additional_container)
     ViewGroup otherContainer;
-    @Nullable
+
     @BindView(R.id.search_container)
     View searchContainer;
 
@@ -69,9 +69,9 @@ public class MainActivity extends ViewModelActivity<MainViewModel, UIMainData> i
         if (savedInstanceState == null) {
             if (isTwoPane()) {
                 NavigationController.navigateToForecast(R.id.additional_container, getSupportFragmentManager());
-                NavigationController.navigateToChooseCity(R.id.search_container, getSupportFragmentManager());
                 showSearch();
             }
+            NavigationController.navigateToChooseCity(R.id.search_container, getSupportFragmentManager());
             NavigationController.navigateToWeather(R.id.fragment_container, getSupportFragmentManager());
         }
     }
@@ -95,15 +95,11 @@ public class MainActivity extends ViewModelActivity<MainViewModel, UIMainData> i
     }
 
     private void hideSearch() {
-        if (searchContainer != null) {
-            searchContainer.setVisibility(View.GONE);
-        }
+        searchContainer.setVisibility(View.GONE);
     }
 
     private void showSearch() {
-        if (searchContainer != null) {
-            searchContainer.setVisibility(View.VISIBLE);
-        }
+        searchContainer.setVisibility(View.VISIBLE);
     }
 
     @Override
