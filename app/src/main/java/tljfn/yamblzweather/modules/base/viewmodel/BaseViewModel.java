@@ -49,4 +49,10 @@ public abstract class BaseViewModel<D extends UIBaseData> extends ViewModel {
         crtData.setLoading(true);
         onChange(crtData);
     }
+
+    @Override
+    protected void onCleared() {
+        super.onCleared();
+        disposables.clear();
+    }
 }

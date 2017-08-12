@@ -90,7 +90,7 @@ public class PreferencesRepo {
 
     public Flowable<Long> updateCurrentCity(long id) {
         preferences.edit().putLong(CURRENT_CITY_ID_KEY, id).apply();
-        currentIdChanges.onNext(getCurrentCityId());
+        currentIdChanges.onNext(id);
         return currentIdChanges.toFlowable(BackpressureStrategy.LATEST);
     }
 
@@ -155,6 +155,6 @@ public class PreferencesRepo {
     }
 
     public Flowable<Long> subscribeToCityUpdate() {
-        return currentIdChanges.toFlowable(BackpressureStrategy.LATEST);
+        return currentIdChanges.toFlowable(BackpressureStrategy.BUFFER);
     }
 }

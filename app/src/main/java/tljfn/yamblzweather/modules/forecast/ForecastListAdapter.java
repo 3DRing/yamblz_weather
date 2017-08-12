@@ -101,6 +101,9 @@ public class ForecastListAdapter extends RecyclerView.Adapter<ForecastListAdapte
 
         void bind(UIDayForecast forecast, ClickListener listener) {
 
+            if (forecast == null) {
+                return;
+            }
             UISingleForecast single = forecast.getNight();
             if (single != null) {
                 imageNight.setImageResource(single.getCondition().getConditionImage());

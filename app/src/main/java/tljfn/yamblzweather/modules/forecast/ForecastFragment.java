@@ -59,7 +59,7 @@ public class ForecastFragment extends ViewModelFragment<ForecastViewModel, UIFor
 
     @Override
     public int getToolbarTitle() {
-        return 0;
+        return R.string.forecast;
     }
 
     @Override
