@@ -179,46 +179,6 @@ public class UIConverter {
         }
     }
 
-    private static RelativeDay toRelativeDay(long now, long millis) {
-        Calendar c1 = Calendar.getInstance();
-        c1.setTime(new Date(now));
-
-        Calendar c2 = Calendar.getInstance();
-        c2.setTime(new Date(millis));
-
-        c1.add(Calendar.DAY_OF_YEAR, -2);
-        if (daysAreEqual(c1, c2)) {
-            return RelativeDay.BeforeYesterday;
-        }
-        c1.add(Calendar.DAY_OF_YEAR, 1);
-        if (daysAreEqual(c1, c2)) {
-            return RelativeDay.Yesterday;
-        }
-        c1.add(Calendar.DAY_OF_YEAR, 1);
-        if (daysAreEqual(c1, c2)) {
-            return RelativeDay.Today;
-        }
-        c1.add(Calendar.DAY_OF_YEAR, 1);
-        if (daysAreEqual(c1, c2)) {
-            return RelativeDay.Tomorrow;
-        }
-        c1.add(Calendar.DAY_OF_YEAR, 1);
-        if (daysAreEqual(c1, c2)) {
-            return RelativeDay.AfterTomorrow;
-        } else {
-            return new Date(now).before(new Date(millis)) ? RelativeDay.AfterTomorrow : RelativeDay.BeforeYesterday;
-        }
-    }
-
-    private static boolean daysAreEqual(Calendar c1, Calendar c2) {
-        int c1Year = c1.get(Calendar.YEAR);
-        int c2Year = c2.get(Calendar.YEAR);
-        int c1Day = c1.get(Calendar.DAY_OF_YEAR);
-        int c2Day = c2.get(Calendar.DAY_OF_YEAR);
-        return c1Year == c2Year
-                && c1Day == c2Day;
-    }
-
     public static UISingleForecast toUISingleForecast(DBForecast dbForecast) {
         return new UISingleForecast.Builder()
                 .id(dbForecast.getId())
@@ -227,7 +187,6 @@ public class UIConverter {
                 .temperature(dbForecast.getTemperature())
                 .updateTime(dbForecast.getUpdateTime())
                 .forecastTime(dbForecast.getForecastTime())
-                .relativeDay(toRelativeDay(System.currentTimeMillis(), dbForecast.getForecastTime()))
                 .relativeTime(toRelativeTime(dbForecast.getForecastTime()))
                 .condition(weatherIdToCondition(dbForecast.getConditionId()))
                 .build();
