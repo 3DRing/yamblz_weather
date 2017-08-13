@@ -18,9 +18,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="48dp"
-            android:layout_marginLeft="48dp"
+            android:layout_marginLeft="16dp"
             android:layout_marginRight="48dp"
-            android:layout_marginStart="48dp"
+            android:layout_marginStart="16dp"
             android:background="@null"
             android:hint="@string/choose_city_hint"
             android:imeOptions="flagNoExtractUi"
@@ -40,15 +40,6 @@
             android:layout_gravity="right|center_vertical|end"
             android:padding="12dp"
             custom:srcCompat="@drawable/ic_close" />
-
-        <ImageView
-            android:id="@+id/backpress"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="false"
-            android:layout_gravity="left|center_vertical|start"
-            android:padding="12dp"
-            custom:srcCompat="@drawable/ic_arrow_back" />
 
     </FrameLayout>
 

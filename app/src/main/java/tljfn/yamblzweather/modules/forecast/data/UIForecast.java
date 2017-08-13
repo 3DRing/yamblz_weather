@@ -1,8 +1,5 @@
 package tljfn.yamblzweather.modules.forecast.data;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import tljfn.yamblzweather.model.db.forecast.DBForecast;
 import tljfn.yamblzweather.modules.UIConverter;
 import tljfn.yamblzweather.modules.base.data.UIBaseData;
@@ -15,19 +12,16 @@ public class UIForecast extends UIBaseData {
 
     private static final int DEFAULT_DAYS_TO_FORECAST = 3;
 
-    List<UISingleForecast> forecasts; // deprecated
     UIDayForecast[] dayForecasts;
 
-    public UIForecast() {
-        forecasts = new ArrayList<>(); // deprecated
-    }
-
-    public List<UISingleForecast> getForecasts() {
-        return forecasts;
-    }
+    private long time;
 
     public UIDayForecast[] getDaysForecast() {
         return dayForecasts;
+    }
+
+    public long getTime() {
+        return time;
     }
 
     public static class Builder extends UIBaseData.Builder<UIForecast, Builder> {
@@ -53,15 +47,14 @@ public class UIForecast extends UIBaseData {
             return this;
         }
 
-        public Builder addSingleForecasts(List<UISingleForecast> forecasts) {
-            data.forecasts.addAll(forecasts);
-            return this;
-        }
-
         private void checkOffset(int offset) {
             if (offset >= data.dayForecasts.length) {
                 // just skip forecast if it is appears after provided daysForward value
             }
+        }
+
+        public void time(long time) {
+            data.time = time;
         }
 
         public void addMorning(int offset, DBForecast crt) {

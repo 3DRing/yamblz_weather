@@ -111,6 +111,10 @@ public class UIConverter {
         for (int i = 0; i < dbForecast.size(); i++) {
             DBForecast crt = dbForecast.get(i);
 
+            if (i == 0) {
+                builder.time(crt.getUpdateTime());
+            }
+
             int diff = getDaysDifference(now, crt.getForecastTime());
             if (diff < 0 || diff > DEFAULT_DAYS_FORWARD_TO_FORECAST - 1) {
                 // do not take forecast from the past and far future

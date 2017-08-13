@@ -10,7 +10,7 @@
     <string name="weather">Погода</string>
     <string name="settings">Настройки</string>
     <string name="about">О приложении</string>
-    <string name="last_update">Последнее обновление: </string>
+    <string name="last_update">Последнее обновление: %s</string>
     <string name="search_hint">Москва</string>
     <string name="choose_city">Выберите город</string>
 

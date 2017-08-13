@@ -1,6 +1,5 @@
 package tljfn.yamblzweather.modules.city.choose_city;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,7 +7,6 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 import javax.inject.Inject;
@@ -21,7 +19,6 @@ import tljfn.yamblzweather.di.modules.viewmodel.ViewModelFactory;
 import tljfn.yamblzweather.modules.base.fragment.ViewModelFragment;
 import tljfn.yamblzweather.modules.city.CityListAdapter;
 import tljfn.yamblzweather.modules.city.UICity;
-import tljfn.yamblzweather.modules.city.choose_city.data.CitySuggestion;
 import tljfn.yamblzweather.modules.city.choose_city.data.UICitySuggestions;
 
 /**
@@ -37,19 +34,12 @@ public class ChooseCityFragment extends ViewModelFragment<ChooseCityViewModel, U
 
     @BindView(R.id.close)
     View close;
-    @BindView(R.id.backpress)
-    View backPress;
     @BindView(R.id.et_search_city)
     EditText search;
     @BindView(R.id.rv_suggestions)
     RecyclerView suggestions;
 
     CityListAdapter adapter;
-
-    @OnClick(R.id.backpress)
-    void onTopBackPress() {
-        getActivity().finish();
-    }
 
     @OnClick(R.id.close)
     void onClearSearch() {
