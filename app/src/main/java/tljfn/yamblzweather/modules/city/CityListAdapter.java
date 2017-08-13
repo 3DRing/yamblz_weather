@@ -40,7 +40,7 @@ public class CityListAdapter extends RecyclerView.Adapter<CityListAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
-        viewHolder.bind(items.get(i), i, favoriteListener, chooseCityListener);
+        viewHolder.bind(items.get(i), favoriteListener, chooseCityListener);
     }
 
     @Override
@@ -65,23 +65,23 @@ public class CityListAdapter extends RecyclerView.Adapter<CityListAdapter.ViewHo
             ButterKnife.bind(this, itemView);
         }
 
-        void bind(UICity city, int position, @Nullable FavoriteListener favoriteListener, ChooseCityListener chooseCityListener) {
+        void bind(UICity city, @Nullable FavoriteListener favoriteListener, ChooseCityListener chooseCityListener) {
             tvCity.setText(city.getName() + " (" + city.getCountry().toUpperCase() + ")");
             favorite.setChecked(city.isFavorite());
             if (favoriteListener != null) {
-                favorite.setOnToggleListener((fav) -> favoriteListener.onClick(city, position, fav));
+                favorite.setOnToggleListener((fav) -> favoriteListener.onClick(city, fav));
             }
             if (chooseCityListener != null) {
-                itemView.setOnClickListener(v -> chooseCityListener.onClick(city, position, city.getId()));
+                itemView.setOnClickListener(v -> chooseCityListener.onClick(city.getId()));
             }
         }
     }
 
     public interface ChooseCityListener {
-        void onClick(UICity city, int position, int cityId);
+        void onClick(int cityId);
     }
 
     public interface FavoriteListener {
-        void onClick(UICity city, int position, boolean favorite);
+        void onClick(UICity city, boolean favorite);
     }
 }

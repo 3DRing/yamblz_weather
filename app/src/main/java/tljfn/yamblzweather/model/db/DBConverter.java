@@ -120,7 +120,6 @@ public class DBConverter {
     }
 
     public static DBWeatherData fromRawWeatherData(DBCity city, RawWeather weather) {
-        // todo rewrite more unified
         List<Weather> weathers = weather.getWeather();
         Main main = weather.getMain();
 

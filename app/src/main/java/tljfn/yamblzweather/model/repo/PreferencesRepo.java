@@ -52,9 +52,6 @@ public class PreferencesRepo {
     String notificationsKey;
     String notificationsDefaultValue;
 
-    String currentCityKey;
-    String currentCityDefaultValue;
-
     private final SharedPreferences preferences;
 
     BehaviorSubject<Long> currentIdChanges;

@@ -81,11 +81,11 @@ public class ChooseCityFragment extends ViewModelFragment<ChooseCityViewModel, U
         suggestions.setAdapter(adapter);
     }
 
-    private void onChooseClick(UICity citySuggestion, int position, int id) {
-        getViewModel().onChooseClicked(citySuggestion, position, id);
+    private void onChooseClick(int id) {
+        getViewModel().onChooseClicked(id);
     }
 
-    private void onFavoriteClick(UICity citySuggestion, int position, boolean favorite) {
+    private void onFavoriteClick(UICity citySuggestion, boolean favorite) {
         getViewModel().onFavoriteClicked(citySuggestion.getId(), favorite);
     }
 

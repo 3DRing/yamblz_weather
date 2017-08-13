@@ -9,7 +9,7 @@ import tljfn.yamblzweather.modules.base.data.UIBaseData;
  * Created by ringov on 06.08.17.
  */
 
-public class UIErrorShower<D extends UIBaseData> {
+public class UIShower<D extends UIBaseData> {
 
     public void showDataOrError(Context context, LoadingScreen<D> screen, D data) {
         if (data != null) {

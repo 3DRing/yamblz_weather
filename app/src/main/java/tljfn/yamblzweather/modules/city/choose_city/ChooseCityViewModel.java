@@ -55,11 +55,10 @@ public class ChooseCityViewModel extends BaseViewModel<UICitySuggestions> {
         interactor.setFavorite(id, favorite)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                // todo handle result
                 .subscribe();
     }
 
-    public void onChooseClicked(UICity citySuggestion, int position, int id) {
+    public void onChooseClicked(int id) {
         interactor.chooseCity(id)
                 .subscribe();
         hideSearching();

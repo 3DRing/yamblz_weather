@@ -41,9 +41,7 @@ public class ChooseCityInteractor extends BaseInteractor {
 
     public Flowable<UICitySuggestions> getSuggestions(String requestedString) {
         return dbRepo.getSuggestions(requestedString.toLowerCase())
-                .doOnNext(list -> {
-                    suggestedCities.clear();
-                })
+                .doOnNext(list -> suggestedCities.clear())
                 .flatMap(list -> Flowable.fromIterable(list)
                         .doOnNext(city -> suggestedCities.put(city.getOpenWeatherId(), city))
                         .map(UIConverter::toUISuggestions)
@@ -52,8 +50,7 @@ public class ChooseCityInteractor extends BaseInteractor {
                 .flatMapSingle(Single::just)
                 .map(list -> {
                     UICitySuggestions.Builder builder = new UICitySuggestions.Builder();
-                    for (UICity s :
-                            list) {
+                    for (UICity s : list) {
                         builder.addCity(s);
                     }
                     return builder.build();

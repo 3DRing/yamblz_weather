@@ -21,6 +21,7 @@ import tljfn.yamblzweather.modules.city.UICity;
 import tljfn.yamblzweather.modules.city.favorite.data.UIFavoriteCityList;
 import tljfn.yamblzweather.modules.weather.WeatherViewModel;
 import tljfn.yamblzweather.modules.weather.data.UIWeatherData;
+import tljfn.yamblzweather.utils.Utils;
 
 /**
  * Created by ringov on 08.08.17.
@@ -32,6 +33,8 @@ public class FavoriteCitiesFragment extends ViewModelFragment<FavoriteCitiesView
     @Inject
     ViewModelFactory factory;
 
+    @BindView(R.id.tv_time)
+    TextView tvTime;
     @BindView(R.id.tv_city)
     TextView crtCity;
     @BindView(R.id.weather_image)
@@ -66,11 +69,11 @@ public class FavoriteCitiesFragment extends ViewModelFragment<FavoriteCitiesView
         favoriteCities.setAdapter(adapter);
     }
 
-    private void onCityClick(UICity city, int position, int cityId) {
+    private void onCityClick(int cityId) {
         getViewModel().onCityClicked(cityId);
     }
 
-    private void onFavoriteClick(UICity city, int position, boolean favorite) {
+    private void onFavoriteClick(UICity city, boolean favorite) {
         getViewModel().onFavoriteClicked(city, favorite);
     }
 
@@ -79,6 +82,7 @@ public class FavoriteCitiesFragment extends ViewModelFragment<FavoriteCitiesView
         tvConditions.setText(uiWeatherData.getConditionName());
         tvTemperature.setText(getString(R.string.temperature, uiWeatherData.getTemperature()));
         crtWeatherImage.setImageResource(uiWeatherData.getConditionImage());
+        tvTime.setText(Utils.getRelativeTimeInPast(getContext(), uiWeatherData.getTime()));
     }
 
     @Override

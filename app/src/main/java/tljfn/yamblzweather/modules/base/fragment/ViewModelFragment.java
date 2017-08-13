@@ -9,7 +9,7 @@ import android.view.View;
 
 import tljfn.yamblzweather.di.modules.viewmodel.ViewModelFactory;
 import tljfn.yamblzweather.modules.base.LoadingScreen;
-import tljfn.yamblzweather.modules.base.UIErrorShower;
+import tljfn.yamblzweather.modules.base.UIShower;
 import tljfn.yamblzweather.modules.base.data.UIBaseData;
 import tljfn.yamblzweather.modules.base.viewmodel.BaseViewModel;
 import tljfn.yamblzweather.modules.base.viewmodel.ViewModelScreen;
@@ -17,7 +17,7 @@ import tljfn.yamblzweather.modules.base.viewmodel.ViewModelScreen;
 public abstract class ViewModelFragment<VM extends BaseViewModel<D>, D extends UIBaseData> extends BaseFragment
         implements ViewModelScreen<VM, D>, LoadingScreen<D>, LifecycleRegistryOwner {
 
-    private UIErrorShower<D> errorShower;
+    private UIShower<D> errorShower;
     private VM viewModel;
 
     private final LifecycleRegistry lifecycleRegistry = new LifecycleRegistry(this);
@@ -41,7 +41,7 @@ public abstract class ViewModelFragment<VM extends BaseViewModel<D>, D extends U
 
         viewModel = ViewModelProviders.of(this, factory).get(cls);
         viewModel.observe(this, this::onChanged);
-        errorShower = new UIErrorShower<>();
+        errorShower = new UIShower<>();
 
         initializeViews();
     }

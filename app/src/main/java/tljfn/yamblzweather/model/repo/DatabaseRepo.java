@@ -32,7 +32,7 @@ public class DatabaseRepo {
 
     public Flowable<UIWeatherData> insertOrUpdateWeather(DBWeatherData weather) {
         return Flowable.fromCallable(() -> {
-            long result = weatherDao.insertWeather(weather);
+            weatherDao.insertWeather(weather);
             return UIConverter.toUIWeatherData(weather);
         });
     }
@@ -81,7 +81,7 @@ public class DatabaseRepo {
 
     public Flowable<List<DBForecast>> insertOrUpdateForecast(DBForecast[] forecasts) {
         return Flowable.fromCallable(() -> {
-            long[] result = weatherDao.insertForecast(forecasts);
+            weatherDao.insertForecast(forecasts);
             return Arrays.asList(forecasts);
         });
     }
