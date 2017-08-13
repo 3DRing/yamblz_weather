@@ -1,6 +1,7 @@
 package tljfn.yamblzweather.modules.city.favorite;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.res.Configuration;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -98,7 +99,10 @@ public class FavoriteCitiesFragment extends ViewModelFragment<FavoriteCitiesView
     @NonNull
     @Override
     public int getLayoutRes() {
-        return R.layout.fragment_favorite_cities;
+        boolean large = getResources().getBoolean(R.bool.large);
+        boolean landscape = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
+        boolean landLayout = large && !landscape || !large && landscape;
+        return landLayout ? R.layout.fragment_favorite_cities_land : R.layout.fragment_favorite_cities;
     }
 
     @Override
