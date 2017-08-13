@@ -71,4 +71,8 @@
     <string name="afternoon">День</string>
     <string name="evening">Вечер</string>
     <string name="night">Ночь</string>
+    <string name="humidity_title">Влажность</string>
+    <string name="pressure_title">Давление</string>
+
+    <string name="pressure_value"> %.0f мм. рт. ст.</string>
 </resources>

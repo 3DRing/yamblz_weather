@@ -3,6 +3,7 @@ package tljfn.yamblzweather.modules.weather.data;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.StringRes;
 
+import tljfn.yamblzweather.model.db.weather.DBWeatherData;
 import tljfn.yamblzweather.modules.base.data.UIBaseData;
 
 /**
@@ -15,6 +16,10 @@ public class UIWeatherData extends UIBaseData {
     private String city;
     private double temperature;
     private WeatherCondition condition;
+    private double windDeg;
+    private double windSpeed;
+    private double humidity;
+    private double pressure;
 
     private UIWeatherData() {
         time = 0;
@@ -33,6 +38,22 @@ public class UIWeatherData extends UIBaseData {
 
     public double getTemperature() {
         return temperature;
+    }
+
+    public double getHumidity() {
+        return humidity;
+    }
+
+    public double getPressure() {
+        return pressure;
+    }
+
+    public double getWindDeg() {
+        return windDeg;
+    }
+
+    public double getWindSpeed() {
+        return windSpeed;
     }
 
     @StringRes
@@ -100,5 +121,27 @@ public class UIWeatherData extends UIBaseData {
             this.data.condition = condition;
             return this;
         }
+
+
+        public Builder pressure(double pressure) {
+            data.pressure = pressure;
+            return this;
+        }
+
+        public Builder humidity(double humidity) {
+            data.humidity = humidity;
+            return this;
+        }
+
+        public Builder windDegree(double degree) {
+            data.windDeg = degree;
+            return this;
+        }
+
+        public Builder windSpeed(double windSpeed) {
+            data.windSpeed = windSpeed;
+            return this;
+        }
+
     }
 }

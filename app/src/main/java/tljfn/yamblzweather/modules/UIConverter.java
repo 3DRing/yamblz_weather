@@ -23,6 +23,7 @@ public class UIConverter {
 
     private static final int DAYS_IN_YEAR = 365; // for simplicity assume only this amount of days
     private static final int DEFAULT_DAYS_FORWARD_TO_FORECAST = 5;
+    private static final double PRESSURE_FACTOR = 0.750062;
 
     public static UIWeatherData toUIWeatherData(DBWeatherData weather) {
 
@@ -32,14 +33,25 @@ public class UIConverter {
                     .empty(true)
                     .build();
         } else {
+            boolean ruLocale = Locale.getDefault().getLanguage().equals("ru");
+            double pressure = ruLocale ? hPaToMMRtSt(weather.getPressure()) : weather.getPressure();
+
             UIWeatherData data = new UIWeatherData.Builder()
                     .city(weather.getCity())
                     .temperature(weather.getTemperature())
                     .time(weather.getTime())
                     .condition(weatherIdToCondition(weather.getCondition()))
+                    .humidity(weather.getHumidity())
+                    .pressure(pressure)
+                    .windSpeed(weather.getWindSpeed())
+                    .windDegree(weather.getWindDegree())
                     .build();
             return data;
         }
+    }
+
+    private static double hPaToMMRtSt(double pressure) {
+        return pressure * PRESSURE_FACTOR;
     }
 
     private static WeatherCondition weatherIdToCondition(int id) {
@@ -93,6 +105,10 @@ public class UIConverter {
                     .temperature(weather.getTemperature())
                     .time(weather.getTime())
                     .condition(weatherIdToCondition(weather.getCondition()))
+                    .humidity(weather.getHumidity())
+                    .pressure(weather.getPressure())
+                    .windSpeed(weather.getWindSpeed())
+                    .windDegree(weather.getWindDegree())
                     .build();
             return data;
         }

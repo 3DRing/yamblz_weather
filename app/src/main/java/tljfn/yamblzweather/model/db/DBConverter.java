@@ -9,6 +9,7 @@ import tljfn.yamblzweather.model.api.data.forecast.SingularForecast;
 import tljfn.yamblzweather.model.api.data.weather.Main;
 import tljfn.yamblzweather.model.api.data.weather.RawWeather;
 import tljfn.yamblzweather.model.api.data.weather.Weather;
+import tljfn.yamblzweather.model.api.data.weather.Wind;
 import tljfn.yamblzweather.model.db.cities.DBCity;
 import tljfn.yamblzweather.model.db.forecast.DBForecast;
 import tljfn.yamblzweather.model.db.weather.DBWeatherData;
@@ -34,6 +35,7 @@ public class DBConverter {
         List<Weather> weathers = weather.getWeather();
         String city = weather.getName();
         Main main = weather.getMain();
+        Wind wind = weather.getWind();
 
         if (weathers == null) {
             throw new RawToDBConvertingException("Cannot extract weather condition from server response");
@@ -43,6 +45,9 @@ public class DBConverter {
         }
         if (main == null) {
             throw new RawToDBConvertingException("No temperature received from server response");
+        }
+        if (wind == null) {
+            throw new RawToDBConvertingException("No wind received from server response");
         }
 
         int condition = weathers.get(0).getId();
@@ -54,6 +59,10 @@ public class DBConverter {
                 .temperature(temperature)
                 .time(System.currentTimeMillis())
                 .condition(condition)
+                .pressure(main.getPressure())
+                .humidity(main.getHumidity())
+                .windDegree(wind.getDeg())
+                .windSpeed(wind.getSpeed())
                 .build();
         return data;
     }
@@ -122,6 +131,7 @@ public class DBConverter {
     public static DBWeatherData fromRawWeatherData(DBCity city, RawWeather weather) {
         List<Weather> weathers = weather.getWeather();
         Main main = weather.getMain();
+        Wind wind = weather.getWind();
 
         if (weathers == null) {
             throw new RawToDBConvertingException("Cannot extract weather condition from server response");
@@ -129,6 +139,10 @@ public class DBConverter {
         if (main == null) {
             throw new RawToDBConvertingException("No temperature received from server response");
         }
+        if (wind == null) {
+            throw new RawToDBConvertingException("No wind received from server response");
+        }
+
         int condition = weathers.get(0).getId();
         double temperature = round(toCelsius(weather.getMain().getTemp()));
 
@@ -138,6 +152,10 @@ public class DBConverter {
                 .city(chooseDependingOnLocale(city.getRuName(), city.getEnName()))
                 .temperature(temperature)
                 .condition(condition)
+                .pressure(main.getPressure())
+                .humidity(main.getHumidity())
+                .windDegree(wind.getDeg())
+                .windSpeed(wind.getSpeed())
                 .build();
         return data;
     }

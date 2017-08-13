@@ -3,6 +3,7 @@ package tljfn.yamblzweather.modules.weather;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,6 +42,15 @@ public class WeatherFragment extends ViewModelFragment<WeatherViewModel, UIWeath
     TextView tvCondition;
     @BindView(R.id.weather_image)
     ImageView weatherImage;
+
+    @BindView(R.id.tv_humidity)
+    TextView tvHumidity;
+    @BindView(R.id.tv_pressure)
+    TextView tvPressure;
+    @BindView(R.id.tv_humidity_title)
+    TextView tvHumidityTitle;
+    @BindView(R.id.tv_pressure_title)
+    TextView tvPressureTitle;
 
     @Override
     protected void initializeViews() {
@@ -87,7 +97,13 @@ public class WeatherFragment extends ViewModelFragment<WeatherViewModel, UIWeath
             tvTime.setText(Utils.getRelativeTimeInPast(getContext(), data.getTime()));
             tvCondition.setText(data.getConditionName());
             weatherImage.setImageResource(data.getConditionImage());
+            tvHumidity.setText(getString(R.string.humidity_value, data.getHumidity()));
+            tvPressure.setText(getString(R.string.pressure_value, data.getPressure()));
+            tvHumidityTitle.setVisibility(View.VISIBLE);
+            tvPressureTitle.setVisibility(View.VISIBLE);
         } else {
+            tvHumidityTitle.setVisibility(View.GONE);
+            tvPressureTitle.setVisibility(View.GONE);
             tvTemperature.setText("");
             tvCity.setText(data.getCity());
             tvTime.setText("");

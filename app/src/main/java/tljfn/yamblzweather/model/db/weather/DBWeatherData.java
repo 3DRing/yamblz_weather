@@ -23,12 +23,45 @@ public class DBWeatherData {
     private double temperature;
     private long time;
     private int condition;
+    private double pressure;
+    private double humidity;
+    private double windSpeed;
+    private double windDegree;
 
     public DBWeatherData() {
         id = -1;
-        city = "";
-        temperature = 0;
-        time = 0;
+    }
+
+    public double getPressure() {
+        return pressure;
+    }
+
+    public void setPressure(double pressure) {
+        this.pressure = pressure;
+    }
+
+    public double getHumidity() {
+        return humidity;
+    }
+
+    public void setHumidity(double humidity) {
+        this.humidity = humidity;
+    }
+
+    public double getWindSpeed() {
+        return windSpeed;
+    }
+
+    public void setWindSpeed(double windSpeed) {
+        this.windSpeed = windSpeed;
+    }
+
+    public double getWindDegree() {
+        return windDegree;
+    }
+
+    public void setWindDegree(double windDegree) {
+        this.windDegree = windDegree;
     }
 
     public int getId() {
@@ -81,7 +114,11 @@ public class DBWeatherData {
         if (getId() != that.getId()) return false;
         if (Double.compare(that.getTemperature(), getTemperature()) != 0) return false;
         if (getCondition() != that.getCondition()) return false;
-        return getCity().equals(that.getCity());
+        if (Double.compare(that.getPressure(), getPressure()) != 0) return false;
+        if (Double.compare(that.getHumidity(), getHumidity()) != 0) return false;
+        if (Double.compare(that.getWindSpeed(), getWindSpeed()) != 0) return false;
+        if (Double.compare(that.getWindDegree(), getWindDegree()) != 0) return false;
+        return getCity() != null ? getCity().equals(that.getCity()) : that.getCity() == null;
 
     }
 
@@ -90,10 +127,19 @@ public class DBWeatherData {
         int result;
         long temp;
         result = getId();
-        result = 31 * result + getCity().hashCode();
+        result = 31 * result + (getCity() != null ? getCity().hashCode() : 0);
         temp = Double.doubleToLongBits(getTemperature());
         result = 31 * result + (int) (temp ^ (temp >>> 32));
+        result = 31 * result + (int) (getTime() ^ (getTime() >>> 32));
         result = 31 * result + getCondition();
+        temp = Double.doubleToLongBits(getPressure());
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        temp = Double.doubleToLongBits(getHumidity());
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        temp = Double.doubleToLongBits(getWindSpeed());
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        temp = Double.doubleToLongBits(getWindDegree());
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
         return result;
     }
 
@@ -122,6 +168,26 @@ public class DBWeatherData {
 
         public Builder condition(int condition) {
             data.condition = condition;
+            return this;
+        }
+
+        public Builder pressure(double pressure) {
+            data.pressure = pressure;
+            return this;
+        }
+
+        public Builder humidity(double humidity) {
+            data.humidity = humidity;
+            return this;
+        }
+
+        public Builder windDegree(double degree) {
+            data.windDegree = degree;
+            return this;
+        }
+
+        public Builder windSpeed(double windSpeed) {
+            data.windSpeed = windSpeed;
             return this;
         }
 

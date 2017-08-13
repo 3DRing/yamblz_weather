@@ -90,4 +90,9 @@
     <string name="night">Night</string>
     <string name="chosen_city_text">Chosen city is %s</string>
     <string name="developers">Developers</string>
+    <string name="humidity_title">Humidity</string>
+    <string name="pressure_title">Pressure</string>
+
+    <string name="humidity_value" translatable="false">%.0f \%</string>
+    <string name="pressure_value"> %.0f hPa</string>
 </resources>
