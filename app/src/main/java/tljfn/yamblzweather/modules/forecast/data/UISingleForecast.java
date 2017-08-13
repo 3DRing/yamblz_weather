@@ -15,7 +15,6 @@ public class UISingleForecast {
     String cityName;
     private long updateTime;
     private long forecastTime;
-    private RelativeDay relativeDay;
     private RelativeTime relativeTime;
     private double temperature;
     private WeatherCondition condition;
@@ -94,11 +93,6 @@ public class UISingleForecast {
 
         public Builder forecastTime(long forecastTime) {
             forecast.forecastTime = forecastTime;
-            return this;
-        }
-
-        public Builder relativeDay(RelativeDay relativeDay) {
-            forecast.relativeDay = relativeDay;
             return this;
         }
 

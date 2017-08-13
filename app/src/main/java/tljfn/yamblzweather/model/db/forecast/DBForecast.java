@@ -101,6 +101,34 @@ public class DBForecast {
         this.updateTime = updateTime;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        DBForecast that = (DBForecast) o;
+
+        if (getId() != that.getId()) return false;
+        if (getCityId() != that.getCityId()) return false;
+        if (Double.compare(that.getTemperature(), getTemperature()) != 0) return false;
+        if (getConditionId() != that.getConditionId()) return false;
+        return getCityName() != null ? getCityName().equals(that.getCityName()) : that.getCityName() == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result;
+        long temp;
+        result = (int) (getId() ^ (getId() >>> 32));
+        result = 31 * result + getCityId();
+        result = 31 * result + (getCityName() != null ? getCityName().hashCode() : 0);
+        temp = Double.doubleToLongBits(getTemperature());
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        result = 31 * result + getConditionId();
+        return result;
+    }
+
     public static class Builder {
 
         DBForecast forecast;

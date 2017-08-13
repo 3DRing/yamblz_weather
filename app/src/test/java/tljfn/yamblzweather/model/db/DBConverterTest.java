@@ -33,14 +33,26 @@ public class DBConverterTest {
         DBWeatherData dbData = DBConverter.fromRawWeatherData(rawData);
         long crtTime = System.currentTimeMillis();
 
-        // not used so far
-        //assertTrue(dbData.getId() == 5128581);
+        assertTrue(dbData.getCity().equals("New York"));
+        assertTrue(dbData.getCondition() == 721);
+        assertTrue(Double.compare(dbData.getTemperature(), 22.22) == 0);
+        assertTrue(TestUtils.equalTime(dbData.getTime(), crtTime));
+    }
+
+    @Test
+    public void converting_to_db_weather_data_correctly_2() {
+        RawWeather rawData = dataProvider.getNewYorkWeather();
+        RawCity rawCity = dataProvider.getNewYork();
+        DBCity newYork = DBConverter.fromRawCity(rawCity);
+        DBWeatherData dbData = DBConverter.fromRawWeatherData(newYork, rawData);
+        long crtTime = System.currentTimeMillis();
 
         assertTrue(dbData.getCity().equals("New York"));
         assertTrue(dbData.getCondition() == 721);
         assertTrue(Double.compare(dbData.getTemperature(), 22.22) == 0);
         assertTrue(TestUtils.equalTime(dbData.getTime(), crtTime));
     }
+
 
     @Test(expected = RawToDBConvertingException.class)
     public void converting_to_db_weather_data_error() {
@@ -66,7 +78,52 @@ public class DBConverterTest {
     public void converting_to_db_city_error() {
         RawCity data = dataProvider.getBadRawCity();
         DBCity dbData = DBConverter.fromRawCity(data);
-        fail();
+    }
+
+    @Test(expected = RawToDBConvertingException.class)
+    public void converting_to_db_city_error_2() {
+        RawCity data = new RawCity();
+        DBCity dbData = DBConverter.fromRawCity(data);
+    }
+
+    @Test(expected = RawToDBConvertingException.class)
+    public void converting_to_db_city_error_3() {
+        RawCity data = new RawCity();
+        data.yaId = 1;
+        DBCity dbData = DBConverter.fromRawCity(data);
+    }
+
+    @Test(expected = RawToDBConvertingException.class)
+    public void converting_to_db_city_error_4() {
+        RawCity data = new RawCity();
+        data.openWeatherId = 1;
+        DBCity dbData = DBConverter.fromRawCity(data);
+    }
+
+    @Test(expected = RawToDBConvertingException.class)
+    public void converting_to_db_city_error_5() {
+        RawCity data = new RawCity();
+        data.country = "ru";
+        DBCity dbData = DBConverter.fromRawCity(data);
+    }
+
+    @Test(expected = RawToDBConvertingException.class)
+    public void converting_to_db_city_error_6() {
+        RawCity data = new RawCity();
+        data.enName = "Rome";
+        DBCity dbData = DBConverter.fromRawCity(data);
+    }
+
+    @Test(expected = RawToDBConvertingException.class)
+    public void converting_to_db_city_error_7() {
+        RawCity data = new RawCity();
+        data.ruName = "Рим";
+        DBCity dbData = DBConverter.fromRawCity(data);
+    }
+
+    @Test
+    public void converting_to_db_forecast() {
+
     }
 }
 

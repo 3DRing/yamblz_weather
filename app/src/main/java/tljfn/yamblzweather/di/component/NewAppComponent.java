@@ -21,6 +21,7 @@ import tljfn.yamblzweather.modules.about.AboutFragment;
 import tljfn.yamblzweather.modules.city.choose_city.ChooseCityFragment;
 import tljfn.yamblzweather.modules.city.favorite.FavoriteCitiesFragment;
 import tljfn.yamblzweather.modules.forecast.ForecastFragment;
+import tljfn.yamblzweather.modules.main.MainActivity;
 import tljfn.yamblzweather.modules.main.MainViewModel;
 import tljfn.yamblzweather.modules.settings.SettingsFragment;
 import tljfn.yamblzweather.modules.weather.WeatherFragment;
@@ -50,8 +51,6 @@ public interface NewAppComponent {
 
     void inject(WeatherUpdateJob weatherUpdateJob);
 
-    void inject(MainViewModel mainViewModel);
-
     void inject(AboutFragment fragment);
 
     void inject(ChooseCityFragment fragment);
@@ -61,4 +60,6 @@ public interface NewAppComponent {
     void inject(FavoriteCitiesFragment fragment);
 
     void inject(ForecastFragment fragment);
+
+    void inject(MainActivity mainActivity);
 }

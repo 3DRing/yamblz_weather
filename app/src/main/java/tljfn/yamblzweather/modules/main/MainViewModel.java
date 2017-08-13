@@ -20,17 +20,17 @@ import tljfn.yamblzweather.modules.base.viewmodel.BaseViewModel;
 
 public class MainViewModel extends BaseViewModel<UIMainData> {
 
-    @Inject
     PreferencesRepo preferencesRepo;
-    @Inject
     DatabaseRepo dbRepo;
-    @Inject
     RemoteRepo remoteRepo;
 
-    public MainViewModel() {
-        App.getComponent().inject(this);
+    @Inject
+    public MainViewModel(PreferencesRepo preferencesRepo, DatabaseRepo dbRepo, RemoteRepo remoteRepo) {
+        this.preferencesRepo = preferencesRepo;
+        this.dbRepo = dbRepo;
+        this.remoteRepo = remoteRepo;
+
         initDBIfNot();
-        setScheduler();
     }
 
     @Override
@@ -51,10 +51,6 @@ public class MainViewModel extends BaseViewModel<UIMainData> {
                     .subscribe(() -> {
                     }, this::onError);
         }
-    }
-
-    private void setScheduler() {
-        WeatherUpdateJob.schedule(preferencesRepo);
     }
 
     public void setCrtOrientation(boolean landscape) {

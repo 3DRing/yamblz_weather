@@ -15,9 +15,11 @@ import java.util.List;
 import tljfn.yamblzweather.TestUtils;
 import tljfn.yamblzweather.data.DataProvider;
 import tljfn.yamblzweather.model.api.data.city.RawCity;
+import tljfn.yamblzweather.model.api.data.forecast.RawForecast;
 import tljfn.yamblzweather.model.api.data.weather.RawWeather;
 import tljfn.yamblzweather.model.api.data.weather.Sys;
 import tljfn.yamblzweather.model.db.cities.DBCity;
+import tljfn.yamblzweather.model.db.forecast.DBForecast;
 import tljfn.yamblzweather.model.db.weather.DBWeatherData;
 
 import static junit.framework.Assert.assertTrue;
@@ -181,5 +183,13 @@ public class TestingDataProvider {
         assertTrue(weather.getTemperature() == 22.22);
         assertTrue(weather.getCondition() == 721);
         assertTrue(weather.getCity().equals("New York"));
+    }
+
+    @Test
+    public void loading_raw_forecast_correct() {
+        RawForecast forecast = dataProvider.getRawForecastSaintPetersburg();
+
+        assertTrue(forecast != null);
+        assertTrue(forecast.equals(dataProvider.getRawForecastSaintPetersburg()));
     }
 }

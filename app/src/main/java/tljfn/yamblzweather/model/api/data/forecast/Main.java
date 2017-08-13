@@ -95,4 +95,44 @@ public class Main {
         this.tempKf = tempKf;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Main main = (Main) o;
+
+        if (Double.compare(main.getTemp(), getTemp()) != 0) return false;
+        if (Double.compare(main.getTempMin(), getTempMin()) != 0) return false;
+        if (Double.compare(main.getTempMax(), getTempMax()) != 0) return false;
+        if (Double.compare(main.getPressure(), getPressure()) != 0) return false;
+        if (Double.compare(main.getSeaLevel(), getSeaLevel()) != 0) return false;
+        if (Double.compare(main.getGrndLevel(), getGrndLevel()) != 0) return false;
+        if (Double.compare(main.getHumidity(), getHumidity()) != 0) return false;
+        return Double.compare(main.getTempKf(), getTempKf()) == 0;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result;
+        long temp1;
+        temp1 = Double.doubleToLongBits(getTemp());
+        result = (int) (temp1 ^ (temp1 >>> 32));
+        temp1 = Double.doubleToLongBits(getTempMin());
+        result = 31 * result + (int) (temp1 ^ (temp1 >>> 32));
+        temp1 = Double.doubleToLongBits(getTempMax());
+        result = 31 * result + (int) (temp1 ^ (temp1 >>> 32));
+        temp1 = Double.doubleToLongBits(getPressure());
+        result = 31 * result + (int) (temp1 ^ (temp1 >>> 32));
+        temp1 = Double.doubleToLongBits(getSeaLevel());
+        result = 31 * result + (int) (temp1 ^ (temp1 >>> 32));
+        temp1 = Double.doubleToLongBits(getGrndLevel());
+        result = 31 * result + (int) (temp1 ^ (temp1 >>> 32));
+        temp1 = Double.doubleToLongBits(getHumidity());
+        result = 31 * result + (int) (temp1 ^ (temp1 >>> 32));
+        temp1 = Double.doubleToLongBits(getTempKf());
+        result = 31 * result + (int) (temp1 ^ (temp1 >>> 32));
+        return result;
+    }
 }

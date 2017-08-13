@@ -10,9 +10,11 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 import tljfn.yamblzweather.model.api.data.city.RawCity;
+import tljfn.yamblzweather.model.api.data.forecast.RawForecast;
 import tljfn.yamblzweather.model.api.data.weather.RawWeather;
 import tljfn.yamblzweather.model.db.DBConverter;
 import tljfn.yamblzweather.model.db.cities.DBCity;
+import tljfn.yamblzweather.model.db.forecast.DBForecast;
 import tljfn.yamblzweather.model.db.weather.DBWeatherData;
 
 /**
@@ -83,11 +85,27 @@ public class DataProvider {
         return loadTestRawCity("belgorod_city.json");
     }
 
+    public RawCity getNewYork() {
+        return loadTestRawCity("new_york_city.json");
+    }
+
     public DBCity getSaintPetersburgCityDB() {
         return DBConverter.fromRawCity(getSaintPetersburgCity());
     }
 
     public DBWeatherData getNewYorkWeatherDB() {
         return DBConverter.fromRawWeatherData(getNewYorkWeather());
+    }
+
+    public RawForecast getRawForecastSaintPetersburg() {
+        return loadTestRawForecast("forecast_response.json");
+    }
+
+    private RawForecast loadTestRawForecast(String file) {
+        return loadTestData(file, RawForecast.class);
+    }
+
+    public DBForecast[] getDBForecastPetersburg() {
+        return DBConverter.fromRawForecast(getSaintPetersburgCityDB(), getRawForecastSaintPetersburg());
     }
 }

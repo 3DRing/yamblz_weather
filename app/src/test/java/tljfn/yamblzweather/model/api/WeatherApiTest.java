@@ -18,6 +18,7 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import tljfn.yamblzweather.data.DataProvider;
+import tljfn.yamblzweather.model.api.data.forecast.RawForecast;
 import tljfn.yamblzweather.model.api.data.weather.RawWeather;
 
 /**
@@ -29,6 +30,7 @@ public class WeatherApiTest {
 
     private MockWebServer mockWebServer;
     private RawWeather weather;
+    private RawForecast forecast;
 
     @Before
     public void setup() throws IOException {
@@ -40,6 +42,7 @@ public class WeatherApiTest {
                 .build()
                 .create(WeatherApi.class);
         weather = new DataProvider().getNewYorkWeather();
+        forecast = new DataProvider().getRawForecastSaintPetersburg();
     }
 
     @Test
@@ -58,6 +61,15 @@ public class WeatherApiTest {
         // todo specify this error in the actual code
         api.getWeather(0).test()
                 .assertError(Throwable.class);
+    }
+
+    @Test
+    public void getting_weather_forecast() throws IOException {
+        enqueueResponse("forecast_response.json");
+
+        api.getForecast(2).test()
+                .assertNoErrors()
+                .assertValue(forecast);
     }
 
     @After

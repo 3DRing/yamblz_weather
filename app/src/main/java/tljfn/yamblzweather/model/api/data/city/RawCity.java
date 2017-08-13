@@ -27,9 +27,9 @@ public class RawCity {
 
         if (yaId != rawCity.yaId) return false;
         if (openWeatherId != rawCity.openWeatherId) return false;
-        if (!enName.equals(rawCity.enName)) return false;
-        if (!ruName.equals(rawCity.ruName)) return false;
-        return country.equals(rawCity.country);
+        if (enName != null ? !enName.equals(rawCity.enName) : rawCity.enName != null) return false;
+        if (ruName != null ? !ruName.equals(rawCity.ruName) : rawCity.ruName != null) return false;
+        return country != null ? country.equals(rawCity.country) : rawCity.country == null;
 
     }
 
@@ -37,9 +37,9 @@ public class RawCity {
     public int hashCode() {
         int result = yaId;
         result = 31 * result + openWeatherId;
-        result = 31 * result + enName.hashCode();
-        result = 31 * result + ruName.hashCode();
-        result = 31 * result + country.hashCode();
+        result = 31 * result + (enName != null ? enName.hashCode() : 0);
+        result = 31 * result + (ruName != null ? ruName.hashCode() : 0);
+        result = 31 * result + (country != null ? country.hashCode() : 0);
         return result;
     }
 }

@@ -18,4 +18,19 @@ public class Sys {
         this.pod = pod;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Sys sys = (Sys) o;
+
+        return getPod() != null ? getPod().equals(sys.getPod()) : sys.getPod() == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        return getPod() != null ? getPod().hashCode() : 0;
+    }
 }
