@@ -47,11 +47,9 @@ public abstract class ToggleImageButton extends android.support.v7.widget.AppCom
         this.setBackgroundResource(0);
     }
 
-    // todo learn how to set attributes via xml and not create new child for different drawables
     @DrawableRes
     protected abstract int getOnImageRes();
 
-    // todo learn how to set attributes via xml and not create new child for different drawables
     @DrawableRes
     protected abstract int getOffImageRes();
 

@@ -27,20 +27,13 @@ import tljfn.yamblzweather.utils.Utils;
 public class ForecastListAdapter extends RecyclerView.Adapter<ForecastListAdapter.ViewHolder> {
 
     private List<UIDayForecast> dayForecasts;
-    private List<UISingleForecast> forecasts;
     private ClickListener listener;
     private OrientationListener orientationListener;
 
     public ForecastListAdapter(@NonNull OrientationListener orientationListener, @Nullable ClickListener listener) {
         this.listener = listener;
-        forecasts = new ArrayList<>();
         dayForecasts = new ArrayList<>();
         this.orientationListener = orientationListener;
-    }
-
-    public void setForecasts(List<UISingleForecast> forecasts) {
-        this.forecasts = forecasts;
-        notifyDataSetChanged();
     }
 
     public void setDayForecasts(UIDayForecast[] dayForecasts) {

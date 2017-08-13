@@ -1,7 +1,5 @@
 package tljfn.yamblzweather.modules.forecast.data;
 
-import tljfn.yamblzweather.model.db.forecast.DBForecast;
-import tljfn.yamblzweather.modules.UIConverter;
 import tljfn.yamblzweather.modules.weather.data.WeatherCondition;
 
 /**
@@ -45,16 +43,6 @@ public class UISingleForecast {
 
         public Builder() {
             forecast = new UISingleForecast();
-        }
-
-        public Builder fromDBForecast(DBForecast dbForecast) {
-            forecast.id = dbForecast.getId();
-            forecast.cityId = dbForecast.getCityId();
-            forecast.updateTime = dbForecast.getUpdateTime();
-            forecast.forecastTime = dbForecast.getForecastTime();
-            forecast.temperature = dbForecast.getTemperature();
-            forecast.cityName = dbForecast.getCityName();
-            return this;
         }
 
         public Builder condition(WeatherCondition condition) {

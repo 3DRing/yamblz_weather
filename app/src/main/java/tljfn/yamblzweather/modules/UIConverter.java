@@ -9,7 +9,6 @@ import tljfn.yamblzweather.model.db.cities.DBCity;
 import tljfn.yamblzweather.model.db.forecast.DBForecast;
 import tljfn.yamblzweather.model.db.weather.DBWeatherData;
 import tljfn.yamblzweather.modules.city.UICity;
-import tljfn.yamblzweather.modules.forecast.data.RelativeDay;
 import tljfn.yamblzweather.modules.forecast.data.RelativeTime;
 import tljfn.yamblzweather.modules.forecast.data.UIForecast;
 import tljfn.yamblzweather.modules.forecast.data.UISingleForecast;
@@ -69,11 +68,7 @@ public class UIConverter {
     }
 
     public static UICity toUISuggestions(DBCity city) {
-        StringBuilder sb = new StringBuilder();
         String name = chooseDependingOnLocale(city.getRuName(), city.getEnName());
-
-        // todo provide correct uppercase letters for each part of city name
-        name = sb.append(name.substring(0, 1).toUpperCase()).append(name.substring(1)).toString();
         return new UICity(city.getOpenWeatherId(), name, city.getCountryCode(), city.isFavorite());
     }
 
