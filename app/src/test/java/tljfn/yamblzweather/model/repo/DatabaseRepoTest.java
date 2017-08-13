@@ -218,4 +218,21 @@ public class DatabaseRepoTest {
                     return true;
                 });
     }
+
+    @Test
+    public void inserting_forecast_correct() {
+        DBForecast[] forecasts = dataProvider.getDBForecastPetersburg();
+        long[] ids = new long[forecasts.length];
+
+        for (int i = 0; i < forecasts.length; i++) {
+            ids[i] = forecasts[i].getId();
+        }
+
+        when(weatherDao.insertForecast(forecasts)).thenReturn(ids);
+
+        repo.insertOrUpdateForecast(dataProvider.getDBForecastPetersburg()).test()
+                .assertNoErrors()
+                .assertOf(observer -> verify(weatherDao).insertForecast(forecasts))
+                .assertValue(Arrays.asList(dataProvider.getDBForecastPetersburg()));
+    }
 }

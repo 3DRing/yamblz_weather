@@ -108,5 +108,10 @@ public class DBConverterTest {
         data.ruName = "Рим";
         DBCity dbData = DBConverter.fromRawCity(data);
     }
+
+    @Test
+    public void converting_to_db_forecast() {
+
+    }
 }
 

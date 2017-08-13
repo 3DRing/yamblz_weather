@@ -14,6 +14,7 @@ import tljfn.yamblzweather.model.api.data.forecast.RawForecast;
 import tljfn.yamblzweather.model.api.data.weather.RawWeather;
 import tljfn.yamblzweather.model.db.DBConverter;
 import tljfn.yamblzweather.model.db.cities.DBCity;
+import tljfn.yamblzweather.model.db.forecast.DBForecast;
 import tljfn.yamblzweather.model.db.weather.DBWeatherData;
 
 /**
@@ -98,5 +99,9 @@ public class DataProvider {
 
     private RawForecast loadTestRawForecast(String file) {
         return loadTestData(file, RawForecast.class);
+    }
+
+    public DBForecast[] getDBForecastPetersburg() {
+        return DBConverter.fromRawForecast(getSaintPetersburgCityDB(), getRawForecastSaintPetersburg());
     }
 }
