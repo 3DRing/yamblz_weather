@@ -1,17 +1,14 @@
 
 package tljfn.yamblzweather.model.api.data.forecast;
 
-import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class Coord {
 
     @SerializedName("lat")
-    @Expose
-    private double lat;
+    double lat;
     @SerializedName("lon")
-    @Expose
-    private double lon;
+    double lon;
 
     public double getLat() {
         return lat;

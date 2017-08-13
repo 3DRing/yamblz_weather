@@ -1,7 +1,6 @@
 
 package tljfn.yamblzweather.model.api.data.forecast;
 
-import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
@@ -9,29 +8,21 @@ import java.util.List;
 public class SingularForecast {
 
     @SerializedName("dt")
-    @Expose
-    private long dt;
+    long dt;
     @SerializedName("main")
-    @Expose
-    private Main main;
+    Main main;
     @SerializedName("weather")
-    @Expose
-    private List<Weather> weather = null;
+    List<Weather> weather = null;
     @SerializedName("clouds")
-    @Expose
-    private Clouds clouds;
+    Clouds clouds;
     @SerializedName("wind")
-    @Expose
-    private Wind wind;
+    Wind wind;
     @SerializedName("sys")
-    @Expose
-    private Sys sys;
+    Sys sys;
     @SerializedName("dt_txt")
-    @Expose
-    private String dtTxt;
+    String dtTxt;
     @SerializedName("rain")
-    @Expose
-    private Rain rain;
+    Rain rain;
 
     public long getDt() {
         return dt * 1000;   // server gives dt in seconds from 1970

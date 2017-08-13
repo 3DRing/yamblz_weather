@@ -1,14 +1,12 @@
 
 package tljfn.yamblzweather.model.api.data.forecast;
 
-import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class Clouds {
 
     @SerializedName("all")
-    @Expose
-    private int all;
+    int all;
 
     public int getAll() {
         return all;

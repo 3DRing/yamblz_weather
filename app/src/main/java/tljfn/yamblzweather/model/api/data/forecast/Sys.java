@@ -1,14 +1,12 @@
 
 package tljfn.yamblzweather.model.api.data.forecast;
 
-import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class Sys {
 
     @SerializedName("pod")
-    @Expose
-    private String pod;
+    String pod;
 
     public String getPod() {
         return pod;

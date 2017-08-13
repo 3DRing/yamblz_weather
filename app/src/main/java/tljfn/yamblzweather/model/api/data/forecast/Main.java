@@ -1,35 +1,26 @@
 
 package tljfn.yamblzweather.model.api.data.forecast;
 
-import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class Main {
 
     @SerializedName("temp")
-    @Expose
-    private double temp;
+    double temp;
     @SerializedName("temp_min")
-    @Expose
-    private double tempMin;
+    double tempMin;
     @SerializedName("temp_max")
-    @Expose
-    private double tempMax;
+    double tempMax;
     @SerializedName("pressure")
-    @Expose
-    private double pressure;
+    double pressure;
     @SerializedName("sea_level")
-    @Expose
-    private double seaLevel;
+    double seaLevel;
     @SerializedName("grnd_level")
-    @Expose
-    private double grndLevel;
+    double grndLevel;
     @SerializedName("humidity")
-    @Expose
-    private double humidity;
+    double humidity;
     @SerializedName("temp_kf")
-    @Expose
-    private double tempKf;
+    double tempKf;
 
     public double getTemp() {
         return temp;

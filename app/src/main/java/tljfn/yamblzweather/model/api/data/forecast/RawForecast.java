@@ -9,20 +9,15 @@ import java.util.List;
 public class RawForecast {
 
     @SerializedName("cod")
-    @Expose
-    private String cod;
+    String cod;
     @SerializedName("message")
-    @Expose
-    private double message;
+    double message;
     @SerializedName("cnt")
-    @Expose
-    private int cnt;
+    int cnt;
     @SerializedName("list")
-    @Expose
-    private List<SingularForecast> list = null;
+    List<SingularForecast> list = null;
     @SerializedName("city")
-    @Expose
-    private City city;
+    City city;
 
     public String getCod() {
         return cod;

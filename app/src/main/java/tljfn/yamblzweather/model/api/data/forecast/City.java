@@ -1,23 +1,18 @@
 
 package tljfn.yamblzweather.model.api.data.forecast;
 
-import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class City {
 
     @SerializedName("id")
-    @Expose
-    private int id;
+    int id;
     @SerializedName("name")
-    @Expose
-    private String name;
+    String name;
     @SerializedName("coord")
-    @Expose
-    private Coord coord;
+    Coord coord;
     @SerializedName("country")
-    @Expose
-    private String country;
+    String country;
 
     public int getId() {
         return id;
