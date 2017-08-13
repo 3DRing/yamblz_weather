@@ -16,18 +16,14 @@
 
 package tljfn.yamblzweather.navigation;
 
-import android.content.Context;
-import android.content.Intent;
 import android.support.annotation.IdRes;
 import android.support.v4.app.FragmentManager;
 
+import tljfn.yamblzweather.modules.about.AboutFragment;
 import tljfn.yamblzweather.modules.city.choose_city.ChooseCityFragment;
 import tljfn.yamblzweather.modules.city.favorite.FavoriteCitiesFragment;
-import tljfn.yamblzweather.modules.city.favorite.data.FavoriteCity;
 import tljfn.yamblzweather.modules.forecast.ForecastFragment;
 import tljfn.yamblzweather.modules.main.MainActivity;
-import tljfn.yamblzweather.modules.about.AboutFragment;
-import tljfn.yamblzweather.modules.city.ChooseCityActivity;
 import tljfn.yamblzweather.modules.settings.SettingsFragment;
 import tljfn.yamblzweather.modules.weather.WeatherFragment;
 
@@ -74,11 +70,6 @@ public class NavigationController {
         fragmentManager.beginTransaction()
                 .replace(layout, fragment, ForecastFragment.TAG)
                 .commit();
-    }
-
-    public static void navigateToFavoriteCity(Context context) {
-        Intent intent = new Intent(context, ChooseCityActivity.class);
-        context.startActivity(intent);
     }
 
     public static void navigateToFavoriteCity(@IdRes int layout, FragmentManager fragmentManager) {
