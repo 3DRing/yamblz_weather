@@ -64,4 +64,33 @@ public class RawForecast {
         this.city = city;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        RawForecast that = (RawForecast) o;
+
+        if (Double.compare(that.getMessage(), getMessage()) != 0) return false;
+        if (getCnt() != that.getCnt()) return false;
+        if (getCod() != null ? !getCod().equals(that.getCod()) : that.getCod() != null)
+            return false;
+        if (getList() != null ? !getList().equals(that.getList()) : that.getList() != null)
+            return false;
+        return getCity() != null ? getCity().equals(that.getCity()) : that.getCity() == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result;
+        long temp;
+        result = getCod() != null ? getCod().hashCode() : 0;
+        temp = Double.doubleToLongBits(getMessage());
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        result = 31 * result + getCnt();
+        result = 31 * result + (getList() != null ? getList().hashCode() : 0);
+        result = 31 * result + (getCity() != null ? getCity().hashCode() : 0);
+        return result;
+    }
 }

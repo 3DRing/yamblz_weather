@@ -18,4 +18,20 @@ public class Rain {
         this._3h = _3h;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Rain rain = (Rain) o;
+
+        return Double.compare(rain._3h, _3h) == 0;
+
+    }
+
+    @Override
+    public int hashCode() {
+        long temp = Double.doubleToLongBits(_3h);
+        return (int) (temp ^ (temp >>> 32));
+    }
 }

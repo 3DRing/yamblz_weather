@@ -8,14 +8,17 @@ import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import io.reactivex.Flowable;
 import tljfn.yamblzweather.data.DataProvider;
+import tljfn.yamblzweather.model.api.data.forecast.RawForecast;
 import tljfn.yamblzweather.model.api.data.weather.RawWeather;
 import tljfn.yamblzweather.model.db.DBConverter;
 import tljfn.yamblzweather.model.db.cities.CityDao;
 import tljfn.yamblzweather.model.db.cities.DBCity;
+import tljfn.yamblzweather.model.db.forecast.DBForecast;
 import tljfn.yamblzweather.model.db.weather.DBWeatherData;
 import tljfn.yamblzweather.model.db.weather.WeatherDao;
 import tljfn.yamblzweather.model.errors.RawToDBConvertingException;
@@ -182,5 +185,37 @@ public class DatabaseRepoTest {
                 .assertNoErrors()
                 .assertOf(observer -> verify(cityDao).setFavorite(sample[0]))
                 .assertValue(true);
+    }
+
+    @Test
+    public void getting_city_by_id() {
+        DBCity city = dataProvider.getSaintPetersburgCityDB();
+        when(cityDao.getCity(2)).thenReturn(Flowable.fromCallable(() -> city));
+
+        repo.getCity(2).test()
+                .assertNoErrors()
+                .assertOf(observer -> verify(cityDao).getCity(2))
+                .assertValue(dataProvider.getSaintPetersburgCityDB());
+    }
+
+    @Test
+    public void loading_cached_forecast() {
+        RawForecast forecast = dataProvider.getRawForecastSaintPetersburg();
+        when(weatherDao.getForecast(498817)).thenReturn(
+                Arrays.asList(DBConverter.fromRawForecast(dataProvider.getSaintPetersburgCityDB(), forecast)));
+
+        repo.loadCachedForecast(498817).test()
+                .assertNoErrors()
+                .assertOf(observer -> verify(weatherDao).getForecast(498817))
+                .assertValue(v -> {
+                    List<DBForecast> toCompare = Arrays.asList(DBConverter.fromRawForecast(
+                            dataProvider.getSaintPetersburgCityDB(), forecast));
+                    for (int i = 0; i < v.size(); i++) {
+                        if (!v.get(i).equals(toCompare.get(i))) {
+                            return false;
+                        }
+                    }
+                    return true;
+                });
     }
 }

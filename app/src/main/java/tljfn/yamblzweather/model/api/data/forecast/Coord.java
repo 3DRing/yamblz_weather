@@ -29,4 +29,26 @@ public class Coord {
         this.lon = lon;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Coord coord = (Coord) o;
+
+        if (Double.compare(coord.getLat(), getLat()) != 0) return false;
+        return Double.compare(coord.getLon(), getLon()) == 0;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result;
+        long temp;
+        temp = Double.doubleToLongBits(getLat());
+        result = (int) (temp ^ (temp >>> 32));
+        temp = Double.doubleToLongBits(getLon());
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        return result;
+    }
 }
