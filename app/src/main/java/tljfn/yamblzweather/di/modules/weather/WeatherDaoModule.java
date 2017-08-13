@@ -1,4 +1,4 @@
-package tljfn.yamblzweather.di.modules;
+package tljfn.yamblzweather.di.modules.weather;
 
 import javax.inject.Singleton;
 

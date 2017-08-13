@@ -1,4 +1,4 @@
-package tljfn.yamblzweather.di.modules;
+package tljfn.yamblzweather.di.modules.city;
 
 import android.content.Context;
 import android.support.annotation.NonNull;

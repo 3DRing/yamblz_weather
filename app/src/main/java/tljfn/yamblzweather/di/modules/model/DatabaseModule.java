@@ -1,4 +1,4 @@
-package tljfn.yamblzweather.di.modules;
+package tljfn.yamblzweather.di.modules.model;
 
 import android.arch.persistence.room.BuildConfig;
 import android.arch.persistence.room.Room;

@@ -1,4 +1,4 @@
-package tljfn.yamblzweather.di.modules;
+package tljfn.yamblzweather.di.modules.viewmodel;
 
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
