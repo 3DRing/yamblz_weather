@@ -22,6 +22,7 @@ import butterknife.BindView;
 import tljfn.yamblzweather.R;
 import tljfn.yamblzweather.modules.base.activity.ViewModelActivity;
 import tljfn.yamblzweather.modules.base.fragment.BaseFragment;
+import tljfn.yamblzweather.modules.city.favorite.FavoriteCitiesFragment;
 import tljfn.yamblzweather.navigation.NavigationController;
 
 // todo refactoring of this god activity
@@ -74,6 +75,7 @@ public class MainActivity extends ViewModelActivity<MainViewModel, UIMainData> i
             }
             NavigationController.navigateToChooseCity(R.id.search_container, getSupportFragmentManager());
             NavigationController.navigateToWeather(R.id.fragment_container, getSupportFragmentManager());
+            hideSearch();
         }
     }
 
@@ -189,5 +191,15 @@ public class MainActivity extends ViewModelActivity<MainViewModel, UIMainData> i
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         getViewModel().setCrtOrientation(newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (getSupportFragmentManager().findFragmentByTag(FavoriteCitiesFragment.TAG) == null) {
+            hideSearch();
+        } else {
+            showSearch();
+        }
     }
 }
