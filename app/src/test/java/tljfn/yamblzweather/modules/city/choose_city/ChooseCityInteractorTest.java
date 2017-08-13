@@ -58,7 +58,7 @@ public class ChooseCityInteractorTest {
                 .assertNoErrors()
                 .assertValue(list ->
                         list.getSuggestions() != null && list.getSuggestions().size() != 0
-                                && list.getSuggestions().get(0).getName().equals("Saint petersburg"));
+                                && list.getSuggestions().get(0).getName().equals("Saint Petersburg"));
     }
 
     @Test

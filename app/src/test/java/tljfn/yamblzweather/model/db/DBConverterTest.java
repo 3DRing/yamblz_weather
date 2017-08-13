@@ -58,8 +58,8 @@ public class DBConverterTest {
         assertTrue(dbData.getId() == 2);
         assertTrue(dbData.getOpenWeatherId() == 498817);
         assertTrue(dbData.getCountryCode().equals("ru"));
-        assertTrue(dbData.getEnName().equals("saint petersburg"));
-        assertTrue(dbData.getRuName().equals("санкт-петербург"));
+        assertTrue(dbData.getEnName().equals("Saint Petersburg"));
+        assertTrue(dbData.getRuName().equals("Санкт-Петербург"));
     }
 
     @Test(expected = RawToDBConvertingException.class)

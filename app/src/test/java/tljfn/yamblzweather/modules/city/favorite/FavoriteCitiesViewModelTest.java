@@ -42,7 +42,7 @@ public class FavoriteCitiesViewModelTest {
         owner = new TestLifecycleOwner();
 
         UIFavoriteCityList list = new UIFavoriteCityList.Builder()
-                .addFavoriteCity(new UICity(0, "moscow", true))
+                .addFavoriteCity(new UICity(0, "moscow", "ru", true))
                 .build();
         when(interactor.loadFavoriteCities()).thenReturn(Flowable.just(list));
 
@@ -52,7 +52,7 @@ public class FavoriteCitiesViewModelTest {
     @Test
     public void loading_favorite_cities_correct() {
         UIFavoriteCityList list = new UIFavoriteCityList.Builder()
-                .addFavoriteCity(new UICity(0, "moscow", true))
+                .addFavoriteCity(new UICity(0, "moscow", "ru", true))
                 .build();
         when(interactor.loadFavoriteCities()).thenReturn(Flowable.just(list));
 

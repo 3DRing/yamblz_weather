@@ -166,8 +166,8 @@ public class TestingDataProvider {
         assertTrue(saintpetersubrg.getId() == 2);
         assertTrue(saintpetersubrg.getOpenWeatherId() == 498817);
         assertTrue(saintpetersubrg.getCountryCode().equals("ru"));
-        assertTrue(saintpetersubrg.getRuName().equals("санкт-петербург"));
-        assertTrue(saintpetersubrg.getEnName().equals("saint petersburg"));
+        assertTrue(saintpetersubrg.getRuName().equals("Санкт-Петербург"));
+        assertTrue(saintpetersubrg.getEnName().equals("Saint Petersburg"));
     }
 
     @Test
