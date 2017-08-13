@@ -1,41 +1,53 @@
 package tljfn.yamblzweather;
 
-import android.app.Activity;
 import android.app.Application;
-import android.app.Service;
 
-import javax.inject.Inject;
+import com.evernote.android.job.JobManager;
 
-import dagger.android.AndroidInjector;
-import dagger.android.DispatchingAndroidInjector;
-import dagger.android.HasActivityInjector;
-import dagger.android.HasServiceInjector;
-import tljfn.yamblzweather.di.AppInjector;
+import tljfn.yamblzweather.di.component.DaggerNewAppComponent;
+import tljfn.yamblzweather.di.component.NewAppComponent;
+import tljfn.yamblzweather.di.modules.AppModule;
+import tljfn.yamblzweather.di.modules.model.DatabaseModule;
+import tljfn.yamblzweather.di.modules.model.DatabaseRepoModule;
+import tljfn.yamblzweather.di.modules.model.PreferencesRepoModule;
+import tljfn.yamblzweather.di.modules.model.RemoteRepoModule;
+import tljfn.yamblzweather.di.modules.weather.WeatherApiModule;
+import tljfn.yamblzweather.di.modules.weather.WeatherDaoModule;
+import tljfn.yamblzweather.model.scheduler.WeatherUpdateJobCreator;
 
 /**
  * Created by Maksim Sukhotski on 7/9/2017.
  */
 
-public class App extends Application implements HasActivityInjector, HasServiceInjector {
+public class App extends Application {
 
-    @Inject
-    DispatchingAndroidInjector<Activity> dispatchingAndroidInjector;
-    @Inject
-    DispatchingAndroidInjector<Service> dispatchingServiceInjector;
+
+    private static NewAppComponent component;
+
+    public static NewAppComponent getComponent() {
+        return component;
+    }
 
     @Override
     public void onCreate() {
         super.onCreate();
-        AppInjector.init(this);
+        startUpdateWeatherJob();
+        component = buildComponent();
     }
 
-    @Override
-    public DispatchingAndroidInjector<Activity> activityInjector() {
-        return dispatchingAndroidInjector;
+    private void startUpdateWeatherJob() {
+        JobManager.create(this).addJobCreator(new WeatherUpdateJobCreator());
     }
 
-    @Override
-    public AndroidInjector<Service> serviceInjector() {
-        return dispatchingServiceInjector;
+    protected NewAppComponent buildComponent() {
+        return DaggerNewAppComponent.builder()
+                .appModule(new AppModule(this.getApplicationContext()))
+                .databaseModule(new DatabaseModule())
+                .databaseRepoModule(new DatabaseRepoModule())
+                .preferencesRepoModule(new PreferencesRepoModule())
+                .remoteRepoModule(new RemoteRepoModule())
+                .weatherApiModule(new WeatherApiModule())
+                .weatherDaoModule(new WeatherDaoModule())
+                .build();
     }
 }

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="tooglebutton">
+        <attr name="imageOn" format="integer|reference" />
+        <attr name="imageOff" format="integer|reference" />
+    </declare-styleable>
+</resources>

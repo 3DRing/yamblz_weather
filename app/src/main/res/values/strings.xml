@@ -1,17 +1,44 @@
 <resources>
-    <string name="app_name">Yamblz Weather</string>
+    <string name="app_name">YWeather</string>
 
     <string name="open_drawer">Open navigation drawer</string>
     <string name="close_drawer">Close navigation drawer</string>
 
+    <string name="version">App version: %s</string>
+
+    <string name="weather">Weather</string>
     <string name="settings">Settings</string>
     <string name="about">About</string>
-    <string name="last_update">Last update: </string>
+    <string name="last_update">Last update: %s</string>
     <string name="search_hint">London</string>
     <string name="choose_city">Choose city</string>
 
     <string name="search">Search</string>
     <string name="no_internet_connection">No Internet connection</string>
+    <string name="swipe_to_update">Swipe to refresh</string>
+    <string name="default_city">Moscow</string>
+    <string name="temperature" translatable="false">%.0f°</string>
+    <string name="weather_screen_title">Weather</string>
+    <string name="settings_screen_title">Settings</string>
+    <string name="about_screen_title">About</string>
+    <string name="no_data_loaded_error">Cannot download data</string>
+
+    <string name="choose_city_hint">Enter the name of a city</string>
+    <string name="right_now">Right now</string>
+
+    <string name="cloudy">Cloudy</string>
+    <string name="clear">Clear</string>
+    <string name="rainy">Rainy</string>
+    <string name="thunderstorm">Thunderstorm</string>
+    <string name="drizzle">Drizzle</string>
+    <string name="snow">Show</string>
+    <string name="atmospherically">Atmospherically</string>
+    <string name="extreme">Extreme</string>
+    <string name="windy">Windy</string>
+    <string name="calm">Calm</string>
+    <string name="other"></string>
+
+    <string name="notification_message" translatable="false">%1$s, %2$s (%3$s)</string>
 
     <string-array name="intervals">
         <item>15 seconds</item>
@@ -23,4 +50,49 @@
         <item>1 hour</item>
         <item>2 hours</item>
     </string-array>
+
+    <string-array name="update_intervals">
+        <item>15 minutes</item>
+        <item>2 hours</item>
+        <item>3 hours</item>
+        <item>5 hours</item>
+        <item>8 hours</item>
+        <item>12 hours</item>
+        <item>24 hours</item>
+    </string-array>
+    <string-array name="update_intervals_values" translatable="false">
+        <item>15</item>
+        <item>120</item>
+        <item>180</item>
+        <item>300</item>
+        <item>480</item>
+        <item>720</item>
+        <item>1440</item>
+    </string-array>
+    <string name="default_update_intervals_value" translatable="false">120</string>
+
+    <string name="update_notifications_title">Update notifications</string>
+    <string name="update_notifications_summary">Notify on weather update</string>
+    <string name="update_intervals_title">Update interval</string>
+    <string name="update_intervals_summary">Update interval summary</string>
+
+    <string name="update_notifications_key" translatable="false">update_notifications_key</string>
+    <string name="update_notifications_default" translatable="false">false</string>
+    <string name="update_intervals_key" translatable="false">update_intervals_key</string>
+    <string name="favorite_cities">Favorite items</string>
+    <string name="forecast">Forecast</string>
+    <string name="cities">Cities</string>
+    <string name="forecast_time_format">%1$s, at %2$s</string>
+
+    <string name="morning">Morning</string>
+    <string name="afternoon">Afternoon</string>
+    <string name="evening">Evening</string>
+    <string name="night">Night</string>
+    <string name="chosen_city_text">Chosen city is %s</string>
+    <string name="developers">Developers</string>
+    <string name="humidity_title">Humidity</string>
+    <string name="pressure_title">Pressure</string>
+
+    <string name="humidity_value" translatable="false">%.0f \%</string>
+    <string name="pressure_value"> %.0f hPa</string>
 </resources>
