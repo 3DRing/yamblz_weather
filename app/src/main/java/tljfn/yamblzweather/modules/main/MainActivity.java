@@ -2,6 +2,7 @@ package tljfn.yamblzweather.modules.main;
 
 import android.arch.lifecycle.LifecycleRegistry;
 import android.arch.lifecycle.LifecycleRegistryOwner;
+import android.arch.lifecycle.ViewModelProvider;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -18,19 +19,29 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
+import tljfn.yamblzweather.App;
 import tljfn.yamblzweather.R;
+import tljfn.yamblzweather.di.modules.viewmodel.ViewModelFactory;
+import tljfn.yamblzweather.model.repo.PreferencesRepo;
+import tljfn.yamblzweather.model.scheduler.WeatherUpdateJob;
 import tljfn.yamblzweather.modules.base.activity.ViewModelActivity;
 import tljfn.yamblzweather.modules.base.fragment.BaseFragment;
 import tljfn.yamblzweather.modules.city.favorite.FavoriteCitiesFragment;
 import tljfn.yamblzweather.navigation.NavigationController;
 
-// todo refactoring of this god activity
 public class MainActivity extends ViewModelActivity<MainViewModel, UIMainData> implements LifecycleRegistryOwner,
         NavigationView.OnNavigationItemSelectedListener,
         BaseFragment.OnFragmentInteractionListener {
 
     private final LifecycleRegistry lifecycleRegistry = new LifecycleRegistry(this);
+
+    @Inject
+    ViewModelFactory factory;
+    @Inject
+    PreferencesRepo preferencesRepo;
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -77,6 +88,22 @@ public class MainActivity extends ViewModelActivity<MainViewModel, UIMainData> i
             NavigationController.navigateToWeather(R.id.fragment_container, getSupportFragmentManager());
             hideSearch();
         }
+
+        setScheduler();
+    }
+
+    private void setScheduler() {
+        WeatherUpdateJob.schedule(preferencesRepo);
+    }
+
+    @Override
+    protected void inject() {
+        App.getComponent().inject(this);
+    }
+
+    @Override
+    protected ViewModelFactory getViewModelFactory() {
+        return factory;
     }
 
     private void storeCrtOrientation() {

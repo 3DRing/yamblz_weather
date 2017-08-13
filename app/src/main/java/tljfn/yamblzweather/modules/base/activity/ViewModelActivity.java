@@ -2,10 +2,12 @@ package tljfn.yamblzweather.modules.base.activity;
 
 import android.arch.lifecycle.LifecycleRegistry;
 import android.arch.lifecycle.LifecycleRegistryOwner;
+import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
+import tljfn.yamblzweather.di.modules.viewmodel.ViewModelFactory;
 import tljfn.yamblzweather.modules.base.LoadingScreen;
 import tljfn.yamblzweather.modules.base.UIErrorShower;
 import tljfn.yamblzweather.modules.base.data.UIBaseData;
@@ -32,10 +34,15 @@ public abstract class ViewModelActivity<VM extends BaseViewModel<D>, D extends U
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        viewModel = ViewModelProviders.of(this).get(getViewModelClass());
+        inject();
+        viewModel = ViewModelProviders.of(this, getViewModelFactory()).get(getViewModelClass());
         viewModel.observe(this, this::onChanged);
         errorShower = new UIErrorShower<>();
     }
+
+    protected abstract void inject();
+
+    protected abstract ViewModelFactory getViewModelFactory();
 
     @Override
     public VM getViewModel() {
