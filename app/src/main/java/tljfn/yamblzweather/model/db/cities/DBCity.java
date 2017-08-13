@@ -11,7 +11,7 @@ import com.google.gson.annotations.SerializedName;
  * Created by ringov on 04.08.17.
  */
 
-@Entity(tableName = "city", indices = {@Index("ru_name"), @Index("en_name"), @Index("favorite")})
+@Entity(tableName = "city", indices = {@Index("index_ru_name"), @Index("index_en_name"), @Index("favorite")})
 public class DBCity {
 
     @PrimaryKey
@@ -35,6 +35,11 @@ public class DBCity {
     String countryCode;
     @ColumnInfo(name = "favorite")
     boolean favorite;
+
+    @ColumnInfo(name = "index_ru_name")
+    String indexRuName;
+    @ColumnInfo(name = "index_en_name")
+    String indexEnName;
 
     public int getId() {
         return id;
@@ -147,6 +152,16 @@ public class DBCity {
 
         public Builder favorite(boolean favorite) {
             city.favorite = favorite;
+            return this;
+        }
+
+        public Builder indexRuName(String name) {
+            city.indexRuName = name;
+            return this;
+        }
+
+        public Builder indexEnName(String name) {
+            city.indexEnName = name;
             return this;
         }
 

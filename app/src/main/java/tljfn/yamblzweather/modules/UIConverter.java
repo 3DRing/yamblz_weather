@@ -74,11 +74,11 @@ public class UIConverter {
 
         // todo provide correct uppercase letters for each part of city name
         name = sb.append(name.substring(0, 1).toUpperCase()).append(name.substring(1)).toString();
-        return new UICity(city.getOpenWeatherId(), name, city.isFavorite());
+        return new UICity(city.getOpenWeatherId(), name, city.getCountryCode(), city.isFavorite());
     }
 
     public static UICity toFavoriteCity(DBCity city) {
-        return new UICity(city.getOpenWeatherId(), chooseDependingOnLocale(city.getRuName(), city.getEnName()), city.isFavorite());
+        return new UICity(city.getOpenWeatherId(), chooseDependingOnLocale(city.getRuName(), city.getEnName()), city.getCountryCode(), city.isFavorite());
     }
 
     private static String chooseDependingOnLocale(String ru, String other) {

@@ -80,8 +80,10 @@ public class DBConverter {
         return new DBCity.Builder()
                 .id(city.yaId)
                 .openWeatherId(city.openWeatherId)
-                .ruName(city.ruName.toLowerCase())
-                .enName(city.enName.toLowerCase())
+                .ruName(city.ruName)
+                .enName(city.enName)
+                .indexRuName(city.ruName.toLowerCase())
+                .indexEnName(city.enName.toLowerCase())
                 .countryCode(city.country.toLowerCase())
                 .favorite(false)
                 .build();

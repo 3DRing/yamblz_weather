@@ -66,7 +66,7 @@ public class CityListAdapter extends RecyclerView.Adapter<CityListAdapter.ViewHo
         }
 
         void bind(UICity city, int position, @Nullable FavoriteListener favoriteListener, ChooseCityListener chooseCityListener) {
-            tvCity.setText(city.getName());
+            tvCity.setText(city.getName() + " (" + city.getCountry().toUpperCase() + ")");
             favorite.setChecked(city.isFavorite());
             if (favoriteListener != null) {
                 favorite.setOnToggleListener((fav) -> favoriteListener.onClick(city, position, fav));
