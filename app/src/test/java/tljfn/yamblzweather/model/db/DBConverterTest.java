@@ -33,14 +33,26 @@ public class DBConverterTest {
         DBWeatherData dbData = DBConverter.fromRawWeatherData(rawData);
         long crtTime = System.currentTimeMillis();
 
-        // not used so far
-        //assertTrue(dbData.getId() == 5128581);
+        assertTrue(dbData.getCity().equals("New York"));
+        assertTrue(dbData.getCondition() == 721);
+        assertTrue(Double.compare(dbData.getTemperature(), 22.22) == 0);
+        assertTrue(TestUtils.equalTime(dbData.getTime(), crtTime));
+    }
+
+    @Test
+    public void converting_to_db_weather_data_correctly_2() {
+        RawWeather rawData = dataProvider.getNewYorkWeather();
+        RawCity rawCity = dataProvider.getNewYork();
+        DBCity newYork = DBConverter.fromRawCity(rawCity);
+        DBWeatherData dbData = DBConverter.fromRawWeatherData(newYork, rawData);
+        long crtTime = System.currentTimeMillis();
 
         assertTrue(dbData.getCity().equals("New York"));
         assertTrue(dbData.getCondition() == 721);
         assertTrue(Double.compare(dbData.getTemperature(), 22.22) == 0);
         assertTrue(TestUtils.equalTime(dbData.getTime(), crtTime));
     }
+
 
     @Test(expected = RawToDBConvertingException.class)
     public void converting_to_db_weather_data_error() {

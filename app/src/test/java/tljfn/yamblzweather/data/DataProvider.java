@@ -85,6 +85,10 @@ public class DataProvider {
         return loadTestRawCity("belgorod_city.json");
     }
 
+    public RawCity getNewYork() {
+        return loadTestRawCity("new_york_city.json");
+    }
+
     public DBCity getSaintPetersburgCityDB() {
         return DBConverter.fromRawCity(getSaintPetersburgCity());
     }
