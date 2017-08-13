@@ -76,7 +76,7 @@ public class WeatherUpdateJob extends Job {
                 .flatMap(dbRepo::insertOrUpdateWeather)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::sendWeatherNotification);
+                .subscribe(this::sendWeatherNotification, this::handleError);
 
         return Result.SUCCESS;
     }
@@ -99,5 +99,9 @@ public class WeatherUpdateJob extends Job {
                 .build();
         NotificationManagerCompat.from(getContext())
                 .notify(notificationId, notification);
+    }
+
+    private void handleError(Throwable t) {
+        // nothing so far, just silently consume it
     }
 }
