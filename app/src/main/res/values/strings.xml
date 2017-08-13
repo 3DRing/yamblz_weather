@@ -88,5 +88,6 @@
     <string name="afternoon">Afternoon</string>
     <string name="evening">Evening</string>
     <string name="night">Night</string>
-    <string name="chosen_city_text">Выбран город %s</string>
+    <string name="chosen_city_text">Chosen city is %s</string>
+    <string name="developers">Developers</string>
 </resources>
