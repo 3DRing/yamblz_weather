@@ -159,4 +159,26 @@ public class PreferencesRepoTest {
                                 .assertNoErrors()
                                 .assertValue(600l));
     }
+
+    @Test
+    public void subscribe_to_city_updating_correct() {
+        when(editor.putLong(PreferencesRepo.CURRENT_CITY_ID_KEY, 400l)).thenReturn(editor);
+
+        repo.subscribeToCityUpdate().test()
+                .assertNoErrors()
+                .assertValue(PreferencesRepo.DEFAULT_CITY);
+
+        repo.updateCurrentCity(400l).test()
+                .assertNoErrors()
+                .assertValue(400l);
+    }
+
+    @Test
+    public void setting_getting_orientation_correct() {
+        assertTrue(!repo.isLandscapeOrientation());
+        repo.setCrtOrientation(true);
+        assertTrue(repo.isLandscapeOrientation());
+        repo.setCrtOrientation(false);
+        assertTrue(!repo.isLandscapeOrientation());
+    }
 }

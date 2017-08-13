@@ -152,7 +152,7 @@ public class PreferencesRepo {
     }
 
     public Flowable<Long> subscribeToCityUpdate() {
-        return currentIdChanges.toFlowable(BackpressureStrategy.BUFFER);
+        return currentIdChanges.toFlowable(BackpressureStrategy.LATEST);
     }
 
     public void setCrtOrientation(boolean landscape) {

@@ -83,8 +83,6 @@ public class RemoteRepoTest {
                     return rawCities.get(0).equals(toCompare.get(0)) &&
                             rawCities.get(rawCities.size() - 1).equals(toCompare.get(toCompare.size() - 1));
                 });
-
-        verify(cityApi).getAllCities();
     }
 
     @Test
@@ -97,5 +95,16 @@ public class RemoteRepoTest {
         repo.getAllCities().test()
                 .assertOf(listTestObserver -> verify(cityApi).getAllCities())
                 .assertError(e);
+    }
+
+    @Test
+    public void getting_forecast() {
+        when(weatherApi.getForecast(3)).thenReturn(Flowable.fromCallable(() ->
+                dataProvider.getRawForecastSaintPetersburg()));
+
+        repo.getForecast(3).test()
+                .assertNoErrors()
+                .assertOf(observer -> verify(weatherApi).getForecast(3))
+                .assertValue(dataProvider.getRawForecastSaintPetersburg());
     }
 }
