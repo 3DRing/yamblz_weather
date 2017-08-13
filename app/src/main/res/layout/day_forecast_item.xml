@@ -30,6 +30,7 @@
                 android:orientation="horizontal">
 
                 <LinearLayout
+                    android:id="@+id/night_layout"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_gravity="left"
@@ -63,18 +64,19 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="top|right|end"
-                            android:layout_margin="4dp"
+                            android:layout_margin="8dp"
                             android:gravity="center"
-                            android:text="25"
                             android:textColor="@color/transparentBlack"
                             android:textSize="18sp"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            tools:text="25" />
 
                     </FrameLayout>
 
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/morning_layout"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_gravity="left"
@@ -108,18 +110,19 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="top|right|end"
-                            android:layout_margin="4dp"
+                            android:layout_margin="8dp"
                             android:gravity="center"
-                            android:text="25"
                             android:textColor="@color/transparentBlack"
                             android:textSize="18sp"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            tools:text="25" />
 
                     </FrameLayout>
 
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/day_layout"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_gravity="left"
@@ -153,18 +156,19 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="top|right|end"
-                            android:layout_margin="4dp"
+                            android:layout_margin="8dp"
                             android:gravity="center"
-                            android:text="25"
                             android:textColor="@color/transparentBlack"
                             android:textSize="18sp"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            tools:text="25" />
 
                     </FrameLayout>
 
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/evening_layout"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_gravity="left"
@@ -198,12 +202,12 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="top|right|end"
-                            android:layout_margin="4dp"
+                            android:layout_margin="8dp"
                             android:gravity="center"
-                            android:text="25"
                             android:textColor="@color/transparentBlack"
                             android:textSize="18sp"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            tools:text="25" />
 
                     </FrameLayout>
 

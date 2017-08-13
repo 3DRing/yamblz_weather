@@ -1,5 +1,6 @@
 package tljfn.yamblzweather.modules.forecast;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -28,11 +29,13 @@ public class ForecastListAdapter extends RecyclerView.Adapter<ForecastListAdapte
     private List<UIDayForecast> dayForecasts;
     private List<UISingleForecast> forecasts;
     private ClickListener listener;
+    private OrientationListener orientationListener;
 
-    public ForecastListAdapter(@Nullable ClickListener listener) {
+    public ForecastListAdapter(@NonNull OrientationListener orientationListener, @Nullable ClickListener listener) {
         this.listener = listener;
         forecasts = new ArrayList<>();
         dayForecasts = new ArrayList<>();
+        this.orientationListener = orientationListener;
     }
 
     public void setForecasts(List<UISingleForecast> forecasts) {
@@ -47,7 +50,9 @@ public class ForecastListAdapter extends RecyclerView.Adapter<ForecastListAdapte
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.day_forecast_item, viewGroup, false);
+        View v = LayoutInflater.from(viewGroup.getContext()).inflate(orientationListener.isOrientationLandscape() ?
+                R.layout.day_forecast_item_land
+                : R.layout.day_forecast_item, viewGroup, false);
         return new ViewHolder(v);
     }
 
@@ -66,6 +71,8 @@ public class ForecastListAdapter extends RecyclerView.Adapter<ForecastListAdapte
         @BindView(R.id.tv_date)
         TextView date;
 
+        @BindView(R.id.night_layout)
+        View nightLayout;
         @BindView(R.id.weather_image_night)
         ImageView imageNight;
         @BindView(R.id.tv_temperature_night)
@@ -73,6 +80,8 @@ public class ForecastListAdapter extends RecyclerView.Adapter<ForecastListAdapte
         @BindView(R.id.tv_time_night)
         TextView timeNight;
 
+        @BindView(R.id.morning_layout)
+        View morningLayout;
         @BindView(R.id.weather_image_morning)
         ImageView imageMorning;
         @BindView(R.id.tv_temperature_morning)
@@ -80,6 +89,8 @@ public class ForecastListAdapter extends RecyclerView.Adapter<ForecastListAdapte
         @BindView(R.id.tv_time_morning)
         TextView timeMorning;
 
+        @BindView(R.id.day_layout)
+        View afternoonLayout;
         @BindView(R.id.weather_image_afternoon)
         ImageView imageAfternoon;
         @BindView(R.id.tv_temperature_afternoon)
@@ -87,6 +98,8 @@ public class ForecastListAdapter extends RecyclerView.Adapter<ForecastListAdapte
         @BindView(R.id.tv_time_afternoon)
         TextView timeAfternoon;
 
+        @BindView(R.id.evening_layout)
+        View eveningLayout;
         @BindView(R.id.weather_image_evening)
         ImageView imageEvening;
         @BindView(R.id.tv_temperature_evening)
@@ -106,32 +119,44 @@ public class ForecastListAdapter extends RecyclerView.Adapter<ForecastListAdapte
             }
             UISingleForecast single = forecast.getNight();
             if (single != null) {
+                nightLayout.setVisibility(View.VISIBLE);
                 imageNight.setImageResource(single.getCondition().getConditionImage());
                 temperatureNight.setText(Utils.getFormattedTemperature(itemView.getContext(), single.getTemperature()));
                 timeNight.setText(single.getRelativeTime().getName());
-
-                date.setText(Utils.getFormattedDate(single.getForecastTime()));
+            } else {
+                nightLayout.setVisibility(View.GONE);
             }
 
             single = forecast.getMorning();
             if (single != null) {
+                morningLayout.setVisibility(View.VISIBLE);
                 imageMorning.setImageResource(single.getCondition().getConditionImage());
                 temperatureMorning.setText(Utils.getFormattedTemperature(itemView.getContext(), single.getTemperature()));
                 timeMorning.setText(single.getRelativeTime().getName());
+            } else {
+                morningLayout.setVisibility(View.GONE);
             }
 
             single = forecast.getAfternoon();
             if (single != null) {
+                afternoonLayout.setVisibility(View.VISIBLE);
                 imageAfternoon.setImageResource(single.getCondition().getConditionImage());
                 temperatureAfternoon.setText(Utils.getFormattedTemperature(itemView.getContext(), single.getTemperature()));
                 timeAfternoon.setText(single.getRelativeTime().getName());
+            } else {
+                afternoonLayout.setVisibility(View.GONE);
             }
 
             single = forecast.getEvening();
             if (single != null) {
+                eveningLayout.setVisibility(View.VISIBLE);
                 imageEvening.setImageResource(single.getCondition().getConditionImage());
                 temperatureEvening.setText(Utils.getFormattedTemperature(itemView.getContext(), single.getTemperature()));
                 timeEvening.setText(single.getRelativeTime().getName());
+
+                date.setText(Utils.getFormattedDate(single.getForecastTime()));
+            } else {
+                eveningLayout.setVisibility(View.GONE);
             }
         }
     }
@@ -140,4 +165,8 @@ public class ForecastListAdapter extends RecyclerView.Adapter<ForecastListAdapte
         void onClick(UISingleForecast forecast);
     }
 
+
+    public interface OrientationListener {
+        boolean isOrientationLandscape();
+    }
 }

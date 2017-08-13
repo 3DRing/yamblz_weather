@@ -18,6 +18,7 @@ import javax.inject.Inject;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import tljfn.yamblzweather.App;
+import tljfn.yamblzweather.model.db.DBConverter;
 import tljfn.yamblzweather.modules.main.MainActivity;
 import tljfn.yamblzweather.R;
 import tljfn.yamblzweather.utils.Utils;
@@ -68,18 +69,22 @@ public class WeatherUpdateJob extends Job {
     protected Result onRunJob(Params params) {
         App.getComponent().inject(this);
 
-/*        preferencesRepo.getCurrentCity()
-                .flatMap(remoteRepo::getWeather)
+        preferencesRepo.getCurrentCity()
+                .flatMap(dbRepo::getCity)
+                .zipWith(preferencesRepo.getCurrentCity()
+                        .flatMap(remoteRepo::getWeather), DBConverter::fromRawWeatherData)
                 .flatMap(dbRepo::insertOrUpdateWeather)
-                .filter(weather -> preferencesRepo.isNotificationEnabled())
-                .subscribe(this::sendWeatherNotification, this::showDataOrError);*/
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::sendWeatherNotification);
+
         return Result.SUCCESS;
     }
 
     private void sendWeatherNotification(UIWeatherData weather) {
         String formattedTemperature = Utils.getFormattedTemperature(getContext(), weather.getTemperature());
         String condition = getContext().getString(weather.getConditionName());
-        String content = getContext().getString(R.string.notification_message, formattedTemperature, condition);
+        String content = getContext().getString(R.string.notification_message, formattedTemperature, condition, weather.getCity());
 
         PendingIntent pi = PendingIntent.getActivity(getContext(), 0,
                 new Intent(getContext(), MainActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
@@ -94,9 +99,5 @@ public class WeatherUpdateJob extends Job {
                 .build();
         NotificationManagerCompat.from(getContext())
                 .notify(notificationId, notification);
-    }
-
-    private void handleError(Throwable throwable) {
-        // todo handle error
     }
 }

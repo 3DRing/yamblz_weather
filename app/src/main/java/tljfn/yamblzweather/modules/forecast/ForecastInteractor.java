@@ -67,4 +67,8 @@ public class ForecastInteractor extends BaseInteractor {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
+
+    public boolean isOrientationLandscape() {
+        return preferencesRepo.isLandscapeOrientation();
+    }
 }

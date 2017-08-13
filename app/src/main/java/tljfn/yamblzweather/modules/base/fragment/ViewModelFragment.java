@@ -42,6 +42,8 @@ public abstract class ViewModelFragment<VM extends BaseViewModel<D>, D extends U
         viewModel = ViewModelProviders.of(this, factory).get(cls);
         viewModel.observe(this, this::onChanged);
         errorShower = new UIErrorShower<>();
+
+        initializeViews();
     }
 
     protected void initializeInternalViewModels(){

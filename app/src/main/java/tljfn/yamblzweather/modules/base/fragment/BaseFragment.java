@@ -29,7 +29,6 @@ public abstract class BaseFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         onFragmentInteractionListener.onFragmentInteraction(getToolbarTitle(), getDrawerMode());
         ButterKnife.bind(this, view);
-        initializeViews();
     }
 
     @Override

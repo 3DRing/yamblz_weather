@@ -1,11 +1,13 @@
 package tljfn.yamblzweather.modules.forecast;
 
+import android.content.res.Configuration;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.Toast;
 
 import javax.inject.Inject;
@@ -33,6 +35,8 @@ public class ForecastFragment extends ViewModelFragment<ForecastViewModel, UIFor
     RecyclerView rvForecast;
     ForecastListAdapter adapter;
 
+    boolean isLarge;
+
     @Override
     protected void initializeViews() {
         super.initializeViews();
@@ -41,8 +45,15 @@ public class ForecastFragment extends ViewModelFragment<ForecastViewModel, UIFor
     }
 
     private void initializeRecycler() {
-        rvForecast.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new ForecastListAdapter(null);
+        isLarge = getResources().getBoolean(R.bool.large);
+        boolean horizontalOrientationForRecycler = (getViewModel().isOrientationLandscape() && !isLarge) ||
+                (!getViewModel().isOrientationLandscape() && isLarge);
+
+        rvForecast.setLayoutManager(new LinearLayoutManager(getContext(), horizontalOrientationForRecycler ? LinearLayoutManager.HORIZONTAL :
+                LinearLayoutManager.VERTICAL, false));
+        adapter = new ForecastListAdapter(() ->
+                (getViewModel().isOrientationLandscape() && !isLarge) ||
+                        (!getViewModel().isOrientationLandscape() && isLarge), null);
         rvForecast.setAdapter(adapter);
     }
 

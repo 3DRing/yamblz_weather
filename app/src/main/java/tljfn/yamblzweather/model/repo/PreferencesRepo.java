@@ -18,7 +18,6 @@ package tljfn.yamblzweather.model.repo;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 
 import com.evernote.android.job.JobManager;
 import com.evernote.android.job.JobRequest;
@@ -33,13 +32,9 @@ import io.reactivex.BackpressureStrategy;
 import io.reactivex.Completable;
 import io.reactivex.Flowable;
 import io.reactivex.Single;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.BehaviorSubject;
-import io.reactivex.subjects.PublishSubject;
 import tljfn.yamblzweather.R;
 import tljfn.yamblzweather.model.scheduler.WeatherUpdateJob;
-import tljfn.yamblzweather.modules.weather.data.UIWeatherData;
 
 /**
  * Repository that handles User objects.
@@ -63,6 +58,8 @@ public class PreferencesRepo {
     private final SharedPreferences preferences;
 
     BehaviorSubject<Long> currentIdChanges;
+
+    private boolean landscapeOrientation;
 
     @Inject
     public PreferencesRepo(Context context, SharedPreferences sp) {
@@ -156,5 +153,13 @@ public class PreferencesRepo {
 
     public Flowable<Long> subscribeToCityUpdate() {
         return currentIdChanges.toFlowable(BackpressureStrategy.BUFFER);
+    }
+
+    public void setCrtOrientation(boolean landscape) {
+        landscapeOrientation = landscape;
+    }
+
+    public boolean isLandscapeOrientation() {
+        return landscapeOrientation;
     }
 }

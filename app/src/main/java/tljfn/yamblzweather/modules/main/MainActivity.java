@@ -2,6 +2,7 @@ package tljfn.yamblzweather.modules.main;
 
 import android.arch.lifecycle.LifecycleRegistry;
 import android.arch.lifecycle.LifecycleRegistryOwner;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -55,6 +56,7 @@ public class MainActivity extends ViewModelActivity<MainViewModel, UIMainData> i
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        storeCrtOrientation();
 
         setSupportActionBar(toolbar);
         actionBar = getSupportActionBar();
@@ -69,11 +71,14 @@ public class MainActivity extends ViewModelActivity<MainViewModel, UIMainData> i
         if (savedInstanceState == null) {
             if (isTwoPane()) {
                 NavigationController.navigateToForecast(R.id.additional_container, getSupportFragmentManager());
-                showSearch();
             }
             NavigationController.navigateToChooseCity(R.id.search_container, getSupportFragmentManager());
             NavigationController.navigateToWeather(R.id.fragment_container, getSupportFragmentManager());
         }
+    }
+
+    private void storeCrtOrientation() {
+        getViewModel().setCrtOrientation(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE);
     }
 
     private boolean isTwoPane() {
@@ -177,5 +182,12 @@ public class MainActivity extends ViewModelActivity<MainViewModel, UIMainData> i
     @Override
     public void onError(String errorMessage) {
         Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show();
+    }
+
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        getViewModel().setCrtOrientation(newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE);
     }
 }

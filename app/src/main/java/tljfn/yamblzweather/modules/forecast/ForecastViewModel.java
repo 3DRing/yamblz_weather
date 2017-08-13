@@ -33,4 +33,8 @@ public class ForecastViewModel extends BaseViewModel<UIForecast> {
     protected UIForecast buildUIError(String messageError) {
         return new UIForecast.Builder().error(messageError).build();
     }
+
+    public boolean isOrientationLandscape() {
+        return interactor.isOrientationLandscape();
+    }
 }

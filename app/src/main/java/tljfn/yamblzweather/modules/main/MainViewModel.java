@@ -56,4 +56,8 @@ public class MainViewModel extends BaseViewModel<UIMainData> {
     private void setScheduler() {
         WeatherUpdateJob.schedule(preferencesRepo);
     }
+
+    public void setCrtOrientation(boolean landscape) {
+        preferencesRepo.setCrtOrientation(landscape);
+    }
 }
